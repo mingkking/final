@@ -53,7 +53,7 @@ const Dashboard = () => {
             <CountSomething title='총 방문자 수' count={value.state.totalCount}/>
           </Grid>
           <Grid item xs={12} lg={3}>
-            <CountSomething title='금일 방문자 수'count={value.state.todayCount}/>
+            <CountSomething title='금일 방문자 수' count={value.state.todayCount}/>
           </Grid>
           <Grid item xs={12} lg={3}>
             <CountSomething title='채팅방 수'/>
