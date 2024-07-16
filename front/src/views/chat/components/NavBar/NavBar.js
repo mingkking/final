@@ -20,7 +20,7 @@ const NavBar = ({ }) => {
                 &lt;
             </button>
             <div className="nav-user">{value.state.user.name}</div>
-            <div className="nav-drop">메뉴</div>
+            <div className="nav-drop">메뉴3</div>
         </nav>
     );
 };
