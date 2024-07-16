@@ -14,13 +14,13 @@ const Menuitems = [
     id: uniqueId(),
     title: '회원',
     icon: IconUsers,
-    href: '/memberList',
+    href: '/manager/memberList',
   },
   {
     id: uniqueId(),
     title: '구독자',
     icon: IconMoneybag,
-    href: '/subscribe_list',
+    href: '/manager/subscribe_list',
   },
   {
     navlabel: true,
@@ -30,13 +30,13 @@ const Menuitems = [
     id: uniqueId(),
     title: '커뮤니티 관리',
     icon: IconBuildingCommunity,
-    href: '/community',
+    href: '/manager/community',
   },
   {
     id: uniqueId(),
     title: '채팅 관리',
     icon: IconBrandWechat,
-    href: '/chat',
+    href: '/manager/chat',
   },
   {
     navlabel: true,
@@ -46,7 +46,7 @@ const Menuitems = [
     id: uniqueId(),
     title: '통계',
     icon: IconChartHistogram,
-    href: '/graph',
+    href: '/manager/graph',
   }  
 ];
 

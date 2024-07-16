@@ -18,15 +18,15 @@ const Error = Loadable(lazy(() => import('../views/manager/authentication/Error'
 
 const Router = [
   {
-    path: '/',
+    path: '/manager',
     element: <FullLayout />,
     children: [
-      { path: '/main', exact: true, element: <Main /> },
-      { path: '/memberList', exact: true, element: <MemberList /> },
-      { path: '/subscribe_list', exact: true, element: <SubscribeList /> },
-      { path: '/community', exact: true, element: <Community /> },
-      { path: '/chat', exact: true, element: <Chat /> },
-      { path: '/graph', exact: true, element: <Graph /> },
+      { path: 'main', exact: true, element: <Main /> },
+      { path: 'memberList', exact: true, element: <MemberList /> },
+      { path: 'subscribe_list', exact: true, element: <SubscribeList /> },
+      { path: 'community', exact: true, element: <Community /> },
+      { path: 'chat', exact: true, element: <Chat /> },
+      { path: 'graph', exact: true, element: <Graph /> },
       { path: '*', element: <Navigate to="/auth/404" /> }
     ],
   },
