@@ -1,0 +1,94 @@
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border-radius: 8px;
+    
+
+    margin:auto;
+            position:absolute;
+            top: 43%;
+            left: 50%;
+            transform: translate(-50%, -43%);
+            
+            width : 500px;
+            padding: 25px;
+    
+    
+}
+
+.login-box {
+    text-align: left;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.input-container {
+    margin-bottom: 15px;
+}
+
+.input-container input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.link-container {
+    
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.link-container a {
+    font-size: 14px;
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.link-container a:hover {
+    text-decoration: underline;
+}
+
+.login-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007BFF;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.kakao-login {
+    width: 100%;
+    padding: 10px;
+    background-color: #FEE500;
+    border: none;
+    color: #000;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.google-login {
+    width: 100%;
+    padding: 10px;
+    background-color: #ebe8e8;
+    border: none;
+    color: #030303;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}

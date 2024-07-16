@@ -1,0 +1,95 @@
+.signup-container {
+    display: flex;
+    flex-direction: row;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 1000px;
+    
+
+    margin:auto;
+    position:absolute;
+    top: 43%;
+    left: 50%;
+    transform: translate(-50%, -43%);
+            
+            
+           
+}
+
+.agreement-section, .form-section {
+    flex: 1;
+    margin: 10px;
+}
+
+.agreement-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.agreement-box {
+    display: inline-block;
+    flex-direction: column;
+    margin: 10px 0;
+    margin-top: 35px;
+}
+
+.agreement-content {
+    border: 1px solid #ddd;
+    padding: 10px;
+    height: 100px;
+    margin-top: 5px;
+}
+
+.agreement-box input {
+    display: inline-block;
+    margin-left: 130px;
+}
+
+
+.form-section {
+    margin-top: 50px;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    margin-bottom: 30px;
+}
+
+.form-group label {
+    
+    text-align: left;
+    margin-right: 10px;
+    min-width: 120px;
+}
+
+.form-group input {
+    flex: 1;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.check-button, .send-button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    background-color: #f5f5f5;
+    cursor: pointer;
+}
+
+.signup-button {
+    width: 100%;
+    padding: 15px;
+    background-color: #007BFF;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+}
