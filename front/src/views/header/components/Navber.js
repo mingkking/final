@@ -21,71 +21,79 @@ const Navbar = ({ onLoginSuccess }) => {
 
   
 
-  const handleLoginClick = () => {
-    navigate('/login'); // Navigate to /login
-  };
-
-  // 로그인 상태 확인
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
-          const token = localStorage.getItem('accessToken');
-          if (!token) {
-            setIsLoggedIn(false);
-            setUserNickname('');
-                    return;
-        }
-  
-          const response = await axiosInstance.get('/check-login-status', {
-              headers: {
-                  Authorization: `Bearer ${token}`,
-              },
-          });
-
-
-          if (response.data.isLoggedIn) {
-                    setIsLoggedIn(true);
-                    setUserNickname(response.data.userNickname);
-
-                    // `onLoginSuccess` 호출하여 상태 업데이트
-                    if (onLoginSuccess) {
-                      onLoginSuccess(response.data.userNickname);
-                    }
-                } else {
-                    setIsLoggedIn(false);
-                    setUserNickname('');
-                }
-      } catch (error) {
-          console.error('Error checking login status:', error);
-          
+        const token = localStorage.getItem('accessToken');
+        if (!token) {
           setIsLoggedIn(false);
           setUserNickname('');
+          return;
+        }
+
+        const response = await axiosInstance.get('/check-login-status', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
+        });
+
+        if (response.data.isLoggedIn) {
+          setIsLoggedIn(true);
+          setUserNickname(response.data.userNickname);
+
+          if (onLoginSuccess) {
+            onLoginSuccess(response.data.userNickname); // Ensure this prop is working as expected
+          }
+        } else {
+          setIsLoggedIn(false);
+          setUserNickname('');
+        }
+      } catch (error) {
+        console.error('Error checking login status:', error);
+        setIsLoggedIn(false);
+        setUserNickname('');
       }
-  };
+    };
 
     checkLoginStatus();
+    const handleLoginEvent = (event) => {
+      console.log('Login event received with nickname:', event.detail); // Add this line
+      setUserNickname(event.detail);
+      setIsLoggedIn(true);
+    };
+    document.addEventListener('loginSuccess', handleLoginEvent);
+
+    return () => {
+      document.removeEventListener('loginSuccess', handleLoginEvent);
+    };
   }, [onLoginSuccess]);
 
-  
-
-   // 로그아웃 함수
-   const handleLogoutClick = async () => {
+  const handleLogoutClick = async () => {
     try {
-        await axiosInstance.post('/api/logout', {}, { // 요청 시 빈 객체를 포함
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-            },
-        });
-    } catch (error) {
-        console.error('Error during logout:', error);
-    }
+      await axiosInstance.post('/logout', {}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
+      });
 
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    setIsLoggedIn(false); // 상태 업데이트
-    setUserNickname('');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      setIsLoggedIn(false);
+      setUserNickname('');
+
+      if (onLoginSuccess) {
+        onLoginSuccess('');
+      }
+
+      navigate('/');
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
+
+  const handleLoginClick = () => {
     navigate('/login');
-};
+  };
 
   return (
 
@@ -104,7 +112,7 @@ const Navbar = ({ onLoginSuccess }) => {
                 {isLoggedIn ? (
                     <div>
                         <span> {userNickname} / </span>
-                        <button type="button" className="btn btn-light" onClick={handleLogoutClick}>로그아</button>
+                        <button type="button" className="btn btn-light" onClick={handleLogoutClick}>로그아웃</button>
                     </div>
                 ) : (
                     <button type="button" className="btn btn-light"  onClick={handleLoginClick}>로그인</button>
