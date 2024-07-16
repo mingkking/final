@@ -27,52 +27,9 @@ import {
   BrowserRouter, Routes, Route, useLocation
 } from 'react-router-dom'
 
-// function App() {
+import { MainProvider } from './views/manager/main/contexts/MainContext';
 
-//   const theme = baselightTheme;
 
-//   const handleLoginSuccess = (userNickname) => {
-//     console.log('Logged in as:', userNickname);
-// };
-
-//   return (
-//     <div className="App">
-//       <BrowserRouter>
-//         <RoomListProvider>
-//         <ThemeProvider theme={theme}>
-//           <Header />
-//           <Routes>
-//             <Route path='/ju1' element={<Ju1 />} />
-//             <Route path='/ju2' element={<Ju2 />} />
-//             <Route path='/co1' element={<Co1 />} />
-//             <Route path='/co2' element={<Co2 />} />
-//             <Route path='/budongsan' element={<Budongsan />} />
-//             <Route path='/bu2' element={<Bu2 />} />
-//             <Route path='/back1' element={<Back1 />} />
-//             <Route path='/Chatting' element={<Chatting />} />
-//             <Route path='/comu1' element={<Comu1 />} />
-//             <Route path='/login' element={<Login onLoginSuccess={handleLoginSuccess} />} />
-//             <Route path='/Join' element={<Join/>}/>
-
-            
-//             {/* 관리자페이지 */}
-//             {Router.map((route, index) => (
-//               <Route key={index} path={`${route.path}`} element={route.element}>
-//                 {route.children && route.children.map((child, idx) => (
-//                   <Route key={idx} path={`${child.path}`} element={child.element} />
-//                 ))}
-//               </Route>
-//             ))}
-
-//           </Routes>
-//           </ThemeProvider>
-//         </RoomListProvider>
-//       </BrowserRouter>
-//     </div>
-//   );
-// }
-
-// export default App;
 
 
 function AppContent() {
@@ -81,6 +38,7 @@ function AppContent() {
 
   const handleLoginSuccess = (userNickname) => {
     console.log('Logged in as:', userNickname);
+    document.dispatchEvent(new CustomEvent('loginSuccess', { detail: userNickname }));
   };
 
   return (
@@ -121,9 +79,11 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <RoomListProvider>
-          <ThemeProvider theme={theme}>
-            <AppContent />
-          </ThemeProvider>
+          <MainProvider>
+            <ThemeProvider theme={theme}>
+              <AppContent />
+            </ThemeProvider>
+          </MainProvider>
         </RoomListProvider>
       </BrowserRouter>
     </div>
