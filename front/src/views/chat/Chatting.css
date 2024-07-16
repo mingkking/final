@@ -1,0 +1,79 @@
+.cardCustom {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 수평 중앙 정렬 */
+  height: 100vh; /* 뷰포트 전체 높이 사용 */
+  padding: 5px 5px;
+}
+
+.chatContainer {
+  min-height: 600px;
+  max-height: 600px;
+  /* background-image: url("../public/background.png"); */
+  min-width: 100%;
+  max-width: 100%;
+  position: relative;
+  overflow: auto; /* 세로 스크롤바를 표시하여 컨텐츠가 넘칠 때 스크롤 가능하게 함 */
+  display: flex;
+  flex-direction: column-reverse;
+  border-radius: 10px;
+}
+
+.chatContainer.reverse {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.roomContainer {
+  min-height: 600px;
+  max-height: 600px;
+  /* background-image: url("../public/background.png"); */
+  min-width: 100%;
+  max-width: 100%;
+  position: relative;
+  overflow: auto; /* 세로 스크롤바를 표시하여 컨텐츠가 넘칠 때 스크롤 가능하게 함 */
+  border-radius: 10px;
+}
+
+/* 기본 네비게이션 바 스타일 */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  padding: 10px 20px;
+  color: white;
+}
+
+/* 버튼 스타일 */
+.back-button {
+  background-color: #f44336;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #d32f2f;
+}
+
+/* 유저 이름 스타일 */
+.nav-user {
+  font-size: 18px;
+  color: black;
+  font-weight: bold;
+}
+
+/* @media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+} */

@@ -1,0 +1,33 @@
+
+.left {
+    
+    float: left;
+    width: 20%;
+  }
+  
+.right {
+  float: right;
+  width: 80%;
+  }
+
+  /* Budongsan.css */
+
+/* 첫 번째 섹션 */
+.left {
+  float: left;
+  width: 20%;
+}
+
+.right {
+  float: right;
+  width: 80%;
+}
+
+/* 미디어 쿼리: 화면 너비가 768px 이하일 때 */
+@media (max-width: 768px) {
+  .left, .right {
+    float: none; /* 모바일 화면에서는 float 해제 */
+    width: 100%; /* 모바일 화면에서 전체 너비 사용 */
+  }
+}
+
