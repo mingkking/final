@@ -17,12 +17,19 @@ import Chatting from './views/chat/Chatting';
 import { RoomListProvider } from './views/chat/contexts/RoomListContext';
 import Join from './views/login/component/Join/Join';
 
+import Router from './routes/Router'
+
+import { ThemeProvider } from '@mui/material';
+import { baselightTheme } from "./theme/DefaultColors";
+
 import { useState } from 'react';
 import {
   BrowserRouter, Routes, Route
 } from 'react-router-dom'
 
 function App() {
+
+  const theme = baselightTheme;
 
   const handleLoginSuccess = (userNickname) => {
     console.log('Logged in as:', userNickname);
@@ -32,6 +39,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <RoomListProvider>
+        <ThemeProvider theme={theme}>
           <Header />
           <Routes>
             <Route path='/ju1' element={<Ju1 />} />
@@ -46,9 +54,18 @@ function App() {
             <Route path='/login' element={<Login onLoginSuccess={handleLoginSuccess} />} />
             <Route path='/Join' element={<Join/>}/>
 
-
+            
+            {/* 관리자페이지 */}
+            {Router.map((route, index) => (
+              <Route key={index} path={route.path} element={route.element}>
+                {route.children && route.children.map((child, idx) => (
+                  <Route key={idx} path={child.path} element={child.element} />
+                ))}
+              </Route>
+            ))}
 
           </Routes>
+          </ThemeProvider>
         </RoomListProvider>
       </BrowserRouter>
     </div>
