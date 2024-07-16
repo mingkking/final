@@ -12,16 +12,22 @@ import Budongsan from './views/budongsan/Budongsan';
 import Bu2 from './routes/bu2';
 import Back1 from './routes/back1';
 import Comu1 from './routes/comu1';
-import Login from './routes/login';
+import Login from './views/login/Login';
 import Chatting from './views/chat/Chatting';
 import { RoomListProvider } from './views/chat/contexts/RoomListContext';
+import Join from './views/login/component/Join/Join';
 
-
+import { useState } from 'react';
 import {
   BrowserRouter, Routes, Route
 } from 'react-router-dom'
 
 function App() {
+
+  const handleLoginSuccess = (userNickname) => {
+    console.log('Logged in as:', userNickname);
+};
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -37,7 +43,8 @@ function App() {
             <Route path='/back1' element={<Back1 />} />
             <Route path='/Chatting' element={<Chatting />} />
             <Route path='/comu1' element={<Comu1 />} />
-            <Route path='/login' element={<Login />} />
+            <Route path='/login' element={<Login onLoginSuccess={handleLoginSuccess} />} />
+            <Route path='/Join' element={<Join/>}/>
 
 
 
