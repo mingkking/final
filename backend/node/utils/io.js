@@ -13,7 +13,14 @@ module.exports = function (io) {
 
         // 룸 리스트 보내기
         socket.on("rooms", async (cb) => {
-            const rooms = await roomController.getAllRooms();
+            const rooms = await roomController.getAllRooms(); // 모든 방 정보
+            // console.log(rooms);
+            // for(let i=0; i<rooms.length; i++){
+            //     for(let j=0; j<rooms[i].members.length; j++){
+            //         console.log(i,"번방 멤버",rooms[i].members[j]);
+            //     }
+            // }
+            // console.log("==========================================");
             cb({
                 ok: true,
                 data: rooms
@@ -33,22 +40,19 @@ module.exports = function (io) {
                 // user데이터에 room필드에도 유저가 조인한 room정보를 업데이트한다.
                 let result = await roomController.joinRoom(rid, user); // 방 참여 방고유번호, user 정보
 
-                // 유저 신규 접속
-                if (result == 1) {
-                    // socket은 해당 room id로 된 채널에 조인한다.
-                    socket.join(user.room.toString());
-                    const welcomeMessage = {
-                        chat: `${user.name} 님이 입장하였습니다.`,
-                        user: { id: null, name: "system", room: user.room.toString() },
-                        timestamp: new Date(),
-                    };
+                // socket은 해당 room id로 된 채널에 조인한다.
+                socket.join(user.room.toString());
+                const welcomeMessage = {
+                    chat: `${user.name} 님이 입장하였습니다.`,
+                    user: { id: null, name: "system", room: user.room.toString() },
+                    timestamp: new Date(),
+                };
 
-                    // 유저가 조인했다는 메세지는 방에 있는 팀원에게만 보여준다.
-                    io.to(user.room.toString()).emit("message", welcomeMessage);
+                // 유저가 조인했다는 메세지는 방에 있는 팀원에게만 보여준다.
+                io.to(user.room.toString()).emit("message", welcomeMessage);
 
-                    // 다시 업데이트된 room데이터를 클라이언트들에게 보내준다
-                    io.emit("rooms", await roomController.getAllRooms());
-                }
+                // 다시 업데이트된 room데이터를 클라이언트들에게 보내준다
+                io.emit("rooms", await roomController.getAllRooms());
 
                 cb({ ok: true, data: user });
             } catch (error) {
@@ -56,34 +60,19 @@ module.exports = function (io) {
             }
         });
 
-        // 서버 로그인
-        // socket.on("login", async (userName, cb) => {
-        //     // 유저정보 저장
-        //     try {
-        //         const user = await userController.saveUser(userName, socket.id);
-        //         const welcomeMessage = {
-        //             chat: `${user.name} 님이 입장하였습니다.`,
-        //             user: {
-        //                 id: null, name: "system"
-        //             },
-        //             timestamp: new Date(),
-        //         };
-        //         io.emit("message", welcomeMessage);
-        //         cb({
-        //             ok: true, data: user
-        //         });
-        //     } catch (error) {
-        //         cb({
-        //             ok: false, error: error.message
-        //         });
-        //     }
-        // });
-
         // 메세지 입력 받기
         socket.on("sendMessage", async (receivedMessage, userInfo, cb) => {
+            console.log("sendMessage receivedMessage", receivedMessage);
+            console.log("sendMessage userInfo", userInfo);
             try {
-                const user = await userController.checkUser(userInfo.token);
+                // 유저 정보 이름을 중복검사 후 이름, 고유id 저장
+                let user = await userController.saveUser(userInfo.name, socket.id);
+                console.log("sendMessage user 1", user);
 
+                // 유저가 채팅 방 안에 있는지 확인
+                user = await userController.checkUser(user.token);
+                console.log("sendMessage user 2", user);
+                
                 if (user) {
                     const message = await chatController.saveChat(receivedMessage, user, user.token);
 
@@ -102,7 +91,6 @@ module.exports = function (io) {
         // 방 나가기
         socket.on("leaveRoom", async (userInfo, cb) => {
             try {
-                console.log(userInfo);
                 const user = await userController.checkUser(userInfo.token);
                 await roomController.leaveRoom(user);
                 const leaveMessage = {
@@ -123,7 +111,7 @@ module.exports = function (io) {
         socket.on("disconnect", async () => {
             console.log("user is disconnected", socket.id);
             const user = await userController.checkUser(socket.id);
-            if(user){
+            if (user) {
                 await roomController.leaveRoom(user);
                 const leaveMessage = {
                     chat: `${user.name} left this room`,
