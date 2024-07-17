@@ -16,6 +16,7 @@ import Login from './views/login/Login';
 import Chatting from './views/chat/Chatting';
 import { RoomListProvider } from './views/chat/contexts/RoomListContext';
 import Join from './views/login/component/Join/Join';
+import Main from './views/main/Main'
 
 import Router from './routes/Router'
 
@@ -45,6 +46,7 @@ function AppContent() {
     <>
       {!isAdminPage && <Header />}
       <Routes>
+             <Route path='/' element={<Main />}/>
              <Route path='/ju1' element={<Ju1 />} />
              <Route path='/ju2' element={<Ju2 />} />
              <Route path='/co1' element={<Co1 />} />

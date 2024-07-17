@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTheme } from '@mui/material/styles';
-import DashboardCard from '../../../../components/container/PageContainer';
+import DashboardCard from '../../../../components/shared/DashboardCard';
 import Chart from 'react-apexcharts';
 
 const MembersLine = () => {

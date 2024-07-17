@@ -1,10 +1,13 @@
 import React from 'react';
 import { Grid, Typography } from '@mui/material';
 
+import DashboardCard from '../../../../components/shared/DashboardCard';
 
-import DashboardCard from '../../../../components/container/PageContainer';
+
 
 const MemberCount = ({title, count}) => {
+
+
 
   return (
     <div>
