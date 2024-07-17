@@ -11,18 +11,19 @@ const axiosInstance = axios.create({
 
 // 요청 인터셉터 설정
 axiosInstance.interceptors.request.use(
-    config => {
-        // localStorage에서 accessToken을 가져옴
-        const token = localStorage.getItem('accessToken');
-        console.log('accessToken :>> ', token);
-        if (token) {
-            // Authorization 헤더에 Bearer 토큰을 추가
-            config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-    },
-    error => Promise.reject(error)
-  );
+  config => {
+      // 쿠키에서 accessToken을 읽어온다
+      const cookies = document.cookie.split('; ');
+      const tokenCookie = cookies.find(row => row.startsWith('accessToken='));
+      if (tokenCookie) {
+          const accessToken = tokenCookie.split('=')[1];
+          config.headers.Authorization = `Bearer ${accessToken}`;
+      }
+      return config;
+  },
+  error => Promise.reject(error)
+);
+
 
 // 응답 인터셉터 설정
 axiosInstance.interceptors.response.use(
@@ -35,12 +36,14 @@ axiosInstance.interceptors.response.use(
       try {
         const response = await axios.post('/refresh-token', {
           refreshToken: localStorage.getItem('refreshToken'),
+        }, {
+          withCredentials: true, // 쿠키를 포함하여 요청을 보냅니다.
         });
 
         const { token, refreshToken } = response.data;
         localStorage.setItem('accessToken', token);
         localStorage.setItem('refreshToken', refreshToken);
-        
+
         axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
         return axiosInstance(originalRequest);
@@ -48,7 +51,7 @@ axiosInstance.interceptors.response.use(
         console.error('Refresh token is invalid or expired.');
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
-        window.location.href = '/Login';
+        window.location.href = '/login';
       }
     }
 

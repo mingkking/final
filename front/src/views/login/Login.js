@@ -21,8 +21,7 @@ function Login({ onLoginSuccess }) {
             });
             
 
-            // 액세스 토큰을 로컬 스토리지에 저장
-            localStorage.setItem('accessToken', response.data.token);
+            // 로컬 스토리지에 리프레시 토큰 저장
             localStorage.setItem('refreshToken', response.data.refreshToken);
             
            
@@ -32,11 +31,6 @@ function Login({ onLoginSuccess }) {
                 // onLoginSuccess 콜백 호출하여 userNickname 전달
                 onLoginSuccess(response.data.userNickname);
             }
-            
-
-            // 로그인 성공 시 loginSuccess 이벤트 발생
-            const event = new CustomEvent('loginSuccess', { detail: response.data.userNickname });
-            document.dispatchEvent(event);
             
 
             // 메인 페이지로 이동
