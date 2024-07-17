@@ -33,15 +33,14 @@ axiosInstance.interceptors.response.use(
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        const response = await axios.post('http://localhost:8080/api/refresh-token', {
+        const response = await axios.post('/refresh-token', {
           refreshToken: localStorage.getItem('refreshToken'),
-        }, {
-          headers: { 'Content-Type': 'application/json' }
         });
 
         const { token, refreshToken } = response.data;
         localStorage.setItem('accessToken', token);
         localStorage.setItem('refreshToken', refreshToken);
+        
         axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
         return axiosInstance(originalRequest);

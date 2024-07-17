@@ -19,29 +19,25 @@ function Login({ onLoginSuccess }) {
                 userId: userId,
                 userPass: userPass
             });
-            const { token, refreshToken, userNickname } = response.data;
+            
 
             // 액세스 토큰을 로컬 스토리지에 저장
-            // localStorage.setItem('accessToken', response.data.token);
-            // localStorage.setItem('refreshToken', response.data.refreshToken);
-            localStorage.setItem('accessToken', token);
-            localStorage.setItem('refreshToken', refreshToken);
+            localStorage.setItem('accessToken', response.data.token);
+            localStorage.setItem('refreshToken', response.data.refreshToken);
+            
            
 
             // 로그인 성공 시 로그인 상태 업데이트
-            // if (onLoginSuccess) {
-            //     // onLoginSuccess 콜백 호출하여 userNickname 전달
-            //     onLoginSuccess(response.data.userNickname);
-            // }
             if (onLoginSuccess) {
-                onLoginSuccess(userNickname);
-              }
+                // onLoginSuccess 콜백 호출하여 userNickname 전달
+                onLoginSuccess(response.data.userNickname);
+            }
+            
 
             // 로그인 성공 시 loginSuccess 이벤트 발생
-            // const event = new CustomEvent('loginSuccess', { detail: response.data.userNickname });
-            // document.dispatchEvent(event);
-            const loginSuccessEvent = new CustomEvent('loginSuccess', { detail: userNickname });
-            document.dispatchEvent(loginSuccessEvent);
+            const event = new CustomEvent('loginSuccess', { detail: response.data.userNickname });
+            document.dispatchEvent(event);
+            
 
             // 메인 페이지로 이동
             navigate('/');  
