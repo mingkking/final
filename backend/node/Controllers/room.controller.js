@@ -22,17 +22,17 @@ roomController.joinRoom = async (roomId, user) => {
     }
   }
 
-  // 유저 방 접속 상태 초기화
-  const findUser = await User.findById(user._id);
-  if (findUser != null) {
-    if (findUser.room != null) {
-      findUser.room = null;
-      await findUser.save();
-    }
-  }
+  // // 유저 방 접속 상태 초기화
+  // const findUser = await User.findById(user._id);
+  // if (findUser != null) {
+  //   if (findUser.room != null) {
+  //     findUser.room = null;
+  //     await findUser.save();
+  //   }
+  // }
 
   console.log("preFindRoom", preFindRoom);
-  console.log("findUser", findUser);
+  // console.log("findUser", findUser);
 
   // 일치하는 방번호의 방 정보를 가져온다
   const room = await Room.findById(roomId);
@@ -53,11 +53,11 @@ roomController.joinRoom = async (roomId, user) => {
 
     return 1;
   } else {
-    // // 유저의 room 속성에 roomId를 할당
-    // user.room = roomId;
+    // 유저의 room 속성에 roomId를 할당
+    user.room = roomId;
 
-    // // 변경된 유저 정보를 저장
-    // await user.save();
+    // 변경된 유저 정보를 저장
+    await user.save();
     return 0;
   }
 
