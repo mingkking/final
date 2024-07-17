@@ -12,18 +12,9 @@ const RoomList = () => {
         // 채팅 방 리스트 받아오기
         socket.emit("rooms", (res) => {
             console.log(res.data);
-            console.log(value.state.user);
             value.actions.setRooms(res.data);
         });
     }, []);
-
-    // 채팅방 업데이트
-    useEffect(() => {
-        // 채팅 방 리스트 받아오기
-        socket.emit("rooms", (res) => {
-            value.actions.setRooms(res.data);
-        });
-    }, [value.state.rooms]);
 
     // 채팅 방 입장
     const moveToChat = (rid) => {
@@ -36,6 +27,10 @@ const RoomList = () => {
                 if (res && res.ok) {
                     console.log("successfully join", res);
                     value.actions.setUser(res.data);
+                    // 채팅방 업데이트
+                    socket.emit("roomss", (res) => {
+                        value.actions.setRooms(res.data);
+                    });
                 }
                 else {
                     console.log("fail to join", res);

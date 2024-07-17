@@ -10,10 +10,13 @@ import { createContext, useState } from "react";
 
 			 // 채팅 방 리스트
 			 const [rooms, setRooms] = useState([]);
+
+			 // 전체 메세지 저장
+			 const [messageList, setMessageList] = useState([]);
 		
 		    const values = {
-		        state : { user, rId , rooms },
-		        actions : { setUser, setRId , setRooms }
+		        state : { user, rId , rooms, messageList },
+		        actions : { setUser, setRId , setRooms, setMessageList }
 		    }
 		
 		    return (

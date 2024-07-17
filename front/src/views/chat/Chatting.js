@@ -25,29 +25,13 @@ const Chatting = ({ props, user }) => {
     const messageContainerRef = React.useRef(null);
     const [reverseLayout, setReverseLayout] = React.useState(false);
 
-    // 전체 메세지 저장
-    const [messageList, setMessageList] = React.useState([]);
-
     // 처음에 한번 동작하는 훅
     useEffect(() => {
-        // 접속했던 session id 가져오기
-        // axios.get('http://localhost:5001/getSession', { withCredentials: true })
-        // .then((response) => {
-        //     console.log('Session get', response);
-        // })
-        // .catch(error => {
-        //     console.error('Error getting session', error);
-        // });
-        
-
         // 서버가 모든 클라이언트에게 보내는 메세지 확인
-        let i = 0;
         socket.on("message", (message) => {
-            i++;
-            console.log(i);
             console.log("메세지 ", message);
             // 전체 메세지 저장
-            setMessageList((prevState) => prevState.concat(message));
+            value.actions.setMessageList((prevState) => prevState.concat(message));
         });
 
     }, []);
@@ -62,7 +46,7 @@ const Chatting = ({ props, user }) => {
         if (container && reverseLayout) {
             container.scrollTop = container.scrollHeight;
         }
-    }, [messageList, reverseLayout]);
+    }, [value.state.messageList, reverseLayout]);
 
     // 메세지입력 함수
     const sendMessage = (event) => {
@@ -90,7 +74,7 @@ const Chatting = ({ props, user }) => {
                     <div className="col-lg-7 col-md-12 card cardCustom">
                         <NavBar />
                         <div className='row chatContainer' style={{ paddingBottom: 50 }}>
-                            <MessageContainer messageList={messageList} user={value.state.user} />
+                            <MessageContainer messageList={value.state.messageList} user={value.state.user} />
                         </div>
                         <div className='row' style={{ width: "100%" }}>
                             <InputField message={message} setMessage={setMessage} sendMessage={sendMessage} />
