@@ -25,40 +25,23 @@ const Navbar = ({ onLoginSuccess }) => {
     // 로그인 상태를 확인하는 비동기 함수
     const checkLoginStatus = async () => {
       try {
-        
-        const token = localStorage.getItem('accessToken');
-        if (!token) {
-          setIsLoggedIn(false);
-          setUserNickname('');
-          return;
-        }
-
-        // 서버에 로그인 상태를 확인하는 요청을 보냄
         const response = await axiosInstance.get('/check-login-status', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // Authorization 헤더에 토큰을 포함
-          },
+          withCredentials: true, // 쿠키를 포함하여 요청을 보냅니다.
         });
-        
-       
-
+    
         if (response.data.isLoggedIn) {
-          // 로그인 상태가 true이면 상태를 업데이트하고 닉네임을 설정
           setIsLoggedIn(true);
           setUserNickname(response.data.userNickname);
-
-          // `onLoginSuccess` 콜백이 prop으로 전달되었으면 호출
+    
           if (onLoginSuccess) {
-            onLoginSuccess(response.data.userNickname); // 로그인 성공 시 닉네임을 부모 컴포넌트로 전달
+            onLoginSuccess(response.data.userNickname);
           }
         } else {
-          // 로그인 상태가 false이면 상태를 초기화
           setIsLoggedIn(false);
           setUserNickname('');
         }
       } catch (error) {
-        // 로그인 상태 확인 중 에러가 발생하면 상태를 초기화
-        console.error('Error checking login status:', error);
+        console.error('Error checking login status:', error.response?.data || error.message);
         setIsLoggedIn(false);
         setUserNickname('');
       }
@@ -79,35 +62,32 @@ const Navbar = ({ onLoginSuccess }) => {
     return () => {
       document.removeEventListener('loginSuccess', handleLoginEvent);
     };
-  }, []);
+  }, [onLoginSuccess]);
 
   // 로그아웃 버튼 클릭 시 실행되는 함수
   const handleLogoutClick = async () => {
     try {
       await axiosInstance.post('/logout', {}, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // 로그아웃 요청 시 현재 토큰을 포함
-        },
+        withCredentials: true, // 쿠키를 포함하여 요청을 보냅니다.
       });
-
-      
-      
-      // 로컬스토리지에서 토큰을 제거하고 상태를 초기화
-      localStorage.removeItem('accessToken');
+  
+      // 로컬스토리지에서 리프레시 토큰을 제거합니다.
       localStorage.removeItem('refreshToken');
+  
+      // 로그인 상태를 초기화합니다.
       setIsLoggedIn(false);
       setUserNickname('');
-
-      // `onLoginSuccess` 콜백이 prop으로 전달되었으면 빈 문자열을 전달하여 로그인 상태를 초기화
+  
+      // `onLoginSuccess` 콜백이 prop으로 전달되었으면 빈 문자열을 전달하여 로그인 상태를 초기화합니다.
       if (onLoginSuccess) {
         onLoginSuccess('');
       }
-
-      // 홈 페이지로 네비게이트
+  
+      // 홈 페이지로 네비게이트합니다.
       navigate('/');
     } catch (error) {
-      // 로그아웃 중 에러가 발생하면 에러를 로그에 출력
-      console.error('Error during logout:', error);
+      // 로그아웃 중 에러가 발생하면 에러를 로그에 출력합니다.
+      console.error('Error during logout:', error.response?.data || error.message);
     }
   };
 
