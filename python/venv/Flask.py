@@ -1,14 +1,23 @@
-from flask import Flask # Flask
+from flask import Flask, jsonify
+import os
+import json
 
 app = Flask(__name__)
 
-@app.route('/users')
-def users():
-	# users 데이터를 Json 형식으로 반환한다
-    return {"members": [{ "id" : 1, "name" : "yerin" },
-    					{ "id" : 2, "name" : "dalkong" }]}
-           
+# Define the path to the JSON file
+json_file_path = 'budongsanData.txt'
+
+# Function to read JSON data from file
+def read_json_data():
+    with open(json_file_path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    return data
+
+# Route to serve the JSON data
+@app.route('/budongsan', methods=['GET'])
+def get_budongsan_data():
+    data = read_json_data()
+    return jsonify(data)
 
 if __name__ == "__main__":
-    app.run(debug = True)
-    
+    app.run(debug=True)
