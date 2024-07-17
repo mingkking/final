@@ -34,12 +34,12 @@ const Navbar = ({ onLoginSuccess }) => {
         }
 
         // 서버에 로그인 상태를 확인하는 요청을 보냄
-        // const response = await axiosInstance.get('/check-login-status', {
-        //   headers: {
-        //     Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // Authorization 헤더에 토큰을 포함
-        //   },
-        // });
-        const response = await axiosInstance.get('/check-login-status');
+        const response = await axiosInstance.get('/check-login-status', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // Authorization 헤더에 토큰을 포함
+          },
+        });
+        
        
 
         if (response.data.isLoggedIn) {
@@ -84,13 +84,13 @@ const Navbar = ({ onLoginSuccess }) => {
   // 로그아웃 버튼 클릭 시 실행되는 함수
   const handleLogoutClick = async () => {
     try {
-      // await axiosInstance.post('/logout', {}, {
-      //   headers: {
-      //     Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // 로그아웃 요청 시 현재 토큰을 포함
-      //   },
-      // });
+      await axiosInstance.post('/logout', {}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // 로그아웃 요청 시 현재 토큰을 포함
+        },
+      });
 
-      await axiosInstance.post('/logout', { refreshToken: localStorage.getItem('refreshToken') });
+      
       
       // 로컬스토리지에서 토큰을 제거하고 상태를 초기화
       localStorage.removeItem('accessToken');
