@@ -21,6 +21,8 @@ module.exports = function (io) {
             //     }
             // }
             // console.log("==========================================");
+            // 다시 업데이트된 room데이터를 클라이언트들에게 보내준다
+            io.emit("rooms", await roomController.getAllRooms());
             cb({
                 ok: true,
                 data: rooms
@@ -97,8 +99,9 @@ module.exports = function (io) {
                     chat: `${user.name} left this room`,
                     user: { id: null, name: "system" },
                 };
-                socket.broadcast.to(user.room.toString()).emit("message", leaveMessage); // socket.broadcast의 경우 io.to()와 달리,나를 제외한 채팅방에 모든 맴버에게 메세지를 보낸다 
+
                 io.emit("rooms", await roomController.getAllRooms());
+                socket.broadcast.to(user.room.toString()).emit("message", leaveMessage); // socket.broadcast의 경우 io.to()와 달리,나를 제외한 채팅방에 모든 맴버에게 메세지를 보낸다 
                 socket.leave(user.room.toString()); // join했던 방을 떠남 
                 cb({ ok: true });
             } catch (error) {

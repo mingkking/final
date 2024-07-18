@@ -25,15 +25,18 @@ const Chatting = ({ props, user }) => {
     const messageContainerRef = React.useRef(null);
     const [reverseLayout, setReverseLayout] = React.useState(false);
 
-    // 처음에 한번 동작하는 훅
     useEffect(() => {
-        // 서버가 모든 클라이언트에게 보내는 메세지 확인
-        socket.on("message", (message) => {
-            console.log("메세지 ", message);
-            // 전체 메세지 저장
-            value.actions.setMessageList((prevState) => prevState.concat(message));
-        });
+        // 메시지 이벤트 리스너 등록
+        const messageHandler = (message) => {
+            value.actions.setMessageList((prevState) => [...prevState, message]);
+        };
 
+        socket.on("message", messageHandler);
+
+        // 컴포넌트 언마운트 시 이벤트 리스너 정리
+        return () => {
+            socket.off("message", messageHandler);
+        };
     }, []);
 
     // 유저 정보 업데이트
@@ -89,12 +92,12 @@ const Chatting = ({ props, user }) => {
             <div className="container" style={{ margin: "50px auto" }}>
                 <div className="row">
 
-                    <div className="col-5 card">
-                        {/* <div className='w-auto h-auto p-3'>
-                                    <h5><Link onClick={chatRoomJoin}>더리치 포트폴리오 토론방 7389</Link></h5>
-                                    <h6>올해는 작년보다 더 좋을듯 ' 방금 전</h6>
-                                </div> */}
-                        <RoomList rooms={value.state.rooms} />
+                    <div className="col-lg-5 col-md-12 card cardCustom">
+                        {/* <h5><Link onClick={chatRoomJoin}>더리치 포트폴리오 토론방 7389</Link></h5>
+                                    <h6>올해는 작년보다 더 좋을듯 ' 방금 전</h6> */}
+                        <div className='row roomContainer'>
+                            <RoomList />
+                        </div>
                     </div>
 
                 </div>

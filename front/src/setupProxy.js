@@ -18,4 +18,20 @@ module.exports = function(app) {
       
     })
   );
+
+  app.use(
+    '/createRoom',
+    createProxyMiddleware({
+      target: 'http://localhost:5001',
+      changeOrigin: true,
+    })
+  );
+
+  app.use(
+    '/deleteRoom',
+    createProxyMiddleware({
+      target: 'http://localhost:5001/deleteRoom',
+      changeOrigin: true,
+    })
+  );
 };

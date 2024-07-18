@@ -8,6 +8,15 @@ const NavBar = ({ }) => {
 
     const leaveRoom = () => {
         socket.emit("leaveRoom", value.state.user, (res) => {
+            console.log(value.state.rooms);
+            console.log(value.state.user.room);
+
+            value.state.rooms.map((room, index) => {
+                if (room._id === value.state.user.room) {
+                    console.log(room.room);
+                }
+            })
+
             if (res.ok) {
                 value.actions.setUser(null);
             }// 다시 채팅방 리스트 페이지로 돌아감
@@ -19,7 +28,15 @@ const NavBar = ({ }) => {
             <button onClick={leaveRoom} className="back-button">
                 &lt;
             </button>
-            <div className="nav-user">{value.state.user.name}</div>
+                {
+                    value.state.rooms.map((room, index) => {
+                        if (room._id === value.state.user.room) {
+                            return (
+                                <div className="nav-user" key={index}>{room.room}</div>
+                            )
+                        }
+                    })
+                }
             <div className="nav-drop">메뉴</div>
         </nav>
     );
