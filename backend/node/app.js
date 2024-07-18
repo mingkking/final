@@ -44,24 +44,23 @@ const Room = require("./Models/room");
 //   res.send(user);
 // });
 
-//  임의로 룸을 만들어주기
+//  룸 생성
 app.get("/", async (req, res) => {
+  const roomName = req.query.roomName;
+  console.log(roomName);
   Room.insertMany([
     {
-      room: "자바스크립트 단톡방",
-      members: [],
-    },
-    {
-      room: "리액트 단톡방",
-      members: [],
-    },
-    {
-      room: "NodeJS 단톡방",
+      room: roomName,
       members: [],
     },
   ])
     .then(() => res.send("ok"))
     .catch((error) => res.send(error));
+});
+
+//  룸 삭제
+app.get("/deleteRoom", async (req, res) => {
+  console.log("ok");
 });
 
 mongoose.connect(process.env.DB, {
