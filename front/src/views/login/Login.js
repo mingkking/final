@@ -32,12 +32,12 @@ function Login({ onLoginSuccess }) {
                 onLoginSuccess(response.data.userNickname);
             }
             
-
+            alert("로그인 성공")
             // 메인 페이지로 이동
             navigate('/');  
         } catch (error) {
             console.error('Error during login:', error);
-            alert('로그인 실패 ' + error.response?.data || 'An error occurred');
+            alert('로그인 실패 ' + error.response?.data || '아이디 및 비밀번호가 일치하지 않습니다.');
             
         }
     };
