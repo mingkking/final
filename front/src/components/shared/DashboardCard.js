@@ -37,7 +37,7 @@ const DashboardCard = ({
               mb={3}
             >
               <Box>
-                {title ? <Typography variant="h5" style={{textAlign:'center'}}>{title}</Typography> : ''}
+                {title ? <Typography variant="h5" style={{ textAlign:'left' }}>{title}</Typography> : ''}
 
                 {subtitle ? (
                   <Typography variant="subtitle2" color="textSecondary">

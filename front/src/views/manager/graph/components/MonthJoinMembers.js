@@ -2,6 +2,7 @@ import React from 'react';
 import { useTheme } from '@mui/material/styles';
 import DashboardCard from '../../../../components/shared/DashboardCard';
 import Chart from 'react-apexcharts';
+import dayjs from 'dayjs';
 
 
 const MonthJoinMembers = () => {
@@ -10,6 +11,15 @@ const MonthJoinMembers = () => {
     const theme = useTheme();
     const primary = theme.palette.primary.main;
     const secondary = theme.palette.secondary.main;
+
+    // 최근 5개월 계산 함수
+    const getLastFiveMonths = () => {
+        const months = [];
+        for (let i = 4; i >= 0; i--) {
+            months.push(dayjs().subtract(i, 'month').format('M월'));
+        }
+        return months;
+    };
 
     // chart
     const optionscolumnchart = {
@@ -59,7 +69,7 @@ const MonthJoinMembers = () => {
             tickAmount: 4,
         },
         xaxis: {
-            categories: [ '1월', '2월', '3월', '4월', '5월'],
+            categories: getLastFiveMonths(),
             axisBorder: {
                 show: false,
             },

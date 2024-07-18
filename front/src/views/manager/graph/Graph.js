@@ -38,13 +38,13 @@ const Dashboard = () => {
             <SubscribeMembersLine />
           </Grid>
           <Grid item xs={12} lg={3}>
-            <CountSomething title='총 가입자 수'/>
-          </Grid>
-          <Grid item xs={12} lg={3}>
-            <CountSomething title='총 구독자 수'/>
+            <CountSomething title='총 가입자 수' count={value.state.membersCount}/>
           </Grid>
           <Grid item xs={12} lg={3}>
             <CountSomething title='금일 가입자 수'/>
+          </Grid>
+          <Grid item xs={12} lg={3}>
+            <CountSomething title='총 구독자 수' count={value.state.totalSubscribersCount}/>
           </Grid>
           <Grid item xs={12} lg={3}>
             <CountSomething title='금일 구독자 수'/>

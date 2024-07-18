@@ -2,6 +2,7 @@ import React from 'react';
 import { useTheme } from '@mui/material/styles';
 import DashboardCard from '../../../../components/shared/DashboardCard';
 import Chart from 'react-apexcharts';
+import dayjs from 'dayjs';
 
 
 const YearJoinMembers = () => {
@@ -10,6 +11,15 @@ const YearJoinMembers = () => {
     const theme = useTheme();
     const primary = theme.palette.primary.main;
     const secondary = theme.palette.secondary.main;
+
+   // 최근 2년 계산 함수
+   const getLastTwoYears = () => {
+    const years = [];
+    for (let i = 1; i >= 0; i--) {
+        years.push(dayjs().subtract(i, 'year').format('YYYY년'));
+    }
+    return years;
+    };
 
     // chart
     const optionscolumnchart = {
@@ -27,7 +37,7 @@ const YearJoinMembers = () => {
             bar: {
                 horizontal: false,
                 barHeight: '60%',
-                columnWidth: '42%',
+                columnWidth: '18%',
                 borderRadius: [6],
                 borderRadiusApplication: 'end',
                 borderRadiusWhenStacked: 'all',
@@ -59,7 +69,7 @@ const YearJoinMembers = () => {
             tickAmount: 4,
         },
         xaxis: {
-            categories: [ '2023년', '2024년'],
+            categories: getLastTwoYears(),
             axisBorder: {
                 show: false,
             },
