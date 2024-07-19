@@ -51,6 +51,7 @@ public class CountController {
 		int selectMonthSession = countService.selectMonthSession();
 		int selcetTotalMembers = countService.selectTotalMembers();
 		int selectTotalSubscribers = countService.selectTotalSubscribers();
+		
 
 		// json 구조를 가진 객체 만들기
 		JsonObject group = new JsonObject();
