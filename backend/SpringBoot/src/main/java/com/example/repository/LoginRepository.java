@@ -7,3 +7,4 @@ import com.example.domain.LoginVO;
 public interface LoginRepository extends JpaRepository<LoginVO, Integer> {
     LoginVO findByUserId(String userId);
 }
+ 

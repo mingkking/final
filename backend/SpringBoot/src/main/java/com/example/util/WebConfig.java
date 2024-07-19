@@ -14,7 +14,7 @@ public class WebConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
             	// CORS 설정 추가
-                registry.addMapping("/**")
+                registry.addMapping("/**") 
                         .allowedOrigins("http://localhost:3000") // React 앱의 주소
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
