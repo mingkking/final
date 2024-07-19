@@ -8,6 +8,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Data;
+import java.time.LocalDateTime;
+import jakarta.persistence.PrePersist;
 
 @Data
 @Entity 
@@ -32,7 +34,15 @@ public class LoginVO {
     private String userNickname; // 닉네임 (길이 30자, 유니크, NOT NULL)
     @Column(name = "refresh_token", length = 255)
     private String refreshToken;  // 리프레시 토큰 (길이 255자)
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private String created_at;  // 생성일 (기본값: 현재 시간)
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;  // 생성일
+    
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        System.out.println("Setting createdAt: " + this.createdAt);
+    }
+    
 	
-}
+} 
