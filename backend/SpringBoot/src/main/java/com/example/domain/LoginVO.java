@@ -10,7 +10,7 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
-@Entity
+@Entity 
 @Table(name = "users")
 public class LoginVO {
 

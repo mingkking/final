@@ -40,7 +40,7 @@ public class LoginController {
     private LoginServiceImpl loginService;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private JwtUtil jwtUtil; 
 
  // 사용자 회원가입
     @PostMapping("/join")

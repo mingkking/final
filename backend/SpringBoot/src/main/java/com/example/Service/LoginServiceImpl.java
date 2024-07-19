@@ -9,10 +9,10 @@ import com.example.repository.LoginRepository;
 @Service
 public class LoginServiceImpl {
 
-    @Autowired
+    @Autowired 
     private LoginRepository repo;
 
-    
+     
     public LoginVO findUserByUserId(String userId) {
         return repo.findByUserId(userId);
     }
