@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-axios.defaults.baseURL = 'http://localhost:8080';
+// axios.defaults.baseURL = 'http://localhost:8080';
 
 function Join() {
     const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode: 'onBlur' });

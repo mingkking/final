@@ -27,11 +27,26 @@ const MainProvider = (props) => {
         return saved ? JSON.parse(saved) : 0;
       });
 
-      // 총 구독자 수
-      const [totalSubscribersCount, setTotalSubscribersCount] = useState(() => {
-        const saved = localStorage.getItem("subscribersCount");
+      // 일 가입자 수
+      const [todayMembersCount, setTodayMembersCount] = useState(() => {
+        console.log(localStorage);
+        const saved = localStorage.getItem("todayMembersCount");
         return saved ? JSON.parse(saved) : 0;
       });
+
+      // 총 구독자 수
+      const [totalSubscribersCount, setTotalSubscribersCount] = useState(() => {
+        console.log("localstorage-----------", localStorage);
+        const saved = localStorage.getItem("totalSubscribersCount");
+        return saved ? JSON.parse(saved) : 0;
+      });
+
+      // 회원 리스트
+      const [memberList, setMemberList] = useState(() => {
+        const saved = localStorage.getItem("memberList");
+        return saved ? JSON.parse(saved) : [];
+      })
+      
 
   // 값이 변경될 때마다 로컬 스토리지에 저장
   useEffect(() => {
@@ -51,13 +66,24 @@ const MainProvider = (props) => {
   },[membersCount]);
 
   useEffect(() => {
-    localStorage.setItem("subscriberscount", JSON.stringify(totalSubscribersCount));
-  });
+    localStorage.setItem("todayMembersCount", JSON.stringify(todayMembersCount));
+  }, [todayMembersCount]);
+
+  useEffect(() => {
+    localStorage.setItem("totalSubscribersCount", JSON.stringify(totalSubscribersCount));
+  }, [totalSubscribersCount]);
+
+  useEffect(() => {
+    localStorage.setItem("memberList", JSON.stringify(memberList));
+    console.log("member---------", memberList);
+  }, [memberList]);
+
+
 
 
   const values = {
-    state: { totalCount, todayCount, monthCount, membersCount, totalSubscribersCount },
-    actions: { setTotalCount, setTodayCount, setMonthCount, setMembersCount, setTotalSubscribersCount }
+    state: { totalCount, todayCount, monthCount, membersCount, totalSubscribersCount, todayMembersCount, memberList },
+    actions: { setTotalCount, setTodayCount, setMonthCount, setMembersCount, setTotalSubscribersCount, setTodayMembersCount, setMemberList }
   }
 
   return (
