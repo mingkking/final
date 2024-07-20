@@ -1,20 +1,27 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Grid, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 import DashboardCard from '../../../../components/shared/DashboardCard';
+import mainContext from "../contexts/MainContext";
 
 const MemberCount = ({title, count}) => {
 
+  const value = useContext(mainContext);
 
-  const navigate = useNavigate();
+  useEffect(()=>{
+    axios.get('http://localhost:8080')
+    .then((result) => {
+      // manager/main 새로고침 할 때 마다 DB에서 값 받아서 데이터 넣기
+      value.actions.setMembersCount(result.data.selectTotalMembers);
+      value.actions.setTodayMembersCount(result.data.selectTodayMembers);
+      value.actions.setTotalSubscribersCount(result.data.selectTotalSubscribers);
+    })
+  },[]);
 
-  const movePage = () => {
-    navigate("/memberList");
-  }
 
   return (
-    <div onClick={movePage}>
+    <div>
       <DashboardCard title={title}>
         <Grid container spacing={3} justifyContent="center" alignItems="center">
           <Grid item xs={7} sm={7}>
