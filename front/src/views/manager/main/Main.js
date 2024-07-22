@@ -35,7 +35,7 @@ const Dashboard = () => {
             <MemberCount title='총 회원수' count={value.state.membersCount}/>
           </Grid>
           <Grid item xs={12} lg={2}>
-            <MemberCount title='일 가입수'/>
+            <MemberCount title='일 가입수'count={value.state.todayMembersCount}/>
           </Grid>
           <Grid item xs={12} lg={2}>
             <MemberCount title='총 구독자수' count={value.state.totalSubscribersCount}/>
