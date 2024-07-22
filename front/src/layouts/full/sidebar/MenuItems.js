@@ -17,12 +17,6 @@ const Menuitems = [
     href: '/manager/memberList',
   },
   {
-    id: uniqueId(),
-    title: '구독자',
-    icon: IconMoneybag,
-    href: '/manager/subscribe_list',
-  },
-  {
     navlabel: true,
     subheader: 'Management',
   },
@@ -37,6 +31,22 @@ const Menuitems = [
     title: '채팅 관리',
     icon: IconBrandWechat,
     href: '/manager/chat',
+  },
+  {
+    navlabel: true,
+    subheader: 'Complaint',
+  },
+  {
+    id: uniqueId(),
+    title: '커뮤니티 게시글 신고 관리',
+    icon: IconBuildingCommunity,
+    href: '/manager/complaint/communityPost',
+  },
+  {
+    id: uniqueId(),
+    title: '커뮤니티 댓글 신고 관리',
+    icon: IconBuildingCommunity,
+    href: '/manager/complaint/communityComment',
   },
   {
     navlabel: true,
