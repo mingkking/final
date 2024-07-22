@@ -1,18 +1,19 @@
 import React from 'react';
 import "./Join.css";
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import axiosInstance from '../Token/axiosInstance';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-// axios.defaults.baseURL = 'http://localhost:8080';
+
 
 function Join() {
     const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode: 'onBlur' });
     const navigate = useNavigate();
     const [usernameExists, setUsernameExists] = useState(false);
     const [isValidUsername, setIsValidUsername] = useState(false);
+    const [usernameChecked, setUsernameChecked] = useState(false); // 중복검사 여부 확인
     const [agreeAll, setAgreeAll] = useState(false);
 
     
@@ -21,7 +22,7 @@ function Join() {
     const onSubmit = async (data) => {
 
         try {
-            const response = await axios.post('/api/join', data);
+            const response = await axiosInstance.post('/join', data);
             alert(response.data);
             navigate('/Login');
         } catch (error) {
@@ -32,16 +33,14 @@ function Join() {
     // 아이디 중복검사
     const checkUsernameExists = async (userId) => {
         try {
-            const response = await axios.get(`/api/check-username?userId=${userId}`);
+            const response = await axiosInstance.get(`/check-username?userId=${userId}`);
             setUsernameExists(response.data);
-            
-            if(!response.data){
-                setIsValidUsername(true);
-            }
+            setIsValidUsername(!response.data);
+            setUsernameChecked(true); // 중복검사 수행 완료
 
         } catch (error) {
             console.error('Error checking username:', error);
-            alert('Error checking username.');
+            alert('Error checking username.'+error);
         }
     };
 
@@ -60,12 +59,10 @@ function Join() {
              setAgree2(checked);
          }
  
-         // 모든 개별 약관 체크박스가 체크되었는지 확인
-         if (agree1 && agree2) {
-             setAgreeAll(true);
-         } else {
-             setAgreeAll(false);
-         }
+          // 하나라도 체크 해제되면 전체 동의하기 체크박스 해제
+        if (!checked) {
+            setAgreeAll(false);
+        }
      };
  
      // 전체 동의하기 체크박스 클릭 시 호출되는 함수
@@ -74,6 +71,15 @@ function Join() {
          setAgree1(checked);
          setAgree2(checked);
      };
+
+      // 개별 체크박스의 상태가 변경될 때 전체 동의 체크박스 상태를 업데이트
+    useEffect(() => {
+        if (agree1 && agree2) {
+            setAgreeAll(true);
+        } else {
+            setAgreeAll(false);
+        }
+    }, [agree1, agree2]);
     
 
     return (
@@ -118,8 +124,8 @@ function Join() {
                 </div>
                 
                 {errors.userId && <p className='err'>{errors.userId.message}</p>}
-                {usernameExists && !isValidUsername && <p className="err">이미 존재하는 아이디입니다.</p>}
-                {isValidUsername && <p className='suc'>사용 가능한 아이디입니다.</p>}
+                {usernameChecked && usernameExists && <p className="err">이미 존재하는 아이디입니다.</p>}
+                {usernameChecked && isValidUsername && <p className='suc'>사용 가능한 아이디입니다.</p>}
                 <div className="form-group">
                     <label>이름</label>
                     <input 
@@ -232,7 +238,7 @@ function Join() {
                           })}
                     />
                     
-                    <button type="button" className="send-button">발송</button>
+                    
                 </div>
                 
                     {errors.userEmail && <p className='err'>{errors.userEmail.message}</p>}
