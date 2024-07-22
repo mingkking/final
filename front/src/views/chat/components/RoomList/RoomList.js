@@ -45,11 +45,11 @@ const RoomList = () => {
     const createRoom = (e) => {
         e.preventDefault(); // 버튼 고유 이벤트  삭제
         const roomName = prompt("채팅방 제목을 입력해주세요.");
-        
+
         // 채팅방의 이름 존재
         if (roomName) {
             axios.get("/createRoom", { // createRoom 경로를 요청하면 http://localhost:5001/ 요청
-                params: { roomName: roomName} // params 객체 data
+                params: { roomName: roomName } // params 객체 data
             })
                 .then((result) => console.log("ok", result.data));
         }
