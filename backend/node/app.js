@@ -46,7 +46,7 @@ const Room = require("./Models/room");
 
 //  룸 생성
 app.get("/", async (req, res) => {
-  console.log("hahaha");
+  console.log("hahaha111111111");
   try {
     const roomName = req.query.roomName;
     console.log(roomName);
