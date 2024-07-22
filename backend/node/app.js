@@ -46,16 +46,23 @@ const Room = require("./Models/room");
 
 //  룸 생성
 app.get("/", async (req, res) => {
-  const roomName = req.query.roomName;
-  console.log(roomName);
-  Room.insertMany([
-    {
-      room: roomName,
-      members: [],
-    },
-  ])
-    .then(() => res.send("ok"))
-    .catch((error) => res.send(error));
+  console.log("hahaha");
+  try {
+    const roomName = req.query.roomName;
+    console.log(roomName);
+
+    Room.insertMany([
+      {
+        room: roomName,
+        members: [],
+      },
+    ])
+      .then(() => res.send("ok"))
+      .catch((error) => res.send(error));
+  } catch (error) {
+    console.log("방생성 error");
+  }
+
 });
 
 //  룸 삭제
