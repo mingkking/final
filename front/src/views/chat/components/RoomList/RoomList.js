@@ -46,12 +46,23 @@ const RoomList = () => {
         e.preventDefault(); // 버튼 고유 이벤트  삭제
         const roomName = prompt("채팅방 제목을 입력해주세요.");
 
-        // 채팅방의 이름 존재
+        // 채팅방 이름 존재 할 경우
         if (roomName) {
             axios.get("/createRoom", { // createRoom 경로를 요청하면 http://localhost:5001/ 요청
-                params: { roomName: roomName } // params 객체 data
+                params: { roomName: roomName, socketId: socket.id } // params 객체 data
             })
-                .then((result) => console.log("ok", result.data));
+                .then((result) => { // axios 방 생성 요청 이후 함수 실행
+                    if (result.data.ok) { // axios 요청이 성공했을 경우
+                        socket.emit("joinRoom", result.data.room, result.data.user.name, (res) => { // node서버로 방 참여 요청
+                            if (res.ok) { // 방 접속이 성공했을 경우
+                                value.actions.setUser(res.data); // 유저 정보 context에 저장
+                                socket.emit("rooms", (res) => { // 채팅방 업데이트
+                                    value.actions.setRooms(res.data);
+                                });
+                            }
+                        })
+                    }
+                });
         }
         // 채팅방의 이름 존재
     }

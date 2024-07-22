@@ -28,6 +28,7 @@ const Chatting = ({ props, user }) => {
     useEffect(() => {
         // 메시지 이벤트 리스너 등록
         const messageHandler = (message) => {
+            console.log(message);
             value.actions.setMessageList((prevState) => [...prevState, message]);
         };
 
@@ -60,7 +61,7 @@ const Chatting = ({ props, user }) => {
             }
         });
     }
-
+    
     if (value.state.user) {
         return (
             <div className="container" style={{ margin: "50px auto" }}>
