@@ -6,45 +6,45 @@ const MainProvider = (props) => {
     // 총 방문자 수
     const [totalCount, setTotalCount] = useState(() => {
         const saved = localStorage.getItem("totalCount");
-        return saved ? JSON.parse(saved) : 0;
+        return saved ? 1 : 0;
       });
       
       // 일 방문자 수
       const [todayCount, setTodayCount] = useState(() => {
         const saved = localStorage.getItem("todayCount");
-        return saved ? JSON.parse(saved) : 0;
+        return saved ? 1 : 0;
       });
       
       // 월 방문자 수
       const [monthCount, setMonthCount] = useState(() => {
         const saved = localStorage.getItem("monthCount");
-        return saved ? JSON.parse(saved) : 0;
+        return saved ? 1 : 0;
       });   
 
       // 총 회원 수
       const [membersCount, setMembersCount] = useState(() => {
         const saved = localStorage.getItem("membersCount");
-        return saved ? JSON.parse(saved) : 0;
+        return saved ? 1 : 0;
       });
 
       // 일 가입자 수
       const [todayMembersCount, setTodayMembersCount] = useState(() => {
         console.log(localStorage);
         const saved = localStorage.getItem("todayMembersCount");
-        return saved ? JSON.parse(saved) : 0;
+        return saved ? 1 : 0;
       });
 
       // 총 구독자 수
       const [totalSubscribersCount, setTotalSubscribersCount] = useState(() => {
         console.log("localstorage-----------", localStorage);
         const saved = localStorage.getItem("totalSubscribersCount");
-        return saved ? JSON.parse(saved) : 0;
+        return saved ? 1 : 0;
       });
 
       // 회원 리스트
       const [memberList, setMemberList] = useState(() => {
         const saved = localStorage.getItem("memberList");
-        return saved ? JSON.parse(saved) : [];
+        return saved ? 1 : [];
       })
       
 

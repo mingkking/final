@@ -58,6 +58,10 @@ export const MenuItemsData = [
         title: '커뮤니티',
         url: 'comu1',
     },
+    // {
+    //   title: '구독',
+    //   url: 'Subscribe',
+    // }
   ];
 
   

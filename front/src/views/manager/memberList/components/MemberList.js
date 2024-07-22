@@ -5,7 +5,7 @@ import mainContext from '../../main/contexts/MainContext';
 
 
 
-const MemberListTest = ({num, name, nickname}) => {
+const MemberListTest = ({num, name, nickname, tel, email, created_at}) => {
 
   const value = useContext(mainContext);
 
@@ -29,15 +29,15 @@ const MemberListTest = ({num, name, nickname}) => {
                       {nickname}
                     </Typography>
                     <Typography variant="h6" color="textSecondary" style={{marginTop: '10px', marginLeft: '100px'}}>
-                      010-0000-0000
+                      {tel}
                     </Typography>
                     <Typography variant="h6" color="textSecondary" style={{marginTop: '10px', marginLeft: '70px'}}>
-                      00000@gmail.com
+                      {email}
                     </Typography>
                     <Typography variant="h6" color="textSecondary" style={{marginTop: '10px', marginLeft: '50px'}}>
-                      2024/03/23
+                      {created_at}
                     </Typography>
-                    <Typography variant="h6" color="textSecondary" style={{marginTop: '10px', marginLeft: '65px'}}>
+                    <Typography variant="h6" color="textSecondary" style={{marginTop: '10px', marginLeft: '30px'}}>
                       2024/03/23
                     </Typography>
                   </CardContent>

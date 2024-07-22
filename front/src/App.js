@@ -17,6 +17,7 @@ import Chatting from './views/chat/Chatting';
 import { RoomListProvider } from './views/chat/contexts/RoomListContext';
 import Join from './views/login/component/Join/Join';
 import Main from './views/main/Main'
+import Subscribe from './views/subscribe/Subscribe1'
 
 import Router from './routes/Router'
 
@@ -24,9 +25,7 @@ import { ThemeProvider } from '@mui/material';
 import { baselightTheme } from "./theme/DefaultColors";
 
 import { useState } from 'react';
-import {
-  BrowserRouter, Routes, Route, useLocation
-} from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 
 import { MainProvider } from './views/manager/main/contexts/MainContext';
 
@@ -58,6 +57,7 @@ function AppContent() {
              <Route path='/comu1' element={<Comu1 />} />
              <Route path='/login' element={<Login onLoginSuccess={handleLoginSuccess} />} />
              <Route path='/Join' element={<Join/>}/>
+             <Route path='/Subscribe' element={<Subscribe />} />
         
         {/* 관리자페이지 */}
         {Router.map((route, index) => (
