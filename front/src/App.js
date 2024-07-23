@@ -61,7 +61,7 @@ function AppContent() {
              <Route path='/comu1' element={<Comu1 />} />
              <Route path='/login' element={<Login onLoginSuccess={handleLoginSuccess} />} />
              <Route path='/Join' element={<Join/>}/>
-
+             <Route path='/Subscribe' element={<Subscribe />} /> 
         
         {/* 관리자페이지 */}
         {Router.map((route, index) => (
