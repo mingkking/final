@@ -4,32 +4,12 @@ import { Container } from "@mui/system";
 import RoomListContext from "../../contexts/RoomListContext";
 
 const MessageContainer = ({ messageList, user }) => {
-    const value = useContext(RoomListContext);
+    const value = useContext(RoomListContext);      // 채팅 방 Context 객체 생성
+    const [preDate, setPreDate] = useState(null);   // 채팅 방 입장 시간 저장 변수
 
-    // 채팅 방 입장 시간 저장 변수
-    const [preDate, setPreDate] = useState(null);
-
-    // 처음 한번 채팅방 입장 시간 변수에 넣기
-    useEffect(() => {
-        console.log("접속한 유저 방 번호: ", value.state.user.room);
-    }, []);
-
-
-    useEffect(() => {
-        setPreDate(new Date()); // 채팅 방 입장 시간
-        // console.log("방들의 정보: ", value.state.rooms);
-        // console.log("접속한 유저 방 번호: ", value.state.user.room);
-        // if (value.state.messageList !== null) {
-        //     console.log("value.state.messageList", value.state.messageList);
-        //     for (let i = 0; i < value.state.messageList.length; i++) {
-        //         if(value.state.messageList[i].user.room !== undefined){
-        //             console.log("value.state.messageList[i].user.room system",value.state.messageList[i].user.room);
-        //         }else{
-        //             console.log("value.state.messageList[i].user.room user",value.state.messageList[i].user.room);
-        //         }
-        //     }
-        // }
-        console.log(value.state.messageList);
+    useEffect(() => {                               // 채팅 방 메세지가 변경될 때마다
+        setPreDate(new Date());                     // 채팅 방 입장 시간
+        console.log("value.state.messageList", value.state.messageList);
     }, [value.state.messageList]);
 
     return (

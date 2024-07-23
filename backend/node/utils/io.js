@@ -6,124 +6,127 @@ const { findById } = require("../Models/chat");
 const Room = require("../Models/room");
 
 module.exports = function (io) {
-    // io ~~~~
-    // localhost:3000 으로 접속했을때
-    io.on("connection", async (socket) => {
-        console.log("client is connected", socket.id); // 접속된 id 부여
+    
+    io.on("connection", async (socket) => {                             // 사용자가 localhost:3000 으로 접속했을때
 
-        // 룸 리스트 보내기
-        socket.on("rooms", async (cb) => {
-            const rooms = await roomController.getAllRooms(); // 모든 방 정보
-            // console.log(rooms);
-            // for(let i=0; i<rooms.length; i++){
-            //     for(let j=0; j<rooms[i].members.length; j++){
-            //         console.log(i,"번방 멤버",rooms[i].members[j]);
-            //     }
-            // }
-            // console.log("==========================================");
-            // 다시 업데이트된 room데이터를 클라이언트들에게 보내준다
-            io.emit("rooms", await roomController.getAllRooms());
-            cb({
+        console.log("client is connected", socket.id);                  // 접속된 id 부여 값 확인
+
+        socket.on("rooms", async (cb) => {                              // 리액트에서 -> node rooms(전체 방 목록 정보 조회) 요청
+
+            const rooms = await roomController.getAllRooms();           // 모든 방 정보
+            
+            io.emit("rooms", await roomController.getAllRooms());       // node -> 모든 사용자 rooms 요청
+
+            cb({                                                        // rooms 요청을 보낸 리액트 쪽으로 응답
                 ok: true,
                 data: rooms
             });
+
         });
 
-        // 유저 방 참가
-        socket.on("joinRoom", async (rid, userName, cb) => {
+        socket.on("joinRoom", async (rid, userName, cb) => {                    // 유저 방 참가
+
             try {
-                // 유저 정보 이름을 중복검사 후 이름, 고유id 저장
-                let user = await userController.saveUser(userName, socket.id);
 
-                // 유저가 채팅 방 안에 있는지 확인
-                user = await userController.checkUser(user.token);
+                let user = await userController.saveUser(userName, socket.id);  // 유저 정보 생성
+                user = await userController.checkUser(user.token);              // 유저 정보 확인
 
-                // room 데이터에 members 필드 리스트에 해당 유저가 추가된다.
-                // user데이터에 room필드에도 유저가 조인한 room정보를 업데이트한다.
-                let result = await roomController.joinRoom(rid, user); // 방 참여 방고유번호, user 정보
+                let result = await roomController.joinRoom(rid, user);          // 채팅 방 참여 
 
-                // socket은 해당 room id로 된 채널에 조인한다.
-                socket.join(user.room.toString());
-                const welcomeMessage = {
+                socket.join(user.room.toString());                              // 유저가 접속한 방 프라이머리 키 채널에 조인한다.
+
+                const welcomeMessage = {                                        // 시스템 메시지 생성
                     chat: `${user.name} 님이 입장하였습니다.`,
                     user: { id: null, name: "system", room: user.room.toString() },
                     timestamp: new Date(),
                 };
 
-                // 유저가 조인했다는 메세지는 방에 있는 팀원에게만 보여준다.
-                io.to(user.room.toString()).emit("message", welcomeMessage);
+                io.to(user.room.toString()).emit("message", welcomeMessage);    // 조인한 방에 시스템 메세지를 보여준다.
 
-                // 다시 업데이트된 room데이터를 클라이언트들에게 보내준다
-                io.emit("rooms", await roomController.getAllRooms());
+                io.emit("rooms", await roomController.getAllRooms());           // 다시 업데이트된 방 데이터를 클라이언트들에게 보내준다
 
-                cb({ ok: true, data: user });
+                cb({ ok: true, data: user });                                   // joinRoom 요청을 보낸 리액트 쪽으로 응답
+
             } catch (error) {
                 cb({ ok: false, error: error.message });
             }
+
         });
 
-        // 메세지 입력 받기
-        socket.on("sendMessage", async (receivedMessage, userInfo, cb) => {
-            console.log("sendMessage receivedMessage", receivedMessage);
-            console.log("sendMessage userInfo", userInfo);
-            try {
-                // 유저 정보 이름을 중복검사 후 이름, 고유id 저장
-                let user = await userController.saveUser(userInfo.name, socket.id);
-                console.log("sendMessage user 1", user);
+        socket.on("sendMessage", async (receivedMessage, userInfo, cb) => {                           // React -> node sendMessage 요청
 
-                // 유저가 채팅 방 안에 있는지 확인
-                user = await userController.checkUser(user.token);
-                console.log("sendMessage user 2", user);
+            try {
                 
-                if (user) {
-                    const message = await chatController.saveChat(receivedMessage, user, user.token);
+                let user = await userController.saveUser(userInfo.name, socket.id);                   // 유저 정보 생성
+                user = await userController.checkUser(user.token);                                    // 유저 정보 확인
+                
+                if (user) {                                                                           // 유저 정보가 존재할 때
 
-                    // socket은 해당 room id로 된 채널에 조인한다.
-                    socket.join(user.room.toString());
+                    const message = await chatController.saveChat(receivedMessage, user, user.token); // 채팅메시지 생성
 
-                    // 해당 방에 메세지 전달
-                    io.to(message.room.toString()).emit("message", message);
-                    return cb({ ok: true });
+                    socket.join(user.room.toString());                                                // 유저가 접속한 방 프라이머리 키 채널에 조인한다.
+
+                    io.to(message.room.toString()).emit("message", message);                          // 조인한 방에 채팅 메세지를 보여준다.
+
+                    return cb({ ok: true });                                                          // node서버 -> React 응답
+
                 }
+
             } catch (error) {
                 cb({ ok: false, error: error.message });
             }
+
         });
 
-        // 방 나가기
-        socket.on("leaveRoom", async (userInfo, cb) => {
+        socket.on("leaveRoom", async (userInfo, cb) => {                                              // React -> node서버 leaveRoom 요청
+
             try {
-                const user = await userController.checkUser(userInfo.token);
-                await roomController.leaveRoom(user);
-                const leaveMessage = {
+
+                const user = await userController.checkUser(userInfo.token);                          // 유저 정보 확인
+                await roomController.leaveRoom(user);                                                 // 유저 방 나가기
+
+                const leaveMessage = {                                                                // 시스템 메시지 생성
                     chat: `${user.name} left this room`,
                     user: { id: null, name: "system" },
                 };
 
-                io.emit("rooms", await roomController.getAllRooms());
-                socket.broadcast.to(user.room.toString()).emit("message", leaveMessage); // socket.broadcast의 경우 io.to()와 달리,나를 제외한 채팅방에 모든 맴버에게 메세지를 보낸다 
-                socket.leave(user.room.toString()); // join했던 방을 떠남 
-                cb({ ok: true });
+                io.emit("rooms", await roomController.getAllRooms());                                 // node -> React 모든 사용자에게 업데이트 된 방 전체 정보 목록 조회
+
+                socket.broadcast.to(user.room.toString()).emit("message", leaveMessage);              // 접속 되어있는 방에 나를 제외한 모든 맴버에게 시스템 메세지를 보낸다
+
+                socket.leave(user.room.toString());                                                   // join했던 방을 떠남 
+
+                cb({ ok: true });                                                                     // node서버 -> React leaveRoom 응답
+
             } catch (error) {
                 cb({ ok: false, message: error.message });
             }
+
         });
 
+        socket.on("disconnect", async () => {                                                         // localhost:3000 사용자가 끊겼을 때(새로 고침)
 
-        // 연결 끊겼을때
-        socket.on("disconnect", async () => {
-            console.log("user is disconnected", socket.id);
-            const user = await userController.checkUser(socket.id);
-            if (user) {
-                await roomController.leaveRoom(user);
-                const leaveMessage = {
+            console.log("user is disconnected", socket.id);                                           // 접속되어 있던 id 부여 값 확인
+
+            const user = await userController.checkUser(socket.id);                                   // 접속되어 있던 id로 유저 정보 확인
+
+            if (user) {                                                                               // 유저 정보가 존재할 때
+
+                await roomController.leaveRoom(user);                                                 // 유저 방에서 나가기
+
+                const leaveMessage = {                                                                // 시스템 메시지 생성
                     chat: `${user.name} left this room`,
                     user: { id: null, name: "system" },
                 };
-                socket.broadcast.to(user.room.toString()).emit("message", leaveMessage); // socket.broadcast의 경우 io.to()와 달리,나를 제외한 채팅방에 모든 맴버에게 메세지를 보낸다 
-                io.emit("rooms", await roomController.getAllRooms());
-                socket.leave(user.room.toString()); // join했던 방을 떠남
+
+                socket.broadcast.to(user.room.toString()).emit("message", leaveMessage);              // 접속 되어있는 방에 나를 제외한 모든 맴버에게 시스템 메세지를 보낸다 
+
+                io.emit("rooms", await roomController.getAllRooms());                                 // 다시 업데이트된 방 데이터를 클라이언트들에게 보내준다
+
+                socket.leave(user.room.toString());                                                   // join했던 방을 떠남
+
             }
+
         });
     });
 } 

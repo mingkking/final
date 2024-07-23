@@ -11,7 +11,6 @@ import Co2 from './routes/co2';
 import Budongsan from './views/budongsan/Budongsan';
 import Bu2 from './routes/bu2';
 import Back1 from './views/backtest/back1';
-import Comu1 from './routes/comu1';
 import Login from './views/login/Login';
 import Chatting from './views/chat/Chatting';
 import { RoomListProvider } from './views/chat/contexts/RoomListContext';
@@ -32,6 +31,7 @@ import { useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 
 import { MainProvider } from './views/manager/main/contexts/MainContext';
+import Community from './views/community/Community';
 
 
 
@@ -58,7 +58,7 @@ function AppContent() {
              <Route path='/bu2' element={<Bu2 />} />
              <Route path='/back1' element={<Back1 />} />
              <Route path='/Chatting' element={<Chatting />} />
-             <Route path='/comu1' element={<Comu1 />} />
+             <Route path='/Community' element={<Community />} />
              <Route path='/login' element={<Login onLoginSuccess={handleLoginSuccess} />} />
              <Route path='/Join' element={<Join/>}/>
              <Route path='/Subscribe' element={<Subscribe />} /> 

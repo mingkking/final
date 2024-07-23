@@ -3,49 +3,48 @@ import './NavBar.css'; // CSS 파일을 임포트합니다.
 import RoomListContext from '../../contexts/RoomListContext';
 import socket from '../../server';
 
-const NavBar = ({ }) => {
-    const value = useContext(RoomListContext);
+const NavBar = () => {
+    const value = useContext(RoomListContext);                // 채팅 방 Context 객체 생성
 
-    // 방 나가기
-    const leaveRoom = () => {
+    const leaveRoom = () => {                                 // 방 나가기 함수
         socket.emit("leaveRoom", value.state.user, (res) => { // 방 나가기 node서버로 요청
-            console.log(value.state.rooms); // 방 정보들 값 확인
-            console.log(value.state.user.room); // 접속한 유저의 방번호 값 확인
 
-            value.state.rooms.map((room, index) => {
-                if (room._id === value.state.user.room) {
-                    console.log(room.room);
-                }
-            })
-
-            if (res.ok) {
-                console.log(res.result);
-                // if(res.result === 0){
-                    value.actions.setUser(null);
-                // }else{
-
-                // }
+            if (res.ok) {                                     // 서버에 방 나가기 요청 후 응답이 true일 때
+                value.actions.setUser(null);
                 
-            }// 다시 채팅방 리스트 페이지로 돌아감
+            }
+
         });
     }
 
     return (
+        // 채팅 방의 네비게이션 바
         <nav className="navbar">
-            <button onClick={leaveRoom} className="back-button"> {/* 방 나가기 */}
+
+            {/* 방 나가기 함수 버튼 */}
+            <button onClick={leaveRoom} className="back-button"> 
                 &lt;
             </button>
-                {
-                    value.state.rooms.map((room, index) => { // 방 정보들 map
-                        if (room._id === value.state.user.room) { // 방 id === 접속한 유저가 들어가 있는 방번호
-                            return (
-                                <div className="nav-user" key={index}>{room.room}</div> // 방 제목
-                            )
-                        }
-                    })
-                }
-            <div className="nav-drop">메뉴</div> {/* 메뉴바 */}
+            {/* 방 나가기 함수 버튼 */}
+
+            {/* 방 정보들 map */}
+            {
+                value.state.rooms.map((room, index) => { 
+                    if (room._id === value.state.user.room) {                       // 방 id === 접속한 유저가 들어가 있는 방번호
+                        return (
+                            <div className="nav-user" key={index}>{room.room}</div> // 방 제목
+                        )
+                    }
+                })
+            }
+            {/* 방 정보들 map */}
+
+            {/* 메뉴버튼 */}
+            <div className="nav-drop">메뉴</div> 
+            {/* 메뉴버튼 */}
+
         </nav>
+        // 채팅 방의 네비게이션 바
     );
 };
 

@@ -1,34 +1,37 @@
 const User = require("../Models/user");
-const userController = {};
+const userController = { };                           // 유저 컨트롤러
 
-userController.saveUser = async (userName, sid) => {
-    // 이미 접속한 유저인지 확인
-    let user = await User.findOne({
+userController.saveUser = async (userName, sid) => {  // 유저 정보 생성
+    
+    let user = await User.findOne({                   // userName 과 똑같은 user가 있는지 조회
         name: userName
     });
 
-    // 채팅 방 안에 같은 ID 가 있으면 유저 정보를 새로 생성한다.
-    try {
-        if(!user){
-            user = new User({
-                // 비어있지만 유저 _id
-                name: userName, // 유저 ID
-                token: sid, // 유저 접속 번호
-                online: true, // 유저 상태
+    try { 
+        if(!user){                                    // 같은 ID를 가진 유저가 없을 경우
+
+            user = new User({                         // 유저 정보 생성
+                
+                name: userName,                       // 유저 ID
+                token: sid,                           // 유저 접속 번호
+                online: true,                         // 유저 상태
+
             });
-            await user.save(); // 유저 정보 저장
+
+            await user.save();                        // 유저 정보 DB 저장
+
         }
     } catch (error) {
         console.log("error", error.message);
     }
 
-    user.token = sid;
-    await user.save();
+    user.token = sid;                                 // 유저 접속 번호 업데이트
+    await user.save();                                // 유저 정보 DB 저장
 
-    return user; // 유저 정보 반환
+    return user;                                      // 유저 정보 반환
 }
 
-userController.checkUser= async(sid)=>{
+userController.checkUser= async(sid)=>{               // 유저 접속 번호로 유저 정보 조회
     const user = await User.findOne({token:sid});
     return user;
 }
