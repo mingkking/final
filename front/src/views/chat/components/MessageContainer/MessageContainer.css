@@ -26,6 +26,7 @@
 }
 .my-message {
   background-color: #f7e600;
+  text-align: left;
   border-radius: 8px;
   padding: 8px;
   max-width: 200px;
@@ -56,6 +57,7 @@
   font-weight: bold;
   font-size: 12px;
   color: gray;
+  text-align: left;
 }
 
 .your-message {
@@ -68,6 +70,7 @@
   cursor: pointer;
   margin-top: 5px; /* 아이디와 메시지 간의 간격 */
   margin-right: 10px; /* 아이디와 시간 간의 간격 */
+  text-align: left;
 }
 
 .message-time {

@@ -21,6 +21,7 @@ import IdConfirm from './views/login/component/find/IdConfirm';
 import PwFind from './views/login/component/find/PwFind';
 import PwChange from './views/login/component/find/PwChange';
 import Main from './views/main/Main'
+import Subscribe from './views/subscribe/Subscribe1'
 
 import Router from './routes/Router'
 
@@ -28,9 +29,7 @@ import { ThemeProvider } from '@mui/material';
 import { baselightTheme } from "./theme/DefaultColors";
 
 import { useState } from 'react';
-import {
-  BrowserRouter, Routes, Route, useLocation
-} from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 
 import { MainProvider } from './views/manager/main/contexts/MainContext';
 
@@ -62,10 +61,7 @@ function AppContent() {
              <Route path='/comu1' element={<Comu1 />} />
              <Route path='/login' element={<Login onLoginSuccess={handleLoginSuccess} />} />
              <Route path='/Join' element={<Join/>}/>
-             <Route path='/IdFind' element={<IdFind/>}/>
-             <Route path='/IdConfirm' element={<IdConfirm/>}/>
-             <Route path='/PwFind' element={<PwFind/>}/>
-             <Route path='/PwChange/:userId' element={<PwChange/>}/>
+
         
         {/* 관리자페이지 */}
         {Router.map((route, index) => (

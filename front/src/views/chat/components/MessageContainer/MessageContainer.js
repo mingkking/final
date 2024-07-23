@@ -29,6 +29,7 @@ const MessageContainer = ({ messageList, user }) => {
         //         }
         //     }
         // }
+        console.log(value.state.messageList);
     }, [value.state.messageList]);
 
     return (
