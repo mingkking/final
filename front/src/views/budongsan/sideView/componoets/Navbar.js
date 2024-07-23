@@ -1,5 +1,5 @@
 import { SideItemsData } from "../SideItemsData";
-import '../SideView.css';
+import '../sideCss/SideView.css';
 
 const Navbar = ({ setSelectedMenu }) => {
 
