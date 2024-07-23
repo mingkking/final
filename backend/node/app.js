@@ -43,11 +43,6 @@ app.get("/", async (req, res) => {
 
 });
 
-//  룸 삭제
-app.get("/deleteRoom", async (req, res) => {
-  console.log("ok");
-});
-
 // MongoDB 연동
 mongoose.connect(process.env.DB, {                                                                            
   useNewUrlParser: true,

@@ -56,7 +56,7 @@ export const MenuItemsData = [
     },
     {
         title: '커뮤니티',
-        url: 'comu1',
+        url: 'Community',
     },
     // {
     //   title: '구독',

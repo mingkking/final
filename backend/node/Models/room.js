@@ -2,28 +2,28 @@ const mongoose = require("mongoose");
 
 const roomSchema = new mongoose.Schema(
   {
-    room: {
+    room: {                             // 방 제목
       type: String,
       unique: true,
     },
-    chat: [
+    chat: [                             // 채팅 프라이머리 키
       {
         type: mongoose.Schema.ObjectId,
         ref: "Chat",
       },
     ],
-    members: [
+    members: [                          // 유저 프라이머리 키
       {
         type: mongoose.Schema.ObjectId,
         ref: "User",
       },
     ],
-    admin: {
+    admin: {                            // 방장(유저 프라이머리 키)
       type: mongoose.Schema.ObjectId,
-      ref: "User", // 방장을 User 모델과 연결
-      required: true, // 방장을 반드시 설정해야 함
+      ref: "User", 
+      required: true,                   // 방장을 반드시 설정해야 함
     },
   },
-  { timestamps: true }
+  { timestamps: true }                  // 생성 시간
 );
 module.exports = mongoose.model("Room", roomSchema);
