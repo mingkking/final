@@ -16,3 +16,7 @@
 .side-search-list li {
     margin-bottom: 10px; /* 항목 사이의 여백 설정 (선택 사항) */
 }
+
+.side-search-list li:hover {
+    transform: translateX(10px); /* 마우스 오버 시 항목을 10px 앞으로 이동 */
+}
