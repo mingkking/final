@@ -1,33 +1,41 @@
 import React, { useState } from 'react';
-import './IdFind.css'; 
+import './IdFind.css';
+import axiosInstance from '../Token/axiosInstance'; 
+import { useNavigate } from 'react-router-dom';
 
 const IdFind = () => {
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState(false);
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // 간단한 유효성 검사
-        if (!email || !name || !phone) {
-            setError('모든 필드를 입력해주세요.');
-            return;
+        try {
+            const response = await axiosInstance.post('/IdFind', null, {
+                params: { email, name, phone }
+            });
+            if (response.data) {
+                // 인증 성공
+                alert("인증 성공!");
+                // 화면 전환 로직 추가
+                navigate('/IdConfirm', { state: { userId: response.data } });
+            } else {
+                // 인증 실패
+                alert("인증 실패. 정보를 확인해주세요.");
+            }
+        } catch (error) {
+            console.error("There was an error!", error);
         }
-
-        
-        setSuccess(true);
-        setError('');
-    };
+    };  
 
     return (
         <div className="id_container">
             <h1>아이디 찾기</h1>
             <form className="find-id-form" onSubmit={handleSubmit}>
                 
-                <label htmlFor="email">이메일:</label>
+                <label htmlFor="email">이메일</label>
                 <input
                     type="email"
                     id="email"
@@ -39,7 +47,7 @@ const IdFind = () => {
                 
 
                 
-                <label htmlFor="name">이름:</label>
+                <label htmlFor="name">이름</label>
                 <input
                     type="text"
                     id="name"
@@ -51,7 +59,7 @@ const IdFind = () => {
                 
 
                 
-                <label htmlFor="phone">전화번호:</label>
+                <label htmlFor="phone">전화번호</label>
                 <input
                     type="tel"
                     id="phone"
@@ -60,11 +68,10 @@ const IdFind = () => {
                     onChange={(e) => setPhone(e.target.value)}
                     required
                 />
-                
+                <br/><br/>
                 <button type="submit">인증하기</button>
 
-                {error && <p className="error">{error}</p>}
-                {success && <p className="success">인증이 완료되었습니다.</p>}
+                
             </form>
         </div>
     );

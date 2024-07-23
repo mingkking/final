@@ -1,6 +1,4 @@
-
-
-.id_container {
+.pwfind-container {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
@@ -13,54 +11,43 @@
     top: 43%;
     left: 50%;
     transform: translate(-50%, -43%);
-            
-    
-   
 }
 
-label {
-    text-align: left;
-}
-
-h1 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-.find-id-form {
+.pwfind-form {
     display: flex;
     flex-direction: column;
 }
 
-label {
-    margin-bottom: 5px;
-    color: #555;
+.pwfind-form label {
+    margin: 10px 0 5px;
+    
 }
 
-input {
-    margin-bottom: 15px;
+.pwfind-form input {
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #ccc;
     border-radius: 4px;
+    margin-bottom: 15px;
     font-size: 16px;
 }
 
-button {
+.pwfind-form button {
     padding: 10px;
     border: none;
     border-radius: 4px;
     background-color: #007bff;
-    color: #fff;
+    color: white;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-.find-id-form button:hover {
+.pwfind-form button:hover {
     background-color: #0056b3;
 }
 
-
-/* --------------------------------------------- */
-
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+}
