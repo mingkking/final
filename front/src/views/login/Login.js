@@ -58,9 +58,9 @@ function Login({ onLoginSuccess }) {
                 <div className="link-container">
                     <a href="/Join">회원가입</a>
                     |
-                    <a href="#">아이디 찾기</a>
+                    <a href="/IdFind">아이디 찾기</a>
                     |
-                    <a href="#">비밀번호 재설정</a>
+                    <a href="/PwFind">비밀번호 재설정</a>
                 </div>
                     <button type="submit" className="login-button">로그인</button>
                     <hr/>

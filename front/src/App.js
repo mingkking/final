@@ -16,6 +16,10 @@ import Login from './views/login/Login';
 import Chatting from './views/chat/Chatting';
 import { RoomListProvider } from './views/chat/contexts/RoomListContext';
 import Join from './views/login/component/Join/Join';
+import IdFind from './views/login/component/find/IdFind';
+import IdConfirm from './views/login/component/find/IdConfirm';
+import PwFind from './views/login/component/find/PwFind';
+import PwChange from './views/login/component/find/PwChange';
 import Main from './views/main/Main'
 
 import Router from './routes/Router'
@@ -58,6 +62,10 @@ function AppContent() {
              <Route path='/comu1' element={<Comu1 />} />
              <Route path='/login' element={<Login onLoginSuccess={handleLoginSuccess} />} />
              <Route path='/Join' element={<Join/>}/>
+             <Route path='/IdFind' element={<IdFind/>}/>
+             <Route path='/IdConfirm' element={<IdConfirm/>}/>
+             <Route path='/PwFind' element={<PwFind/>}/>
+             <Route path='/PwChange/:userId' element={<PwChange/>}/>
         
         {/* 관리자페이지 */}
         {Router.map((route, index) => (
