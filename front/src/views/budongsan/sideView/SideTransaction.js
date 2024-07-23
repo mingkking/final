@@ -1,4 +1,4 @@
-import './SideView.css'
+import './sideCss/SideView.css'
 import SideStar from './componoets/SideStar';
 import React, { useState } from 'react';
 

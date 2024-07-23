@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../SideView.css';
+import '../sideCss/SideView.css';
 
 const SideStar = ({ totalStars = 5 }) => {
     const [rating, setRating] = useState(0);

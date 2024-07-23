@@ -1,39 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import apartImg from '../../../imges/apartImg.png'; // 이미지를 import합니다
-import SideSearch from '../sideView/SideSearch';
 
 function KakaoMap() {
     const [data, setData] = useState(null); // 상태로 데이터 저장
-    const [value, setValue] = useState("");
-    const [keyword, setKeyword] = useState("");
 
-    const keywordChange = (e) => {
-        setValue(e.target.value);
-    }
-
-    const submitKeyword = (e) => {
-        e.preventDefault();
-        if (value.trim() === "") {
-            alert("검색어를 입력해주세요.");
-        } else {
-            setKeyword(value);
-        }
-    }
 
     useEffect(() => {
-        // 데이터를 가져오는 함수
         const fetchData = async () => {
             try {
-                const response = await fetch('/budongsan'); // Flask 서버의 엔드포인트
-                const jsonData = await response.json(); // JSON으로 변환
-                setData(jsonData); // 상태에 데이터 저장
+                const response = await fetch('/budongsanMapData');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const jsonData = await response.json();
+                setData(jsonData);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
-
-        fetchData(); // 데이터 가져오기 함수 호출
-    }, []); // 빈 배열을 전달하여 컴포넌트가 마운트될 때 한 번만 실행되도록 함
+    
+        fetchData();
+    }, []);
+    
 
     useEffect(() => {
         // 카카오맵 API가 로드된 후 실행될 콜백 함수
@@ -54,29 +42,10 @@ function KakaoMap() {
             // 장소 검색 객체를 생성합니다
             const ps = new window.kakao.maps.services.Places();
             
-            // 키워드로 장소를 검색합니다
-            ps.keywordSearch(keyword, placesSearchCB);
 
             window.kakao.maps.event.addListener(map, "zoom_changed", function() {
                 updateMarkers();
             });
-
-           
-
-            
-            // 키워드 검색 완료 시 호출되는 콜백함수 입니다
-            function placesSearchCB (data, status, pagination) {
-                if (status === window.kakao.maps.services.Status.OK) {
-                    // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-                    // LatLngBounds 객체에 좌표를 추가합니다
-                    var bounds = new window.kakao.maps.LatLngBounds();
-                    for (var i=0; i<data.length; i++) {
-                        bounds.extend(new window.kakao.maps.LatLng(data[i].y, data[i].x));
-                    }       
-                    // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-                    map.setBounds(bounds);
-                } 
-            }
 
             const markers = []; // 모든 마커를 저장하는 배열
 
@@ -118,10 +87,10 @@ function KakaoMap() {
                     });
                 });
 
-                // 5초 딜레이 후 마커를 지도에 추가
+                // 2초 딜레이 후 마커를 지도에 추가
                 setTimeout(() => {
                     updateMarkers(); // 초기 마커 업데이트 호출
-                }, 5000);
+                }, 1000);
             };
 
             const updateMarkers = () => {
@@ -148,26 +117,12 @@ function KakaoMap() {
 
         // 지도 초기화 함수 호출
         initMap();
-    }, [data, keyword]); // data 상태가 변경될 때마다 실행
+    }, [data]); // data 상태가 변경될 때마다 실행
 
     return (
-        <div className='containerMap parentContainer' style={{ position: 'relative', width: '100%', height: '500px' }}>
-    <div style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', position: 'absolute', width: '100%', top: '0', zIndex: 1000, marginTop: '20px', marginLeft:'20px' }}>
-        <form className="d-flex" onSubmit={submitKeyword} style={{ backgroundColor: 'white', padding: '10px', borderRadius: '5px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-            <input
-                className="form-control me-sm-2"
-                type="search"
-                placeholder="검색어를 입력해주세요."
-                required
-                value={value}
-                onChange={keywordChange}
-                style={{ width: '300px', height: '40px' }}
-            />
-            <button className="btn btn-secondary my-2 my-sm-0" type="submit">검색</button>
-        </form>
-    </div>
-    <div id="map"></div>
-</div>
+        <div className='containerMap parentContainer'>
+            <div id="map"></div>
+        </div>
     );
 }
 

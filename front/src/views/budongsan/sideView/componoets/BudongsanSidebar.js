@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import '../../Budongsan.css';
 import Navbar from './Navbar.js';
-import '../SideView.css';
+import '../sideCss/SideView.css';
 
 import SideSearch from "../SideSearch.js";
 import SideTransaction from "../SideTransaction.js";

@@ -5,7 +5,7 @@ import json
 app = Flask(__name__)
 
 # Define the path to the JSON file
-json_file_path = 'budongsanData.txt'
+json_file_path = 'budongsanAllData.txt'
 
 # Function to read JSON data from file
 def read_json_data():
@@ -14,7 +14,7 @@ def read_json_data():
     return data
 
 # Route to serve the JSON data
-@app.route('/budongsan', methods=['GET'])
+@app.route('/budongsanAllData', methods=['GET'])
 def get_budongsan_data():
     data = read_json_data()
     return jsonify(data)
