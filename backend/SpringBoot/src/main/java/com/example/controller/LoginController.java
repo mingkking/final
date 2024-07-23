@@ -37,29 +37,29 @@ import lombok.Data;
 @CrossOrigin(origins = "http://localhost:3000")
 public class LoginController {
     @Autowired
-    private LoginServiceImpl loginService;
+    private LoginServiceImpl loginService; 
 
     @Autowired
     private JwtUtil jwtUtil; 
 
- // 사용자 회원가입
+    // 사용자 회원가입
     @PostMapping("/join")
     public ResponseEntity<String> join(@RequestBody LoginVO user) {
-        LoginVO existingUser = loginService.findByUserId(user.getUserId());
+        LoginVO existingUser = loginService.findByUserId(user.getUserId()); // 사용자 ID로 기존 사용자 조회
         if (existingUser != null) {
-        	// 사용자 이름이 이미 존재하는 경우
-            return ResponseEntity.badRequest().body("Username already exists.");
+            // 사용자 이름이 이미 존재하는 경우
+            return ResponseEntity.badRequest().body("Username already exists."); 
         }
-        loginService.saveUser(user);
+        loginService.saveUser(user); // 새 사용자 저장
         // 사용자 등록 성공
-        return ResponseEntity.ok("User registered successfully.");
+        return ResponseEntity.ok("User registered successfully."); 
     }
 
- // 사용자 이름 존재 여부 확인
+    // 사용자 이름 존재 여부 확인
     @GetMapping("/check-username")
     public ResponseEntity<Boolean> checkUsername(@RequestParam String userId) {
-    	// 사용자 이름 존재 여부 반환
-        return ResponseEntity.ok(loginService.findByUserId(userId) != null);
+        // 사용자 이름 존재 여부 반환
+        return ResponseEntity.ok(loginService.findByUserId(userId) != null); 
     }
     
     // 로그인
@@ -69,38 +69,39 @@ public class LoginController {
             System.out.println("Login Request: " + loginRequest.getUserId() + ", " + loginRequest.getUserPass());
 
             if (loginRequest.getUserId() == null || loginRequest.getUserPass() == null) {
-                return ResponseEntity.badRequest().body("User ID or password missing");
+                return ResponseEntity.badRequest().body("User ID or password missing"); 
             }
 
-            LoginVO user = loginService.findUserByUserId(loginRequest.getUserId());
+            LoginVO user = loginService.findUserByUserId(loginRequest.getUserId()); // 사용자 조회
 
             if (user == null || !user.getUserPass().equals(loginRequest.getUserPass())) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials"); 
             }
 
             String userNickname = user.getUserNickname();           
-            String accessToken = jwtUtil.generateToken(user);
-            String refreshToken = jwtUtil.generateRefreshToken(user);
-            String refreshTokenSignature = jwtUtil.extractRefreshTokenSignature(refreshToken);
+            String accessToken = jwtUtil.generateToken(user); // 액세스 토큰 생성
+            String refreshToken = jwtUtil.generateRefreshToken(user); // 리프레시 토큰 생성
+            String refreshTokenSignature = jwtUtil.extractRefreshTokenSignature(refreshToken); // 리프레시 토큰 서명 추출
 
             System.out.println("accessToken: "+accessToken);
             System.out.println("refreshToken: "+refreshToken);
-            user.setRefreshToken(refreshTokenSignature);
-            loginService.saveUser(user);
+            user.setRefreshToken(refreshTokenSignature); // 사용자 객체에 리프레시 토큰 저장
+            loginService.saveUser(user); // 업데이트된 사용자 저장
 
-            ResponseCookie cookie = ResponseCookie.from("accessToken", accessToken)
-                    .httpOnly(true)
-                    .secure(true)
-                    .path("/")
-                    .maxAge(Duration.ofDays(7))
+            ResponseCookie cookie = ResponseCookie.from("accessToken", accessToken) // 액세스 토큰을 쿠키에 저장
+                    .httpOnly(false) // 자바스크립트에서 접근 가능
+                    .secure(true) // HTTPS에서만 전송
+                    .path("/") // 전체 경로에서 유효
+                    .maxAge(Duration.ofDays(7)) // 7일 동안 유효
+                    .sameSite("Lax") // SameSite 속성 설정
                     .build();
 
             return ResponseEntity.ok()
-                    .header(HttpHeaders.SET_COOKIE, cookie.toString())
-                    .body(new LoginResponse(accessToken, refreshToken, user.getUserNickname()));
+                    .header(HttpHeaders.SET_COOKIE, cookie.toString()) // 쿠키를 응답 헤더에 추가
+                    .body(new LoginResponse(accessToken, refreshToken, user.getUserNickname())); 
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage()); 
         }
     }
 
@@ -109,41 +110,34 @@ public class LoginController {
     public ResponseEntity<?> refreshToken(@RequestBody Map<String, String> request) {
         String refreshToken = request.get("refreshToken");
         
-       
-        
         if (refreshToken == null || refreshToken.isEmpty()) {
-            return ResponseEntity.badRequest().body("Refresh token is missing");
+            return ResponseEntity.badRequest().body("Refresh token is missing"); 
         }
 
-        if (jwtUtil.isValidRefreshToken(refreshToken)) {
-            String userId = jwtUtil.extractUsername(refreshToken);
-            LoginVO user = loginService.findUserByUserId(userId);
+        if (jwtUtil.isValidRefreshToken(refreshToken)) { // 리프레시 토큰 유효성 검사
+            String userId = jwtUtil.extractUsername(refreshToken); // 리프레시 토큰에서 사용자 ID 추출
+            LoginVO user = loginService.findUserByUserId(userId); // 사용자 조회
 
-            if (user != null && refreshToken.equals(user.getRefreshToken())) {
-                String newAccessToken = jwtUtil.generateToken(user);
-                String newRefreshToken = jwtUtil.generateRefreshToken(user);
+            if (user != null && refreshToken.equals(user.getRefreshToken())) { // 리프레시 토큰이 사용자 정보와 일치하는지 확인
+                String newAccessToken = jwtUtil.generateToken(user); // 새로운 액세스 토큰 생성
+                String newRefreshToken = jwtUtil.generateRefreshToken(user); // 새로운 리프레시 토큰 생성
 
-                user.setRefreshToken(jwtUtil.extractRefreshTokenSignature(newRefreshToken));
-                loginService.saveUser(user);
+                user.setRefreshToken(jwtUtil.extractRefreshTokenSignature(newRefreshToken)); // 새로운 리프레시 토큰 서명 저장
+                loginService.saveUser(user); // 업데이트된 사용자 저장
  
-                return ResponseEntity.ok(new LoginResponse(newAccessToken, newRefreshToken, user.getUserNickname()));
+                return ResponseEntity.ok(new LoginResponse(newAccessToken, newRefreshToken, user.getUserNickname())); 
             }
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid refresh token");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid refresh token"); 
     }
     
-    
-
-       
-    
-
     // 로그인 상태 확인
     @GetMapping("/check-login-status")
     public ResponseEntity<Map<String, Object>> checkLoginStatus(@CookieValue(name = "accessToken", required = false) String accessToken) {
         Map<String, Object> response = new HashMap<>();
-        if (accessToken != null && jwtUtil.isValidToken(accessToken)) {
-            String userId = jwtUtil.extractUserIdFromAccessToken(accessToken);
-            LoginVO user = loginService.findUserByUserId(userId);
+        if (accessToken != null && jwtUtil.isValidToken(accessToken)) { // 액세스 토큰 유효성 검사
+            String userId = jwtUtil.extractUserIdFromAccessToken(accessToken); // 액세스 토큰에서 사용자 ID 추출
+            LoginVO user = loginService.findUserByUserId(userId); // 사용자 조회
 
             if (user != null) {
                 response.put("isLoggedIn", true);
@@ -155,17 +149,16 @@ public class LoginController {
             response.put("isLoggedIn", false);
         }
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(response); 
     }
-    
-    
 
     // 사용자 정보 조회
     @GetMapping("/user/{userId}")
     public LoginVO getUser(@PathVariable String userId) {
-        return loginService.findUserByUserId(userId);
+        return loginService.findUserByUserId(userId); // 사용자 ID로 사용자 정보 조회
     }
     
+    // 로그아웃
     @PostMapping("/logout")
     public ResponseEntity<Map<String, Object>> logout(HttpServletResponse response) {
         Map<String, Object> responseMap = new HashMap<>();
@@ -174,31 +167,75 @@ public class LoginController {
             Cookie cookie = new Cookie("accessToken", null);
             cookie.setPath("/"); // 쿠키의 경로를 설정
             cookie.setMaxAge(0); // 쿠키 만료
-            response.addCookie(cookie);
+            response.addCookie(cookie); // 응답에 쿠키 추가
 
             // 클라이언트에게 성공 응답을 보냅니다.
             responseMap.put("message", "Logged out successfully");
-            return ResponseEntity.ok(responseMap);
+            return ResponseEntity.ok(responseMap); 
         } catch (Exception e) {
-            // 에러 발생 시, 에러 메시지를 응답으로 보냅니다.
+            
             responseMap.put("error", e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseMap);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseMap); 
         }
     }
     
-    //글로벌 예외처리
+    // 글로벌 예외처리
     @RestControllerAdvice
     public class GlobalExceptionHandler {
 
         @ExceptionHandler(MissingRequestHeaderException.class)
         public ResponseEntity<String> handleMissingRequestHeader(MissingRequestHeaderException ex) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                 .body("Required request header is missing: " + ex.getHeaderName());
+                                 .body("Required request header is missing: " + ex.getHeaderName()); 
         }
-
-        
+    }
+    
+    // 아이디 찾기
+    @PostMapping("/IdFind")
+    public ResponseEntity<?> findUserId(@RequestParam String email, @RequestParam String name, @RequestParam String phone) {
+        String userId = loginService.findUserIdByDetails(email, name, phone);
+        if (userId != null) {
+            return ResponseEntity.ok(userId);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No matching user found.");
+        }
     }
 
+    // 비밀번호 찾기 인증
+    @PostMapping("/PwFind")
+    public ResponseEntity<Boolean> validateUserForPasswordChange(@RequestBody PwFindRequest request) {
+        boolean isValidUser = loginService.findByUserEmailAndUserId(request.getEmail(), request.getUserId());
+        return ResponseEntity.ok(isValidUser);
+    }
+    
+    // 비밀번호 변경
+    @PostMapping("/PwChange")
+    public ResponseEntity<String> changePassword(@RequestBody PasswordChangeRequest request) {
+        try {
+            boolean isUpdated = loginService.updatePassword(request.getUserId(), request.getOldPassword(), request.getNewPassword());
+            if (isUpdated) {
+                return ResponseEntity.ok("Password updated successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid old password or user ID");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
+        }
+    }      
+    
+    @Data
+    static class PasswordChangeRequest {
+        private String userId;
+        private String oldPassword;
+        private String newPassword;
+    }
+    
+    @Data
+    static class PwFindRequest {
+        private String email;
+        private String userId;
+    }
    
 
     @Data
@@ -210,7 +247,8 @@ public class LoginController {
             this.isLoggedIn = isLoggedIn;
             this.userNickname = userNickname;
         }
-    }
+    }       
+    
 }
 
 @Data

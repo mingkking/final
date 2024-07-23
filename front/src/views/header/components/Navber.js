@@ -71,8 +71,7 @@ const Navbar = ({ onLoginSuccess }) => {
         withCredentials: true, // 쿠키를 포함하여 요청을 보냅니다.
       });
   
-      // 로컬스토리지에서 리프레시 토큰을 제거합니다.
-      localStorage.removeItem('refreshToken');
+      
   
       // 로그인 상태를 초기화합니다.
       setIsLoggedIn(false);

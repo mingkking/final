@@ -5,10 +5,12 @@ import axiosInstance from './component/Token/axiosInstance';
 
 
 
+
 function Login({ onLoginSuccess }) {
     const [userId, setUserId] = useState('');
     const [userPass, setUserPass] = useState('');
     const navigate = useNavigate();
+    
   
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -20,17 +22,13 @@ function Login({ onLoginSuccess }) {
                 userPass: userPass
             });
             
-
-            // 로컬 스토리지에 리프레시 토큰 저장
-            localStorage.setItem('refreshToken', response.data.refreshToken);
-            
-           
-
             // 로그인 성공 시 로그인 상태 업데이트
             if (onLoginSuccess) {
                 // onLoginSuccess 콜백 호출하여 userNickname 전달
                 onLoginSuccess(response.data.userNickname);
             }
+
+            
             
             alert("로그인 성공")
             // 메인 페이지로 이동
@@ -41,6 +39,8 @@ function Login({ onLoginSuccess }) {
             
         }
     };
+
+    
   
     return (
         <div className="login-container">

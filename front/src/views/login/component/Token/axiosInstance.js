@@ -15,8 +15,10 @@ axiosInstance.interceptors.request.use(
       // 쿠키에서 accessToken을 읽어온다
       const cookies = document.cookie.split('; ');
       const tokenCookie = cookies.find(row => row.startsWith('accessToken='));
+      
       if (tokenCookie) {
           const accessToken = tokenCookie.split('=')[1];
+          
           config.headers.Authorization = `Bearer ${accessToken}`;
       }
       return config;
@@ -43,6 +45,7 @@ axiosInstance.interceptors.response.use(
         const { token, refreshToken } = response.data;
         localStorage.setItem('accessToken', token);
         localStorage.setItem('refreshToken', refreshToken);
+        
 
         axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
