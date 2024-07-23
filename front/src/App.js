@@ -4,6 +4,7 @@ import logo from './logo.svg';
 import './App.css';
 import Header from './views/header/components/Header';
 
+
 import Ju1 from './views/stock/ju1';
 import Ju2 from './views/stock/ju2';
 import Co1 from './routes/co1';
@@ -61,6 +62,10 @@ function AppContent() {
              <Route path='/Community' element={<Community />} />
              <Route path='/login' element={<Login onLoginSuccess={handleLoginSuccess} />} />
              <Route path='/Join' element={<Join/>}/>
+             <Route path='/IdFind' element={<IdFind/>}/>
+             <Route path='/IdConfirm' element={<IdConfirm/>}/>
+             <Route path='/PwFind' element={<PwFind/>}/>
+             <Route path='/PwChange/:userId' element={<PwChange/>}/>
              <Route path='/Subscribe' element={<Subscribe />} /> 
         
         {/* 관리자페이지 */}
@@ -72,6 +77,8 @@ function AppContent() {
           </Route>
         ))}
       </Routes>
+
+      
     </>
   );
 }
