@@ -5,13 +5,13 @@ import './App.css';
 import Header from './views/header/components/Header';
 
 
-import Ju1 from './routes/ju1';
-import Ju2 from './routes/ju2';
+import Ju1 from './views/stock/ju1';
+import Ju2 from './views/stock/ju2';
 import Co1 from './routes/co1';
 import Co2 from './routes/co2';
 import Budongsan from './views/budongsan/Budongsan';
 import Bu2 from './routes/bu2';
-import Back1 from './routes/back1';
+import Back1 from './views/backtest/back1';
 import Comu1 from './routes/comu1';
 import Login from './views/login/Login';
 import Chatting from './views/chat/Chatting';

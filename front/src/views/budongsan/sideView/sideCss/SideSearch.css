@@ -1,0 +1,22 @@
+/* SideSearch.css */
+
+.side-search-container {
+    width: 100%; /* 원하는 너비를 설정하세요 */
+    height: 1000px; /* 원하는 높이를 설정하세요 */
+    overflow-y: auto; /* 세로 스크롤 활성화 */
+    padding: 10px; /* 패딩 추가 (선택 사항) */
+}
+
+.side-search-list {
+    list-style: none;
+    padding-left: 0;
+    
+}
+
+.side-search-list li {
+    margin-bottom: 10px; /* 항목 사이의 여백 설정 (선택 사항) */
+}
+
+.side-search-list li:hover {
+    transform: translateX(10px); /* 마우스 오버 시 항목을 10px 앞으로 이동 */
+}
