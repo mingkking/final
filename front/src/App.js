@@ -33,6 +33,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 
 import { MainProvider } from './views/manager/main/contexts/MainContext';
 import Community from './views/community/Community';
+import { CommunityProvider } from './views/community/contexts/CommunityContext';
 
 
 
@@ -50,24 +51,24 @@ function AppContent() {
     <>
       {!isAdminPage && <Header />}
       <Routes>
-             <Route path='/' element={<Main />}/>
-             <Route path='/ju1' element={<Ju1 />} />
-             <Route path='/ju2' element={<Ju2 />} />
-             <Route path='/co1' element={<Co1 />} />
-             <Route path='/co2' element={<Co2 />} />
-             <Route path='/budongsan' element={<Budongsan />} />
-             <Route path='/bu2' element={<Bu2 />} />
-             <Route path='/back1' element={<Back1 />} />
-             <Route path='/Chatting' element={<Chatting />} />
-             <Route path='/Community' element={<Community />} />
-             <Route path='/login' element={<Login onLoginSuccess={handleLoginSuccess} />} />
-             <Route path='/Join' element={<Join/>}/>
-             <Route path='/IdFind' element={<IdFind/>}/>
-             <Route path='/IdConfirm' element={<IdConfirm/>}/>
-             <Route path='/PwFind' element={<PwFind/>}/>
-             <Route path='/PwChange/:userId' element={<PwChange/>}/>
-             <Route path='/Subscribe' element={<Subscribe />} /> 
-        
+        <Route path='/' element={<Main />} />
+        <Route path='/ju1' element={<Ju1 />} />
+        <Route path='/ju2' element={<Ju2 />} />
+        <Route path='/co1' element={<Co1 />} />
+        <Route path='/co2' element={<Co2 />} />
+        <Route path='/budongsan' element={<Budongsan />} />
+        <Route path='/bu2' element={<Bu2 />} />
+        <Route path='/back1' element={<Back1 />} />
+        <Route path='/Chatting' element={<Chatting />} />
+        <Route path='/Community' element={<Community />} />
+        <Route path='/login' element={<Login onLoginSuccess={handleLoginSuccess} />} />
+        <Route path='/Join' element={<Join />} />
+        <Route path='/IdFind' element={<IdFind />} />
+        <Route path='/IdConfirm' element={<IdConfirm />} />
+        <Route path='/PwFind' element={<PwFind />} />
+        <Route path='/PwChange/:userId' element={<PwChange />} />
+        <Route path='/Subscribe' element={<Subscribe />} />
+
         {/* 관리자페이지 */}
         {Router.map((route, index) => (
           <Route key={index} path={`${route.path}/*`} element={route.element}>
@@ -78,7 +79,7 @@ function AppContent() {
         ))}
       </Routes>
 
-      
+
     </>
   );
 }
@@ -92,11 +93,13 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <RoomListProvider>
-          <MainProvider>
-            <ThemeProvider theme={theme}>
-              <AppContent />
-            </ThemeProvider>
-          </MainProvider>
+          <CommunityProvider>
+            <MainProvider>
+              <ThemeProvider theme={theme}>
+                <AppContent />
+              </ThemeProvider>
+            </MainProvider>
+          </CommunityProvider>
         </RoomListProvider>
       </BrowserRouter>
     </div>
