@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Typography, Grid, Pagination, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 import PageContainer from '../../../components/container/PageContainer';
 import DashboardCard from '../../../components/shared/DashboardCard';
@@ -14,6 +15,13 @@ const MemberList = () => {
   const [searchMember, setSearchMember] = useState(''); // 검색어
   const [filterField, setFilterField] = useState('user_name'); // 필터 기준
   const [filteredMembers, setFilteredMembers] = useState(value.state.memberList); // 필터링된 멤버 목록
+  const navigate = useNavigate(); // Detail 페이지 이동
+
+  // Detail 페이지로 이동
+  const handleClickDetail = (num) => {
+    console.log("클릭한 번호--------", num);
+    navigate(`manager/memberDetail/${num}`);
+  }
 
   // 페이지 변경 함수
   const handlePageChange = (event, page) => {
@@ -91,7 +99,7 @@ const MemberList = () => {
               </Button>
             </div>
             {/* 멤버 리스트 헤더 */}
-            <div style={{ display: 'flex' }}>
+            <div style={{ display: 'flex' }} >
               <Typography variant="h4" style={{ marginBottom: '20px', marginLeft: '30px' }}>번호</Typography>
               <Typography variant="h4" style={{ marginBottom: '20px', marginLeft: '70px' }}>이름</Typography>
               <Typography variant="h4" style={{ marginBottom: '20px', marginLeft: '100px' }}>닉네임</Typography>
@@ -104,7 +112,7 @@ const MemberList = () => {
             <Grid container spacing={3}>
               <Grid item sm={12}>
                 {sliceMembers.map((member) => (
-                  <BlankCard key={member.user_num}>
+                  <BlankCard key={member.user_num} sx={{cursor:'pointer'}}>
                     <MemberListTest 
                       num={member.user_num}
                       name={member.user_name}
