@@ -18,9 +18,9 @@ const MemberList = () => {
   const navigate = useNavigate(); // Detail 페이지 이동
 
   // Detail 페이지로 이동
-  const handleClickDetail = (num) => {
-    console.log("클릭한 번호--------", num);
-    navigate(`manager/memberDetail/${num}`);
+  const handleClickDetail = (user_num) => {
+    console.log("클릭한 번호--------", user_num);
+    navigate(`/manager/memberDetail/${user_num}`);    
   }
 
   // 페이지 변경 함수
@@ -112,7 +112,8 @@ const MemberList = () => {
             <Grid container spacing={3}>
               <Grid item sm={12}>
                 {sliceMembers.map((member) => (
-                  <BlankCard key={member.user_num} sx={{cursor:'pointer'}}>
+                  <div key={member.user_num} style={{ cursor: 'pointer', marginBottom: '20px' }} onClick={() => handleClickDetail(member.user_num)}>
+                  <BlankCard >
                     <MemberListTest 
                       num={member.user_num}
                       name={member.user_name}
@@ -122,6 +123,7 @@ const MemberList = () => {
                       created_at={member.created_at}
                     />
                   </BlankCard>
+                  </div>
                 ))}
               </Grid>
             </Grid>

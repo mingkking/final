@@ -13,6 +13,7 @@ import { useContext } from 'react';
 import RoomListContext from './contexts/RoomListContext';
 import axios from 'axios';
 import NavBar from './components/NavBar/NavBar';
+
 import LoginContext from '../login/contexts/LoginContext';
 
 const Chatting = ({ props, user }) => {
@@ -23,7 +24,9 @@ const Chatting = ({ props, user }) => {
     const [reverseLayout, setReverseLayout] = React.useState(false);                // 채팅 방 스크롤
 
     useEffect(() => {                                                               // 처음 한번 실행하는 훅
+
         console.log("loginValue.state.afterLoginNick", loginValue.state.afterLoginNick);
+
 
         const messageHandler = (message) => {                                       // 메시지 이벤트 리스너 등록
             value.actions.setMessageList((prevState) => [...prevState, message]);
@@ -58,7 +61,7 @@ const Chatting = ({ props, user }) => {
         });
 
     }
-    
+
     // 유저 정보가 있을 경우
     if (value.state.user && value.state.rooms) {
         return (
@@ -67,8 +70,8 @@ const Chatting = ({ props, user }) => {
                 <div className="row">
 
                     {/* 채팅 방 목록 조회 */}
-                    <div className="col-lg-5 col-md-12 card cardCustom">
-                        
+                    <div className="col-lg-5 col-md-12 cardCustom">
+
                         <div className='row roomContainer'>
                             <RoomList /> {/* 채팅 방 목록 조회 컴포넌트 */}
                         </div>
@@ -77,7 +80,7 @@ const Chatting = ({ props, user }) => {
                     {/* 채팅 방 목록 조회 */}
 
                     {/* 채팅 방 메세지 컨테이너 */}
-                    <div className="col-lg-7 col-md-12 card cardCustom">
+                    <div className="col-lg-7 col-md-12 cardCustom">
 
                         <NavBar />                                                                             {/* 메세지 컨테이너 네비게이션 컴포넌트*/}
                         <div className='row chatContainer' style={{ paddingBottom: 50 }}>
@@ -94,9 +97,9 @@ const Chatting = ({ props, user }) => {
             </div>
             // 채팅 컨테이너
         )
-    // 유저 정보가 있을 경우
+        // 유저 정보가 있을 경우
 
-    // 유저 정보가 없을 경우
+        // 유저 정보가 없을 경우
     } else {
         return (
             // 채팅 컨테이너
@@ -104,7 +107,7 @@ const Chatting = ({ props, user }) => {
                 <div className="row">
 
                     {/* 채팅 방 목록 조회 */}
-                    <div className="col-lg-5 col-md-12 card cardCustom">
+                    <div className="col-lg-5 col-md-12 cardCustom">
 
                         <div className='row roomContainer'>
                             <RoomList /> {/* 채팅 방 목록 조회 컴포넌트 */}

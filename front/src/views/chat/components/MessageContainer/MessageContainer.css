@@ -1,4 +1,5 @@
 .message-container {
+  border: none;
   background-color: white;
   flex: 12;
   border-radius: 20px;

@@ -1,8 +1,15 @@
 import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import './Subscribe.css';
 
 
 function Subscribe1() {
+
+    const navigate = useNavigate(); // Detail 페이지 이동
+
+    const handleClickSC = () => {
+        navigate('/Subscribe2');    
+      }
   
     return (
         <div>
@@ -14,9 +21,17 @@ function Subscribe1() {
                 <span className='line-benefit'>동일 관심사를 가진 회원들과 채팅방 생성 및 채팅 가능</span>
             </div>
             <div className='subscribe-price'>
-                <h7>한 번의 결제로 탈퇴시까지 사용 가능 (10,000원)</h7>
+                <h6>한 번의 결제로 탈퇴시까지 사용 가능 (10,000원)</h6>
             </div>
-            <Button className='subscribe-nextBtn'>구독하기</Button>
+            <Button 
+            className='subscribe-nextBtn' 
+            variant="contained" 
+            color="success" 
+            sx={{mt:10}}
+            onClick={handleClickSC}
+            >
+            구독하기
+            </Button>
         </div>
     );
   }

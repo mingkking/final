@@ -1,0 +1,36 @@
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import LSTM, Dense, Dropout
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.callbacks import EarlyStopping
+
+def build_lstm_model(input_shape):
+    model = Sequential([
+        LSTM(50, return_sequences=True, input_shape=input_shape),
+        Dropout(0.2),
+        LSTM(50, return_sequences=False),
+        Dropout(0.2),
+        Dense(1, activation='sigmoid')
+    ])
+    model.compile(optimizer=Adam(learning_rate=0.001), loss='binary_crossentropy', metrics=['accuracy'])
+    return model
+
+def prepare_data_for_lstm(df, features, target, seq_length=10):
+    data = df[features + [target]].values
+    scaler = MinMaxScaler()
+    data_scaled = scaler.fit_transform(data)
+    
+    X, y = create_sequences(data_scaled, seq_length)
+    return train_test_split(X, y, test_size=0.2, random_state=42), scaler
+
+def train_lstm_model(X_train, y_train):
+    model = build_lstm_model((X_train.shape[1], X_train.shape[2]))
+    early_stopping = EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
+    history = model.fit(X_train, y_train, epochs=100, batch_size=32, validation_split=0.2, callbacks=[early_stopping], verbose=0)
+    return model, history
+
+def evaluate_lstm_model(model, X_test, y_test):
+    loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
+    print(f"Test Loss: {loss:.4f}")
+    print(f"Test Accuracy: {accuracy:.4f}")
