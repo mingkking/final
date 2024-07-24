@@ -34,6 +34,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 
 import { MainProvider } from './views/manager/main/contexts/MainContext';
 import Community from './views/community/Community';
+import { CommunityProvider } from './views/community/contexts/CommunityContext';
 
 
 
@@ -69,7 +70,7 @@ function AppContent() {
              <Route path='/PwChange/:userId' element={<PwChange/>}/>
              <Route path='/Subscribe' element={<Subscribe />} /> 
              <Route path='/Subscribe2' element={<Subscribe2 />} /> 
-        
+      
         {/* 관리자페이지 */}
         {Router.map((route, index) => (
           <Route key={index} path={`${route.path}/*`} element={route.element}>
@@ -80,7 +81,7 @@ function AppContent() {
         ))}
       </Routes>
 
-      
+
     </>
   );
 }
@@ -94,11 +95,13 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <RoomListProvider>
-          <MainProvider>
-            <ThemeProvider theme={theme}>
-              <AppContent />
-            </ThemeProvider>
-          </MainProvider>
+          <CommunityProvider>
+            <MainProvider>
+              <ThemeProvider theme={theme}>
+                <AppContent />
+              </ThemeProvider>
+            </MainProvider>
+          </CommunityProvider>
         </RoomListProvider>
       </BrowserRouter>
     </div>

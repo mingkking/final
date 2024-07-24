@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import './PopularPosts.css';
+import CommunityContext from '../../contexts/CommunityContext';
 
 const PopularPosts = () => {
+    const communityValue = useContext(CommunityContext);
+
+    setInterval(() => {
+        communityValue.actions.setRealTime(new Date().toLocaleString());
+    }, 5000);
+
     return (
         <div className="popular-posts-container">
-            <div className="popular-posts-header">실시간 인기글</div>
+            <div className="popular-posts-header">
+                <h3>실시간 인기글</h3>
+                <h6>{communityValue.state.realTime}</h6>
+            </div>
 
             {/* 필터 및 정렬 옵션 (선택 사항) */}
             <div className="popular-posts-controls">
