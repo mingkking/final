@@ -1,6 +1,7 @@
 // import { useEffect,useRef,useState } from "react";
 // import CandleChart from "./components/CanddleChart"
 import { Container ,Card} from "@mui/material";
+import Stocklist from "./components/Stocklist"
 // import React from "react";
 
 const ju1 = () => {
@@ -22,13 +23,7 @@ const ju1 = () => {
     <h1>주식페이지에 대한 내용</h1>
     <Container>
       <Card>
-      {/* <CandleChart
-      title="주식 차트"
-      candleData={candleData}
-      volumeData={volumeData}
-      period="일봉"
-      
-      /> */}
+        <Stocklist/>
       </Card>
       </Container>
   </div>)
