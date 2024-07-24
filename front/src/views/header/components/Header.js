@@ -7,7 +7,7 @@ const Header = () => {
     <header>
       <div className="nav-area">
         <a href="/" className="logo">
-          Logo
+        logo
         </a>
           <Navbar/>
       </div>
