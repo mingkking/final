@@ -1,4 +1,4 @@
-package com.example.util;
+package com.example.member.util;
 
 
 
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date; 
-import com.example.domain.LoginVO;
+import com.example.member.domain.LoginVO;
 
 
 import lombok.extern.slf4j.Slf4j;

@@ -1,10 +1,10 @@
-package com.example.Service;
+package com.example.member.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.domain.LoginVO;
-import com.example.repository.LoginRepository;
+import com.example.member.domain.LoginVO;
+import com.example.member.repository.LoginRepository;
 
 @Service
 public class LoginServiceImpl {

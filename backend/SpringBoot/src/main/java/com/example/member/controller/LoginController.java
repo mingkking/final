@@ -1,4 +1,4 @@
-package com.example.controller;
+package com.example.member.controller;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.example.Service.LoginServiceImpl;
-import com.example.domain.LoginVO;
-import com.example.util.JwtUtil;
+import com.example.member.Service.LoginServiceImpl;
+import com.example.member.domain.LoginVO;
+import com.example.member.util.JwtUtil;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
