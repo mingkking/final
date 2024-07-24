@@ -6,55 +6,60 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import com.example.mgr.dao.MgrCountDAO;
+import com.example.mgr.dao.MgrDAO;
 import com.example.mgr.domain.MgrMemberVO;
 import com.example.mgr.domain.MgrSessionCountVO;
 
 @Service
-public class MgrCountServiceImpl implements MgrCountService {
+public class MgrServiceImpl implements MgrService {
 	
 	@Autowired
-	private MgrCountDAO mgrcountDAO;
+	private MgrDAO mgrDAO;
 
 	@Override
 	public int saveSession(MgrSessionCountVO vo) {
-		int result = mgrcountDAO.saveSession(vo);
+		int result = mgrDAO.saveSession(vo);
 		return result;
 	}
 
 	@Override
 	public int selectTotalSession() {
-		return mgrcountDAO.selectTotalSession();
+		return mgrDAO.selectTotalSession();
 	}
 
 	@Override
 	public int selectTodaySession() {
-		return mgrcountDAO.selectTodaySession();
+		return mgrDAO.selectTodaySession();
 	}
 
 	@Override
 	public int selectMonthSession() {
-		return mgrcountDAO.selectMonthSession();
+		return mgrDAO.selectMonthSession();
 	}
 
 	@Override
 	public int selectTotalMembers() {
-		return mgrcountDAO.selectTotalMembers();
+		return mgrDAO.selectTotalMembers();
 	}
 
 	@Override
 	public int selectTotalSubscribers() {
-		return mgrcountDAO.selectTotalSubscribers();
+		return mgrDAO.selectTotalSubscribers();
 	}
 
 	@Override
 	public int selectTodayMembers() {
-		return mgrcountDAO.selectTodayMembers();
+		return mgrDAO.selectTodayMembers();
 	}
 
 	// 회원 목록
 	public List<MgrMemberVO> selectMembers(MgrMemberVO vo) {
-		return mgrcountDAO.selectMembers(vo);
+		return mgrDAO.selectMembers(vo);
+	}
+
+	// 회원 상세 목록
+	public List<MgrMemberVO> selectMemberDetail(MgrMemberVO vo) {
+		return mgrDAO.selectMemberDetail(vo);
 	}
 
 

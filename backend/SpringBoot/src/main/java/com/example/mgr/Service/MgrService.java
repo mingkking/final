@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import com.example.mgr.domain.MgrMemberVO;
 import com.example.mgr.domain.MgrSessionCountVO;
 
-public interface MgrCountService {
+public interface MgrService {
 	
 	// session 값 저장
 	int saveSession(MgrSessionCountVO vo);
@@ -27,4 +27,7 @@ public interface MgrCountService {
 	
 	// 회원 목록
 	List<MgrMemberVO> selectMembers(MgrMemberVO vo);
+	
+	// 회원 상세 목록
+	List<MgrMemberVO> selectMemberDetail(MgrMemberVO vo);
 }

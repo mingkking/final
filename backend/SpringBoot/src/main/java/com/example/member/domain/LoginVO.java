@@ -22,7 +22,7 @@ public class LoginVO {
     private Integer userNum;	
 	@Column(name = "user_name", length = 50, nullable = false)
     private String userName;  // 사용자 이름 (길이 50자, NOT NULL)
-    @Column(name = "user_id", length = 20, unique = true, nullable = false)
+    @Column(name = "user_id", length = 50, unique = true, nullable = false)
     private String userId;    // 사용자 아이디 (길이 20자, 유니크, NOT NULL)
     @Column(name = "user_pass", length = 100, nullable = false)
     private String userPass;  // 비밀번호 (길이 100자, NOT NULL)
