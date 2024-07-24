@@ -8,11 +8,11 @@ const Community = () => {
         <div className="container" style={{ margin: "50px auto" }}>
             <div className="row">
 
-                <div className="post card col-lg-8 col-md-12">
+                <div className="post col-lg-8 col-md-12">
                     <Posts />
                 </div>
 
-                <div className="popular card col-lg-4 col-md-12">
+                <div className="popular col-lg-4 col-md-12">
 
                     <div className="row" style={{ width: "100%" }}>
                         <PopularPosts/>

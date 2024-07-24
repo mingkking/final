@@ -1,4 +1,4 @@
-package com.example.test.domain;
+package com.example.mgr.domain;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -6,7 +6,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class SubscriberCountVO {
+public class MgrSubscriberCountVO {
 	private String id;
 	private String user_id;
 	private String amount;

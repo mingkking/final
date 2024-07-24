@@ -21,14 +21,16 @@ function Posts() {
 
   return (
     <div className="container">
-      <h2 className="header">커뮤니티 네브바</h2>
-      <input 
-        type="text" 
-        placeholder="검색어를 입력하세요..." 
-        value={keyword}
-        onChange={handleSearch}
-        className="search-bar"
-      />
+      <div className='navbar'>
+        <h2 className="header">커뮤니티 네브바</h2>
+        <input
+          type="text"
+          placeholder="검색어를 입력하세요..."
+          value={keyword}
+          onChange={handleSearch}
+          className="search-bar"
+        />
+      </div>
       <ul className="post-list">
         {posts.map(post => (
           <li key={post.id} className="post-item">
@@ -38,65 +40,65 @@ function Posts() {
           </li>
         ))}
         <li className="post-item">
-            <h2>1</h2>
-            <p>1</p>
-            <p>Likes: 1</p>
-          </li>
-          <li className="post-item">
-            <h2>2</h2>
-            <p>2</p>
-            <p>Likes: 2</p>
-          </li>
-          <li className="post-item">
-            <h2>2</h2>
-            <p>2</p>
-            <p>Likes: 2</p>
-          </li>
-          <li className="post-item">
-            <h2>2</h2>
-            <p>2</p>
-            <p>Likes: 2</p>
-          </li>
-          <li className="post-item">
-            <h2>2</h2>
-            <p>2</p>
-            <p>Likes: 2</p>
-          </li>
-          <li className="post-item">
-            <h2>2</h2>
-            <p>2</p>
-            <p>Likes: 2</p>
-          </li>
-          <li className="post-item">
-            <h2>2</h2>
-            <p>2</p>
-            <p>Likes: 2</p>
-          </li>
-          <li className="post-item">
-            <h2>2</h2>
-            <p>2</p>
-            <p>Likes: 2</p>
-          </li>
-          <li className="post-item">
-            <h2>2</h2>
-            <p>2</p>
-            <p>Likes: 2</p>
-          </li>
-          <li className="post-item">
-            <h2>2</h2>
-            <p>2</p>
-            <p>Likes: 2</p>
-          </li>
-          <li className="post-item">
-            <h2>2</h2>
-            <p>2</p>
-            <p>Likes: 2</p>
-          </li>
-          <li className="post-item">
-            <h2>2</h2>
-            <p>2</p>
-            <p>Likes: 2</p>
-          </li>
+          <h2>1</h2>
+          <p>1</p>
+          <p>Likes: 1</p>
+        </li>
+        <li className="post-item">
+          <h2>2</h2>
+          <p>2</p>
+          <p>Likes: 2</p>
+        </li>
+        <li className="post-item">
+          <h2>2</h2>
+          <p>2</p>
+          <p>Likes: 2</p>
+        </li>
+        <li className="post-item">
+          <h2>2</h2>
+          <p>2</p>
+          <p>Likes: 2</p>
+        </li>
+        <li className="post-item">
+          <h2>2</h2>
+          <p>2</p>
+          <p>Likes: 2</p>
+        </li>
+        <li className="post-item">
+          <h2>2</h2>
+          <p>2</p>
+          <p>Likes: 2</p>
+        </li>
+        <li className="post-item">
+          <h2>2</h2>
+          <p>2</p>
+          <p>Likes: 2</p>
+        </li>
+        <li className="post-item">
+          <h2>2</h2>
+          <p>2</p>
+          <p>Likes: 2</p>
+        </li>
+        <li className="post-item">
+          <h2>2</h2>
+          <p>2</p>
+          <p>Likes: 2</p>
+        </li>
+        <li className="post-item">
+          <h2>2</h2>
+          <p>2</p>
+          <p>Likes: 2</p>
+        </li>
+        <li className="post-item">
+          <h2>2</h2>
+          <p>2</p>
+          <p>Likes: 2</p>
+        </li>
+        <li className="post-item">
+          <h2>2</h2>
+          <p>2</p>
+          <p>Likes: 2</p>
+        </li>
       </ul>
     </div>
   );
