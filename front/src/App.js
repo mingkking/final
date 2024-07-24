@@ -22,6 +22,7 @@ import PwFind from './views/login/component/find/PwFind';
 import PwChange from './views/login/component/find/PwChange';
 import Main from './views/main/Main'
 import Subscribe from './views/subscribe/Subscribe1'
+import Subscribe2 from './views/subscribe/Subscribe2'
 
 import Router from './routes/Router'
 
@@ -51,24 +52,25 @@ function AppContent() {
     <>
       {!isAdminPage && <Header />}
       <Routes>
-        <Route path='/' element={<Main />} />
-        <Route path='/ju1' element={<Ju1 />} />
-        <Route path='/ju2' element={<Ju2 />} />
-        <Route path='/co1' element={<Co1 />} />
-        <Route path='/co2' element={<Co2 />} />
-        <Route path='/budongsan' element={<Budongsan />} />
-        <Route path='/bu2' element={<Bu2 />} />
-        <Route path='/back1' element={<Back1 />} />
-        <Route path='/Chatting' element={<Chatting />} />
-        <Route path='/Community' element={<Community />} />
-        <Route path='/login' element={<Login onLoginSuccess={handleLoginSuccess} />} />
-        <Route path='/Join' element={<Join />} />
-        <Route path='/IdFind' element={<IdFind />} />
-        <Route path='/IdConfirm' element={<IdConfirm />} />
-        <Route path='/PwFind' element={<PwFind />} />
-        <Route path='/PwChange/:userId' element={<PwChange />} />
-        <Route path='/Subscribe' element={<Subscribe />} />
-
+             <Route path='/' element={<Main />}/>
+             <Route path='/ju1' element={<Ju1 />} />
+             <Route path='/ju2' element={<Ju2 />} />
+             <Route path='/co1' element={<Co1 />} />
+             <Route path='/co2' element={<Co2 />} />
+             <Route path='/budongsan' element={<Budongsan />} />
+             <Route path='/bu2' element={<Bu2 />} />
+             <Route path='/back1' element={<Back1 />} />
+             <Route path='/Chatting' element={<Chatting />} />
+             <Route path='/Community' element={<Community />} />
+             <Route path='/login' element={<Login onLoginSuccess={handleLoginSuccess} />} />
+             <Route path='/Join' element={<Join/>}/>
+             <Route path='/IdFind' element={<IdFind/>}/>
+             <Route path='/IdConfirm' element={<IdConfirm/>}/>
+             <Route path='/PwFind' element={<PwFind/>}/>
+             <Route path='/PwChange/:userId' element={<PwChange/>}/>
+             <Route path='/Subscribe' element={<Subscribe />} /> 
+             <Route path='/Subscribe2' element={<Subscribe2 />} /> 
+      
         {/* 관리자페이지 */}
         {Router.map((route, index) => (
           <Route key={index} path={`${route.path}/*`} element={route.element}>
