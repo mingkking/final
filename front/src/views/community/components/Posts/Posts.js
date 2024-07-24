@@ -21,7 +21,7 @@ function Posts() {
 
   return (
     <div className="container">
-      <h1 className="header">커뮤니티 네브바</h1>
+      <h2 className="header">커뮤니티 네브바</h2>
       <input 
         type="text" 
         placeholder="검색어를 입력하세요..." 

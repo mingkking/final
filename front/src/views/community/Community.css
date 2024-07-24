@@ -2,7 +2,7 @@
 .post {
   display: flex;
   flex-direction: column;
-  padding: 20px; /* 내부 여백 */
+  padding: 5px 5px; /* 내부 여백 */
   border-radius: 8px; /* 모서리 둥글게 */
   background-color: #fff; /* 배경 색상 */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
@@ -16,7 +16,7 @@
   z-index: 1000; /* 다른 요소들보다 위에 오도록 설정 */
   display: flex;
   flex-direction: column;
-  padding: 20px; /* 내부 여백 */
+  padding: 5px 5px; /* 내부 여백 */
   border-radius: 8px; /* 모서리 둥글게 */
   background-color: #fff; /* 배경 색상 */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
@@ -29,3 +29,4 @@
   display: flex;
   flex-direction: column;
 }
+
