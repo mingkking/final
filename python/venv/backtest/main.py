@@ -6,6 +6,7 @@ from technical_indicators.indicators import add_technical_indicators
 from models.random_forest_model import prepare_data_for_ml, create_model_pipeline
 from sqlalchemy import create_engine
 import pandas as pd
+import numpy as np
 
 if __name__ == "__main__":
     try:
@@ -42,7 +43,7 @@ if __name__ == "__main__":
             # 머신러닝을 위한 데이터 준비
             X, y = prepare_data_for_ml(stock_df, 'closing_price')
             
-            if len(X) > 60:  # 최소 60일의 데이터가 필요
+            if X is not None and len(X) > 60:  # 최소 60일의 데이터가 필요
                 # 모델 생성 및 학습
                 model = create_model_pipeline()
                 model.fit(X, y)
@@ -52,7 +53,7 @@ if __name__ == "__main__":
                 prediction_prob = model.predict_proba(latest_data)[0][1]
                 print(f"{stock_code}의 다음 날 주가 상승 확률: {prediction_prob:.2f}")
             else:
-                print(f"{stock_code}의 데이터가 충분하지 않습니다.")
+                print(f"{stock_code}의 데이터가 충분하지 않거나 유효하지 않습니다.")
 
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
