@@ -13,15 +13,20 @@ import { useContext } from 'react';
 import RoomListContext from './contexts/RoomListContext';
 import axios from 'axios';
 import NavBar from './components/NavBar/NavBar';
-import Cookies from 'js-cookie';
 
-const Chatting = ({ props, user}) => {
-    const value = useContext(RoomListContext);                                      // 채팅 방 Context 객체 생성
+import LoginContext from '../login/contexts/LoginContext';
+
+const Chatting = ({ props, user }) => {
+    const value = useContext(RoomListContext);
+    const loginValue = useContext(LoginContext);                                      // 채팅 방 Context 객체 생성
     const [message, setMessage] = React.useState("");                               // 채팅 방 입력 필드
     const messageContainerRef = React.useRef(null);                                 // 채팅 방 스크롤 
     const [reverseLayout, setReverseLayout] = React.useState(false);                // 채팅 방 스크롤
 
     useEffect(() => {                                                               // 처음 한번 실행하는 훅
+
+        console.log("loginValue.state.afterLoginNick", loginValue.state.afterLoginNick);
+
 
         const messageHandler = (message) => {                                       // 메시지 이벤트 리스너 등록
             value.actions.setMessageList((prevState) => [...prevState, message]);

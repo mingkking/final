@@ -1,10 +1,10 @@
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import MenuItems from './MenuItems';
 import { MenuItemsData } from '../menuItemsData';
 import axiosInstance from '../../login/component/Token/axiosInstance';
-import { useState, useEffect } from 'react';
+import { useContext,useState, useEffect } from 'react';
+import LoginContext from '../../login/contexts/LoginContext';
 
 
 
@@ -16,7 +16,7 @@ const Navbar = ({ onLoginSuccess }) => {
   const navigate = useNavigate(); // Hook for navigation
 
   
-  
+  const { state, actions } = useContext(LoginContext);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userNickname, setUserNickname] = useState('');
   
@@ -31,19 +31,21 @@ const Navbar = ({ onLoginSuccess }) => {
     
         if (response.data.isLoggedIn) {
           setIsLoggedIn(true);
-          setUserNickname(response.data.userNickname);
-    
+          //setUserNickname(response.data.userNickname);
+          actions.setAfterLoginNick(response.data.userNickname);
           if (onLoginSuccess) {
             onLoginSuccess(response.data.userNickname);
           }
         } else {
           setIsLoggedIn(false);
-          setUserNickname('');
+          //setUserNickname('');
+          actions.setAfterLoginNick('');
         }
       } catch (error) {
         console.error('Error checking login status:', error.response?.data || error.message);
         setIsLoggedIn(false);
-        setUserNickname('');
+        //setUserNickname('');
+        actions.setAfterLoginNick('');
       }
     };
 
@@ -55,14 +57,14 @@ const Navbar = ({ onLoginSuccess }) => {
       setIsLoggedIn(true); // 로그인 상태를 true로 설정
     };
 
-    // `loginSuccess` 이벤트를 리스닝
+    // loginSuccess 이벤트를 리스닝
     document.addEventListener('loginSuccess', handleLoginEvent);
 
     // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
     return () => {
       document.removeEventListener('loginSuccess', handleLoginEvent);
     };
-  }, [onLoginSuccess]);
+  }, [actions]);
 
   // 로그아웃 버튼 클릭 시 실행되는 함수
   const handleLogoutClick = async () => {
@@ -75,9 +77,10 @@ const Navbar = ({ onLoginSuccess }) => {
   
       // 로그인 상태를 초기화합니다.
       setIsLoggedIn(false);
-      setUserNickname('');
+      //setUserNickname('');
+      actions.setAfterLoginNick('');
   
-      // `onLoginSuccess` 콜백이 prop으로 전달되었으면 빈 문자열을 전달하여 로그인 상태를 초기화합니다.
+      // onLoginSuccess 콜백이 prop으로 전달되었으면 빈 문자열을 전달하여 로그인 상태를 초기화합니다.
       if (onLoginSuccess) {
         onLoginSuccess('');
       }
@@ -112,7 +115,7 @@ const Navbar = ({ onLoginSuccess }) => {
         <div className="auth-buttons">
                 {isLoggedIn ? (
                     <div>
-                        <span> {userNickname} / </span>
+                        <span> {state.afterLoginNick} / </span>
                         <button type="button" className="btn btn-light" onClick={handleLogoutClick}>로그아웃</button>
                     </div>
                 ) : (
@@ -125,4 +128,3 @@ const Navbar = ({ onLoginSuccess }) => {
 };
 
 export default Navbar;
-

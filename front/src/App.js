@@ -52,6 +52,7 @@ function AppContent() {
     <>
       {!isAdminPage && <Header />}
       <Routes>
+>
              <Route path='/' element={<Main />}/>
              <Route path='/ju1' element={<Ju1 />} />
              <Route path='/ju2' element={<Ju2 />} />
@@ -95,7 +96,9 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <RoomListProvider>
+
           <CommunityProvider>
+
             <MainProvider>
               <ThemeProvider theme={theme}>
                 <AppContent />
