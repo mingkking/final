@@ -35,6 +35,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { MainProvider } from './views/manager/main/contexts/MainContext';
 import Community from './views/community/Community';
 import { CommunityProvider } from './views/community/contexts/CommunityContext';
+import { LoginProvider } from './views/login/contexts/LoginContext';
 
 
 
@@ -52,7 +53,7 @@ function AppContent() {
     <>
       {!isAdminPage && <Header />}
       <Routes>
->
+
              <Route path='/' element={<Main />}/>
              <Route path='/ju1' element={<Ju1 />} />
              <Route path='/ju2' element={<Ju2 />} />
@@ -96,15 +97,15 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <RoomListProvider>
-
+          <LoginProvider>
           <CommunityProvider>
-
             <MainProvider>
               <ThemeProvider theme={theme}>
                 <AppContent />
               </ThemeProvider>
             </MainProvider>
           </CommunityProvider>
+          </LoginProvider>
         </RoomListProvider>
       </BrowserRouter>
     </div>
