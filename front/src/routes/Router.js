@@ -25,7 +25,7 @@ const Router = [
     children: [
       { path: 'main', exact: true, element: <Main /> },
       { path: 'memberList', exact: true, element: <MemberList /> },
-      { path: 'memberDetail/:memberId', exact: true, element: <MemberDetail /> },
+      { path: 'memberDetail/:user_num', exact: true, element: <MemberDetail /> },      
       { path: 'community', exact: true, element: <Community /> },
       { path: 'chat', exact: true, element: <Chat /> },
       { path: 'complaint/communityPost', exact: true, element: <MgrCommunityPost /> },

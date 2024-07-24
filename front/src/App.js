@@ -22,6 +22,7 @@ import PwFind from './views/login/component/find/PwFind';
 import PwChange from './views/login/component/find/PwChange';
 import Main from './views/main/Main'
 import Subscribe from './views/subscribe/Subscribe1'
+import Subscribe2 from './views/subscribe/Subscribe2'
 
 import Router from './routes/Router'
 
@@ -67,6 +68,7 @@ function AppContent() {
              <Route path='/PwFind' element={<PwFind/>}/>
              <Route path='/PwChange/:userId' element={<PwChange/>}/>
              <Route path='/Subscribe' element={<Subscribe />} /> 
+             <Route path='/Subscribe2' element={<Subscribe2 />} /> 
         
         {/* 관리자페이지 */}
         {Router.map((route, index) => (
