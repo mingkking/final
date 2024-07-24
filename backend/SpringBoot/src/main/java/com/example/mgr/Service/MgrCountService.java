@@ -1,14 +1,17 @@
-package com.example.test.Service;
+package com.example.mgr.Service;
+
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import com.example.test.domain.CountVO;
+import com.example.mgr.domain.MgrMemberVO;
+import com.example.mgr.domain.MgrSessionCountVO;
 
-public interface CountService {
+public interface MgrCountService {
 	
 	// session 값 저장
-	int saveSession(CountVO vo);
+	int saveSession(MgrSessionCountVO vo);
 	
 	// 방문자 수 count
 	int selectTotalSession();
@@ -17,7 +20,11 @@ public interface CountService {
 	
 	// 회원 수 count
 	int selectTotalMembers();
+	int selectTodayMembers();
 	
 	// 구독자 수 count
 	int selectTotalSubscribers();
+	
+	// 회원 목록
+	List<MgrMemberVO> selectMembers(MgrMemberVO vo);
 }
