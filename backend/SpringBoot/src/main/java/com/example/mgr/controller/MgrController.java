@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpSession;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-public class MgrController {
+public class MgrController { 
 
 	@Autowired
 	private MgrService mgrservice;

@@ -14,7 +14,7 @@ import com.example.mgr.domain.MgrSessionCountVO;
 public class MgrServiceImpl implements MgrService {
 	
 	@Autowired
-	private MgrDAO mgrDAO;
+	private MgrDAO mgrDAO; 
 
 	@Override
 	public int saveSession(MgrSessionCountVO vo) {

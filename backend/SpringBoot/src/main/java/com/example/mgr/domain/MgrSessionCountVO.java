@@ -7,5 +7,5 @@ import lombok.Data;
 @Data
 public class MgrSessionCountVO {
 	private String sessionId;
-	private Date creationTime;
+	private Date creationTime; 
 }

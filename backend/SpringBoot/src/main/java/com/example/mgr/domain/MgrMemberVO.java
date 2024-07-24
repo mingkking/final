@@ -1,6 +1,6 @@
 package com.example.mgr.domain;
 
-import java.util.Date;
+import java.util.Date; 
 
 import lombok.Data;
 

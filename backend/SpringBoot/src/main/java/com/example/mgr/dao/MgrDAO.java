@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.example.mgr.domain.MgrMemberVO;
 import com.example.mgr.domain.MgrSessionCountVO;
 
-@Mapper
+@Mapper 
 public interface MgrDAO {
 	public int saveSession(MgrSessionCountVO vo);
 	public int selectTotalSession();

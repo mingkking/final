@@ -10,7 +10,7 @@
       VALUES(#{sessionId}, TRUNC(SYSDATE))
    </insert>
    
-   <!-- 총 방문자 수 -->
+   <!-- 총 방문자 수  -->
    <select id="selectTotalSession" parameterType="MgrSessionCountVO" resultType="int">
       SELECT count(*)
       FROM countVisit
