@@ -151,7 +151,7 @@ const Subscribe2 = () => {
         variant="contained"
         color="success"
         onClick={handleNextButtonClick}
-        style={{ marginTop: '50px' }}
+        style={{ marginTop: '50px' }} 
       >
         결제하기
       </Button>

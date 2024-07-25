@@ -75,7 +75,7 @@ function AppContent() {
              <Route path='/Subscribe2' element={<Subscribe2 />} /> 
              <Route path='/Subscribe3' element={<Subscribe3 />} /> 
       
-        {/* 관리자페이지 */}
+        {/* 관리자페이지  */}
         {Router.map((route, index) => (
           <Route key={index} path={`${route.path}/*`} element={route.element}>
             {route.children && route.children.map((child, idx) => (

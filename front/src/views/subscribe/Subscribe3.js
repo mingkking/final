@@ -11,7 +11,7 @@ function Subscribe3() {
     const handleClickMain = () => {
         navigate('/');    
       }
-  
+   
     return (
         <div>
             <div className='subscribe-img'>

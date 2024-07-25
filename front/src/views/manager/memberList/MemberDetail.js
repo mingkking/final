@@ -11,7 +11,7 @@ const MemberDetail = () => {
   const [loading, setLoading] = useState(true); // 로딩 상태를 추가
   const navigate = useNavigate();
 
-  useEffect(() => {
+  useEffect(() => { 
     const getMemberDetail = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/manager/memberDetail/${user_num}`);
