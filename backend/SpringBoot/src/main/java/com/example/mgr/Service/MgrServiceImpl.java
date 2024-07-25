@@ -62,6 +62,11 @@ public class MgrServiceImpl implements MgrService {
 		return mgrDAO.selectMemberDetail(vo);
 	}
 
+	// 회원 삭제
+	public void deleteMember(int user_num) {
+		mgrDAO.deleteMember(user_num);
+	}
+
 
 
 	
