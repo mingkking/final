@@ -1,6 +1,7 @@
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import './Subscribe.css';
+import { Hearts } from 'tabler-icons-react';
 
 
 function Subscribe1() {
@@ -13,6 +14,9 @@ function Subscribe1() {
   
     return (
         <div>
+            <div className='subscribe-img'>
+            <Hearts size={50} />
+            </div>
             <div className='subscribe-title'>
                 <h4>구독 시 얻을 수 있는 혜택</h4>
             </div>

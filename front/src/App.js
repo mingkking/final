@@ -23,6 +23,7 @@ import PwChange from './views/login/component/find/PwChange';
 import Main from './views/main/Main'
 import Subscribe from './views/subscribe/Subscribe1'
 import Subscribe2 from './views/subscribe/Subscribe2'
+import Subscribe3 from './views/subscribe/Subscribe3'
 
 import Router from './routes/Router'
 
@@ -72,6 +73,7 @@ function AppContent() {
              <Route path='/PwChange/:userId' element={<PwChange/>}/>
              <Route path='/Subscribe' element={<Subscribe />} /> 
              <Route path='/Subscribe2' element={<Subscribe2 />} /> 
+             <Route path='/Subscribe3' element={<Subscribe3 />} /> 
       
         {/* 관리자페이지 */}
         {Router.map((route, index) => (
