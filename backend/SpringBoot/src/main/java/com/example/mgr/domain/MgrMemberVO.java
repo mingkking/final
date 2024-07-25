@@ -1,9 +1,9 @@
 package com.example.mgr.domain;
-
-import java.util.Date;
+ 
+import java.util.Date; 
 
 import lombok.Data;
-
+ 
 @Data
 public class MgrMemberVO {
 	private String user_num;
