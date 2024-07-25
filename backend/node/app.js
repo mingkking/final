@@ -13,8 +13,9 @@ app.get("/", async (req, res) => {
   try {
     const roomName = req.query.roomName;                                    // 리액트에서 보내준 방제목
     const socketId = req.query.socketId;                                    // 리액트에서 보내준 socket.id
+    const userName = req.query.userName;                                    // 리액트에서 보내준 socket.id
 
-    let user = await userController.saveUser("정민기2", socketId);           // 유저 정보 이름을 중복검사 후 이름, 고유id 저장  
+    let user = await userController.saveUser(userName, socketId);           // 유저 정보 이름을 중복검사 후 이름, 고유id 저장  
     user = await userController.checkUser(user.token);                      // 유저가 채팅 방 안에 있는지 확인
 
     // 방 생성

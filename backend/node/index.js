@@ -7,7 +7,7 @@ require("dotenv").config();            // .env 환경 설정
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
     cors: {
-        origin: 'http://localhost:3000', // 허용할 클라이언트의 주소 (React 앱이 실행 중인 주소)
+        origin: 'http://192.168.0.209:3000', // 허용할 클라이언트의 주소 (React 앱이 실행 중인 주소)
     }
 });
 
