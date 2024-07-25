@@ -1,6 +1,5 @@
 // src/App.js
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Header from './views/header/components/Header';
 
@@ -32,7 +31,6 @@ import Router from './routes/Router'
 import { ThemeProvider } from '@mui/material';
 import { baselightTheme } from "./theme/DefaultColors";
 
-import { useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 
 import { MainProvider } from './views/manager/main/contexts/MainContext';

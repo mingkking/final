@@ -1,10 +1,11 @@
 import React from 'react';
+import SideStarAuto from './componoets/SideStarAuto';
 
 const SideApartment = ({ property }) => {
   if (!property) {
     return <div>선택된 아파트가 없습니다.</div>;
   }
-
+  
   return (
     <div>
       <div class="card mb-3">
@@ -22,7 +23,7 @@ const SideApartment = ({ property }) => {
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item">건축년도: {property.yearBuilt}</li>
-          <li class="list-group-item">등록익: {property.registrationDate}</li>
+          <li class="list-group-item">등록일: {property.registrationDate}</li>
           <li class="list-group-item">전용면적: {property.squareFootage}</li>
         </ul>
         <div class="card-body">
@@ -32,10 +33,9 @@ const SideApartment = ({ property }) => {
       <div class="card mb-3">
         <h3 class="card-header">별점</h3>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item">교통 시설: </li>
-          <li class="list-group-item">편의 시설: </li>
-          <li class="list-group-item">교육 시설: </li>
-          <li class="list-group-item">조 망 권 : </li>
+          <li class="list-group-item">교통 시설: <SideStarAuto totalStars={5}/></li>
+          <li class="list-group-item">편의 시설: <SideStarAuto totalStars={5}/></li>
+          <li class="list-group-item">교육 시설: <SideStarAuto totalStars={5}/></li>
         </ul>
       </div>
     </div>

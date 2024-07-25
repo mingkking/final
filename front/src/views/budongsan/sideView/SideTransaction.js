@@ -1,4 +1,4 @@
-import './sideCss/SideView.css'
+import './sideCss/SideView.css';
 import SideStar from './componoets/SideStar';
 import React, { useState } from 'react';
 
@@ -44,10 +44,6 @@ const SideTransaction = () => {
                         <SideStar totalStars={5}/>
                     </div>
                     <div>교육</div>
-                    <div className='side-star-container'>
-                        <SideStar totalStars={5}/>
-                    </div>
-                    <div>조망권</div>
                     <div className='side-star-container'>
                         <SideStar totalStars={5}/>
                     </div>
