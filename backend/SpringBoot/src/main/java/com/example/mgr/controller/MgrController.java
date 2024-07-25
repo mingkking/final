@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,7 +21,7 @@ import com.google.gson.JsonObject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://192.168.56.1:3000") // ip주소에 맞게 작성
 @RestController  
 public class MgrController { 
  
@@ -76,9 +77,8 @@ public class MgrController {
 
 	} // count
 	
-	//@GetMapping("/manager/memberDetail/{num}")
     @GetMapping("/manager/memberDetail/{user_num}")
-    public String getMemberDetail(@PathVariable String user_num) {
+    public String getMemberDetail(@PathVariable String user_num, MgrMemberVO vo) {
         
         // 받은 번호 값 지정
         MgrMemberVO membervo = new MgrMemberVO();
@@ -96,8 +96,18 @@ public class MgrController {
 		// json구조를 String 형태로 변환
 		String jsonString = gson.toJson(memberDetailJson);
         
-		
-        
         return jsonString;
+    }
+    
+    // 회원삭제
+    @DeleteMapping("/manager/memberDetail/{user_num}")
+    public String deleteMember(@PathVariable String user_num, MgrMemberVO vo) {
+        
+    	// String으로 받은 user_num 을 int로 바꾸기
+    	int userNumInt = Integer.parseInt(user_num);
+        
+		mgrservice.deleteMember(userNumInt);
+		
+        return "";
     }
 }

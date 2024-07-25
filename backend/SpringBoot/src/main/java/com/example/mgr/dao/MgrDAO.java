@@ -22,4 +22,7 @@ public interface MgrDAO {
 	
 	// 회원 상세 목록
 	public List<MgrMemberVO> selectMemberDetail(MgrMemberVO vo);
+	
+	// 회원 삭제
+	public void deleteMember(int user_num);
 }

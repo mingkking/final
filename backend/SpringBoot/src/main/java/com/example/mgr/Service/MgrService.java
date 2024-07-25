@@ -30,4 +30,7 @@ public interface MgrService {
 	
 	// 회원 상세 목록
 	List<MgrMemberVO> selectMemberDetail(MgrMemberVO vo);
+	
+	// 회원 삭제
+	void deleteMember(int user_num);
 }
