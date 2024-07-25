@@ -15,7 +15,7 @@ const MemberListTest = ({num, name, nickname, tel, email, created_at}) => {
       // manager/main 새로고침 할 때 마다 DB에서 값 받아서 데이터 넣기
       value.actions.setMemberList(result.data.selectMemberList);
     })
-  },[]);
+  },[]); 
 
   return (
                   <CardContent style={{display: 'flex'}} >

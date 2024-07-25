@@ -107,7 +107,7 @@ const MemberList = () => {
               <Typography variant="h4" style={{ marginBottom: '20px', marginLeft: '120px' }}>이메일</Typography>
               <Typography variant="h4" style={{ marginBottom: '20px', marginLeft: '100px' }}>가입일자</Typography>
               <Typography variant="h4" style={{ marginBottom: '20px', marginLeft: '70px' }}>구독일시</Typography>
-            </div>
+            </div> 
             {/* 멤버 리스트 */}
             <Grid container spacing={3}>
               <Grid item sm={12}>

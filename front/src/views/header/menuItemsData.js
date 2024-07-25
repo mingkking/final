@@ -58,10 +58,10 @@ export const MenuItemsData = [
         title: '커뮤니티',
         url: 'Community',
     },
-    // {
-    //   title: '구독',
-    //   url: 'Subscribe',
-    // }
+    {
+      title: '구독',
+      url: 'Subscribe',
+    }
   ];
 
   
