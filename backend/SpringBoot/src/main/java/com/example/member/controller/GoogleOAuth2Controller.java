@@ -31,9 +31,9 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://192.168.0.209:3000", allowCredentials = "true")
 public class GoogleOAuth2Controller {
-
+ 
     @Autowired
     private LoginServiceImpl loginService;
 
@@ -80,7 +80,7 @@ public class GoogleOAuth2Controller {
             // 쿠키 설정
             ResponseCookie cookie = ResponseCookie.from("accessToken", accessToken) 
                     .httpOnly(false) // 자바스크립트에서 접근 불가
-                    .secure(true) // HTTPS에서만 전송
+                    .secure(false) // HTTPS에서만 전송
                     .path("/") 
                     .maxAge(Duration.ofDays(7)) 
                     .sameSite("Lax") 
