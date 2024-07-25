@@ -12,8 +12,11 @@ function Join() {
     const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode: 'onBlur' });
     const navigate = useNavigate();
     const [usernameExists, setUsernameExists] = useState(false);
+    const [nicknameExists, setNicknameExists] = useState(false); // 닉네임 중복 여부
     const [isValidUsername, setIsValidUsername] = useState(false);
     const [usernameChecked, setUsernameChecked] = useState(false); // 중복검사 여부 확인
+    const [usernameLengthValid, setUsernameLengthValid] = useState(false); // 아이디 길이 유효성 검사
+    const [nicknameChecked, setNicknameChecked] = useState(false); // 닉네임 중복검사 여부
     const [agreeAll, setAgreeAll] = useState(false);
 
     
@@ -32,15 +35,37 @@ function Join() {
 
     // 아이디 중복검사
     const checkUsernameExists = async (userId) => {
+        if (!userId) return; // 사용자 아이디가 비어있다면 아무것도 하지 않음
         try {
+            setUsernameChecked(false); // 중복검사 시작 전에 false로 설정
             const response = await axiosInstance.get(`/check-username?userId=${userId}`);
-            setUsernameExists(response.data);
-            setIsValidUsername(!response.data);
-            setUsernameChecked(true); // 중복검사 수행 완료
+            const exists = response.data;
+            setUsernameExists(exists);
+            setUsernameChecked(true); // 중복검사 완료 후 true로 설정
 
+
+            // 아이디 길이 유효성 검사
+            setUsernameLengthValid(userId.length >= 8);
+            
         } catch (error) {
             console.error('Error checking username:', error);
-            alert('Error checking username.'+error);
+            alert('Error checking username. ' + error);
+        }
+    };
+
+     // 닉네임 중복검사
+     const checkNicknameExists = async (nickname) => {
+        
+        try {
+            setNicknameChecked(false); // 중복검사 시작 전에 false로 설정
+            const response = await axiosInstance.get(`/check-nickname?nickname=${nickname}`);
+            const exists = response.data;
+            setNicknameExists(exists);
+            setNicknameChecked(true); // 중복검사 완료 후 true로 설정
+
+        } catch (error) {
+            console.error('Error checking nickname:', error);
+            alert('Error checking nickname. ' + error);
         }
     };
 
@@ -124,8 +149,12 @@ function Join() {
                 </div>
                 
                 {errors.userId && <p className='err'>{errors.userId.message}</p>}
-                {usernameChecked && usernameExists && <p className="err">이미 존재하는 아이디입니다.</p>}
-                {usernameChecked && isValidUsername && <p className='suc'>사용 가능한 아이디입니다.</p>}
+                {usernameChecked && (
+                        <>
+                            {usernameExists && <p className="err">이미 존재하는 아이디입니다.</p>}
+                            {!usernameExists && usernameLengthValid && <p className='suc'>사용 가능한 아이디입니다.</p>}
+                        </>
+                    )}
                 <div className="form-group">
                     <label>이름</label>
                     <input 
@@ -160,6 +189,10 @@ function Join() {
                             maxLength: {
                               value: 10,
                               message: '최대 10글자까지 가능합니다.'
+                            },
+                            onChange: (e) => {
+                                // 닉네임 중복 검사 실행
+                                checkNicknameExists(e.target.value);
                             }
                           })}
                     />
@@ -167,7 +200,13 @@ function Join() {
                 </div>
                 
                     {errors.userNickname && <p className='err'>{errors.userNickname.message}</p>}
-                
+                    {nicknameChecked && (
+                        <>
+                            
+                            {nicknameExists && <p className="err">이미 존재하는 닉네임입니다.</p>}
+                        </>
+                    )}
+
                 <div className="form-group">
                     <label>비밀번호</label>
                     <input 

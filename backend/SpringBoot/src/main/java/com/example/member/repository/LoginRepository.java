@@ -8,5 +8,6 @@ public interface LoginRepository extends JpaRepository<LoginVO, Integer> {
     LoginVO findByUserId(String userId);
     LoginVO findByUserEmailAndUserNameAndUserTel(String userEmail, String userName, String userTel);
     LoginVO findByUserEmailAndUserId(String userEmail, String userId);
+    LoginVO findByUserNickname(String userNickname);
 }        
  

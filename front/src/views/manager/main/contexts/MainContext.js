@@ -85,7 +85,7 @@ const MainProvider = (props) => {
     state: { totalCount, todayCount, monthCount, membersCount, totalSubscribersCount, todayMembersCount, memberList },
     actions: { setTotalCount, setTodayCount, setMonthCount, setMembersCount, setTotalSubscribersCount, setTodayMembersCount, setMemberList }
   }
-
+ 
   return (
     <mainContext.Provider value={values}>
       {props.children}

@@ -61,7 +61,12 @@ public class LoginServiceImpl {
             return user.getUserId(); // 사용자 아이디 반환
         }
         return null;
-    }       
+    } 
+    
+    // 닉네임으로 사용자 조회
+    public LoginVO findByUserNickname(String userNickname) {
+        return repo.findByUserNickname(userNickname);
+    }
     
     // 비밀번호 찾기 인증
     public boolean findByUserEmailAndUserId(String email, String userId) {

@@ -34,7 +34,7 @@ import lombok.Data;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://192.168.0.209:3000", allowCredentials = "true")
 public class LoginController {
     @Autowired
     private LoginServiceImpl loginService; 
@@ -60,6 +60,12 @@ public class LoginController {
     public ResponseEntity<Boolean> checkUsername(@RequestParam String userId) {
         // 사용자 이름 존재 여부 반환
         return ResponseEntity.ok(loginService.findByUserId(userId) != null); 
+    }
+    
+    @GetMapping("/check-nickname")
+    public ResponseEntity<Boolean> checkNickname(@RequestParam String nickname) {
+        // 닉네임 존재 여부 반환
+        return ResponseEntity.ok(loginService.findByUserNickname(nickname) != null);
     }
     
     // 로그인
@@ -90,7 +96,7 @@ public class LoginController {
 
             ResponseCookie cookie = ResponseCookie.from("accessToken", accessToken) // 액세스 토큰을 쿠키에 저장
                     .httpOnly(false) // 자바스크립트에서 접근 가능
-                    .secure(true) // HTTPS에서만 전송
+                    .secure(false) // HTTPS에서만 전송
                     .path("/") // 전체 경로에서 유효
                     .maxAge(Duration.ofDays(7)) // 7일 동안 유효
                     .sameSite("Lax") // SameSite 속성 설정
