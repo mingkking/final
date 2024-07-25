@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createChart, CrosshairMode } from 'lightweight-charts';
-import { Settings, X } from 'lucide-react';
+// import { Settings, X } from 'lucide-react';
 import axios from 'axios';
 
 const TradingViewChart = () => {
@@ -55,7 +55,7 @@ const TradingViewChart = () => {
 
     if (!chart.current) {
       chart.current = createChart(chartContainerRef.current, {
-        width: chartContainerRef.current.clientWidth,
+        // width: chartContainerRef.current.clientWidth,
         height: 400,
         layout: {
           background: { type: 'solid', color: 'black' },
@@ -114,7 +114,7 @@ const TradingViewChart = () => {
           <span>삼성전자</span>
           <input type="text" value={`${stockData.current.toLocaleString()}`} className="bg-black border-b border-gray-600 w-24 text-right" readOnly />
           <span>KRW</span>
-          <X className="w-4 h-4" />
+          {/* <X className="w-4 h-4" /> */}
         </div>
       </div>
       

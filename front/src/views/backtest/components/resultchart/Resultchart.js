@@ -1,3 +1,4 @@
+// views/backtest/conponents/resultchart/Resultcharts.js
 import React, { useEffect, useRef, useState } from 'react';
 import { createChart, ColorType } from 'lightweight-charts';
 
