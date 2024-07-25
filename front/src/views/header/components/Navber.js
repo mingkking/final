@@ -5,6 +5,10 @@ import { MenuItemsData } from '../menuItemsData';
 import axiosInstance from '../../login/component/Token/axiosInstance';
 import { useContext,useState, useEffect } from 'react';
 import LoginContext from '../../login/contexts/LoginContext';
+import "../../login/Login.css";
+
+
+
 
 
 
@@ -20,6 +24,7 @@ const Navbar = ({ onLoginSuccess }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userNickname, setUserNickname] = useState('');
   
+   
   
   useEffect(() => {
     // 로그인 상태를 확인하는 비동기 함수
@@ -99,6 +104,8 @@ const Navbar = ({ onLoginSuccess }) => {
     navigate('/login');
   };
 
+  
+
   return (
 
     <nav className="desktop-nav ">
@@ -113,13 +120,19 @@ const Navbar = ({ onLoginSuccess }) => {
           <button className="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
         </form>
         <div className="auth-buttons">
-                {isLoggedIn ? (
-                    <div>
-                        <span> {state.afterLoginNick} / </span>
-                        <button type="button" className="btn btn-light" onClick={handleLogoutClick}>로그아웃</button>
-                    </div>
-                ) : (
+        {isLoggedIn ? (
+          <div className="user-menu">
+            <span> 
+              {state.afterLoginNick}
+            </span>
+            <button type="button" className="btn btn-light" onClick={handleLogoutClick}>로그아웃</button>
+            
+          
+          
+          </div>
+        ) : (
                     <button type="button" className="btn btn-light"  onClick={handleLoginClick}>로그인</button>
+                    
                 )}
             </div>
     </nav>

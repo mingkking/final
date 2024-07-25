@@ -10,7 +10,7 @@ const MemberCount = ({count}) => {
   const value = useContext(mainContext);
 
   useEffect(()=>{
-    axios.get('http://localhost:8080')
+    axios.get('http://192.168.0.209:8080')
     // .then((result)=>console.log(result.data.selectTotalSession))
     .then((result) => {
       value.actions.setTotalCount(result.data.selectTotalSession);

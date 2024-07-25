@@ -3,9 +3,12 @@ import socket from "../../server";
 import { useNavigate } from "react-router-dom";
 import "./RoomList.css";
 import RoomListContext from "../../contexts/RoomListContext";
+import LoginContext from "../../../login/contexts/LoginContext";
 import axios from "axios";
 
+
 const RoomList = () => {
+    const loginValue = useContext(LoginContext);                // 로그인 Context 객체 생성
     const value = useContext(RoomListContext);                  // 채팅 방 Context 객체 생성
 
     useEffect(() => {                                           // 처음 한번 실행하는 훅
@@ -28,7 +31,7 @@ const RoomList = () => {
         
         if (!value.state.user) {                                // 채팅 유저 정보가 없을 경우
 
-            const userName = prompt("이름입력");                 // test용 추후 아이디 또는 닉네임 값으로 변경 예정
+            const userName = loginValue.state.afterLoginNick;                 // test용 추후 아이디 또는 닉네임 값으로 변경 예정
             
             socket.emit("joinRoom", rid, userName, (res) => {   // 서버에 방 참여 요청
 
@@ -53,7 +56,7 @@ const RoomList = () => {
         if (roomName) {                                                                             // 채팅방 이름을 입력했을 경우
 
             axios.get("/createRoom", {                                                              // createRoom 경로를 요청하면 http://localhost:5001/ 요청
-                params: { roomName: roomName, socketId: socket.id }                                 // params 객체 data
+                params: { roomName: roomName, socketId: socket.id, userName: loginValue.state.afterLoginNick } // params 객체 data
             })
                 .then((result) => {                                                                 // axios 방 생성 요청 이후 함수 실행
 

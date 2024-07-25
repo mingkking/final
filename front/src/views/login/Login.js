@@ -97,14 +97,17 @@ function Login({ onLoginSuccess }) {
                 </div>
                     <button type="submit" className="login-button">로그인</button>
                     <hr/>
-                    <hr/>               
+                    <hr/>
+                    <div className="google-login-button">               
                     <GoogleLogin
                             onSuccess={handleGoogleLoginSuccess}
                             onFailure={handleGoogleLoginError}
+                            prompt="select_account"
                             
                             >
                                 구글 로그인
-                    </GoogleLogin>            
+                    </GoogleLogin>
+                    </div>            
                 </form>
             </div>
         </div>

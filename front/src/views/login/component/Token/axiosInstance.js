@@ -3,7 +3,7 @@ import axios from 'axios';
 // axios 인스턴스 생성
 const axiosInstance = axios.create({
   // 기본 URL 설정
-  baseURL: 'http://localhost:8080/api', 
+  baseURL: 'http://192.168.0.209:8080/api', 
   // 쿠키와 함께 요청을 전송
   withCredentials: true
   

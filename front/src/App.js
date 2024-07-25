@@ -23,6 +23,7 @@ import PwChange from './views/login/component/find/PwChange';
 import Main from './views/main/Main'
 import Subscribe from './views/subscribe/Subscribe1'
 import Subscribe2 from './views/subscribe/Subscribe2'
+import MyPage from './views/mypage/MyPage';
 
 import Router from './routes/Router'
 
@@ -48,6 +49,7 @@ function AppContent() {
     console.log('Logged in as:', userNickname);
     document.dispatchEvent(new CustomEvent('loginSuccess', { detail: userNickname }));
   };
+  console.log('Host:', process.env.REACT_APP_HOST);
 
   return (
     <>
@@ -71,7 +73,8 @@ function AppContent() {
              <Route path='/PwFind' element={<PwFind/>}/>
              <Route path='/PwChange/:userId' element={<PwChange/>}/>
              <Route path='/Subscribe' element={<Subscribe />} /> 
-             <Route path='/Subscribe2' element={<Subscribe2 />} /> 
+             <Route path='/Subscribe2' element={<Subscribe2 />} />
+             <Route path='/MyPage' element={<MyPage />} />  
       
         {/* 관리자페이지 */}
         {Router.map((route, index) => (

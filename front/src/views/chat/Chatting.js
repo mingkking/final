@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Container, Grid, Card, CardContent, Box, Table, TableRow, TableCell, Button } from '@mui/material';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import socket from './server';
 import { useEffect } from 'react';
 import "./Chatting.css";
@@ -17,16 +17,20 @@ import NavBar from './components/NavBar/NavBar';
 import LoginContext from '../login/contexts/LoginContext';
 
 const Chatting = ({ props, user }) => {
-    const value = useContext(RoomListContext);
-    const loginValue = useContext(LoginContext);                                      // 채팅 방 Context 객체 생성
-    const [message, setMessage] = React.useState("");                               // 채팅 방 입력 필드
-    const messageContainerRef = React.useRef(null);                                 // 채팅 방 스크롤 
-    const [reverseLayout, setReverseLayout] = React.useState(false);                // 채팅 방 스크롤
+    const navigate = useNavigate();
+    const value = useContext(RoomListContext);                                           // 채팅 방 Context 객체 생성
+    const loginValue = useContext(LoginContext);                                         // 로그인 Context 객체 생성
+    const [message, setMessage] = React.useState("");                                    // 채팅 방 입력 필드
+    const messageContainerRef = React.useRef(null);                                      // 채팅 방 스크롤 
+    const [reverseLayout, setReverseLayout] = React.useState(false);                     // 채팅 방 스크롤
 
-    useEffect(() => {                                                               // 처음 한번 실행하는 훅
+    useEffect(() => {                                                                    // 처음 한번 실행하는 훅
 
-        console.log("loginValue.state.afterLoginNick", loginValue.state.afterLoginNick);
-
+        console.log("loginValue.state.afterLoginNick", loginValue.state.afterLoginNick); // 로그인 후 닉네임 값 확인
+        if(loginValue.state.afterLoginNick === ""){                                      // 로그인이 되어 있지 않을 경우
+            alert("로그인 및 구독 후 이용해주세요!");                                       // 로그인 또는 구독 하라고 하는 경고창 띄우기
+            navigate("/login");                                                          // 로그인 화면으로 이동시키기
+        }
 
         const messageHandler = (message) => {                                       // 메시지 이벤트 리스너 등록
             value.actions.setMessageList((prevState) => [...prevState, message]);
