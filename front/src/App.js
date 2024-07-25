@@ -5,7 +5,7 @@ import './App.css';
 import Header from './views/header/components/Header';
 
 
-import Ju1 from './views/stock/ju1';
+import Stock from './views/stock/stockMain';
 import Ju2 from './views/stock/ju2';
 import Co1 from './routes/co1';
 import Co2 from './routes/co2';
@@ -55,7 +55,7 @@ function AppContent() {
       <Routes>
 
              <Route path='/' element={<Main />}/>
-             <Route path='/ju1' element={<Ju1 />} />
+             <Route path='/stock' element={<Stock />} />
              <Route path='/ju2' element={<Ju2 />} />
              <Route path='/co1' element={<Co1 />} />
              <Route path='/co2' element={<Co2 />} />

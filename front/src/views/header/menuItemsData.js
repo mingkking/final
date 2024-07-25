@@ -8,7 +8,7 @@ export const MenuItemsData = [
           submenu: [
             {
               title: '주식1',
-              url: 'ju1',
+              url: 'stock',
             },
             {
               title: '주식2',
