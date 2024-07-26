@@ -1,11 +1,27 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 import DashboardCard from '../../../../components/shared/DashboardCard';
 import Chart from 'react-apexcharts';
 import dayjs from 'dayjs';
+import axios from 'axios';
+import mainContext from '../../main/contexts/MainContext';
 
 
 const MonthJoinMembers = () => {
+
+    const value = useContext(mainContext);
+
+    // array.from 으로 간단하게 작성(최근 5일 회원가입수, 값이 없으면 0으로 설정)
+    const data = Array.from({length: 5}, (_, i) => value.state.last5MonthsMember[4-i]?.JOIN_COUNT ?? 0);
+
+
+    // SpringBoot 에서 selectLast5MonthsMember 값 가져와서 context파일에 저장하기
+    useEffect(()=>{
+      axios.get('http://localhost:8080')
+      .then((result) => {
+        value.actions.setLast5MonthsMember(result.data.selectLast5MonthsMember);
+      });
+    },[]);
 
     // chart color
     const theme = useTheme();
@@ -83,7 +99,7 @@ const MonthJoinMembers = () => {
 
         {
             name: 'Month',
-            data: [280,250,200,620,200],
+            data: [data[0], data[1], data[2], data[3], data[4]],
         },
     ];
 

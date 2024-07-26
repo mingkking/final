@@ -1,13 +1,12 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState,useEffect } from 'react';
 import { Typography, Grid, Pagination, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-
 import PageContainer from '../../../components/container/PageContainer';
 import DashboardCard from '../../../components/shared/DashboardCard';
 import BlankCard from '../../../components/shared/BlankCard';
 import MemberListTest from './components/MemberList';
 import mainContext from "../main/contexts/MainContext";
-
+import axios from 'axios';
 const MemberList = () => {
   const value = useContext(mainContext);
   const member10List = 10; // 페이지당 멤버 수
@@ -54,8 +53,17 @@ const MemberList = () => {
   const indexLastMember = pageTen * member10List;
   // 현재 페이지에 표시할 멤버의 첫 번째 인덱스를 계산
   const indexFirstMember = indexLastMember - member10List;
-  // 현재 페이지에 해당하는 멤버들을 잘라내기 indexFirstMember, indexLastMember
-  const sliceMembers = filteredMembers.slice();
+  // 현재 페이지에 해당하는 멤버들을 잘라내기
+  const sliceMembers = filteredMembers.slice(indexFirstMember, indexLastMember);
+
+
+  useEffect(()=>{
+    axios.get('http://localhost:8080')
+    .then((result) => {
+      // manager/main 새로고침 할 때 마다 DB에서 값 받아서 데이터 넣기
+      value.actions.setMemberList(result.data.selectMemberList);
+    });
+  },[]);
 
   return (
     <PageContainer title="Typography" description="this is Typography">
@@ -107,7 +115,7 @@ const MemberList = () => {
               <Typography variant="h4" style={{ marginBottom: '20px', marginLeft: '120px' }}>이메일</Typography>
               <Typography variant="h4" style={{ marginBottom: '20px', marginLeft: '100px' }}>가입일자</Typography>
               <Typography variant="h4" style={{ marginBottom: '20px', marginLeft: '70px' }}>구독일시</Typography>
-            </div> 
+            </div>
             {/* 멤버 리스트 */}
             <Grid container spacing={3}>
               <Grid item sm={12}>

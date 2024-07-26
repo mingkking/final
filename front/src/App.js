@@ -19,12 +19,11 @@ import IdFind from './views/login/component/find/IdFind';
 import IdConfirm from './views/login/component/find/IdConfirm';
 import PwFind from './views/login/component/find/PwFind';
 import PwChange from './views/login/component/find/PwChange';
-import Main from './views/main/Main'
-import Subscribe from './views/subscribe/Subscribe1'
-import Subscribe2 from './views/subscribe/Subscribe2'
-
-import Subscribe3 from './views/subscribe/Subscribe3'
-
+import Main from './views/main/Main';
+import Subscribe from './views/subscribe/Subscribe1';
+import Subscribe2 from './views/subscribe/Subscribe2';
+import Subscribe3 from './views/subscribe/Subscribe3';
+import News from './views/news/News';
 
 import Router from './routes/Router'
 
@@ -72,10 +71,10 @@ function AppContent() {
              <Route path='/IdConfirm' element={<IdConfirm/>}/>
              <Route path='/PwFind' element={<PwFind/>}/>
              <Route path='/PwChange/:userId' element={<PwChange/>}/>
-             <Route path='/Subscribe' element={<Subscribe />} /> 
-
-             <Route path='/Subscribe2' element={<Subscribe2 />} /> 
-             <Route path='/Subscribe3' element={<Subscribe3 />} /> 
+             <Route path='/subscribe' element={<Subscribe />} /> 
+             <Route path='/subscribe2' element={<Subscribe2 />} /> 
+             <Route path='/subscribe3' element={<Subscribe3 />} /> 
+             <Route path='/news' element={<News />} />
 
       
         {/* 관리자페이지  */}

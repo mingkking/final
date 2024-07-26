@@ -9,13 +9,14 @@ const MemberCount = ({title, count}) => {
 
   const value = useContext(mainContext);
 
+  // SpringBoot 에서 값 가져와서 context파일에 저장하기
   useEffect(()=>{
     axios.get('http://localhost:8080')
     .then((result) => {
-      // manager/main 새로고침 할 때 마다 DB에서 값 받아서 데이터 넣기
       value.actions.setMembersCount(result.data.selectTotalMembers);
       value.actions.setTodayMembersCount(result.data.selectTodayMembers);
       value.actions.setTotalSubscribersCount(result.data.selectTotalSubscribers);
+      value.actions.setLast5DaysMember(result.data.selectLast5DaysMember);
     })
   },[]);
 
