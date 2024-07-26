@@ -1,6 +1,7 @@
 package com.example.mgr.Service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -21,6 +22,11 @@ public interface MgrService {
 	// 회원 수 count
 	int selectTotalMembers();
 	int selectTodayMembers();
+	
+	// 최근 5일/5달간 가입자 수
+	List<Map<String, Object>> selectLast5DaysMember();
+	List<Map<String, Object>> selectLast5MonthsMember();
+	List<Map<String, Object>> selectLast2YearsMember();
 	
 	// 구독자 수 count
 	int selectTotalSubscribers();

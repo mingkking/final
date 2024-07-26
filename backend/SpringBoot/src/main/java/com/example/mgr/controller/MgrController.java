@@ -1,6 +1,7 @@
 package com.example.mgr.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -21,10 +22,10 @@ import com.google.gson.JsonObject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-@CrossOrigin(origins = "http://localhost:3000") // ip주소에 맞게 작성
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController  
 public class MgrController { 
- 
+
 	@Autowired
 	private MgrService mgrservice;
 
@@ -43,6 +44,12 @@ public class MgrController {
 		// 회원 리스트
 		MgrMemberVO membervo = new MgrMemberVO();
 		List<MgrMemberVO> memberList = mgrservice.selectMembers(membervo);
+		
+		// 최근 5일/5달간 가입자 수
+		List<Map<String, Object>> last5DaysMember = mgrservice.selectLast5DaysMember();
+		List<Map<String, Object>> last5MonthsMember = mgrservice.selectLast5MonthsMember();
+		List<Map<String, Object>> last2YearsMember = mgrservice.selectLast2YearsMember();
+		
 
 		// 각 객체에 검색한 값 저장
 		int selectTotalSession = mgrservice.selectTotalSession();
@@ -70,15 +77,29 @@ public class MgrController {
 		JsonArray memberListJson = gson.toJsonTree(memberList).getAsJsonArray();
 		group.add("selectMemberList", memberListJson);
 		
+		// List인 last5DaysMember를 Json 배열로 변환
+		JsonArray last5DaysMemberJson = gson.toJsonTree(last5DaysMember).getAsJsonArray();
+		group.add("selectLast5DaysMember", last5DaysMemberJson);
+		
+		// List인 last5MonthsMember를 Json 배열로 변환
+		JsonArray last5MonthsMemberJson = gson.toJsonTree(last5MonthsMember).getAsJsonArray();
+		group.add("selectLast5MonthsMember", last5MonthsMemberJson);
+		
+		// List인 last2YearsMember를 Json 배열로 변환
+		JsonArray last2YearsMemberJson = gson.toJsonTree(last2YearsMember).getAsJsonArray();
+		group.add("selectLast2YearsMember", last2YearsMemberJson);
+		
+		
 		// json구조를 String 형태로 변환
 		String jsonString = gson.toJson(group);
-
+		System.out.println("보내는 값" + jsonString);
+		
 		return jsonString;
 
 	} // count
 	
     @GetMapping("/manager/memberDetail/{user_num}")
-    public String getMemberDetail(@PathVariable String user_num, MgrMemberVO vo) {
+    public String getMemberDetail(@PathVariable String user_num) {
         
         // 받은 번호 값 지정
         MgrMemberVO membervo = new MgrMemberVO();
@@ -96,6 +117,7 @@ public class MgrController {
 		// json구조를 String 형태로 변환
 		String jsonString = gson.toJson(memberDetailJson);
         
+		
         return jsonString;
     }
     
