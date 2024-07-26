@@ -1,0 +1,17 @@
+/Users/namdawis/programing/javaFullStackDeveloper/finalProject/final/backend/SpringBoot/src/main/java/com/example/ServletInitializer.java
+/Users/namdawis/programing/javaFullStackDeveloper/finalProject/final/backend/SpringBoot/src/main/java/com/example/ZfinalApplication.java
+/Users/namdawis/programing/javaFullStackDeveloper/finalProject/final/backend/SpringBoot/src/main/java/com/example/member/Service/LoginService.java
+/Users/namdawis/programing/javaFullStackDeveloper/finalProject/final/backend/SpringBoot/src/main/java/com/example/member/Service/LoginServiceImpl.java
+/Users/namdawis/programing/javaFullStackDeveloper/finalProject/final/backend/SpringBoot/src/main/java/com/example/member/controller/GoogleOAuth2Controller.java
+/Users/namdawis/programing/javaFullStackDeveloper/finalProject/final/backend/SpringBoot/src/main/java/com/example/member/controller/LoginController.java
+/Users/namdawis/programing/javaFullStackDeveloper/finalProject/final/backend/SpringBoot/src/main/java/com/example/member/domain/LoginVO.java
+/Users/namdawis/programing/javaFullStackDeveloper/finalProject/final/backend/SpringBoot/src/main/java/com/example/member/repository/LoginRepository.java
+/Users/namdawis/programing/javaFullStackDeveloper/finalProject/final/backend/SpringBoot/src/main/java/com/example/member/util/JwtUtil.java
+/Users/namdawis/programing/javaFullStackDeveloper/finalProject/final/backend/SpringBoot/src/main/java/com/example/member/util/WebConfig.java
+/Users/namdawis/programing/javaFullStackDeveloper/finalProject/final/backend/SpringBoot/src/main/java/com/example/mgr/Service/MgrCountService.java
+/Users/namdawis/programing/javaFullStackDeveloper/finalProject/final/backend/SpringBoot/src/main/java/com/example/mgr/Service/MgrCountServiceImpl.java
+/Users/namdawis/programing/javaFullStackDeveloper/finalProject/final/backend/SpringBoot/src/main/java/com/example/mgr/controller/MgrCountController.java
+/Users/namdawis/programing/javaFullStackDeveloper/finalProject/final/backend/SpringBoot/src/main/java/com/example/mgr/dao/MgrCountDAO.java
+/Users/namdawis/programing/javaFullStackDeveloper/finalProject/final/backend/SpringBoot/src/main/java/com/example/mgr/domain/MgrMemberVO.java
+/Users/namdawis/programing/javaFullStackDeveloper/finalProject/final/backend/SpringBoot/src/main/java/com/example/mgr/domain/MgrSessionCountVO.java
+/Users/namdawis/programing/javaFullStackDeveloper/finalProject/final/backend/SpringBoot/src/main/java/com/example/mgr/domain/MgrSubscriberCountVO.java

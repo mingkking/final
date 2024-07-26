@@ -2,8 +2,9 @@
   display: flex;
   flex-direction: column;
   align-items: center; /* 수평 중앙 정렬 */
-  height: 100vh; /* 뷰포트 전체 높이 사용 */
+  height: auto; /* 높이 자동 조정 */
   padding: 5px 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
 }
 
 .chatContainer {
@@ -62,7 +63,7 @@
 }
 
 .back-button:hover {
-  background-color: #d32f2f;
+  background-color: whitesmoke;
 }
 
 /* 유저 이름 스타일 */

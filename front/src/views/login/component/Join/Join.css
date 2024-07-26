@@ -3,12 +3,11 @@
     flex-direction: row;
     background-color: #fff;
     padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    width: 1000px;
+    
+    width: 1050px;
     
 
-    margin:auto;
+    margin-top:100px;
     position:absolute;
     top: 43%;
     left: 50%;
@@ -26,30 +25,42 @@
 .agreement-section {
     display: flex;
     flex-direction: column;
+    
 }
 
 .agreement-box {
     display: inline-block;
     flex-direction: column;
     margin: 10px 0;
-    margin-top: 35px;
+    
 }
 
 .agreement-content {
     border: 1px solid #ddd;
     padding: 10px;
-    height: 100px;
-    margin-top: 5px;
+    height: 250px;
+    margin-top: 20px;
+}
+
+.allCheck{
+    text-align: left;
+}
+
+#allAgree{
+    width: 15px;
+    height: 15px;
 }
 
 .agreement-box input {
+    width: 15px;
+    height: 15px;
     display: inline-block;
     margin-left: 130px;
 }
 
 
 .form-section {
-    margin-top: 50px;
+    margin-top: 58px;
 }
 
 .form-group {
@@ -75,6 +86,7 @@
 }
 
 .check-button, .send-button {
+    color: black;
     margin-left: 10px;
     padding: 10px 20px;
     border: 1px solid #ddd;
@@ -93,3 +105,21 @@
     cursor: pointer;
     margin-top: 20px;
 }
+
+.err {
+    display: flex;
+    color: red;
+    font-size: 12px;
+    margin-left: 130px;
+    margin-top: -30px;
+}
+
+.suc {
+    display: flex;
+    color: blue;
+    font-size: 12px;
+    margin-left: 130px;
+    margin-top: -30px;
+}
+
+ 

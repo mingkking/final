@@ -1,0 +1,222 @@
+[
+  {
+    "property_num": "234",
+    "transactionAmount": 113000,
+    "yearBuilt": "2014",
+    "address": "서울특별시 동대문구  답십리동 1003 ",
+    "registrationDate": "2024-07-19",
+    "road_name": "답십리로",
+    "apartMentName": "래미안위브",
+    "squareFootage": "59.97",
+    "floorNumber": "4"
+  },
+  {
+    "property_num": "3060",
+    "transactionAmount": 6500,
+    "yearBuilt": "1987",
+    "address": "대구광역시 달성군 현풍읍 중리 335",
+    "registrationDate": "2024-07-19",
+    "road_name": "현풍동로",
+    "apartMentName": "현풍학산",
+    "squareFootage": "40.91",
+    "floorNumber": "5"
+  },
+  {
+    "property_num": "320",
+    "transactionAmount": 47000,
+    "yearBuilt": "2000",
+    "address": "서울특별시 중랑구  신내동 437 ",
+    "registrationDate": "2024-07-19",
+    "road_name": "용마산로125길",
+    "apartMentName": "벽산",
+    "squareFootage": "59.78",
+    "floorNumber": "11"
+  },
+  {
+    "property_num": "1131",
+    "transactionAmount": 99750,
+    "yearBuilt": "1998",
+    "address": "서울특별시 영등포구  영등포동7가 46-1 ",
+    "registrationDate": "2024-07-19",
+    "road_name": "양산로",
+    "apartMentName": "경남아너스빌",
+    "squareFootage": "84.93",
+    "floorNumber": "14"
+  },
+  {
+    "property_num": "1143",
+    "transactionAmount": 270000,
+    "yearBuilt": "1971",
+    "address": "서울특별시 영등포구  여의도동 50 ",
+    "registrationDate": "2024-07-19",
+    "road_name": "63로",
+    "apartMentName": "시범",
+    "squareFootage": "118.12",
+    "floorNumber": "2"
+  },
+  {
+    "property_num": "1167",
+    "transactionAmount": 13650,
+    "yearBuilt": "2015",
+    "address": "서울특별시 영등포구  당산동 121-130 ",
+    "registrationDate": "2024-07-19",
+    "road_name": "버드나루로",
+    "apartMentName": "리버뷰",
+    "squareFootage": "15.05",
+    "floorNumber": "8"
+  },
+  {
+    "property_num": "1271",
+    "transactionAmount": 158000,
+    "yearBuilt": "2007",
+    "address": "서울특별시 동작구  상도동 521 ",
+    "registrationDate": "2024-07-19",
+    "road_name": "장승배기로4길",
+    "apartMentName": "포스코더샵",
+    "squareFootage": "132.74",
+    "floorNumber": "10"
+  },
+  {
+    "property_num": "1730",
+    "transactionAmount": 58000,
+    "yearBuilt": "2014",
+    "address": "부산광역시 서구  서대신동3가 752 ",
+    "registrationDate": "2024-07-19",
+    "road_name": "보수대로",
+    "apartMentName": "대신공원한신휴플러스",
+    "squareFootage": "120.88",
+    "floorNumber": "10"
+  },
+  {
+    "property_num": "1803",
+    "transactionAmount": 36000,
+    "yearBuilt": "2005",
+    "address": "부산광역시 부산진구  전포동 362-64 ",
+    "registrationDate": "2024-07-19",
+    "road_name": "전포대로",
+    "apartMentName": "한라비발디",
+    "squareFootage": "84.97",
+    "floorNumber": "18"
+  },
+  {
+    "property_num": "1898",
+    "transactionAmount": 29800,
+    "yearBuilt": "1998",
+    "address": "부산광역시 동래구  낙민동 94-1 ",
+    "registrationDate": "2024-07-19",
+    "road_name": "온천천로399번길",
+    "apartMentName": "동원로얄듀크",
+    "squareFootage": "59.96",
+    "floorNumber": "17"
+  },
+  {
+    "property_num": "2423",
+    "transactionAmount": 40000,
+    "yearBuilt": "2014",
+    "address": "대구광역시 중구  남산동 3000 ",
+    "registrationDate": "2024-07-19",
+    "road_name": "남산로",
+    "apartMentName": "극동스타클래스남산",
+    "squareFootage": "59.52",
+    "floorNumber": "17"
+  },
+  {
+    "property_num": "2535",
+    "transactionAmount": 49600,
+    "yearBuilt": "2022",
+    "address": "대구광역시 서구  내당동 2346",
+    "registrationDate": "2024-07-19",
+    "road_name": "달구벌대로361길",
+    "apartMentName": "e편한세상두류역",
+    "squareFootage": "74.87",
+    "floorNumber": "29"
+  },
+  {
+    "property_num": "2599",
+    "transactionAmount": 30000,
+    "yearBuilt": "2017",
+    "address": "대구광역시 북구  노원동3가 1227",
+    "registrationDate": "2024-07-19",
+    "road_name": "노원로10길",
+    "apartMentName": "대구노원한신더휴",
+    "squareFootage": "74.95",
+    "floorNumber": "5"
+  },
+  {
+    "property_num": "2651",
+    "transactionAmount": 12550,
+    "yearBuilt": "1995",
+    "address": "대구광역시 북구  구암동 695-3",
+    "registrationDate": "2024-07-19",
+    "road_name": "학정로",
+    "apartMentName": "칠곡청구타운",
+    "squareFootage": "59.34",
+    "floorNumber": "10"
+  },
+  {
+    "property_num": "2658",
+    "transactionAmount": 10500,
+    "yearBuilt": "1995",
+    "address": "대구광역시 북구  동천동 872",
+    "registrationDate": "2024-07-19",
+    "road_name": "팔거천동로",
+    "apartMentName": "보성서한타운",
+    "squareFootage": "59.9",
+    "floorNumber": "1"
+  },
+  {
+    "property_num": "2797",
+    "transactionAmount": 33600,
+    "yearBuilt": "1995",
+    "address": "대구광역시 수성구  신매동 594",
+    "registrationDate": "2024-07-19",
+    "road_name": "신매로",
+    "apartMentName": "시지동서타운",
+    "squareFootage": "116.19",
+    "floorNumber": "3"
+  },
+  {
+    "property_num": "2798",
+    "transactionAmount": 16000,
+    "yearBuilt": "1995",
+    "address": "대구광역시 수성구  신매동 580",
+    "registrationDate": "2024-07-19",
+    "road_name": "고산로",
+    "apartMentName": "시지청솔타운",
+    "squareFootage": "57.39",
+    "floorNumber": "2"
+  },
+  {
+    "property_num": "2876",
+    "transactionAmount": 13000,
+    "yearBuilt": "1997",
+    "address": "대구광역시 달서구  도원동 1440",
+    "registrationDate": "2024-07-19",
+    "road_name": "한실로",
+    "apartMentName": "아람마을",
+    "squareFootage": "59.63",
+    "floorNumber": "6"
+  },
+  {
+    "property_num": "2950",
+    "transactionAmount": 46500,
+    "yearBuilt": "2008",
+    "address": "대구광역시 달서구  월성동 1329",
+    "registrationDate": "2024-07-19",
+    "road_name": "월배로33길",
+    "apartMentName": "태왕아너스베스트",
+    "squareFootage": "127.04",
+    "floorNumber": "11"
+  },
+  {
+    "property_num": "304",
+    "transactionAmount": 10200,
+    "yearBuilt": "2014",
+    "address": "서울특별시 중랑구  상봉동 113-1 ",
+    "registrationDate": "2024-07-19",
+    "road_name": "면목로",
+    "apartMentName": "포시티",
+    "squareFootage": "14.86",
+    "floorNumber": "14"
+  }
+]

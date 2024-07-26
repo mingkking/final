@@ -1,0 +1,66 @@
+
+
+.id_container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    
+
+    margin:auto;
+    position:absolute;
+    top: 43%;
+    left: 50%;
+    transform: translate(-50%, -43%);
+            
+    
+   
+}
+
+.find-id-form label {
+    text-align: left;
+}
+
+.id_container h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.find-id-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.find-id-form label {
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.find-id-form input {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.find-id-form button {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.find-id-form button:hover {
+    background-color: #0056b3;
+}
+
+
+/* --------------------------------------------- */
+

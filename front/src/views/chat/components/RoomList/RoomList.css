@@ -7,11 +7,42 @@
     position: relative;
 }
 
+/* room-nav 스타일 */
 .room-nav {
-    padding: 20px 10px;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #55667758;
+    padding: 7px 20px;
+    color: black;
+    border-radius: 10px;
+}
+
+/* room-nav-chat 스타일 */
+.room-nav-chat {
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* room-nav-create 스타일 */
+.room-nav-create {
     background-color: white;
+    border: none;
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 0px;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: background-color 0.3s ease;
+}
+
+.room-nav-create:hover {
+    background-color: whitesmoke;
 }
 
 .room-list {
@@ -37,9 +68,13 @@
     display: flex;
 }
 
+/* member-number 스타일 */
 .member-number {
-    color: white;
-    background-color: rgb(237, 71, 71);
-    border-radius: 50px;
-    padding: 3px 8px
+    font-size: 14px;
+    color: black;
+    background-color: #f0f0f0;
+    border-radius: 12px;
+    padding: 5px 10px;
+    text-align: center;
+    margin-left: auto;
 }

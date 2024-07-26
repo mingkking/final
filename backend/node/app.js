@@ -5,66 +5,47 @@ const cors = require("cors");
 // const session = require('express-session');
 const app = express();
 const Room = require("./Models/room");
+const userController = require("./Controllers/user.controller");
 
-// app.use(cors({
-//   origin: 'http://localhost:3000', // 클라이언트 주소
-//   credentials: true // 쿠키를 포함하여 요청을 보냄
-// }));
+// 룸 생성 - 리액트에서 http://localhost:5001/ 요청을 보냈을 경우
+app.get("/", async (req, res) => {                                          
 
-// app.use(session({
-//   secret: 'secret-key',
-//   resave: false,
-//   saveUninitialized: true,
-//   cookie: {
-//     maxAge: 1000 * 60 * 60 * 24, // 24 hours
-//     secure: false, // HTTPS 사용 시 true로 설정
-//     httpOnly: true
-//   },
-// }));
+  try {
+    const roomName = req.query.roomName;                                    // 리액트에서 보내준 방제목
+    const socketId = req.query.socketId;                                    // 리액트에서 보내준 socket.id
+    const userName = req.query.userName;                                    // 리액트에서 보내준 socket.id
 
-// app.get('/setSession', (req, res) => {
-//   // 세션에 데이터를 설정하면, 요청 받은 고유의 세션 사용자의 값만 설정됨.
-//   console.log("1: ", req.query);
-//   const { name } = req.query; // 쿼리에서 name 값을 가져옴
-//   req.session.user = { name }; // 세션에 user 객체로 저장
-//   req.session.save(err => {
-//     if (err) {
-//       console.error('세션 저장 오류:', err);
-//       res.status(500).send('서버 오류');
-//     } else {
-//       console.log("2: ", req.session.user);
-//       res.send(req.session.user);
-//     }
-//   });
-// });
+    let user = await userController.saveUser(userName, socketId);           // 유저 정보 이름을 중복검사 후 이름, 고유id 저장  
+    user = await userController.checkUser(user.token);                      // 유저가 채팅 방 안에 있는지 확인
 
-// app.get('/getSession', (req, res) => {
-//   const user = req.session.user;
-//   console.log("getSession user: ", user);
-//   res.send(user);
-// });
+    // 방 생성
+    const newRoom = await Room.create({
 
-//  임의로 룸을 만들어주기
-app.get("/", async (req, res) => {
-  Room.insertMany([
-    {
-      room: "자바스크립트 단톡방",
-      members: [],
-    },
-    {
-      room: "리액트 단톡방",
-      members: [],
-    },
-    {
-      room: "NodeJS 단톡방",
-      members: [],
-    },
-  ])
-    .then(() => res.send("ok"))
-    .catch((error) => res.send(error));
+      room: roomName,                                                       // 방 제목
+      members: [user._id],                                                  // 방 접속 유저들
+      admin: user._id,                                                      // 방장
+
+    });
+
+    user.room = newRoom._id;                                                // 유저 정보에 생성한 방 id 값 저장
+    await user.save();                                                      // 유저 정보 업데이트
+
+    res.send({                                                              // 노드 -> 리액트 응답
+
+      ok:true,
+      room:newRoom,                                                         // 생성된 방 정보
+      user:user,                                                            // 유저 정보
+
+    });
+
+  } catch (error) {
+    console.log("방생성 error");
+  }
+
 });
 
-mongoose.connect(process.env.DB, {
+// MongoDB 연동
+mongoose.connect(process.env.DB, {                                                                            
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => console.log("connected to database"));

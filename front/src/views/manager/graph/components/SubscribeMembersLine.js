@@ -2,12 +2,22 @@ import React from 'react';
 import { useTheme } from '@mui/material/styles';
 import DashboardCard from '../../../../components/shared/DashboardCard';
 import Chart from 'react-apexcharts';
+import dayjs from 'dayjs';
 
 const YearJoinMembers = () => {
     // chart color
     const theme = useTheme();
-    const primary = theme.palette.primary.main;
-    const secondary = theme.palette.secondary.main;
+    const primary = "#91a9ff";
+    const secondary = "#f3c2fc";
+
+    // 최근 6개월 계산 함수
+    const getLastSixMonths = () => {
+        const months = [];
+        for (let i = 5; i >= 0; i--) {
+            months.push(dayjs().subtract(i, 'month').format('M월'));
+        }
+        return months;
+    };
 
     // chart
     const optionscolumnchart = {
@@ -25,7 +35,7 @@ const YearJoinMembers = () => {
             show: true,
             width: 2,
             lineCap: "butt",
-            colors: ["#91a9ff", "#f3c2fc"],
+            colors: [primary, secondary],
         },
         dataLabels: {
             enabled: false,
@@ -46,7 +56,7 @@ const YearJoinMembers = () => {
             tickAmount: 4,
         },
         xaxis: {
-            categories: ['1','2','3','4','5','6'],
+            categories: getLastSixMonths(),
             axisBorder: {
                 show: false,
             },
@@ -70,7 +80,7 @@ const YearJoinMembers = () => {
 
     return (
         <div>
-            <DashboardCard title="구독자수">
+            <DashboardCard title="구독자수(지난 6달 / 작년과 비교)">
                 <Chart
                     options={optionscolumnchart}
                     series={seriescolumnchart}

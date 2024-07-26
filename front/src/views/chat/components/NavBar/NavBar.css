@@ -30,10 +30,18 @@
   .back-button:hover {
     background-color: whitesmoke;
   }
-  
+
+  /* 룸 이름 스타일 */
+  .nav-room {
+    font-size: 100%;
+    font-weight: bold;
+    text-align: center;
+    flex: 1;
+  }
+
   /* 유저 이름 스타일 */
   .nav-user {
-    font-size: 18px;
+    font-size: 100%;
     font-weight: bold;
     text-align: center;
     flex: 1;

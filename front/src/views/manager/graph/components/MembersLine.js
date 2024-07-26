@@ -1,14 +1,27 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useTheme } from '@mui/material/styles';
-import DashboardCard from '../../../../components/container/PageContainer';
+import DashboardCard from '../../../../components/shared/DashboardCard';
 import Chart from 'react-apexcharts';
+import mainContext from "../../main/contexts/MainContext";
+import dayjs from 'dayjs';
 
 const MembersLine = () => {
 
     // chart color
     const theme = useTheme();
-    const primary = theme.palette.primary.main;
-    const secondary = theme.palette.secondary.main;
+    const primary = "#91a9ff";
+    const secondary = "#f3c2fc";
+
+    const value = useContext(mainContext);
+
+    // 최근 6개월 계산 함수
+    const getLastSixMonths = () => {
+        const months = [];
+        for (let i = 5; i >= 0; i--) {
+            months.push(dayjs().subtract(i, 'month').format('M월'));
+        }
+        return months;
+    };
 
     // chart
     const optionscolumnchart = {
@@ -26,7 +39,7 @@ const MembersLine = () => {
             show: true,
             width: 2,
             lineCap: "butt",
-            colors: ["#91a9ff", "#f3c2fc"],
+            colors: [primary, secondary],
         },
         dataLabels: {
             enabled: false,
@@ -44,10 +57,10 @@ const MembersLine = () => {
             },
         },
         yaxis: {
-            tickAmount: 4,
+            tickAmount: 5,
         },
         xaxis: {
-            categories: ['1','2','3','4','5','6'],
+            categories: getLastSixMonths(),
             axisBorder: {
                 show: false,
             },
@@ -65,13 +78,13 @@ const MembersLine = () => {
         },
         {
             name: 'this year',
-            data: [280, 541, 245, 200, 100, 100],
+            data: [280, 541, 245, 200, 100, value.state.membersCount],
         },
     ];
 
     return (
         <div>
-            <DashboardCard title="가입자수">
+            <DashboardCard title="가입자수(지난 6달 / 작년과 비교)">
                 <Chart
                     options={optionscolumnchart}
                     series={seriescolumnchart}

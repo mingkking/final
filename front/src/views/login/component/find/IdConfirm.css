@@ -1,0 +1,67 @@
+.id-find-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    
+
+    margin:auto;
+    position:absolute;
+    top: 43%;
+    left: 50%;
+    transform: translate(-50%, -43%);
+            
+    
+}
+
+.main-content {
+    background-color: #ebe9e9;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.id-find-container h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.result {
+    margin-bottom: 30px;
+}
+
+.result p {
+    font-size: 18px;
+    color: #666;
+}
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.3s;
+    width: 150px;
+}
+
+.button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.button:focus {
+    outline: none;
+}

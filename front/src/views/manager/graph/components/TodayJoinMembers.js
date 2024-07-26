@@ -2,6 +2,7 @@ import React from 'react';
 import { useTheme } from '@mui/material/styles';
 import DashboardCard from '../../../../components/shared/DashboardCard';
 import Chart from 'react-apexcharts';
+import dayjs from 'dayjs';
 
 
 const SalesOverview = () => {
@@ -11,6 +12,15 @@ const SalesOverview = () => {
     const theme = useTheme();
     const primary = theme.palette.primary.main;
     const secondary = theme.palette.secondary.main;
+
+    // 최근 5일 계산 함수
+    const getLastFiveDays = () => {
+        const days = [];
+        for (let i = 0; i < 5; i++) {
+            days.push(dayjs().subtract(i, 'day').format('D일'));
+        }
+        return days.reverse();
+    };
 
     // chart
     const optionscolumnchart = {
@@ -60,7 +70,7 @@ const SalesOverview = () => {
             tickAmount: 4,
         },
         xaxis: {
-            categories: [ '10', '11', '12', '13', '14'],
+            categories: getLastFiveDays(),
             axisBorder: {
                 show: false,
             },
