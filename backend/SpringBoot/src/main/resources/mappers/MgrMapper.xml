@@ -42,12 +42,39 @@
       FROM users
       WHERE TRUNC(created_at) = TRUNC(SYSDATE)
    </select>
-    
-    <!-- 구독자 수 -->
-    <select id="selectTotalSubscribers" parameterType="MgrSubscriberCountVO" resultType="int">
-    	SELECT count(*)
-    	FROM subscribe
-    </select>
+   
+   <!-- 최근 5일간 가입자 수 -->
+   <select id="selectLast5DaysMember" parameterType="MgrMemberVO" resultType="Map">
+      SELECT TO_CHAR(created_at, 'YYYY-MM-DD') AS join_date, COUNT(*) AS join_count
+      FROM users
+      WHERE created_at >= TRUNC(SYSDATE) - 4
+      AND TRUNC(SYSDATE) + 1 > created_at
+      GROUP BY TO_CHAR(created_at, 'YYYY-MM-DD')
+   </select>
+   
+   <!-- 최근 5달간 가입자 수       AND TRUNC(SYSDATE) > created_at -->
+   <select id="selectLast5MonthsMember" parameterType="MgrMemberVO" resultType="Map">
+      SELECT TO_CHAR(created_at, 'YYYY-MM') AS join_month, COUNT(*) AS join_count
+      FROM users
+      WHERE created_at >= ADD_MONTHS(TRUNC(SYSDATE, 'MM'), -4)
+      GROUP BY TO_CHAR(created_at, 'YYYY-MM')
+      ORDER BY join_month
+   </select>
+   
+   <!-- 최근 2년간 가입자 수 -->
+   <select id="selectLast2YearsMember" parameterType="MgrMemberVO" resultType="Map">
+      SELECT TO_CHAR(created_at, 'YYYY') AS join_year, COUNT(*) AS join_count
+      FROM users
+      WHERE created_at >= ADD_MONTHS(TRUNC(SYSDATE, 'YYYY'), -24)
+      GROUP BY TO_CHAR(created_at, 'YYYY')
+      ORDER BY join_year
+   </select>
+   
+   <!-- 구독자 수 -->
+   <select id="selectTotalSubscribers" parameterType="MgrSubscriberCountVO" resultType="int">
+      SELECT count(*)
+      FROM subscribe
+   </select>
     
     <!-- 회원 목록 리스트 출력 -->
     <select id="selectMembers" resultType="MgrMemberVO">

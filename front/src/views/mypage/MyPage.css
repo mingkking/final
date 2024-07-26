@@ -1,20 +1,30 @@
 .mypage-container {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+  width: 100%;
+  max-width: 700px;
+  padding: 20px;
+  
+  background-color: #fff;
+  border-radius: 8px;
+  
+
+  margin:auto;
+  position:absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -43%);
+          
+  
+  
   }
   
   .mypage-title {
-    font-size: 24px;
+    
     margin-bottom: 20px;
     text-align: center;
   }
   
   .profile-section {
-    display: flex;
+    display: flex; 
     flex-direction: column;
     align-items: center;
     background-color: #f2f2f2;
@@ -25,30 +35,55 @@
   
   .profile-info {
     display: flex;
-    align-items: center;
+    flex-direction: center;
     width: 100%;
   }
   
-  .profile-picture img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
+  .profile-avatar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-right: 20px;
+  }
+
+  .profile-avatar {
+   
+    border-radius: 50%;
+    border: 2px solid #ccc;
+  }
+
+  .edit-profile-image-button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    
+    border-radius: 5px;
+  }
+  
+  .edit-profile-image-button:hover {
+    background-color: #e9e9e9;
   }
   
   .profile-details {
     flex-grow: 1;
+    
   }
   
   .nickname {
-    font-size: 20px;
-    margin: 0;
+    font-size: 30px;
+    text-align: left;
+    margin-top: 20px;
+    margin-left: 5px;
   }
   
   .profile-stats {
-    display: flex;
-    justify-content: space-between;
     margin: 10px 0;
+    width: 50%;
+    border-collapse: collapse;
+    text-align: center;
   }
   
   .profile-stats span {
@@ -63,6 +98,8 @@
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
+    width: 100%;
+    margin-top: 30px;
   }
   
   .edit-profile-button:hover {
@@ -75,7 +112,9 @@
   }
   
   .my-posts h3 {
+    font-size: 18px;
     margin-bottom: 10px;
+    text-align: left;
   }
   
   .post {
@@ -88,18 +127,32 @@
   
   .post-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     font-size: 14px;
     color: #666;
   }
+
+  .post-nickname {
+    font-size: 27px;
+    margin-top: 15px;
+   margin-left: 10px;
+  }
+
+  .post-date {
+   margin-top: 30px;
+   margin-left: 20px;
+  }
   
   .post-content p {
-    margin: 10px 0;
+    margin: 20px;
+    text-align: left;
   }
   
   .post-image-placeholder {
     width: 100%;
-    height: 150px;
+    height: 300px;
     background-color: #e0e0e0;
     border-radius: 5px;
   }
+
+  

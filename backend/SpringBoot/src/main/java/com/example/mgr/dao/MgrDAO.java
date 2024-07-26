@@ -1,6 +1,7 @@
 package com.example.mgr.dao;
    
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -9,12 +10,23 @@ import com.example.mgr.domain.MgrSessionCountVO;
 
 @Mapper 
 public interface MgrDAO {
+	
+	// session 값 저장
 	public int saveSession(MgrSessionCountVO vo);
+	
+	// 방문자 수
 	public int selectTotalSession();
 	public int selectTodaySession();
 	public int selectMonthSession();
+	
+	// 회원 수
 	public int selectTotalMembers();
 	public int selectTodayMembers();
+	public List<Map<String, Object>> selectLast5DaysMember();
+	public List<Map<String, Object>> selectLast5MonthsMember();
+	public List<Map<String, Object>> selectLast2YearsMember();
+	
+	// 구독자 수
 	public int selectTotalSubscribers();
 	
 	// 회원 목록
