@@ -11,10 +11,9 @@ import MessageContainer from './components/MessageContainer/MessageContainer';
 import RoomList from './components/RoomList/RoomList';
 import { useContext } from 'react';
 import RoomListContext from './contexts/RoomListContext';
-import axios from 'axios';
 import NavBar from './components/NavBar/NavBar';
-
 import LoginContext from '../login/contexts/LoginContext';
+import axiosInstance from '../login/component/Token/axiosInstance';
 
 const Chatting = ({ props, user }) => {
     const navigate = useNavigate();
@@ -26,23 +25,34 @@ const Chatting = ({ props, user }) => {
 
     useEffect(() => {                                                                    // 처음 한번 실행하는 훅
 
-        console.log("loginValue.state.afterLoginNick", loginValue.state.afterLoginNick); // 로그인 후 닉네임 값 확인
-        if(loginValue.state.afterLoginNick === ""){                                      // 로그인이 되어 있지 않을 경우
-            alert("로그인 및 구독 후 이용해주세요!");                                       // 로그인 또는 구독 하라고 하는 경고창 띄우기
-            navigate("/login");                                                          // 로그인 화면으로 이동시키기
-        }
+        loginCheck();                                                                    // 로그인 판단 함수
 
-        const messageHandler = (message) => {                                       // 메시지 이벤트 리스너 등록
+        const messageHandler = (message) => {                                            // 메시지 이벤트 리스너 등록
             value.actions.setMessageList((prevState) => [...prevState, message]);
         };
 
-        socket.on("message", messageHandler);                                       // 서버에서 리액트로 message 요청을 받음
+        socket.on("message", messageHandler);                                            // 서버에서 리액트로 message 요청을 받음
 
-        return () => {                                                              // 컴포넌트 언마운트 시 이벤트 리스너 정리
+        return () => {                                                                   // 컴포넌트 언마운트 시 이벤트 리스너 정리
             socket.off("message", messageHandler);
         };
 
     }, []);
+
+    const loginCheck = async () => {
+
+        const response = await axiosInstance.get('/check-login-status', {                // 로그인 상태 요청
+            withCredentials: true,                                                       // 쿠키 포함 요청
+        });
+        
+        if (response.data.isLoggedIn === true) {                                          // 로그인이 되어 있을 경우
+            value.actions.setChatUserNick(response.data.userNickname);                    // 로그인 닉네임 저장
+        } else {                                                                          // 로그인이 되어 있지 않을 경우
+            alert("로그인 및 구독 후 이용해주세요!");                                       // 로그인 또는 구독 하라고 하는 경고창 띄우기
+            navigate("/login");                                                           // 로그인 화면으로 이동시키기
+        }
+
+    }
 
     useEffect(() => {                                                               // 메세지리스트가 변화가 생길 때 스크롤을 이동시킴
 
