@@ -7,10 +7,11 @@ const RoomListProvider = (props) => {
 	const [user, setUser] = useState(null); 				   // 유저 정보 저장
 	const [rooms, setRooms] = useState([]); 				   // 채팅 방 정보 저장
 	const [messageList, setMessageList] = useState([]); 	   // 전체 메세지 저장
+	const [chatUserNick, setChatUserNick] = useState(null);    // 채팅 유저 닉네임
 
 	const values = {
-		state: { user, rId, rooms, messageList },
-		actions: { setUser, setRId, setRooms, setMessageList } 
+		state: { user, rId, rooms, messageList, chatUserNick },
+		actions: { setUser, setRId, setRooms, setMessageList, setChatUserNick } 
 	}
 
 	return (

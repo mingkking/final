@@ -10,7 +10,7 @@ const MemberCount = ({title, count}) => {
   const value = useContext(mainContext);
 
   useEffect(()=>{
-    axios.get('http://localhost:8080')
+    axios.get('http://192.168.56.1:8080')
     .then((result) => {
       // manager/main 새로고침 할 때 마다 DB에서 값 받아서 데이터 넣기
       value.actions.setMembersCount(result.data.selectTotalMembers);

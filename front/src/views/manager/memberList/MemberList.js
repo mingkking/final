@@ -54,8 +54,8 @@ const MemberList = () => {
   const indexLastMember = pageTen * member10List;
   // 현재 페이지에 표시할 멤버의 첫 번째 인덱스를 계산
   const indexFirstMember = indexLastMember - member10List;
-  // 현재 페이지에 해당하는 멤버들을 잘라내기
-  const sliceMembers = filteredMembers.slice(indexFirstMember, indexLastMember);
+  // 현재 페이지에 해당하는 멤버들을 잘라내기 indexFirstMember, indexLastMember
+  const sliceMembers = filteredMembers.slice();
 
   return (
     <PageContainer title="Typography" description="this is Typography">

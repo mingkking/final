@@ -14,7 +14,7 @@ const MemberDetail = () => {
   useEffect(() => { 
     const getMemberDetail = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/manager/memberDetail/${user_num}`);
+        const response = await axios.get(`http://192.168.56.1:8080/manager/memberDetail/${user_num}`);
         setMemberDetail(response.data[0]);
       } catch (error) {
         console.error('회원 상세 정보 가져오기 실패:', error);
@@ -29,7 +29,7 @@ const MemberDetail = () => {
   const handleDelete = async () => {
     setLoading(true);
     try {
-      await axios.delete(`http://localhost:8080/manager/memberDetail/${user_num}`);
+      await axios.delete(`http://192.168.56.1:8080/manager/memberDetail/${user_num}`);
       alert('회원이 성공적으로 삭제되었습니다.');
       navigate('/manager/memberList', { replace: true });
       // 페이지 이동 후 새로고침(DB 가져오기)
