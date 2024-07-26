@@ -1,9 +1,10 @@
 .pwfind-container {
-    background-color: #fff;
+    width: 100%;
+    max-width: 500px;
     padding: 20px;
-    border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 500px;
+    background-color: #fff;
+    border-radius: 8px;
     
 
     margin:auto;
@@ -20,7 +21,7 @@
 
 .pwfind-form label {
     margin: 10px 0 5px;
-    
+    text-align: left;
 }
 
 .pwfind-form input {

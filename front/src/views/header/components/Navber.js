@@ -6,7 +6,7 @@ import axiosInstance from '../../login/component/Token/axiosInstance';
 import { useContext,useState, useEffect } from 'react';
 import LoginContext from '../../login/contexts/LoginContext';
 import "../../login/Login.css";
-
+import Profile from './Profile';
 
 
 
@@ -105,7 +105,7 @@ const Navbar = ({ onLoginSuccess }) => {
   };
 
   
-
+//<button type="button" className="btn btn-light" onClick={handleLogoutClick}>로그아웃</button>
   return (
 
     <nav className="desktop-nav ">
@@ -125,9 +125,9 @@ const Navbar = ({ onLoginSuccess }) => {
             <span> 
               {state.afterLoginNick}
             </span>
-            <button type="button" className="btn btn-light" onClick={handleLogoutClick}>로그아웃</button>
             
-          
+            
+            <Profile onLogout={handleLogoutClick} />
           
           </div>
         ) : (

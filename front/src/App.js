@@ -22,9 +22,8 @@ import PwChange from './views/login/component/find/PwChange';
 import Main from './views/main/Main'
 import Subscribe from './views/subscribe/Subscribe1'
 import Subscribe2 from './views/subscribe/Subscribe2'
-
 import Subscribe3 from './views/subscribe/Subscribe3'
-
+import MyPage from './views/mypage/MyPage';
 
 import Router from './routes/Router'
 
@@ -61,7 +60,7 @@ function AppContent() {
              <Route path='/ju2' element={<Ju2 />} />
              <Route path='/co1' element={<Co1 />} />
              <Route path='/co2' element={<Co2 />} />
-             <Route path='/budongsan' element={<Budongsan />} />
+             <Route path='/budongsanPage' element={<Budongsan />} />
              <Route path='/bu2' element={<Bu2 />} />
              <Route path='/back1' element={<Back1 />} />
              <Route path='/Chatting' element={<Chatting />} />
@@ -73,9 +72,9 @@ function AppContent() {
              <Route path='/PwFind' element={<PwFind/>}/>
              <Route path='/PwChange/:userId' element={<PwChange/>}/>
              <Route path='/Subscribe' element={<Subscribe />} /> 
-
              <Route path='/Subscribe2' element={<Subscribe2 />} /> 
              <Route path='/Subscribe3' element={<Subscribe3 />} /> 
+             <Route path='/MyPage' element={<MyPage />} /> 
 
       
         {/* 관리자페이지  */}
