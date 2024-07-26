@@ -33,7 +33,7 @@ const PwChange = () => {
     };
 
     return (
-        <div className="pwchange-container">
+        <div className="login-container">
             <h1>비밀번호 변경</h1>
             <form className="pwchange-form" onSubmit={handleSubmit(onSubmit)}>
                 

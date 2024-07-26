@@ -8,7 +8,7 @@ const IdConfirm = () => {
     const navigate = useNavigate();
     const userId = location.state?.userId;
     return (
-        <div className="id-find-container">
+        <div className="login-container">
             <h2>아이디 찾기</h2>
             <main className="main-content">
                 

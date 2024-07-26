@@ -31,7 +31,7 @@ const IdFind = () => {
     };  
 
     return (
-        <div className="id_container">
+        <div className="login-container">
             <h1>아이디 찾기</h1>
             <form className="find-id-form" onSubmit={handleSubmit}>
                 

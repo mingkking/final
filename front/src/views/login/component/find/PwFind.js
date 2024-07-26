@@ -32,7 +32,7 @@ const PwFind = () => {
     };
 
     return (
-        <div className="pwfind-container">
+        <div className="login-container">
             <h1>비밀번호 찾기</h1>
             <form className="pwfind-form" onSubmit={handleSubmit}>
                 <label htmlFor="email">이메일</label>

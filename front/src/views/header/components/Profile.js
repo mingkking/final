@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useRef, useContext, useEffect } from 'react';
 import {
   Avatar,
   Box,
@@ -13,16 +14,63 @@ import {
 
 import { IconEdit, IconExchange, IconLeaf, IconListCheck, IconLogout, IconMail, IconUser } from '@tabler/icons-react';
 
-import ProfileImg from '../../../assets/images/profile/user-1.jpg';
+import LoginContext from '../../login/contexts/LoginContext';
 
 const Profile = ({ onLogout }) => {
   const [anchorEl2, setAnchorEl2] = useState(null);
+  // const [Image, setImage] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
+  const fileInput = useRef(null);
+  const { state, actions } = useContext(LoginContext);
+
+  useEffect(() => {
+    // 로그인 상태를 확인할 때 프로필 사진 URL을 가져옵니다.
+    fetch(`/api/profile-image/${state.userId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.profileImageUrl) {
+                actions.setProfileImage(data.profileImageUrl);
+            }
+        })
+        .catch(error => console.error('Error fetching profile image:', error));
+}, [state.userId]);
+
   const handleClick2 = (event) => {
     setAnchorEl2(event.currentTarget);
   };
   const handleClose2 = () => {
     setAnchorEl2(null);
   };
+
+  
+
+  const onChange = (e) => {
+    if (e.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = () => {
+            if (reader.readyState === 2) {
+                // 서버에 프로필 사진 URL을 업데이트
+                fetch('/api/update-profile-image', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userId: state.userId,
+                        profileImageUrl: reader.result
+                    }),
+                }).then(response => response.json())
+                  .then(data => {
+                      console.log('Profile image updated successfully', data);
+                      // 프로필 사진 업데이트 후 클라이언트 상태를 업데이트
+                      actions.setProfileImage(reader.result);
+                  })
+                  .catch(error => console.error('Error updating profile image:', error));
+            }
+        };
+        reader.readAsDataURL(e.target.files[0]);
+    }
+};
+
 
   return (
     <Box>
@@ -39,15 +87,23 @@ const Profile = ({ onLogout }) => {
         }}
         onClick={handleClick2}
       >
-        <Avatar
-          src={ProfileImg}
-          alt={ProfileImg}
+         <Avatar
+          src={state.profileImage} 
+          alt="Profile"
           sx={{
             width: 35,
             height: 35,
           }}
+          
         />
       </IconButton>
+      <input
+        type="file"
+        style={{ display: 'none' }}
+        accept="image/jpg,image/png,image/jpeg"
+        onChange={onChange}
+        ref={fileInput}
+      />
       {/* ------------------------------------------- */}
       {/* Message Dropdown */}
       {/* ------------------------------------------- */}
