@@ -34,7 +34,7 @@ import lombok.Data;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://192.168.56.1:3000", allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class LoginController {
     @Autowired
     private LoginServiceImpl loginService; 
