@@ -1,35 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Posts.css';
+import { useNavigate } from 'react-router';
 
 function Posts() {
+  const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [keyword, setKeyword] = useState('');
 
   useEffect(() => {
-    axios.get('/api/posts')
-      .then(response => setPosts(response.data))
-      .catch(error => console.error(error));
+    // axios.get('/api/posts')
+    //   .then(response => setPosts(response.data))
+    //   .catch(error => console.error(error));
   }, []);
 
   const handleSearch = (event) => {
-    setKeyword(event.target.value);
-    axios.get(`/api/posts/search?keyword=${event.target.value}`)
-      .then(response => setPosts(response.data))
-      .catch(error => console.error(error));
+    // setKeyword(event.target.value);
+    // axios.get(`/api/posts/search?keyword=${event.target.value}`)
+    //   .then(response => setPosts(response.data))
+    //   .catch(error => console.error(error));
   };
+
+  const insertCommunity = (evt) => {
+    evt.preventDefault();
+    alert("클릭");
+    navigate("/InsertCommunity");
+  }
 
   return (
     <div className="container">
-      <div className='navbar'>
-        <h2 className="header">커뮤니티 네브바</h2>
+      <div className='community-navbar'>
+        <h2 className="community-header">커뮤니티</h2>
         <input
           type="text"
           placeholder="검색어를 입력하세요..."
           value={keyword}
           onChange={handleSearch}
-          className="search-bar"
+          className="community-search-bar"
         />
+        <button onClick={insertCommunity} className='community-insertBtn'><img src='https://www.therich.io/images/icons/add.svg'></img></button>
       </div>
       <ul className="post-list">
         {posts.map(post => (
