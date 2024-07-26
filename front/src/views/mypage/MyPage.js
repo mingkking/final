@@ -1,10 +1,11 @@
 import React from 'react';
 import './MyPage.css';
 
-const MyPage = () => {
+const MyPage = ({userNickname}) => {
   return (
     <div className="mypage-container">
       <h1 className="mypage-title">마이페이지</h1>
+      <br/><br/>
       <div className="profile-section">
         <div className="profile-info">
           <div className="profile-picture">
