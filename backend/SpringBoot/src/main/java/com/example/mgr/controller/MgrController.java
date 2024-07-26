@@ -21,7 +21,7 @@ import com.google.gson.JsonObject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-@CrossOrigin(origins = "http://192.168.56.1:3000") // ip주소에 맞게 작성
+@CrossOrigin(origins = "http://localhost:3000") // ip주소에 맞게 작성
 @RestController  
 public class MgrController { 
  
