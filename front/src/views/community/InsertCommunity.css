@@ -1,0 +1,48 @@
+/* 게시물 섹션 스타일 */
+.post {
+  display: flex;
+  flex-direction: column;
+  padding: 5px 5px;
+  /* 내부 여백 */
+  border-radius: 8px;
+  /* 모서리 둥글게 */
+  background-color: #fff;
+  /* 배경 색상 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* 그림자 효과 */
+  height: auto;
+  /* 높이 자동 조정 */
+}
+
+/* 사이드바 스타일 */
+.popular {
+  position: sticky;
+  /* 스크롤 시 고정 */
+  top: 0;
+  /* 상단에 고정 */
+  z-index: 1000;
+  /* 다른 요소들보다 위에 오도록 설정 */
+  display: flex;
+  flex-direction: column;
+  padding: 5px 5px;
+  /* 내부 여백 */
+  border-radius: 8px;
+  /* 모서리 둥글게 */
+  background-color: #fff;
+  /* 배경 색상 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* 그림자 효과 */
+  height: fit-content;
+  /* 내용에 맞춰 높이 조정 */
+  align-items: center;
+  /* 수평 가운데 정렬 */
+  justify-content: center;
+  /* 수직 가운데 정렬 */
+}
+
+/* 실시간 인기글 컴포넌트 상단 고정 스타일 */
+.popular .row {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}

@@ -13,7 +13,7 @@ module.exports = function (app) {
   app.use(
     '/api',
     createProxyMiddleware({
-      target: 'http://192.168.56.1:8080',
+      target: 'http://localhost:8080',
       changeOrigin: true,
       pathRewrite: { '^/api': '' },
       
@@ -24,14 +24,6 @@ module.exports = function (app) {
     '/createRoom',
     createProxyMiddleware({
       target: 'http://localhost:5001',
-      changeOrigin: true,
-    })
-  );
-
-  app.use(
-    '/deleteRoom',
-    createProxyMiddleware({
-      target: 'http://localhost:5001/deleteRoom',
       changeOrigin: true,
     })
   );

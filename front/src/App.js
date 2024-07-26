@@ -35,6 +35,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 
 import { MainProvider } from './views/manager/main/contexts/MainContext';
 import Community from './views/community/Community';
+import InsertCommunity from './views/community/InsertCommunity';
 import { CommunityProvider } from './views/community/contexts/CommunityContext';
 import { LoginProvider } from './views/login/contexts/LoginContext';
 
@@ -66,6 +67,7 @@ function AppContent() {
              <Route path='/back1' element={<Back1 />} />
              <Route path='/Chatting' element={<Chatting />} />
              <Route path='/Community' element={<Community />} />
+             <Route path='/InsertCommunity' element={<InsertCommunity />} />
              <Route path='/login' element={<Login onLoginSuccess={handleLoginSuccess} />} />
              <Route path='/Join' element={<Join/>}/>
              <Route path='/IdFind' element={<IdFind/>}/>
