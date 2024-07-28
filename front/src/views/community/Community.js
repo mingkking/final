@@ -22,9 +22,9 @@ const Community = () => {
         const response = await axiosInstance.get('/check-login-status', {                // 로그인 상태 요청
             withCredentials: true,                                                       // 쿠키 포함 요청
         });
-        
+
         if (response.data.isLoggedIn === true) {                                          // 로그인이 되어 있을 경우
-            communityValue.actions.setChatUserNick(response.data.userNickname);           // 로그인 닉네임 저장
+            console.log("Community 로그인 후 데이터 확인", response);
         } else {                                                                          // 로그인이 되어 있지 않을 경우
             alert("로그인 및 구독 후 이용해주세요!");                                       // 로그인 또는 구독 하라고 하는 경고창 띄우기
             navigate("/login");                                                           // 로그인 화면으로 이동시키기

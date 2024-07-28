@@ -3,11 +3,12 @@ const CommunityContext = createContext();
 // 생성자
 const CommunityProvider = (props) => {
 	const [realTime, setRealTime] = useState(null);
-	const [chatUserNick, setChatUserNick] = useState(null);
+	const [UserNick, setUserNick] = useState(null);
+	const [userNum, setUserNum] = useState(null);
 
 	const values = {
-		state: { realTime, chatUserNick },
-		actions: { setRealTime, setChatUserNick } 
+		state: { realTime, UserNick, userNum },
+		actions: { setRealTime, setUserNick, setUserNum } 
 	}
 
 	return (

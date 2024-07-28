@@ -7,6 +7,5 @@ import com.example.community.domain.CommunityVO;
 
 @Repository
 public interface CommunityRepository extends JpaRepository<CommunityVO, Integer> {
-
 }      
  

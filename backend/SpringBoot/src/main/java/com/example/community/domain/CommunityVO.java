@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -29,7 +30,7 @@ public class CommunityVO {
 
     @ManyToOne
     @JoinColumn(name = "user_num", nullable = false)
-    private LoginVO user_id;
+    private LoginVO user_num;
 
     @Column(name = "title", length = 300, nullable = false)
     private String title;
@@ -44,7 +45,9 @@ public class CommunityVO {
     @Column(name = "created_at")
     private LocalDateTime created_at;
 
-    @Column(name = "updated_at")
-    private LocalDateTime updated_at;
+    @PrePersist
+    protected void onCreate() {
+        this.created_at = LocalDateTime.now();
+    }
 
 }
