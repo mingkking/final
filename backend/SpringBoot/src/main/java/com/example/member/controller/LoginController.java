@@ -148,6 +148,7 @@ public class LoginController {
             if (user != null) {
                 response.put("isLoggedIn", true);
                 response.put("userNickname", user.getUserNickname());
+                response.put("userNum", user.getUserNum());
             } else {
                 response.put("isLoggedIn", false);
             }

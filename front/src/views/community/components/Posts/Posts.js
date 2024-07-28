@@ -23,7 +23,6 @@ function Posts() {
 
   const insertCommunity = (evt) => {
     evt.preventDefault();
-    alert("클릭");
     navigate("/InsertCommunity");
   }
 

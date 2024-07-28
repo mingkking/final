@@ -1,26 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import './InsertPost.css';
 import { useNavigate } from 'react-router';
+import CommunityContext from '../../contexts/CommunityContext';
 
 function InsertPost() {
 
-  // // Axios 인스턴스 생성
-  // const axiosAPI = axios.create({
-  //   baseURL: 'http://localhost:8080/api', // 여기에 서버의 baseURL을 설정합니다.
-  //   timeout: 1000, // 선택 사항: 요청 타임아웃 설정
-  //   headers: { 'Content-Type': 'application/json' }
-  // });
-
-  const navigate = useNavigate();
+  const communityValue = useContext(CommunityContext);
+  const navigate = useNavigate();                     // 화면 이동 훅
   const [title, setTitle] = useState("");             // form data 제목
   const [contents, setContents] = useState("");       // form data 내용
 
-  const insertCommunity = (evt) => {
+  const insertCommunity = (evt) => {                  // 등록 버튼 함수
     evt.preventDefault();                             // 고유 이벤트 삭제
-    console.log("title", title);
-    console.log("contents", contents);
-
     dataSubmit(title, contents);                      // 데이터 -> 컨트롤러 함수 실행
   }
 
@@ -32,19 +24,22 @@ function InsertPost() {
     setContents(evt.target.value);
   }
 
-  const dataSubmit = (title, contents) => {           // 데이터 -> 컨트롤러
-    const community = {
+  const dataSubmit = (title, contents) => {     // 데이터 -> 컨트롤러
+
+    console.log(communityValue.state.userNum);
+    const community = {                               // 폼 데이터 가공
+      user_num: {userNum: communityValue.state.userNum},
       title: title,
       contents: contents,
     }
 
-    console.log("community submit", community);
+    axios.post("http://localhost:8080/insertCommunity", community) // 데이터 -> 컨트롤러 요청
 
-    axios.post("http://localhost:8080/insertCommunity", community)
       .then((res) => {
-        console.log("Response:", res.data);
-        navigate("/Community");
+        console.log("Response:", res.data);                              // 응답 데이터 확인
+        navigate("/Community");                                          // 글 등록 후 커뮤니티 화면으로 이동
       })
+
   }
 
   return (

@@ -19,8 +19,18 @@ public class CommunityController {
     // 사용자 회원가입
     @PostMapping("/insertCommunity")
     public String insertCommunity(@RequestBody CommunityVO communityVO) {
+        System.out.println("communityVO.getId() " + communityVO.getId());
+        System.out.println("communityVO.getUser_num() " + communityVO.getUser_num());
         System.out.println("communityVO.getTitle() " + communityVO.getTitle());
         System.out.println("communityVO.getContents() " + communityVO.getContents());
+        System.out.println("communityVO.getView_count() " + communityVO.getView_count());
+        System.out.println("communityVO.getCreated_at() " + communityVO.getCreated_at());
+
+        try {
+            communityService.insertCommunity(communityVO);
+        } catch (Exception e) {
+            System.out.println("커뮤니티 글 등록 : " + e.getMessage());
+        }
 
         return "1"; 
     }
