@@ -43,7 +43,7 @@
       WHERE TRUNC(created_at) = TRUNC(SYSDATE)
    </select>
    
-   <!-- 최근 5일간 가입자 수 -->
+   <!-- 최근 5일간 가입자 수  -->
    <select id="selectLast5DaysMember" parameterType="MgrMemberVO" resultType="Map">
    <![CDATA[
       WITH date_range AS (
