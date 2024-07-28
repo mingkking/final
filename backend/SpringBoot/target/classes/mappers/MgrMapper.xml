@@ -45,11 +45,17 @@
    
    <!-- 최근 5일간 가입자 수 -->
    <select id="selectLast5DaysMember" parameterType="MgrMemberVO" resultType="Map">
-      SELECT TO_CHAR(created_at, 'YYYY-MM-DD') AS join_date, COUNT(*) AS join_count
-      FROM users
-      WHERE created_at >= TRUNC(SYSDATE) - 4
-      AND TRUNC(SYSDATE) + 1 > created_at
-      GROUP BY TO_CHAR(created_at, 'YYYY-MM-DD')
+   <![CDATA[
+      WITH date_range AS (
+      SELECT TRUNC(SYSDATE) - 4 + LEVEL - 1 AS join_date
+      FROM DUAL
+      CONNECT BY LEVEL <= 5)
+      SELECT TO_CHAR(dr.join_date, 'YYYY-MM-DD') AS join_date, NVL(COUNT(u.created_at), 0) AS join_count
+      FROM date_range dr
+      LEFT JOIN users u ON TO_CHAR(u.created_at, 'YYYY-MM-DD') = TO_CHAR(dr.join_date, 'YYYY-MM-DD')
+      GROUP BY TO_CHAR(dr.join_date, 'YYYY-MM-DD')
+      ORDER BY join_date
+   ]]>
    </select>
    
    <!-- 최근 5달간 가입자 수       AND TRUNC(SYSDATE) > created_at -->
