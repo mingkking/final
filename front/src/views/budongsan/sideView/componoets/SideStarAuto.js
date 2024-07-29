@@ -1,21 +1,34 @@
+import React from 'react';
+import '../sideCss/SideView.css'; // 스타일 파일을 임포트합니다.
 
-import '../sideCss/SideView.css';
-
-const SideStarAuto = ({ totalStars = 5 }) => {
-
-
+const SideStarAuto = ({ rating, thresholds }) => {
+    // 별점 계산 로직
+    let stars = 0;
+    if (rating === 0) {
+        stars = 0;
+    } else {
+        for (let i = 0; i < thresholds.length; i++) {
+            if (rating <= thresholds[i]) {
+                stars = i + 1;
+                break;
+            }
+        }
+        if (stars === 0) {
+            stars = thresholds.length + 1;
+        }
+    }
 
     return (
         <div>
-            {[...Array(totalStars)].map((_, index) => {
+            {[...Array(5)].map((_, index) => {
+                const starClass = index < stars ? 'star filled' : 'star'; // 별의 채움 상태를 결정합니다.
                 return (
-                <span
-                    key={index}
-                    className={`star
-                    }`}
-                >
-                    ★
-                </span>
+                    <span
+                        key={index}
+                        className={starClass}
+                    >
+                        ★
+                    </span>
                 );
             })}
         </div>

@@ -1,0 +1,19 @@
+/* MainPage.css */
+.main-page {
+    display: flex; /* Flexbox를 사용하여 자식 요소를 가로로 배치합니다. */
+    height: 100vh; /* 페이지의 높이를 100%로 설정하여 전체 화면을 차지하게 합니다. */
+}
+
+.chart-container, .list-container {
+    flex: 1; /* 두 컨테이너가 동일한 크기를 가지도록 설정합니다. */
+    padding: 10px; /* 내부 여백을 추가하여 콘텐츠와 경계 사이에 공간을 만듭니다. */
+    box-sizing: border-box; /* 패딩을 포함하여 총 너비와 높이를 계산합니다. */
+}
+
+.chart-container {
+    background-color: #ffffff; /* 예시로 배경색을 설정합니다. 필요에 따라 변경하세요. */
+}
+
+.list-container {
+    background-color: #ffffff; /* 예시로 배경색을 설정합니다. 필요에 따라 변경하세요. */
+}

@@ -43,6 +43,7 @@ import { LoginProvider } from './views/login/contexts/LoginContext';
 
 
 
+
 function AppContent() {
   const location = useLocation();
   const isAdminPage = Router.some(route => location.pathname.startsWith(route.path));
@@ -63,7 +64,7 @@ function AppContent() {
              <Route path='/ju2' element={<Ju2 />} />
              <Route path='/co1' element={<Co1 />} />
              <Route path='/co2' element={<Co2 />} />
-             <Route path='/budongsanPage' element={<Budongsan />} />
+             <Route path='/budongsan' element={<Budongsan />} />
              <Route path='/bu2' element={<Bu2 />} />
              <Route path='/back1' element={<Back1 />} />
              <Route path='/Chatting' element={<Chatting />} />
