@@ -97,7 +97,7 @@ const YearJoinMembers = () => {
     const seriescolumnchart = [
         {
             name: 'Total',
-            data: [data[0], data[1]],
+            data: [data[1], data[0]],
         },
     ];
 

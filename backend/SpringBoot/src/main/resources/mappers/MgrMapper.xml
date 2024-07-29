@@ -43,13 +43,19 @@
       WHERE TRUNC(created_at) = TRUNC(SYSDATE)
    </select>
    
-   <!-- 최근 5일간 가입자 수 -->
+   <!-- 최근 5일간 가입자 수  -->
    <select id="selectLast5DaysMember" parameterType="MgrMemberVO" resultType="Map">
-      SELECT TO_CHAR(created_at, 'YYYY-MM-DD') AS join_date, COUNT(*) AS join_count
-      FROM users
-      WHERE created_at >= TRUNC(SYSDATE) - 4
-      AND TRUNC(SYSDATE) + 1 > created_at
-      GROUP BY TO_CHAR(created_at, 'YYYY-MM-DD')
+   <![CDATA[
+      WITH date_range AS (
+      SELECT TRUNC(SYSDATE) - 4 + LEVEL - 1 AS join_date
+      FROM DUAL
+      CONNECT BY LEVEL <= 5)
+      SELECT TO_CHAR(dr.join_date, 'YYYY-MM-DD') AS join_date, NVL(COUNT(u.created_at), 0) AS join_count
+      FROM date_range dr
+      LEFT JOIN users u ON TO_CHAR(u.created_at, 'YYYY-MM-DD') = TO_CHAR(dr.join_date, 'YYYY-MM-DD')
+      GROUP BY TO_CHAR(dr.join_date, 'YYYY-MM-DD')
+      ORDER BY join_date
+   ]]>
    </select>
    
    <!-- 최근 5달간 가입자 수       AND TRUNC(SYSDATE) > created_at -->
@@ -75,6 +81,36 @@
       SELECT count(*)
       FROM subscribe
    </select>
+   
+   <!-- 금일 구독자 수 -->
+   <select id="selectTodaySubscribers" parameterType="MgrSubscriberCountVO" resultType="int">
+      SELECT count(*)
+      FROM subscribe
+      WHERE TRUNC(payment_date) = TRUNC(SYSDATE)
+   </select>
+   
+   <!-- 회원 연령대 -->
+    <select id="countByAgeMember" resultType="map">
+      SELECT 
+        age_group,
+        COUNT(*) AS count
+      FROM (
+        SELECT 
+            CASE
+                WHEN age BETWEEN 10 AND 19 THEN '10대'
+                WHEN age BETWEEN 20 AND 29 THEN '20대'
+                WHEN age BETWEEN 30 AND 39 THEN '30대'
+                WHEN age BETWEEN 40 AND 49 THEN '40대'
+                ELSE '50대 이상'
+            END AS age_group
+      FROM (
+            SELECT 
+                FLOOR((SYSDATE - TO_DATE(user_birthdate, 'YYMMDD')) / 365) AS age
+            FROM users
+        ) derived_table
+      ) age_groups
+      GROUP BY age_group
+    </select>
     
     <!-- 회원 목록 리스트 출력 -->
     <select id="selectMembers" resultType="MgrMemberVO">
