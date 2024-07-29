@@ -49,7 +49,11 @@ function KakaoMap({ selectedProperty }) {
                 setStoreData(storeData);            // 편의점 데이터를 상태에 저장
                 setBusStationData(busStationData);  // 버스정류장 데이터를 상태에 저장
 
-                console.log(setBusStationData);
+                // 데이터를 콘솔에 찍어봅니다
+                console.log('Bus Station Data:', busStationData);
+                console.log('School Data:', schoolData);
+                console.log('Store Data:', storeData);
+                console.log('Budongsan Data:', budongsanData);
 
             } catch (error) {
                 console.error('Error fetching data:', error);

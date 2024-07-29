@@ -5,11 +5,17 @@ import os
 app = Flask(__name__)
 
 # JSON 파일 경로 정의 (상대 경로)
-json_file_path_all_data = os.path.join(os.path.dirname(__file__), 'allDataSelect','budongsanAllData.txt')
-json_file_path_map_data = os.path.join(os.path.dirname(__file__), 'mapDataSelect','budongsanMapData.txt')
-json_file_path_school_data = os.path.join(os.path.dirname(__file__), 'schoolSelect','schoolData.txt')
-json_file_path_store_data = os.path.join(os.path.dirname(__file__), 'storeId','storeIdData.txt')
-json_file_path_busStation_data = os.path.join(os.path.dirname(__file__), 'busStation','busStationData.txt')
+json_file_path_all_data = os.path.join(os.path.dirname(__file__), 'allDataSelect\\budongsanAllData.txt')
+json_file_path_map_data = os.path.join(os.path.dirname(__file__), 'mapDataSelect\\budongsanMapData.txt')
+json_file_path_school_data = os.path.join(os.path.dirname(__file__), 'schoolSelect\\schoolData.txt')
+json_file_path_store_data = os.path.join(os.path.dirname(__file__), 'storeId\\storeIdData.txt')
+json_file_path_busStation_data = os.path.join(os.path.dirname(__file__), 'busStation\\busStationData.txt')
+
+print(json_file_path_all_data)
+print(json_file_path_map_data)
+print(json_file_path_school_data)
+print(json_file_path_store_data)
+print(json_file_path_busStation_data)
 
 # 파일에서 JSON 데이터를 읽는 함수
 def read_json_data(file_path):

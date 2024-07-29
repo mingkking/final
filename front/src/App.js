@@ -61,7 +61,7 @@ function AppContent() {
              <Route path='/ju2' element={<Ju2 />} />
              <Route path='/co1' element={<Co1 />} />
              <Route path='/co2' element={<Co2 />} />
-             <Route path='/budongsan' element={<Budongsan />} />
+             <Route path='/budongsanPage' element={<Budongsan />} />
              <Route path='/bu2' element={<Bu2 />} />
              <Route path='/back1' element={<Back1 />} />
              <Route path='/Chatting' element={<Chatting />} />
