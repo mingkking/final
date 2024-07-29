@@ -3,7 +3,7 @@ import { createChart, CrosshairMode } from 'lightweight-charts';
 // import { Settings, X } from 'lucide-react';
 import axios from 'axios';
 
-const TradingViewChart = () => {
+const StockDetail = ({ stockSymbol }) => {
   const chartContainerRef = useRef();
   const chart = useRef();
   const resizeObserver = useRef();
@@ -23,7 +23,7 @@ const TradingViewChart = () => {
       setIsLoading(true);
       setError(null);
       try {
-        const response = await axios.get(`/api/stock-data?symbol=005930&range=${timeRange}`);
+        const response = await axios.get(`/stock/stock-data?symbol=${stockSymbol}&range=${timeRange}`);
         const candleData = response.data.candles;
         const latestData = candleData[candleData.length - 1];
         
@@ -127,4 +127,4 @@ const TradingViewChart = () => {
   );
 };
 
-export default TradingViewChart;
+export default StockDetail;
