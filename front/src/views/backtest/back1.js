@@ -1,33 +1,40 @@
-import React from "react";
-import Option from "./components/backtestoption/Option"
+import React, { useState } from "react";
+import Options from "./components/backtestoption/Option";
 import ResultChart from "./components/resultchart/Resultchart"
-import { Card, Container, Grid,Box,CssBaseline } from "@mui/material";
-import { LineChart } from '@mui/x-charts/LineChart';
-// import { ArrowLeft } from 'lucide-react';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-;
+import { Card, Container, Grid, Typography } from "@mui/material";
+import axios from 'axios';
 
+const Back1 = () => {
+  const [analysisResult, setAnalysisResult] = useState(null);
+  const [error, setError] = useState('');
 
+  const handleAnalyze = async (options) => {
+    setError('');
+    try {
+      const response = await axios.post('http://localhost:5000/analyze', options);
+      setAnalysisResult(response.data);
+    } catch (error) {
+      setError('분석 중 오류가 발생했습니다: ' + (error.response?.data?.error || error.message));
+    }
+  };
 
-const back1 = () => {
   return (
     <Container>
-      <h1>back1 페이지 내용</h1>
+      <Typography variant="h4" gutterBottom>백테스트</Typography>
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
           <Card>
-            <Option />
+            <Options onAnalyze={handleAnalyze} />
           </Card>
         </Grid>
         <Grid item xs={12} md={6}>
           <Card>
-            <ResultChart />
+            <ResultChart analysisResult={analysisResult} error={error} />
           </Card>
         </Grid>
       </Grid>
-
     </Container>
-  )
+  );
 };
 
-export default back1;
+export default Back1;
