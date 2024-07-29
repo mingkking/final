@@ -1,5 +1,10 @@
 package com.example.member.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.member.Service.LoginServiceImpl;
 import com.example.member.domain.LoginVO;
@@ -64,9 +70,9 @@ public class LoginController {
     
     @GetMapping("/check-nickname")
     public ResponseEntity<Boolean> checkNickname(@RequestParam String nickname) {
-        // 닉네임 존재 여부 반환
-        return ResponseEntity.ok(loginService.findByUserNickname(nickname) != null);
+        return ResponseEntity.ok(loginService.findByUserNickname(nickname) != null); 
     }
+   
     
     // 로그인
     @PostMapping("/login")
@@ -104,7 +110,7 @@ public class LoginController {
 
             return ResponseEntity.ok()
                     .header(HttpHeaders.SET_COOKIE, cookie.toString()) // 쿠키를 응답 헤더에 추가
-                    .body(new LoginResponse(accessToken, refreshToken, user.getUserNickname())); 
+                    .body(new LoginResponse(accessToken, refreshToken, user.getUserNickname(),user.getUserId())); 
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage()); 
@@ -131,7 +137,7 @@ public class LoginController {
                 user.setRefreshToken(jwtUtil.extractRefreshTokenSignature(newRefreshToken)); // 새로운 리프레시 토큰 서명 저장
                 loginService.saveUser(user); // 업데이트된 사용자 저장
  
-                return ResponseEntity.ok(new LoginResponse(newAccessToken, newRefreshToken, user.getUserNickname())); 
+                return ResponseEntity.ok(new LoginResponse(newAccessToken, newRefreshToken, user.getUserNickname(), user.getUserId())); 
             }
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid refresh token"); 
@@ -186,40 +192,7 @@ public class LoginController {
         }
     }
     
-    // 프로필 사진 URL 업데이트
-    @PostMapping("/update-profile-image")
-    public ResponseEntity<String> updateProfileImage(@RequestBody ProfileImageRequest request) {
-        try {
-            LoginVO user = loginService.findUserByUserId(request.getUserId());
-            if (user == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-            }
-
-            loginService.updateProfileImageUrl(request.getUserId(), request.getProfileImageUrl());
-            return ResponseEntity.ok("Profile image URL updated successfully");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
-        }
-    }
-
-    // 프로필 사진 URL 조회
-    @GetMapping("/profile-image/{userId}")
-    public ResponseEntity<Map<String, String>> getProfileImage(@PathVariable String userId) {
-        try {
-            LoginVO user = loginService.findUserByUserId(userId);
-            if (user == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-            }
-
-            Map<String, String> response = new HashMap<>();
-            response.put("profileImageUrl", user.getProfileImageUrl());
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
+    
     
     // 글로벌 예외처리
     @RestControllerAdvice
@@ -310,11 +283,13 @@ class LoginResponse {
     private String token;
     private String refreshToken;
     private String userNickname;
+    private String userId;
 
-    public LoginResponse(String token, String refreshToken, String userNickname) {
+    public LoginResponse(String token, String refreshToken, String userNickname, String userId) {
         this.token = token;
         this.refreshToken = refreshToken;
         this.userNickname = userNickname;
+        this.userId = userId;
     }
 }
 

@@ -3,11 +3,12 @@ package com.example.member.util;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
-public class WebConfig {
+public class WebConfig implements WebMvcConfigurer{
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
@@ -27,5 +28,11 @@ public class WebConfig {
     @Bean
     public WebClient.Builder webClientBuilder() {
         return WebClient.builder();
+    }
+    
+    
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("file:" + System.getProperty("user.dir") + "/uploads/");
     }
 }
