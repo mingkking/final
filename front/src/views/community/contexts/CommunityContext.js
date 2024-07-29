@@ -5,10 +5,11 @@ const CommunityProvider = (props) => {
 	const [realTime, setRealTime] = useState(null);
 	const [UserNick, setUserNick] = useState(null);
 	const [userNum, setUserNum] = useState(null);
+	const [selectAllPosts, setSelectAllPosts] = useState([]);
 
 	const values = {
-		state: { realTime, UserNick, userNum },
-		actions: { setRealTime, setUserNick, setUserNum } 
+		state: { realTime, UserNick, userNum, selectAllPosts },
+		actions: { setRealTime, setUserNick, setUserNum, setSelectAllPosts } 
 	}
 
 	return (
