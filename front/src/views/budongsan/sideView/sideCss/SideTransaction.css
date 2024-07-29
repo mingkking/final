@@ -1,0 +1,46 @@
+/* SideSearch.css */
+
+.side-search-container-data {
+    width: 100%; /* 원하는 너비를 설정하세요 */
+    height: 450px; /* 원하는 높이를 설정하세요 */
+    overflow-y: auto; /* 세로 스크롤 활성화 */
+    padding: 10px; /* 패딩 추가 (선택 사항) */
+}
+
+.side-search-list {
+    list-style: none;
+    padding-left: 0;
+    
+}
+
+.side-search-list li {
+    margin-bottom: 10px; /* 항목 사이의 여백 설정 (선택 사항) */
+}
+
+.side-search-list li:hover {
+    transform: translateX(10px); /* 마우스 오버 시 항목을 10px 앞으로 이동 */
+}
+
+/* SideTransaction.css */
+.search-container {
+    margin: 20px 0; /* Add margin for spacing around the search input */
+    padding: 10px;  /* Add padding to the container for better appearance */
+    background-color: #f9f9f9; /* Light background to make the input stand out */
+    border-radius: 5px; /* Rounded corners for a more modern look */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.search-input {
+    width: 100%; /* Full width to utilize available space */
+    padding: 12px; /* Add padding inside the input for better user experience */
+    border: 2px solid #007bff; /* Add border with color to make it stand out */
+    border-radius: 4px; /* Rounded corners for a smoother look */
+    font-size: 16px; /* Increase font size for readability */
+    color: #333; /* Darker text color for better contrast */
+    background-color: #fff; /* White background for clear visibility */
+}
+
+.search-input::placeholder {
+    color: #aaa; /* Lighter placeholder color */
+    font-size: 16px; /* Same font size as input text for consistency */
+}

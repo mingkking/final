@@ -5,7 +5,7 @@ import storeImg from '../../../imges/storeImg.png';             // 편의점 이
 import busStationImg from '../../../imges/busStationImg.png'    // 버스정류장 이미지 import
 import '../budongsanCss/kakaoMap.css';
 
-function KakaoMap({ selectedProperty }) {
+function KakaoMap({ selectedProperty, setSchoolMarkerCount, setStoreMarkerCount, setBusStationMarkerCount }) {
     const [data, setData] = useState(null);                         // 데이터 상태를 저장하는 훅
     const [schoolData, setSchoolData] = useState(null);             // 학교 데이터 상태를 저장하는 훅
     const [storeData, setStoreData] = useState(null);               // 편의점 데이터 상태를 저장하는 훅
@@ -17,9 +17,6 @@ function KakaoMap({ selectedProperty }) {
     const circleRef = useRef(null);                                 // 원을 저장할 Ref
     const customOverlayRef = useRef(null);                          // CustomOverlay를 저장할 Ref
 
-    const [schoolMarkerCount, setSchoolMarkerCount] = useState(0);  // 학교 마커 수
-    const [storeMarkerCount, setStoreMarkerCount] = useState(0);    // 편의점 마커 수
-    const [busStationMarkerCount, setBusStationMarkerCount] = useState(0); // 버스정류장 마커 수
 
 
     
@@ -48,12 +45,6 @@ function KakaoMap({ selectedProperty }) {
                 setSchoolData(schoolData);          // 학교 데이터를 상태에 저장
                 setStoreData(storeData);            // 편의점 데이터를 상태에 저장
                 setBusStationData(busStationData);  // 버스정류장 데이터를 상태에 저장
-
-                // 데이터를 콘솔에 찍어봅니다
-                console.log('Bus Station Data:', busStationData);
-                console.log('School Data:', schoolData);
-                console.log('Store Data:', storeData);
-                console.log('Budongsan Data:', budongsanData);
 
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -495,7 +486,7 @@ function KakaoMap({ selectedProperty }) {
         if (busStationData) {
             setBusStationMarkerCount(busStationData.length);
         }
-    }, [schoolData, storeData, busStationData]);
+    }, [setSchoolMarkerCount, setStoreMarkerCount, setBusStationMarkerCount]);
     
 
     // 카테고리 클릭 이벤트 핸들러
@@ -528,11 +519,6 @@ function KakaoMap({ selectedProperty }) {
                                 정류장
                             </li>
                         </ul>
-                        <div className="marker-count">
-                            <p>학교 마커 수: {schoolMarkerCount}</p>
-                            <p>편의점 수: {storeMarkerCount}</p>
-                            <p>정류장 수: {busStationMarkerCount}</p>
-                        </div>
                     </>
                 )}
 

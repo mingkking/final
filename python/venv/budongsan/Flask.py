@@ -13,12 +13,6 @@ json_file_path_school_data = os.path.join(os.path.dirname(__file__), 'schoolSele
 json_file_path_store_data = os.path.join(os.path.dirname(__file__), 'storeId', 'storeIdData.txt')
 json_file_path_busStation_data = os.path.join(os.path.dirname(__file__), 'busStation', 'busStationData.txt')
 
-print(f"Absolute path to budongsanAllData.txt: {os.path.abspath(json_file_path_all_data)}")
-print(f"Absolute path to budongsanMapData.txt: {os.path.abspath(json_file_path_map_data)}")
-print(f"Absolute path to schoolData.txt: {os.path.abspath(json_file_path_school_data)}")
-print(f"Absolute path to storeIdData.txt: {os.path.abspath(json_file_path_store_data)}")
-print(f"Absolute path to busStationData.txt: {os.path.abspath(json_file_path_busStation_data)}")
-
 # 파일에서 JSON 데이터를 읽는 함수
 def read_json_data(file_path):
     try:
@@ -61,6 +55,8 @@ def get_store_data():
 def get_busStation_data():
     data = read_json_data(json_file_path_busStation_data)
     return jsonify(data)
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

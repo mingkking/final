@@ -43,6 +43,7 @@ import { LoginProvider } from './views/login/contexts/LoginContext';
 
 
 
+
 function AppContent() {
   const location = useLocation();
   const isAdminPage = Router.some(route => location.pathname.startsWith(route.path));

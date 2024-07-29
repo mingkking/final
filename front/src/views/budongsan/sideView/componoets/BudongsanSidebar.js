@@ -8,9 +8,11 @@ import SideApartment from "../SideApartment.js";
 import SideTransaction from "../SideTransaction.js";
 import SideMypage from "../SideMypage.js";
 
-const BudongsanSidebar = ({ onPropertySelect }) => {
+const BudongsanSidebar = ({ onPropertySelect, schoolMarkerCount, storeMarkerCount, busStationMarkerCount }) => {
   const [selectedMenu, setSelectedMenu] = useState('검색'); // 기본 메뉴 설정
   const [selectedProperty, setSelectedProperty] = useState(null); // 선택된 프로퍼티 상태
+
+  
 
   const handlePropertySelect = (property) => {
     setSelectedProperty(property);
@@ -18,14 +20,22 @@ const BudongsanSidebar = ({ onPropertySelect }) => {
     setSelectedMenu('아파트');  // 메뉴를 '아파트'로 설정하여 SideApartment 컴포넌트로 이동
   };
 
+
   const renderComponent = () => {
     switch (selectedMenu) {
       case '검색':
         return <SideSearch onPropertySelect={handlePropertySelect} />;
       case '아파트':
-        return <SideApartment property={selectedProperty} />; // 선택된 프로퍼티를 SideApartment로 전달
+        return (
+          <SideApartment
+            property={selectedProperty} 
+            schoolMarkerCount={schoolMarkerCount}
+            storeMarkerCount={storeMarkerCount}
+            busStationMarkerCount={busStationMarkerCount}
+          />
+        ); // 선택된 프로퍼티와 마커 수를 SideApartment로 전달
       case '매물':
-        return <SideTransaction />;
+        return <SideTransaction onPropertySelect={handlePropertySelect} />;
       case '마이':
         return <SideMypage />;
       default:
