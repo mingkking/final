@@ -31,93 +31,115 @@ public class MgrController {
 
 	@GetMapping("/")
 	public String count(HttpServletRequest request, Model model, MgrSessionCountVO sessionvo) {
-		HttpSession session = request.getSession();
-		if (session == null) {
-			return null;
-		}else
-			model.addAttribute("sessionId", session.getId());
+	    HttpSession session = request.getSession();
+	    if (session == null) {
+	        return null;
+	    } else {
+	        model.addAttribute("sessionId", session.getId());
+	    }
 
-		sessionvo.setSessionId(session.getId());
+	    sessionvo.setSessionId(session.getId());
+	    mgrservice.saveSession(sessionvo);
+	    
+	    // 회원 리스트
+	    MgrMemberVO membervo = new MgrMemberVO();
+	    List<MgrMemberVO> memberList = mgrservice.selectMembers(membervo);
+	    
+	    // 최근 5일/5달간 가입자 수
+	    List<Map<String, Object>> last5DaysMember = mgrservice.selectLast5DaysMember();
+	    List<Map<String, Object>> last5MonthsMember = mgrservice.selectLast5MonthsMember();
+	    List<Map<String, Object>> last2YearsMember = mgrservice.selectLast2YearsMember();
+	    
+	    // 각 객체에 검색한 값 저장
+	    int selectTotalSession = mgrservice.selectTotalSession();
+	    int selectTodaySession = mgrservice.selectTodaySession();
+	    int selectMonthSession = mgrservice.selectMonthSession();
+	    int selcetTotalMembers = mgrservice.selectTotalMembers();
+	    int selectTodayMembers = mgrservice.selectTodayMembers();
+	    int selectTotalSubscribers = mgrservice.selectTotalSubscribers();
 
-		mgrservice.saveSession(sessionvo);
-		
-		// 회원 리스트
-		MgrMemberVO membervo = new MgrMemberVO();
-		List<MgrMemberVO> memberList = mgrservice.selectMembers(membervo);
-		
-		// 최근 5일/5달간 가입자 수
-		List<Map<String, Object>> last5DaysMember = mgrservice.selectLast5DaysMember();
-		List<Map<String, Object>> last5MonthsMember = mgrservice.selectLast5MonthsMember();
-		List<Map<String, Object>> last2YearsMember = mgrservice.selectLast2YearsMember();
-		
+	    // Gson 객체 생성
+	    Gson gson = new Gson();
 
-		// 각 객체에 검색한 값 저장
-		int selectTotalSession = mgrservice.selectTotalSession();
-		int selectTodaySession = mgrservice.selectTodaySession();
-		int selectMonthSession = mgrservice.selectMonthSession();
-		int selcetTotalMembers = mgrservice.selectTotalMembers();
-		int selectTodayMembers = mgrservice.selectTodayMembers();
-		int selectTotalSubscribers = mgrservice.selectTotalSubscribers();
+	    // JSON 문자열 생성
+	    String jsonString = gson.toJson(Map.of(
+	        "selectTotalSession", selectTotalSession,
+	        "selectTodaySession", selectTodaySession,
+	        "selectMonthSession", selectMonthSession,
+	        "selectTotalMembers", selcetTotalMembers,
+	        "selectTodayMembers", selectTodayMembers,
+	        "selectTotalSubscribers", selectTotalSubscribers,
+	        "selectMemberList", memberList,
+	        "selectLast5DaysMember", last5DaysMember,
+	        "selectLast5MonthsMember", last5MonthsMember,
+	        "selectLast2YearsMember", last2YearsMember
+	    ));
 
-		// json 구조를 가진 객체 만들기
-		JsonObject group = new JsonObject();
+	    System.out.println("main으로 보내는 값: " + jsonString); // 확인용
 
-		// group 객체에 값 저장
-		group.addProperty("selectTotalSession", selectTotalSession);
-		group.addProperty("selectTodaySession", selectTodaySession);
-		group.addProperty("selectMonthSession", selectMonthSession);
-		group.addProperty("selectTotalMembers", selcetTotalMembers);
-		group.addProperty("selectTodayMembers", selectTodayMembers);
-		group.addProperty("selectTotalSubscribers", selectTotalSubscribers);
-
-		// json구조의 객체 생성
-		Gson gson = new Gson();
-		
-		// List인 memberList를 Json 배열로 변환
-		JsonArray memberListJson = gson.toJsonTree(memberList).getAsJsonArray();
-		group.add("selectMemberList", memberListJson);
-		
-		// List인 last5DaysMember를 Json 배열로 변환
-		JsonArray last5DaysMemberJson = gson.toJsonTree(last5DaysMember).getAsJsonArray();
-		group.add("selectLast5DaysMember", last5DaysMemberJson);
-		
-		// List인 last5MonthsMember를 Json 배열로 변환
-		JsonArray last5MonthsMemberJson = gson.toJsonTree(last5MonthsMember).getAsJsonArray();
-		group.add("selectLast5MonthsMember", last5MonthsMemberJson);
-		
-		// List인 last2YearsMember를 Json 배열로 변환
-		JsonArray last2YearsMemberJson = gson.toJsonTree(last2YearsMember).getAsJsonArray();
-		group.add("selectLast2YearsMember", last2YearsMemberJson);
-		
-		
-		// json구조를 String 형태로 변환
-		String jsonString = gson.toJson(group);
-		System.out.println("보내는 값" + jsonString);
-		
-		return jsonString;
-
+	    return jsonString;
 	} // count
 	
+	// memberList 출력
+	@GetMapping("/manager/memberList")
+	public String getMemberList(MgrMemberVO vo) {
+		
+	    List<MgrMemberVO> memberList = mgrservice.selectMembers(vo);
+	    
+	    // Gson 객체 생성
+	    Gson gson = new Gson();
+	    
+	    // List인 memberList를 gson을 이용하여 JSON 문자열로 변환
+	    String memberListJsonString = gson.toJson(memberList);
+	    
+	    // JSON 생성
+	    String jsonString = "{\"selectMemberList\":" + memberListJsonString + "}";
+	    
+	    System.out.println("memberList로 보내는 값: " + jsonString); // 확인용
+	    
+	    return jsonString;
+	}
+
+	
+	// 통계 화면에서 countSomething 값 보내기
+	@GetMapping("/manager/graph")
+	public String getGraphCount() {
+		
+	    int selectTodaySubscribers = mgrservice.selectTodaySubscribers();
+	    List<Map<String, Object>> countByAgeMember = mgrservice.countByAgeMember();
+	    
+	    // Gson 객체 생성
+	    Gson gson = new Gson();
+	    
+	    // json 생성
+	    String jsonString = gson.toJson(Map.of(
+		        "selectTodaySubscribers", selectTodaySubscribers,
+		        "countByAgeMember", countByAgeMember
+		    ));
+	    
+	    System.out.println("graph로 보내는 값: " + jsonString); // 확인용
+	    
+	    return jsonString;
+	}
+	
+	// 회원 상세정보 보기
     @GetMapping("/manager/memberDetail/{user_num}")
-    public String getMemberDetail(@PathVariable String user_num) {
+    public String getMemberDetail(@PathVariable String user_num, MgrMemberVO vo) {
         
         // 받은 번호 값 지정
-        MgrMemberVO membervo = new MgrMemberVO();
-        membervo.setUser_num(user_num);
+        vo.setUser_num(user_num);
         
-        // List에 저장
-		List<MgrMemberVO> mgrMemberDetail = mgrservice.selectMemberDetail(membervo);
-		
-		// json구조의 객체 생성
-		Gson gson = new Gson();
-		
-		// List인 memberList를 Json 배열로 변환
-		JsonArray memberDetailJson = gson.toJsonTree(mgrMemberDetail).getAsJsonArray();
-		
-		// json구조를 String 형태로 변환
-		String jsonString = gson.toJson(memberDetailJson);
+        // 회원 상세 정보 조회
+        List<MgrMemberVO> mgrMemberDetail = mgrservice.selectMemberDetail(vo);
         
-		
+        // Gson 객체 생성
+        Gson gson = new Gson();
+        
+        // List인 mgrMemberDetail를 gson을 이용하여 JSON 문자열로 변환
+        String jsonString = gson.toJson(mgrMemberDetail);
+        
+        System.out.println("memberDetail:" + jsonString);
+        
         return jsonString;
     }
     

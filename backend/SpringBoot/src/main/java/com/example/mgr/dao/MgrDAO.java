@@ -28,6 +28,10 @@ public interface MgrDAO {
 	
 	// 구독자 수
 	public int selectTotalSubscribers();
+	public int selectTodaySubscribers();
+	
+	// 회원 연령대
+	public List<Map<String, Object>> countByAgeMember();
 	
 	// 회원 목록
 	public List<MgrMemberVO> selectMembers(MgrMemberVO vo);
