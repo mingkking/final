@@ -17,38 +17,43 @@ public class MgrServiceImpl implements MgrService {
 	@Autowired
 	private MgrDAO mgrDAO; 
 
-	@Override
+	// 세션 값 저장
 	public int saveSession(MgrSessionCountVO vo) {
 		int result = mgrDAO.saveSession(vo);
 		return result;
 	}
 
-	@Override
+	// 총 방문자 수
 	public int selectTotalSession() {
 		return mgrDAO.selectTotalSession();
 	}
 
-	@Override
+	// 금일 방문자 수
 	public int selectTodaySession() {
 		return mgrDAO.selectTodaySession();
 	}
 
-	@Override
+	// 한달 방문자 수
 	public int selectMonthSession() {
 		return mgrDAO.selectMonthSession();
 	}
 
-	@Override
+	// 총 회원 수
 	public int selectTotalMembers() {
 		return mgrDAO.selectTotalMembers();
 	}
 
-	@Override
+	// 총 구독자 수
 	public int selectTotalSubscribers() {
 		return mgrDAO.selectTotalSubscribers();
 	}
+	
+	// 금일 구독자 수
+	public int selectTodaySubscribers() {
+		return mgrDAO.selectTodaySubscribers();
+	}
 
-	@Override
+	// 금일 가입자 수
 	public int selectTodayMembers() {
 		return mgrDAO.selectTodayMembers();
 	}
@@ -83,8 +88,10 @@ public class MgrServiceImpl implements MgrService {
 		return mgrDAO.selectLast2YearsMember();
 	}
 
+	// 회원 연령대
+	public List<Map<String, Object>> countByAgeMember() {
+		return mgrDAO.countByAgeMember();
+	}
 
 
-	
-	
 }

@@ -81,6 +81,36 @@
       SELECT count(*)
       FROM subscribe
    </select>
+   
+   <!-- 금일 구독자 수 -->
+   <select id="selectTodaySubscribers" parameterType="MgrSubscriberCountVO" resultType="int">
+      SELECT count(*)
+      FROM subscribe
+      WHERE TRUNC(payment_date) = TRUNC(SYSDATE)
+   </select>
+   
+   <!-- 회원 연령대 -->
+    <select id="countByAgeMember" resultType="map">
+      SELECT 
+        age_group,
+        COUNT(*) AS count
+      FROM (
+        SELECT 
+            CASE
+                WHEN age BETWEEN 10 AND 19 THEN '10대'
+                WHEN age BETWEEN 20 AND 29 THEN '20대'
+                WHEN age BETWEEN 30 AND 39 THEN '30대'
+                WHEN age BETWEEN 40 AND 49 THEN '40대'
+                ELSE '50대 이상'
+            END AS age_group
+      FROM (
+            SELECT 
+                FLOOR((SYSDATE - TO_DATE(user_birthdate, 'YYMMDD')) / 365) AS age
+            FROM users
+        ) derived_table
+      ) age_groups
+      GROUP BY age_group
+    </select>
     
     <!-- 회원 목록 리스트 출력 -->
     <select id="selectMembers" resultType="MgrMemberVO">
