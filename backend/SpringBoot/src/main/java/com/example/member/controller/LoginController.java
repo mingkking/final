@@ -148,6 +148,7 @@ public class LoginController {
             if (user != null) {
                 response.put("isLoggedIn", true);
                 response.put("userNickname", user.getUserNickname());
+                response.put("userNum", user.getUserNum());
             } else {
                 response.put("isLoggedIn", false);
             }
@@ -182,6 +183,41 @@ public class LoginController {
             
             responseMap.put("error", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseMap); 
+        }
+    }
+    
+    // 프로필 사진 URL 업데이트
+    @PostMapping("/update-profile-image")
+    public ResponseEntity<String> updateProfileImage(@RequestBody ProfileImageRequest request) {
+        try {
+            LoginVO user = loginService.findUserByUserId(request.getUserId());
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            }
+
+            loginService.updateProfileImageUrl(request.getUserId(), request.getProfileImageUrl());
+            return ResponseEntity.ok("Profile image URL updated successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
+        }
+    }
+
+    // 프로필 사진 URL 조회
+    @GetMapping("/profile-image/{userId}")
+    public ResponseEntity<Map<String, String>> getProfileImage(@PathVariable String userId) {
+        try {
+            LoginVO user = loginService.findUserByUserId(userId);
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+
+            Map<String, String> response = new HashMap<>();
+            response.put("profileImageUrl", user.getProfileImageUrl());
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
     
@@ -241,6 +277,12 @@ public class LoginController {
     static class PwFindRequest {
         private String email;
         private String userId;
+    }
+    
+    @Data
+    static class ProfileImageRequest {
+        private String userId;
+        private String profileImageUrl;
     }
    
 

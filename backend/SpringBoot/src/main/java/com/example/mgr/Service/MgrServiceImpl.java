@@ -1,6 +1,7 @@
 package com.example.mgr.Service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,6 +66,21 @@ public class MgrServiceImpl implements MgrService {
 	// 회원 삭제
 	public void deleteMember(int user_num) {
 		mgrDAO.deleteMember(user_num);
+	}
+
+	// 최근 5일간 가입자 수
+	public List<Map<String, Object>> selectLast5DaysMember() {
+		return mgrDAO.selectLast5DaysMember();
+	}
+
+	// 최근 5달간 가입자 수
+	public List<Map<String, Object>> selectLast5MonthsMember() {
+		return mgrDAO.selectLast5MonthsMember();
+	}
+
+	// 최근 2년간 가입자 수
+	public List<Map<String, Object>> selectLast2YearsMember() {
+		return mgrDAO.selectLast2YearsMember();
 	}
 
 

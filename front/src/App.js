@@ -22,8 +22,9 @@ import PwChange from './views/login/component/find/PwChange';
 import Main from './views/main/Main'
 import Subscribe from './views/subscribe/Subscribe1'
 import Subscribe2 from './views/subscribe/Subscribe2'
-
 import Subscribe3 from './views/subscribe/Subscribe3'
+import MyPage from './views/mypage/MyPage';
+import News from './views/news/News';
 
 
 import Router from './routes/Router'
@@ -35,6 +36,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 
 import { MainProvider } from './views/manager/main/contexts/MainContext';
 import Community from './views/community/Community';
+import InsertCommunity from './views/community/InsertCommunity';
 import { CommunityProvider } from './views/community/contexts/CommunityContext';
 import { LoginProvider } from './views/login/contexts/LoginContext';
 
@@ -66,6 +68,7 @@ function AppContent() {
              <Route path='/back1' element={<Back1 />} />
              <Route path='/Chatting' element={<Chatting />} />
              <Route path='/Community' element={<Community />} />
+             <Route path='/InsertCommunity' element={<InsertCommunity />} />
              <Route path='/login' element={<Login onLoginSuccess={handleLoginSuccess} />} />
              <Route path='/Join' element={<Join/>}/>
              <Route path='/IdFind' element={<IdFind/>}/>
@@ -73,9 +76,11 @@ function AppContent() {
              <Route path='/PwFind' element={<PwFind/>}/>
              <Route path='/PwChange/:userId' element={<PwChange/>}/>
              <Route path='/Subscribe' element={<Subscribe />} /> 
-
              <Route path='/Subscribe2' element={<Subscribe2 />} /> 
              <Route path='/Subscribe3' element={<Subscribe3 />} /> 
+             <Route path='/MyPage' element={<MyPage />} /> 
+             <Route path='/news' element={<News />} />
+
 
       
         {/* 관리자페이지  */}

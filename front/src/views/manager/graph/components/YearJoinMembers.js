@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 import DashboardCard from '../../../../components/shared/DashboardCard';
 import Chart from 'react-apexcharts';
 import dayjs from 'dayjs';
-
+import axios from 'axios';
+import mainContext from '../../main/contexts/MainContext';
 
 const YearJoinMembers = () => {
+
+    const value = useContext(mainContext);
+
+    // array.from 으로 간단하게 작성(최근 2년 회원가입수, 값이 없으면 0으로 설정)
+    const data = Array.from({length: 2}, (_, i) => value.state.last2YearsMember[1-i]?.JOIN_COUNT ?? 0);
+
+
+    // SpringBoot 에서 selectLast2YearsMember 값 가져와서 context파일에 저장하기
+    useEffect(()=>{
+      axios.get('http://localhost:8080')
+      .then((result) => {
+        value.actions.setLast2YearsMember(result.data.selectLast2YearsMember);
+      });
+    },[]);
 
     // chart color
     const theme = useTheme();
@@ -82,7 +97,7 @@ const YearJoinMembers = () => {
     const seriescolumnchart = [
         {
             name: 'Total',
-            data: [1360, 2410],
+            data: [data[0], data[1]],
         },
     ];
 

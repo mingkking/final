@@ -1,4 +1,4 @@
-.posts-container {
+.container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
@@ -62,26 +62,40 @@
     color: #888;
   }
   
-  .navbar {
+  .community-navbar {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* 헤더와 검색 바 사이의 공간을 채워줍니다 */
-    padding: 10px 20px;
-    background-color: #f8f9fa; /* 네브바 배경색 (필요에 따라 변경 가능) */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-    border-radius: 8px; /* 모서리를 둥글게 만듭니다 */
-    margin-bottom: 20px; /* 아래에 여백을 추가합니다 */
+    justify-content: space-between;
+    background-color: #f8f9fa;
+    padding: 10px 20px; /* 양 끝에 추가 여백을 줌 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
   
-  .header {
-    margin: 0; /* 기본 마진 제거 */
-    font-size: 1.5rem; /* 헤더 폰트 크기 (필요에 따라 변경 가능) */
-    color: black;
+  .community-header {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
   }
   
-  .search-bar {
-    padding: 5px 10px; /* 입력 필드 내부 여백 */
-    font-size: 1rem; /* 입력 필드 폰트 크기 */
-    border: 1px solid #ddd; /* 테두리 스타일 */
-    border-radius: 4px; /* 모서리를 둥글게 만듭니다 */
+  .community-search-bar {
+    flex: 1;
+    padding: 8px 12px;
+    margin: 0 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
   }
+  
+  .community-insertBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .community-insertBtn img {
+    width: 24px;
+    height: 24px;
+  }
+  

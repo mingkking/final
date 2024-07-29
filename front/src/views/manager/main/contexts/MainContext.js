@@ -29,8 +29,26 @@ const MainProvider = (props) => {
 
       // 일 가입자 수
       const [todayMembersCount, setTodayMembersCount] = useState(() => {
-        console.log(localStorage);
         const saved = localStorage.getItem("todayMembersCount");
+        console.log("로컬스토리지----", localStorage);
+        return saved ? JSON.parse(saved) : 0;
+      });
+
+      // 최근 5일 가입자 수
+      const [last5DaysMember, setLast5DaysMember] = useState(() => {
+        const saved = localStorage.getItem("last5DaysMember");
+        return saved ? JSON.parse(saved) : 0;
+      });
+
+      // 최근 5달 가입자 수
+      const [last5MonthsMember, setLast5MonthsMember] = useState(() => {
+        const saved = localStorage.getItem("last5MonthsMember");
+        return saved ? JSON.parse(saved) : 0;
+      });
+
+      // 최근 2년 가입자 수
+      const [last2YearsMember, setLast2YearsMember] = useState(() => {
+        const saved = localStorage.getItem("last2YearsMember");
         return saved ? JSON.parse(saved) : 0;
       });
 
@@ -44,6 +62,7 @@ const MainProvider = (props) => {
       // 회원 리스트
       const [memberList, setMemberList] = useState(() => {
         const saved = localStorage.getItem("memberList");
+        console.log("memberList react -------", saved);
         return saved ? JSON.parse(saved) : [];
       })
       
@@ -70,22 +89,33 @@ const MainProvider = (props) => {
   }, [todayMembersCount]);
 
   useEffect(() => {
+    localStorage.setItem("last5DaysMember", JSON.stringify(last5DaysMember));
+  }, [last5DaysMember]);
+
+  useEffect(() => {
+    localStorage.setItem("last5MonthsMember", JSON.stringify(last5MonthsMember));
+  }, [last5MonthsMember]);
+
+  useEffect(() => {
+    localStorage.setItem("last2YearsMember", JSON.stringify(last2YearsMember));
+  }, [last2YearsMember]);
+
+  useEffect(() => {
     localStorage.setItem("totalSubscribersCount", JSON.stringify(totalSubscribersCount));
   }, [totalSubscribersCount]);
 
   useEffect(() => {
     localStorage.setItem("memberList", JSON.stringify(memberList));
-    console.log("member---------", memberList);
   }, [memberList]);
 
-
+  
 
 
   const values = {
-    state: { totalCount, todayCount, monthCount, membersCount, totalSubscribersCount, todayMembersCount, memberList },
-    actions: { setTotalCount, setTodayCount, setMonthCount, setMembersCount, setTotalSubscribersCount, setTodayMembersCount, setMemberList }
+    state: { totalCount, todayCount, monthCount, membersCount, totalSubscribersCount, todayMembersCount, last5DaysMember, last5MonthsMember, last2YearsMember, memberList },
+    actions: { setTotalCount, setTodayCount, setMonthCount, setMembersCount, setTotalSubscribersCount, setTodayMembersCount, setLast5DaysMember, setLast5MonthsMember, setLast2YearsMember, setMemberList }
   }
- 
+
   return (
     <mainContext.Provider value={values}>
       {props.children}

@@ -36,12 +36,4 @@ module.exports = function (app) {
       changeOrigin: true,
     })
   );
-
-  app.use(
-    '/deleteRoom',
-    createProxyMiddleware({
-      target: 'http://localhost:5001/deleteRoom',
-      changeOrigin: true,
-    })
-  );
 };
