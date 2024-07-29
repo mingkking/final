@@ -107,17 +107,17 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <RoomListProvider>
-          <LoginProvider>
+        <LoginProvider>
+        <RoomListProvider>         
           <CommunityProvider>
             <MainProvider>
               <ThemeProvider theme={theme}>
                 <AppContent />
               </ThemeProvider>
             </MainProvider>
-          </CommunityProvider>
-          </LoginProvider>
+          </CommunityProvider>         
         </RoomListProvider>
+        </LoginProvider>
       </BrowserRouter>
     </div>
   );
