@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.stock.dao.StockDAO">
+    <select id="selectStockList" resultType="com.example.stock.domain.StockVO">
+        SELECT * FROM (
+            SELECT ROWNUM AS rn, t.* FROM (
+                SELECT
+                    s.record_date,
+                    s.stock_code,
+                    s.name,
+                    s.stock_type,
+                    s.closing_price,
+                    s.opening_price,
+                    s.high_price,
+                    s.low_price
+                FROM
+                    (SELECT
+                        stock_code,
+                        MAX(record_date) as max_date
+                    FROM
+                        STOCK
+                    GROUP BY
+                        stock_code) latest
+                INNER JOIN
+                    STOCK s
+                ON
+                    s.stock_code = latest.stock_code
+                    AND s.record_date = latest.max_date
+                ORDER BY
+                    s.stock_code
+        ) t WHERE ROWNUM <![CDATA[<=]]> #{pageSize} * (#{pageNumber} + 1)
+    ) WHERE rn <![CDATA[>]]> #{pageSize} * #{pageNumber}
+    </select>
+    
+<select id="selectStockDetail" resultType="com.example.stock.domain.StockVO">
+    SELECT * FROM (SELECT * FROM STOCK WHERE stock_code = #{stockCode}) WHERE ROWNUM = 1
+</select>
+</mapper>
