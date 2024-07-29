@@ -87,18 +87,5 @@ public class LoginServiceImpl {
     }
     
     
-    // 프로필 사진 URL 업데이트
-    public void updateProfileImageUrl(String userId, String profileImageUrl) {
-        LoginVO user = findUserByUserId(userId);
-        if (user != null) {
-            user.setProfileImageUrl(profileImageUrl);
-            saveUser(user);
-        }
-    }
-    
-    // 프로필 사진 URL 조회
-    public String getProfileImageUrl(String userId) {
-        LoginVO user = findUserByUserId(userId);
-        return user != null ? user.getProfileImageUrl() : null;
-    }
+   
 }

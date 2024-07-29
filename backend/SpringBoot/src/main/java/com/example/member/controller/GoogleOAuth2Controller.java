@@ -90,6 +90,7 @@ public class GoogleOAuth2Controller {
             response.put("accessToken", accessToken);
             response.put("refreshToken", refreshToken);
             response.put("userNickname", user.getUserNickname());
+            response.put("userId", user.getUserId());
 
             return ResponseEntity.ok()
                     .header(HttpHeaders.SET_COOKIE, cookie.toString())
