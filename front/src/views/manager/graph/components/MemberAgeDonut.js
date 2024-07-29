@@ -22,7 +22,7 @@ const MemberAgeDonut = () => {
                 show: true,
             }
         },
-        colors: [primary, secondary, "#34a853", "#fbbc05", "#ea4335", "#4285f4"], // 색상 지정하기
+        colors: [primary, secondary, "#c2fcc3", "#fcc2ce", "#fcf6c2"], // 색상 지정하기
         dataLabels: {
             enabled: false,
         },
@@ -36,8 +36,10 @@ const MemberAgeDonut = () => {
         },
     };
 
-    // 도넛 차트를 위한 데이터 형식
-    const seriescolumnchart = [100, 200, 150, 80, value.state.membersCount]; // 예시 데이터
+    // 차트 데이터
+    const seriescolumnchart = ["10대", "20대", "30대", "40대", "50대 이상"].map(ageGroup => 
+        value.state.countByAgeMember.find(item => item.AGE_GROUP === ageGroup)?.COUNT || 0
+    );
 
     return (
         <div>

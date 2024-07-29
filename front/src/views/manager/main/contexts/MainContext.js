@@ -3,8 +3,8 @@ import React, { createContext, useState, useEffect } from "react";
 const mainContext = createContext();
 
 const MainProvider = (props) => {
-    // 총 방문자 수
-    const [totalCount, setTotalCount] = useState(() => {
+      // 총 방문자 수
+      const [totalCount, setTotalCount] = useState(() => {
         const saved = localStorage.getItem("totalCount");
         return saved ? JSON.parse(saved) : 0;
       });
@@ -59,12 +59,24 @@ const MainProvider = (props) => {
         return saved ? JSON.parse(saved) : 0;
       });
 
+      // 금일 구독자 수 
+      const [todaySubscribersCount, setTodaySubscribersCount] = useState(() => {
+        const saved = localStorage.getItem("todaySubscribersCount");
+        return saved ? JSON.parse(saved) : 0;
+      });
+
       // 회원 리스트
       const [memberList, setMemberList] = useState(() => {
         const saved = localStorage.getItem("memberList");
         console.log("memberList react -------", saved);
         return saved ? JSON.parse(saved) : [];
-      })
+      });
+
+      // 회원 연령대
+      const [countByAgeMember, setCountByAgeMember] = useState(() => {
+        const saved = localStorage.getItem("countByAgeMember");
+        return saved ? JSON.parse(saved) : 0;
+      });
       
 
   // 값이 변경될 때마다 로컬 스토리지에 저장
@@ -105,15 +117,23 @@ const MainProvider = (props) => {
   }, [totalSubscribersCount]);
 
   useEffect(() => {
+    localStorage.setItem("todaySubscribersCount", JSON.stringify(todaySubscribersCount));
+  }, [todaySubscribersCount]);
+
+  useEffect(() => {
     localStorage.setItem("memberList", JSON.stringify(memberList));
   }, [memberList]);
 
-  
+  useEffect(() => {
+    localStorage.setItem("countByAgeMember", JSON.stringify(countByAgeMember));
+  }, [countByAgeMember]);  
 
 
   const values = {
-    state: { totalCount, todayCount, monthCount, membersCount, totalSubscribersCount, todayMembersCount, last5DaysMember, last5MonthsMember, last2YearsMember, memberList },
-    actions: { setTotalCount, setTodayCount, setMonthCount, setMembersCount, setTotalSubscribersCount, setTodayMembersCount, setLast5DaysMember, setLast5MonthsMember, setLast2YearsMember, setMemberList }
+    state: { totalCount, todayCount, monthCount, membersCount, totalSubscribersCount, 
+      todaySubscribersCount, todayMembersCount, last5DaysMember, last5MonthsMember, last2YearsMember, memberList, countByAgeMember },
+    actions: { setTotalCount, setTodayCount, setMonthCount, setMembersCount, setTotalSubscribersCount, 
+      setTodaySubscribersCount, setTodayMembersCount, setLast5DaysMember, setLast5MonthsMember, setLast2YearsMember, setMemberList, setCountByAgeMember }
   }
 
   return (
