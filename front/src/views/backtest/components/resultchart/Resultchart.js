@@ -1,86 +1,50 @@
-// views/backtest/conponents/resultchart/Resultcharts.js
-import React, { useEffect, useRef, useState } from 'react';
-import { createChart, ColorType } from 'lightweight-charts';
+import React from 'react';
+import { Box, Typography } from '@mui/material';
+import { LineChart, axisClasses } from '@mui/x-charts';
 
-const ResultChart = () => {
-  const chartContainerRef = useRef();
-  const chart = useRef();
-  const [assetData, setAssetData] = useState({
-    Market: { name: 'Market(S&P500)', value: 217878028, change: 11.07, changeMonth: 23.90, changeYear: -9.65 },
-    Samsung: { name: '삼성전자', value: 107158504, change: 0.94, changeMonth: 33.68, changeYear: -23.27 }
-  });
+const ResultChart = ({ analysisResult, error }) => {
+  if (error) {
+    return <Typography color="error">{error}</Typography>;
+  }
 
-  useEffect(() => {
-    chart.current = createChart(chartContainerRef.current, {
-      width: 600,
-      height: 300,
-      layout: {
-        background: { type: ColorType.Solid, color: 'white' },
-        textColor: 'white',
-      },
-      grid: {
-        vertLines: { color: '#2B2B43' },
-        horzLines: { color: '#2B2B43' },
-      },
-    });
+  if (!analysisResult) {
+    return <Typography>분석을 시작하려면 옵션을 선택하고 '분석 시작' 버튼을 클릭하세요.</Typography>;
+  }
 
-    const marketSeries = chart.current.addLineSeries({ color: '#FF4136' });
-    const samsungSeries = chart.current.addLineSeries({ color: '#FFDC00' });
-
-    // 여기에 실제 데이터를 넣어야 합니다.
-    const marketData = [
-      { time: '2016-06-01', value: 100000000 },
-      // ... 더 많은 데이터 포인트
-    ];
-
-    const samsungData = [
-      { time: '2016-06-01', value: 95000000 },
-      // ... 더 많은 데이터 포인트
-    ];
-
-    marketSeries.setData(marketData);
-    samsungSeries.setData(samsungData);
-
-    chart.current.timeScale().fitContent();
-
-    return () => {
-      chart.current.remove();
-    };
-  }, []);
+  const chartData = analysisResult.processedData.map(d => ({
+    date: new Date(d.record_date).toLocaleDateString(),
+    '종가': d.closing_price,
+    'SMA 20': d.SMA_20,
+    'EMA 20': d.EMA_20
+  }));
 
   return (
-    <div className="bg-[#151924] p-4">
-      <h2 className="text-xl font-bold mb-4">그래프</h2>
-      <div ref={chartContainerRef} />
-      <h3 className="text-lg font-bold mt-4 mb-2">자산별 현황</h3>
-      <table className="w-full">
-        <thead>
-          <tr>
-            <th className="text-left">자산</th>
-            <th className="text-right">최종금액</th>
-            <th className="text-right">연평균 수익률</th>
-            <th className="text-right">최대낙폭</th>
-            <th className="text-right">최고 연 수익률</th>
-            <th className="text-right">최저 연 수익률</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Object.values(assetData).map((asset) => (
-            <tr key={asset.name}>
-              <td>{asset.name}</td>
-              <td className="text-right">{asset.value.toLocaleString()}</td>
-              <td className="text-right">{asset.change.toFixed(2)}%</td>
-              <td className="text-right">-24.80%</td>
-              <td className="text-right">{asset.changeMonth.toFixed(2)}%</td>
-              <td className="text-right">{asset.changeYear.toFixed(2)}%</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <p className="mt-4 text-sm">
-          결과 텍스트 창
-      </p>
-    </div>
+    <Box sx={{ p: 2 }}>
+      <LineChart
+        width={600}
+        height={300}
+        dataset={chartData}
+        series={[
+          { dataKey: '종가', label: '종가' },
+          { dataKey: 'SMA 20', label: 'SMA 20' },
+          { dataKey: 'EMA 20', label: 'EMA 20' },
+        ]}
+        xAxis={[{ 
+          scaleType: 'band', 
+          dataKey: 'date',
+          label: '날짜',
+        }]}
+        yAxis={[{ label: '가격' }]}
+        sx={{
+          [`.${axisClasses.left} .${axisClasses.label}`]: {
+            transform: 'translate(-20px, 0)',
+          },
+        }}
+      />
+      <Typography variant="h6" sx={{ mt: 2 }}>
+        다음 날 주가 상승 확률: {(analysisResult.predictionProbability * 100).toFixed(2)}%
+      </Typography>
+    </Box>
   );
 };
 

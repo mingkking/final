@@ -1,11 +1,13 @@
 import oracledb
 import time
 from datetime import datetime, timedelta
+# from data_collection.krx_data_fetcher import get_krx_stock_data
 from data_collection.krx_data_fetcher import get_krx_stock_data
+
 
 def create_connection():
     try:
-        connection = oracledb.connect(user="scott", password='tiger', dsn="192.168.0.209:1521/XE")
+        connection = oracledb.connect(user="final", password="final1234", dsn="localhost:1521/XE")
         print("Database connection established successfully.")
         return connection
     except oracledb.Error as e:
@@ -49,8 +51,12 @@ def safe_execute(func, *args, **kwargs):
 def save_to_oracle(connection, data, date):
     cursor = connection.cursor()
     
+    # insert_sql = """
+    # INSERT INTO SCOTT.STOCK (record_date, stock_code, name, stock_type, closing_price, opening_price, high_price, low_price)
+    # VALUES (:1, :2, :3, :4, :5, :6, :7, :8)
+    # """
     insert_sql = """
-    INSERT INTO SCOTT.STOCK (record_date, stock_code, name, stock_type, closing_price, opening_price, high_price, low_price)
+    INSERT INTO STOCK (record_date, stock_code, name, stock_type, closing_price, opening_price, high_price, low_price)
     VALUES (:1, :2, :3, :4, :5, :6, :7, :8)
     """
     
