@@ -282,6 +282,25 @@ function Join() {
                 
                     {errors.userEmail && <p className='err'>{errors.userEmail.message}</p>}
                 
+                    <div className="form-group">
+                        <label>생년월일</label>
+                        <input 
+                            type="text" 
+                            name="userBirthdate" 
+                            placeholder="생년월일 (YYMMDD)"  
+                            {...register('userBirthdate', {
+                                required: '생년월일은 필수 항목입니다.',
+                                pattern: {
+                                    value: /^\d{6}$/,
+                                    message: '생년월일은 6자리 숫자(YYMMDD)이어야 합니다.'
+                                }
+                            })}
+                        />
+                    </div>
+                    
+                    {errors.userBirthdate && <p className='err'>{errors.userBirthdate.message}</p>}
+                    
+
                 <button type="submit" className="signup-button">가입하기</button>
             </form>
             </div>

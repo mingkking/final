@@ -11,7 +11,8 @@ import LoginContext from "./contexts/LoginContext";
 
 
 function Login({ onLoginSuccess }) {
-    const { actions } = useContext(LoginContext);
+    const { state, actions } = useContext(LoginContext);
+    
     const [userId, setUserId] = useState('');
     const [userPass, setUserPass] = useState('');
     const navigate = useNavigate();
@@ -30,15 +31,17 @@ function Login({ onLoginSuccess }) {
                 userPass: userPass
             });
             
+
             // 로그인 성공 시 로그인 상태 업데이트
             if (onLoginSuccess) {
                 // onLoginSuccess 콜백 호출하여 userNickname 전달
-                //loginValue.actions.setAfterLoginNick(response.data.userNickname);
                 onLoginSuccess(response.data.userNickname);
             }
 
-            
+            console.log('Setting userId:', response.data.userId);
+            actions.setUserId(response.data.userId);
             actions.setAfterLoginNick(response.data.userNickname);
+            console.log('Login response data:', response.data);
             alert("로그인 성공")
             // 메인 페이지로 이동
             navigate('/');  
@@ -59,6 +62,7 @@ function Login({ onLoginSuccess }) {
         try {
             const result = await axiosInstance.post('/google-login', { idToken });
             const userNickname = result.data.userNickname;
+            actions.setUserId(result.data.userId);
             actions.setAfterLoginNick(userNickname);
             alert("구글 로그인 성공");
             navigate("/");

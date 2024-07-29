@@ -32,12 +32,13 @@ public class LoginVO {
     private String userEmail; // 이메일 (길이 50자, 유니크, NOT NULL)
     @Column(name = "user_nickname", length = 30, unique = true, nullable = false)
     private String userNickname; // 닉네임 (길이 30자, 유니크, NOT NULL)
+    @Column(name = "user_birthdate", length = 6, nullable = false)
+    private String userBirthdate; // 생년월일
     @Column(name = "refresh_token", length = 255)
     private String refreshToken;  // 리프레시 토큰 (길이 255자)
     @Column(name = "profile_image_url", length = 255)
     private String profileImageUrl;  // 프로필 사진 URL (길이 255자)
-    @Column(name = "subscribe_date")
-    private LocalDateTime subscribeDate;  // 구독 시 날짜 입력
+    
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;  // 생성일

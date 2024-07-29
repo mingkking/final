@@ -7,7 +7,7 @@ const PopularPosts = () => {
 
     setInterval(() => {
         communityValue.actions.setRealTime(new Date().toLocaleString());
-    }, 5000);
+    }, 60000);
 
     return (
         <div className="popular-posts-container">

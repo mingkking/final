@@ -30,6 +30,10 @@ public interface MgrService {
 	
 	// 구독자 수 count
 	int selectTotalSubscribers();
+	int selectTodaySubscribers();
+	
+	// 회원 연령대
+	List<Map<String, Object>> countByAgeMember();
 	
 	// 회원 목록
 	List<MgrMemberVO> selectMembers(MgrMemberVO vo);

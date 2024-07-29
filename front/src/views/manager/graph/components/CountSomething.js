@@ -13,7 +13,6 @@ const MemberCount = ({title, count}) => {
     <div>
       <DashboardCard title={title}>
         <Grid container spacing={3} justifyContent="center" alignItems="center">
-          {/* column */}
           <Grid item xs={7} sm={7}>
             <Typography variant="h3" fontWeight="700" style={{ textAlign: 'center' }}>
               {count}

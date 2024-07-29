@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Grid, Box } from '@mui/material';
 import PageContainer from '../../../components/container/PageContainer';
+import axios from 'axios';
 
 // components
 import TodayJoinMembers from './components/TodayJoinMembers';
@@ -16,6 +17,18 @@ import mainContext from "../main/contexts/MainContext";
 const Dashboard = () => {
 
   const value = useContext(mainContext);
+
+    // SpringBoot 에서 값 가져와서 context파일에 저장하기
+    useEffect(()=>{
+      axios.get('http://localhost:8080/manager/graph')
+      .then((result) => {
+        value.actions.setTodaySubscribersCount(result.data.selectTodaySubscribers);
+        value.actions.setCountByAgeMember(result.data.countByAgeMember);
+        console.log(result.data.countByAgeMember);
+      })
+    },[]);
+
+
 
   return (
     <PageContainer title="Dashboard" description="this is Dashboard">
@@ -37,22 +50,22 @@ const Dashboard = () => {
             <SubscribeMembersLine />
           </Grid>
           <Grid item xs={12} lg={3}>
-            <CountSomething title='총 가입자 수' count={value.state.membersCount}/>
+            <CountSomething title='총 가입자 수' count={value.state.membersCount} />
           </Grid>
           <Grid item xs={12} lg={3}>
-            <CountSomething title='금일 가입자 수'/>
+            <CountSomething title='금일 가입자 수' count={value.state.todayMembersCount} />
           </Grid>
           <Grid item xs={12} lg={3}>
-            <CountSomething title='총 구독자 수' count={value.state.totalSubscribersCount}/>
+            <CountSomething title='총 구독자 수' count={value.state.totalSubscribersCount} />
           </Grid>
           <Grid item xs={12} lg={3}>
-            <CountSomething title='금일 구독자 수'/>
+            <CountSomething title='금일 구독자 수' count={value.state.todaySubscribersCount} />
           </Grid>
           <Grid item xs={12} lg={3}>
-            <CountSomething title='총 방문자 수' count={value.state.totalCount}/>
+            <CountSomething title='총 방문자 수' count={value.state.totalCount} />
           </Grid>
           <Grid item xs={12} lg={3}>
-            <CountSomething title='금일 방문자 수' count={value.state.todayCount}/>
+            <CountSomething title='금일 방문자 수' count={value.state.todayCount} />
           </Grid>
           <Grid item xs={12} lg={3}>
             <CountSomething title='채팅방 수'/>

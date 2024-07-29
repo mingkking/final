@@ -8,7 +8,7 @@ const SideSearch = ({ onPropertySelect }) => {  // onPropertySelect를 props로 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('/budongsanAllData');
+                const response = await fetch('http://localhost:5000/budongsanAllData');
                 const jsonData = await response.json();
                 setData(jsonData);
             } catch (error) {

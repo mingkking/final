@@ -1,35 +1,14 @@
-.subscribe-title {
+.assetType {
+    cursor: pointer;
+    color: #4c67ff;
+    font-size: 20px;
+    padding: 20px;
+  }
+
+  .newsLi {
+    margin-top: 70px;
+  }
+
+  .newsContent {
     margin-top: 50px;
-    margin-bottom: 30px;
-}
-
-.subscribe-content {
-    margin-top: 70px;   
-}
-
-.line-benefit {
-    display: block;
-    margin-bottom: 50px;
-}
-
-.subscribe-price {
-    font-size: 15px;
-}
-
-.subscribe-nextBtn {
-    margin-top: auto;
-}
-
-.subscribe-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-   
-.payment {
-    margin-bottom: 16px;
-}
-
-.subscribe-img {
-    margin-top: 180px;
-}
+  }
