@@ -29,10 +29,10 @@ function KakaoMap({ selectedProperty }) {
         const fetchData = async () => {
             try {
                 const [budongsanResponse, schoolResponse, storeResponse, busStationResponse] = await Promise.all([
-                    fetch('/budongsanMapData'),
-                    fetch('/schoolData'),
-                    fetch('/storeData'),
-                    fetch('/busStationData')
+                    fetch('http://localhost:5000/budongsanMapData'),
+                    fetch('http://localhost:5000/schoolData'),
+                    fetch('http://localhost:5000/storeData'),
+                    fetch('http://localhost:5000/busStationData')
                 ]);
 
                 if (!budongsanResponse.ok || !schoolResponse.ok || !storeResponse.ok || !busStationResponse.ok) {

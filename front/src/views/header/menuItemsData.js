@@ -34,7 +34,7 @@ export const MenuItemsData = [
           submenu: [
             {
               title: '부동산1',
-              url: 'budongsanPage',
+              url: 'budongsan',
             },
             {
               title: '부동산2',

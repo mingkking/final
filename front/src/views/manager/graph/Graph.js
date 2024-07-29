@@ -6,7 +6,6 @@ import PageContainer from '../../../components/container/PageContainer';
 import TodayJoinMembers from './components/TodayJoinMembers';
 import MonthJoinMembers from './components/MonthJoinMembers';
 import YearJoinMembers from './components/YearJoinMembers';
-import MemberAgeDonut from './components/MemberAgeDonut';
 import SubscribeMembersLine from './components/SubscribeMembersLine';
 import CountSomething from './components/CountSomething'
 import mainContext from "../main/contexts/MainContext";
@@ -29,9 +28,6 @@ const Dashboard = () => {
           </Grid>
           <Grid item xs={12} lg={4}>
             <YearJoinMembers />
-          </Grid>
-          <Grid item xs={12} lg={6}>
-            <MemberAgeDonut />
           </Grid>
           <Grid item xs={12} lg={6}>
             <SubscribeMembersLine />
