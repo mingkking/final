@@ -9,16 +9,7 @@ export const MenuItemsData = [
         },
         {
           title: '부동산',
-          submenu: [
-            {
-              title: '부동산1',
-              url: 'budongsan',
-            },
-            {
-              title: '부동산2',
-              url: 'bu2',
-            },
-          ],
+          url: 'budongsan',
         },
       ],
 

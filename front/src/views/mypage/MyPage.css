@@ -1,17 +1,16 @@
 .mypage-container {
   width: 100%;
-  max-width: 700px;
-  padding: 20px;
-  
-  background-color: #fff;
-  border-radius: 8px;
-  
-
-  margin:auto;
-  position:absolute;
-  top: 60%;
-  left: 50%;
-  transform: translate(-50%, -43%);
+    max-width: 700px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border-radius: 8px;
+    margin: auto;
+    position: relative; /* absolute -> relative로 변경 */
+    margin-top: 5%;
+    margin-bottom: 6%;
+    left: 19%;
+    transform: translateX(-50%);
           
   
   

@@ -1,41 +1,41 @@
 .service-use-container {
-    margin: 20px auto;
-    padding: 20px;
-    max-width: 800px;
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-  }
-  
-  .service-use-container h1 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .service-use-container h2 {
-    margin-top: 30px;
-    font-size: 1.5em;
-    color: #333;
-  }
-  
-  .service-use-container h3 {
-    margin-top: 20px;
-    font-size: 1.2em;
-  }
-  
-  .service-use-container p {
-    margin: 10px 0;
-  }
-  
-  .service-use-container ol {
-    margin-left: 20px;
-  }
-  
-  .service-use-container a {
-    color: #1a0dab;
-    text-decoration: none;
-  }
-  
-  .service-use-container a:hover {
-    text-decoration: underline;
-  }
-  
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 800px;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  text-align: left; /* Added this line */
+}
+
+.service-use-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.service-use-container h2 {
+  margin-top: 30px;
+  font-size: 1.5em;
+  color: #333;
+}
+
+.service-use-container h3 {
+  margin-top: 20px;
+  font-size: 1.2em;
+}
+
+.service-use-container p {
+  margin: 10px 0;
+}
+
+.service-use-container ol {
+  margin-left: 20px;
+}
+
+.service-use-container a {
+  color: #1a0dab;
+  text-decoration: none;
+}
+
+.service-use-container a:hover {
+  text-decoration: underline;
+}

@@ -83,7 +83,7 @@ const Chart = ({ title, data, color }) => (
                 },
             ]}
             width={525}
-            height={275}
+            height={258}
         />
     </Box>
 );
