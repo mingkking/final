@@ -1,13 +1,14 @@
+# backtest/database/db_operaions.py
 import oracledb
 import time
 from datetime import datetime, timedelta
 # from data_collection.krx_data_fetcher import get_krx_stock_data
 from data_collection.krx_data_fetcher import get_krx_stock_data
-
+oracledb.init_oracle_client()
 
 def create_connection():
     try:
-        connection = oracledb.connect(user="final", password="final1234", dsn="localhost:1521/XE")
+        connection = oracledb.connect(user="investigate", password="team1", dsn="192.168.0.39:1521/XE") #데이터 베이스 연결에 필요한 정보들 입력
         print("Database connection established successfully.")
         return connection
     except oracledb.Error as e:
@@ -31,7 +32,7 @@ def get_connection():
 
 def safe_execute(func, *args, **kwargs):
     max_retries = 3
-    retry_delay = 5  # seconds
+    retry_delay = 5  # 5초
 
     for attempt in range(max_retries):
         try:
@@ -51,14 +52,14 @@ def safe_execute(func, *args, **kwargs):
 def save_to_oracle(connection, data, date):
     cursor = connection.cursor()
     
-    # insert_sql = """
-    # INSERT INTO SCOTT.STOCK (record_date, stock_code, name, stock_type, closing_price, opening_price, high_price, low_price)
-    # VALUES (:1, :2, :3, :4, :5, :6, :7, :8)
-    # """
     insert_sql = """
-    INSERT INTO STOCK (record_date, stock_code, name, stock_type, closing_price, opening_price, high_price, low_price)
+    INSERT INTO INVESTIGATE.STOCK (record_date, stock_code, name, stock_type, closing_price, opening_price, high_price, low_price)
     VALUES (:1, :2, :3, :4, :5, :6, :7, :8)
     """
+    # insert_sql = """
+    # INSERT INTO STOCK (record_date, stock_code, name, stock_type, closing_price, opening_price, high_price, low_price)
+    # VALUES (:1, :2, :3, :4, :5, :6, :7, :8)
+    # """
     
     records = []
     for item in data:
@@ -106,3 +107,15 @@ def get_and_save_data_for_date_range(connection, start_date, end_date):
             time.sleep(1)  # 1초 대기하여 API 요청 속도 제한
         
         current_date += timedelta(days=1)
+if __name__ == "__main__":
+    start_date = datetime.now() - timedelta(days=365)
+    end_date = datetime.now()
+    
+    connection = create_connection()
+    if connection:
+        try:
+            get_and_save_data_for_date_range(connection, start_date, end_date)
+        finally:
+            connection.close()
+    else:
+        print("Failed to establish database connection.")

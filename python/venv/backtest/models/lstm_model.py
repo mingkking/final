@@ -1,9 +1,17 @@
+import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense, Dropout
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.callbacks import EarlyStopping
+
+def create_sequences(data, seq_length):
+    X, y = [], []
+    for i in range(len(data) - seq_length):
+        X.append(data[i:(i + seq_length), :-1])
+        y.append(data[i + seq_length, -1])
+    return np.array(X), np.array(y)
 
 def build_lstm_model(input_shape):
     model = Sequential([
@@ -34,3 +42,6 @@ def evaluate_lstm_model(model, X_test, y_test):
     loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
     print(f"Test Loss: {loss:.4f}")
     print(f"Test Accuracy: {accuracy:.4f}")
+
+if __name__ == "__main__":
+    print("LSTM model module loaded successfully.")
