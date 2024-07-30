@@ -12,6 +12,7 @@ public interface StockService {
 	List<StockVO> selectStockList();
 	
 	//종목 상세조회
-	StockVO getStockInfo(String stockCode);
-    List<StockVO> getStockPriceHistory(String stock_code, String range);
+	 StockVO getStockInfo(String stock_code);
+	 List<StockVO> getStockPriceHistory(String stock_code, String range);
+	 List<StockVO> getYearlyStockPriceHistory(String stock_code);
 }

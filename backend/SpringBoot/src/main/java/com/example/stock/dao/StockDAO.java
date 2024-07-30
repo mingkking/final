@@ -14,6 +14,7 @@ import com.example.stock.domain.StockVO;
 @Mapper
 public interface StockDAO {
 	public List<StockVO> selectStockList(); //종목 목록조회
-	StockVO getStockInfo(String stockCode);
-	List<StockVO> getStockPriceHistory(@Param("stock_code") String stockCode, @Param("range") String range);
+	  StockVO getStockInfo(String stock_code);
+	  List<StockVO> getStockPriceHistory(@Param("stock_code") String stockCode, @Param("range") String range);
+	  List<StockVO> getYearlyStockPriceHistory(@Param("stock_code") String stockCode);
 }
