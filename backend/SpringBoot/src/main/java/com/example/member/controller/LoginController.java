@@ -110,7 +110,7 @@ public class LoginController {
 
             return ResponseEntity.ok()
                     .header(HttpHeaders.SET_COOKIE, cookie.toString()) // 쿠키를 응답 헤더에 추가
-                    .body(new LoginResponse(accessToken, refreshToken, user.getUserNickname(),user.getUserId())); 
+                    .body(new LoginResponse(accessToken, refreshToken, user.getUserNickname(),user.getUserId(), user.getProfileImageUrl())); 
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage()); 
@@ -137,7 +137,7 @@ public class LoginController {
                 user.setRefreshToken(jwtUtil.extractRefreshTokenSignature(newRefreshToken)); // 새로운 리프레시 토큰 서명 저장
                 loginService.saveUser(user); // 업데이트된 사용자 저장
  
-                return ResponseEntity.ok(new LoginResponse(newAccessToken, newRefreshToken, user.getUserNickname(), user.getUserId())); 
+                return ResponseEntity.ok(new LoginResponse(newAccessToken, newRefreshToken, user.getUserNickname(), user.getUserId(), user.getProfileImageUrl())); 
             }
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid refresh token"); 
@@ -284,12 +284,14 @@ class LoginResponse {
     private String refreshToken;
     private String userNickname;
     private String userId;
+    private String profileImageUrl;
 
-    public LoginResponse(String token, String refreshToken, String userNickname, String userId) {
+    public LoginResponse(String token, String refreshToken, String userNickname, String userId, String profileImageUrl) {
         this.token = token;
         this.refreshToken = refreshToken;
         this.userNickname = userNickname;
         this.userId = userId;
+        this.profileImageUrl = profileImageUrl;
     }
 }
 

@@ -66,6 +66,7 @@ public class GoogleOAuth2Controller {
                 user.setUserName(googleUserInfo.getUserName());
                 user.setUserPass("0"); // Google OAuth2 사용자에 대해 빈 문자열로 설정
                 user.setUserTel("0");  // Google OAuth2 사용자에 대해 빈 문자열로 설정
+                user.setProfileImageUrl(googleUserInfo.getProfileImageUrl());
                 loginService.saveUser(user);
             }
 
@@ -91,7 +92,8 @@ public class GoogleOAuth2Controller {
             response.put("refreshToken", refreshToken);
             response.put("userNickname", user.getUserNickname());
             response.put("userId", user.getUserId());
-
+            response.put("profileImageUrl", user.getProfileImageUrl());
+            
             return ResponseEntity.ok()
                     .header(HttpHeaders.SET_COOKIE, cookie.toString())
                     .body(response);
@@ -132,6 +134,9 @@ public class GoogleOAuth2Controller {
         userInfo.setUserEmail(jsonNode.get("email").asText());
         userInfo.setUserName(jsonNode.get("name").asText());
 
+     // 구글에서 프로필 이미지 URL 가져오기 (기본 프로필 이미지 사용 가능)
+        userInfo.setProfileImageUrl(jsonNode.has("picture") ? jsonNode.get("picture").asText() : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png");
+        
         return userInfo;
     }
 
@@ -141,6 +146,7 @@ public class GoogleOAuth2Controller {
         private String userNickname;
         private String userEmail;
         private String userName;
+        private String profileImageUrl;
         
         @Column(nullable = true)
         private String userPass;
