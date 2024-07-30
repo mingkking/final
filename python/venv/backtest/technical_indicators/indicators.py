@@ -1,3 +1,4 @@
+#backtest/technical_indcators/indicators.py
 import pandas as pd
 import numpy as np
 
@@ -10,7 +11,6 @@ def calculate_sma(df, window):
 #이동평균선
 def calculate_ema(df, window): 
     return df['closing_price'].ewm(span=window, adjust=False).mean()
-
 
 #상대적 강도지수 계산
 def calculate_rsi(df, window): 

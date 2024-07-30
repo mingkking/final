@@ -1,0 +1,211 @@
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  .detailCommunity-search-bar {
+    margin: 10px 0;
+  }
+}
+
+.detailCommunity-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f8f9fa;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  /* 요소가 화면 크기에 따라 줄을 바꿀 수 있도록 함 */
+}
+
+.detailCommunity-header {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+  flex: 1 0 100%;
+  /* 한 줄을 차지하도록 함 */
+  text-align: center;
+  /* 중앙 정렬 */
+}
+
+.detailCommunity-search-bar {
+  flex: 1 1 100%;
+  /* 한 줄을 차지하도록 함 */
+  padding: 8px 12px;
+  margin: 10px 0;
+  /* 상하 여백 추가 */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.detailCommunity-insertBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  flex: 1 0 100%;
+  /* 한 줄을 차지하도록 함 */
+  text-align: center;
+  /* 중앙 정렬 */
+}
+
+.detailCommunity-insertBtn img {
+  width: 24px;
+  height: 24px;
+}
+
+@media (min-width: 768px) {
+
+  .detailCommunity-header,
+  .detailCommunity-search-bar,
+  .detailCommunity-insertBtn {
+    flex: initial;
+    /* 기본 동작으로 돌아가서 한 줄에 배치되도록 함 */
+  }
+
+  .detailCommunity-search-bar {
+    margin: 0 20px;
+    /* 좌우 여백 복원 */
+    flex: 1;
+    /* 나머지 공간을 차지하도록 함 */
+  }
+}
+
+.detailPost-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.detailPost-item {
+  display: grid;
+  height: auto;
+  /* 내용에 따라 높이 자동 조정 */
+  grid-template-rows: auto auto 1fr auto;
+  /* 변경된 높이 설정 */
+  grid-template-areas:
+    'top'
+    'middle'
+    'bottom'
+    'actions';
+  gap: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  grid-template-rows: auto 1fr 1fr auto;
+  /* 각 영역의 높이 설정 */
+}
+
+.detailPost-item-top {
+  display: flex;
+  align-items: flex-start;
+  /* 수평 정렬 */
+}
+
+.detailPost-item-middle {
+  grid-area: middle;
+}
+
+.detailPost-item-bottom {
+  grid-area: bottom;
+}
+
+.detailPost-item-actions {
+  grid-area: actions;
+  display: flex;
+  gap: 10px;
+  align-items: end;
+}
+
+.detailPost-item-profile {
+  /* 프로필 스타일 */
+  margin-right: 10px;
+  /* 프로필과 닉네임 사이의 간격 */
+}
+
+.detailPost-item-info {
+  display: flex;
+  flex-direction: column;
+  /* 수직 정렬 */
+}
+
+.detailPost-item-userNickname {
+  /* 닉네임 스타일 */
+  justify-self: left;
+  font-weight: bold;
+}
+
+.detailPost-item-created_at {
+  /* 시간 스타일 */
+  color: gray;
+  margin-top: 4px;
+  /* 닉네임과 시간 사이의 간격 */
+}
+
+.detailPost-item-title {
+  text-align: left;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  margin-top: 10px;
+}
+
+.detailPost-item-contents {
+  text-align: left;
+  font-size: 16px;
+  color: #555;
+}
+
+.detailPost-item-uploadFile img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.detailCommunity-menuBtn,
+.detailPost-item-replyBtn,
+.detailPost-item-likeBtn,
+.detailPost-item-replyBtn,
+.detailPost-item-share,
+.detailPost-item-bookmark {
+  background: none;
+  border: none;
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 14px;
+  color: gray;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+  /* 부드러운 효과 추가 */
+}
+
+.detailPost-item-bookmark {
+  margin-left: auto;
+  /* 북마크 버튼을 오른쪽으로 밀어냅니다. */
+}
+
+.detailCommunity-menuBtn:hover,
+.detailPost-item-replyBtn:hover,
+.detailPost-item-likeBtn:hover,
+.detailPost-item-replyBtn:hover,
+.detailPost-item-share:hover,
+.detailPost-item-bookmark:hover {
+  background-color: #6c757d;
+  /* 부드러운 회색 블루 */
+  color: #fff;
+  transform: scale(1.5);
+  /* 버튼 크기 확대 */
+}
+
+.no-underline-link {
+  text-decoration: none;
+  color: inherit;
+  /* 선택사항: 링크의 기본 색상을 상속받도록 설정 */
+}

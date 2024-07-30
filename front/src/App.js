@@ -4,7 +4,7 @@ import Header from './views/header/components/Header';
 import Footer from './views/footer/Footer';
 
 import Stock from './views/stock/stockMain';
-import Ju2 from './views/stock/ju2';
+import StockDetail from './views/stock/components/stockdetail/Stockdetail';
 import Co1 from './routes/co1';
 import Co2 from './routes/co2';
 import Budongsan from './views/budongsan/Budongsan';
@@ -24,10 +24,14 @@ import Subscribe2 from './views/subscribe/Subscribe2';
 import Subscribe3 from './views/subscribe/Subscribe3';
 import MyPage from './views/mypage/MyPage';
 import News from './views/news/News';
+
 import Charachter from './views/main/components/Character';
 import ServiceUse from './views/footer/components/ServiceUse';
 import Privacy from './views/footer/components/Privacy';
 import ScrollToTop from './ScrollToTip';
+
+import DetailCommunity from './views/community/DetailCommunity';
+
 
 import Router from './routes/Router';
 import { ThemeProvider } from '@mui/material';
@@ -57,6 +61,7 @@ function AppContent() {
       <Routes>
         <Route path='/' element={<Main />} />
         <Route path='/stock' element={<Stock />} />
+        <Route path="/stock/:stockCode" element={<StockDetail />} />
         <Route path='/ju2' element={<Ju2 />} />
         <Route path='/co1' element={<Co1 />} />
         <Route path='/co2' element={<Co2 />} />
@@ -66,6 +71,7 @@ function AppContent() {
         <Route path='/Chatting' element={<Chatting />} />
         <Route path='/Community' element={<Community />} />
         <Route path='/InsertCommunity' element={<InsertCommunity />} />
+        <Route path='/DetailCommunity' element={<DetailCommunity />} />
         <Route path='/login' element={<Login onLoginSuccess={handleLoginSuccess} />} />
         <Route path='/Join' element={<Join />} />
         <Route path='/IdFind' element={<IdFind />} />

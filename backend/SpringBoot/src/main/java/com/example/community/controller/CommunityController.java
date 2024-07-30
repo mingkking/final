@@ -1,8 +1,10 @@
 package com.example.community.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,10 +28,23 @@ public class CommunityController {
         try {
             selectAllPosts = communityService.selectAllCommunity();                      // 커뮤니티 서비스 객체로 커뮤니티 모든 글 검색 기능 실행
         } catch (Exception e) {
-            System.out.println("커뮤니티 모든 글 검색 : " + e.getMessage());  // 커뮤니티 글 등록 기능 에러 발생
+            System.out.println("커뮤니티 모든 글 검색 : " + e.getMessage());  // 커뮤니티 모든 글 검색 기능 에러 발생
         }
 
         return selectAllPosts;
+
+    }
+
+    @GetMapping("/selectOneCommunity") 
+    public CommunityVO selectOneCommunity(CommunityVO communityVO) {                                         // 커뮤니티 상세 글 검색
+
+        try {
+            communityVO = communityService.selectOneCommunity(communityVO.getId());                      // 커뮤니티 서비스 객체로 커뮤니티 상세 글 검색 기능 실행
+        } catch (Exception e) {
+            System.out.println("커뮤니티 상세 글 검색 : " + e.getMessage());                // 커뮤니티 글 상세 기능 에러 발생
+        }
+
+        return communityVO;
 
     }
 

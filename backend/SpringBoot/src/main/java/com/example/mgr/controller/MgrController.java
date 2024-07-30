@@ -41,9 +41,6 @@ public class MgrController {
 	    sessionvo.setSessionId(session.getId());
 	    mgrservice.saveSession(sessionvo);
 	    
-	    // 회원 리스트
-	    MgrMemberVO membervo = new MgrMemberVO();
-	    List<MgrMemberVO> memberList = mgrservice.selectMembers(membervo);
 	    
 	    // 최근 5일/5달간 가입자 수
 	    List<Map<String, Object>> last5DaysMember = mgrservice.selectLast5DaysMember();
@@ -69,7 +66,6 @@ public class MgrController {
 	        "selectTotalMembers", selcetTotalMembers,
 	        "selectTodayMembers", selectTodayMembers,
 	        "selectTotalSubscribers", selectTotalSubscribers,
-	        "selectMemberList", memberList,
 	        "selectLast5DaysMember", last5DaysMember,
 	        "selectLast5MonthsMember", last5MonthsMember,
 	        "selectLast2YearsMember", last2YearsMember
@@ -80,7 +76,7 @@ public class MgrController {
 	    return jsonString;
 	} // count
 	
-	// memberList 출력
+	// memberList 출력 
 	@GetMapping("/manager/memberList")
 	public String getMemberList(MgrMemberVO vo) {
 		
@@ -91,6 +87,7 @@ public class MgrController {
 	    
 	    // List인 memberList를 gson을 이용하여 JSON 문자열로 변환
 	    String memberListJsonString = gson.toJson(memberList);
+	    
 	    
 	    // JSON 생성
 	    String jsonString = "{\"selectMemberList\":" + memberListJsonString + "}";
