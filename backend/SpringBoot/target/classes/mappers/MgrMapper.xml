@@ -105,7 +105,7 @@
             END AS age_group
       FROM (
             SELECT 
-                FLOOR((SYSDATE - TO_DATE(user_birthdate, 'YYMMDD')) / 365) AS age
+                FLOOR((SYSDATE - TO_DATE(user_birthdate, 'RRMMDD')) / 365) AS age
             FROM users
         ) derived_table
       ) age_groups
