@@ -11,7 +11,7 @@ const LoginProvider = (props) => {
 		state: { afterLoginNick, profileImage, userId },
 		actions: { setAfterLoginNick, setProfileImage, setUserId} 
 	}
-
+ 
 	return (
 		<LoginContext.Provider value={values}>
 			{props.children}

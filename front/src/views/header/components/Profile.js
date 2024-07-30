@@ -19,25 +19,29 @@ import axiosInstance from '../../login/component/Token/axiosInstance';
 
 
 
+
 const Profile = ({ onLogout }) => {
   const [anchorEl2, setAnchorEl2] = useState(null);
   const { state, actions } = useContext(LoginContext);
+  
 
   useEffect(() => {
     
     // 로그인 상태를 확인할 때 프로필 사진 URL을 가져옵니다.
-    if (state.userId) {
+    if (state.userId && !state.profileImage) {
       axiosInstance.get(`/profile-image/${state.userId}`)
-          .then(response => {
-            console.log('Profile image response:', response.data);
-              const data = response.data;
-              if (data.profileImageUrl) {
-                  actions.setProfileImage(data.profileImageUrl);
-              }
-          })
-          .catch(error => console.error('Error fetching profile image:', error));
-  }
-}, [state.userId, actions]);
+        .then(response => {
+          console.log('Profile image response:', response.data);
+          const data = response.data;
+          if (data.profileImageUrl) {
+            actions.setProfileImage(`http://localhost:8080${data.profileImageUrl}`);
+            console.log('Profile image URL set to:', data.profileImageUrl);
+          }
+        })
+        .catch(error => console.error('Error fetching profile image:', error));
+    }
+    console.log('Profile image URL from context:', state.profileImage);
+  }, [state.userId, state.profileImage, actions]);
 
   const handleClick2 = (event) => {
     setAnchorEl2(event.currentTarget);
@@ -70,9 +74,9 @@ const Profile = ({ onLogout }) => {
           alt="Profile"
           sx={{
             width: 35,
-            height: 35,
-            objectFit: 'cover'
+            height: 35,            
           }}
+          
           
         />
       </IconButton>

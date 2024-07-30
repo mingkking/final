@@ -7,7 +7,7 @@ import { useContext,useState, useEffect } from 'react';
 import LoginContext from '../../login/contexts/LoginContext';
 import "../../login/Login.css";
 import Profile from './Profile';
-
+import { Avatar } from '@mui/material';
 
 
 
@@ -84,7 +84,8 @@ const Navbar = ({ onLoginSuccess }) => {
       setIsLoggedIn(false);
       //setUserNickname('');
       actions.setAfterLoginNick('');
-  
+      actions.setProfileImage('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');
+
       // onLoginSuccess 콜백이 prop으로 전달되었으면 빈 문자열을 전달하여 로그인 상태를 초기화합니다.
       if (onLoginSuccess) {
         onLoginSuccess('');
@@ -125,7 +126,6 @@ const Navbar = ({ onLoginSuccess }) => {
             <span> 
               {state.afterLoginNick}
             </span>
-            
             
             <Profile onLogout={handleLogoutClick} />
           

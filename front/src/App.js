@@ -54,6 +54,7 @@ function AppContent() {
     document.dispatchEvent(new CustomEvent('loginSuccess', { detail: userNickname }));
   };
 
+
   return (
     <div className="App-content">
       {!isAdminPage && <Header />}
