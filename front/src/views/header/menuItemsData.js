@@ -5,30 +5,31 @@ export const MenuItemsData = [
       submenu: [
         {
           title: '주식',
-          submenu: [
-            {
-              title: '주식1',
-              url: 'stock',
-            },
-            {
-              title: '주식2',
-              url: 'ju2',
-            },
-          ],
+          url: 'stock',
+          // submenu: [
+          //   {
+          //     title: '주식',
+             
+          //   },
+          //   {
+          //     title: '주식2',
+          //     url: 'ju2',
+          //   },
+          // ],
         },
-        {
-          title: '코인',
-          submenu: [
-            {
-              title: '코인1',
-              url: 'co1',
-            },
-            {
-              title: '코인2',
-              url: 'co2',
-            },
-          ],
-        },
+        // {
+        //   title: '코인',
+        //   submenu: [
+        //     {
+        //       title: '코인1',
+        //       url: 'co1',
+        //     },
+        //     {
+        //       title: '코인2',
+        //       url: 'co2',
+        //     },
+        //   ],
+        // },
         {
           title: '부동산',
           submenu: [

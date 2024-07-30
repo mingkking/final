@@ -5,7 +5,7 @@ import Header from './views/header/components/Header';
 
 
 import Stock from './views/stock/stockMain';
-import Ju2 from './views/stock/ju2';
+import StockDetail from './views/stock/components/stockdetail/Stockdetail';
 import Co1 from './routes/co1';
 import Co2 from './routes/co2';
 import Budongsan from './views/budongsan/Budongsan';
@@ -61,7 +61,7 @@ function AppContent() {
 
              <Route path='/' element={<Main />}/>
              <Route path='/stock' element={<Stock />} />
-             <Route path='/ju2' element={<Ju2 />} />
+             <Route path="/stock/:stockCode" element={<StockDetail />} />
              <Route path='/co1' element={<Co1 />} />
              <Route path='/co2' element={<Co2 />} />
              <Route path='/budongsan' element={<Budongsan />} />
