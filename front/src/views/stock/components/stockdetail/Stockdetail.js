@@ -1,143 +1,109 @@
+// views/stock/StockDetail.js
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { createChart, CrosshairMode } from 'lightweight-charts';
 import axios from 'axios';
+import { createChart } from 'lightweight-charts';
 
 const StockDetail = () => {
   const { stockCode } = useParams();
-  const chartContainerRef = useRef();
-  const chart = useRef(null);
-  const candleSeries = useRef(null);
-  const [timeRange, setTimeRange] = useState('1D');
-  const [stockData, setStockData] = useState({
-    name: '',
-    current: 0,
-    open: 0,
-    high: 0,
-    low: 0,
-    close: 0,
-  });
-  const [isLoading, setIsLoading] = useState(true);
+  const [stockData, setStockData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const chartContainerRef = useRef();
 
   useEffect(() => {
-    const initChart = () => {
-      if (chartContainerRef.current && !chart.current) {
-        chart.current = createChart(chartContainerRef.current, {
-          width: chartContainerRef.current.clientWidth,
-          height: 400,
-          layout: {
-            background: { type: 'solid', color: 'black' },
-            textColor: 'white',
-          },
-          grid: {
-            vertLines: { color: 'rgba(70, 70, 70, 0.5)' },
-            horzLines: { color: 'rgba(70, 70, 70, 0.5)' },
-          },
-          crosshair: {
-            mode: CrosshairMode.Normal,
-          },
-          priceScale: {
-            borderColor: 'rgba(100, 100, 100, 0.8)',
-          },
-          timeScale: {
-            borderColor: 'rgba(100, 100, 100, 0.8)',
-          },
-        });
-
-        candleSeries.current = chart.current.addCandlestickSeries({
-          upColor: '#26a69a',
-          downColor: '#ef5350',
-          borderVisible: false,
-          wickUpColor: '#26a69a',
-          wickDownColor: '#ef5350',
-        });
-      }
-    };
-
-    const fetchData = async () => {
-      setIsLoading(true);
-      setError(null);
+    const fetchStockDetail = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/stocks/${stockCode}?range=${timeRange}`);
-        const { stockInfo, priceHistory } = response.data;
-        
-        setStockData({
-          name: stockInfo.name,
-          current: stockInfo.closing_price,
-          open: stockInfo.opening_price,
-          high: stockInfo.high_price,
-          low: stockInfo.low_price,
-          close: stockInfo.closing_price,
-        });
-
-        if (candleSeries.current) {
-          candleSeries.current.setData(priceHistory.map(price => ({
-            time: price.record_date,
-            open: price.opening_price,
-            high: price.high_price,
-            low: price.low_price,
-            close: price.closing_price
-          })));
-        }
+        setLoading(true);
+        const response = await axios.get(`http://localhost:8080/stock/${stockCode}`);
+        setStockData(response.data);
+        setLoading(false);
       } catch (err) {
-        setError('데이터를 불러오는 데 실패했습니다.');
-        console.error('Error fetching stock data:', err);
-      } finally {
-        setIsLoading(false);
+        console.error('주식 상세 데이터 불러오기 오류:', err);
+        setError('주식 상세 데이터를 불러오는 데 실패했습니다.');
+        setLoading(false);
       }
     };
 
-    initChart();
-    fetchData();
+    fetchStockDetail();
+  }, [stockCode]);
 
-    const handleResize = () => {
-      if (chart.current && chartContainerRef.current) {
-        chart.current.applyOptions({ 
-          width: chartContainerRef.current.clientWidth 
-        });
-      }
-    };
+  useEffect(() => {
+    if (stockData && chartContainerRef.current) {
+      const chart = createChart(chartContainerRef.current, {
+        width: chartContainerRef.current.clientWidth,
+        height: 400,
+        layout: {
+          backgroundColor: '#ffffff',
+          textColor: 'rgba(33, 56, 77, 1)',
+        },
+        grid: {
+          vertLines: {
+            color: 'rgba(197, 203, 206, 0.5)',
+          },
+          horzLines: {
+            color: 'rgba(197, 203, 206, 0.5)',
+          },
+        },
+        crosshair: {
+          mode: 'normal',
+        },
+        priceScale: {
+          borderColor: 'rgba(197, 203, 206, 1)',
+        },
+        timeScale: {
+          borderColor: 'rgba(197, 203, 206, 1)',
+        },
+      });
 
-    window.addEventListener('resize', handleResize);
+      const candleSeries = chart.addCandlestickSeries({
+        upColor: '#26a69a',
+        downColor: '#ef5350',
+        borderVisible: false,
+        wickUpColor: '#26a69a',
+        wickDownColor: '#ef5350',
+      });
 
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      if (chart.current) {
-        chart.current.remove();
-      }
-    };
-  }, [stockCode, timeRange]);
+      const mappedData = stockData.priceHistory
+        .filter(item => item.opening_price !== null && item.high_price !== null && item.low_price !== null && item.closing_price !== null)
+        .map(item => ({
+          time: item.record_date.split(' ')[0], // 'YYYY-MM-DD' 형식만 사용
+          open: item.opening_price,
+          high: item.high_price,
+          low: item.low_price,
+          close: item.closing_price,
+        }));
 
-  const changeTimeRange = (range) => {
-    setTimeRange(range);
-  };
+      candleSeries.setData(mappedData);
+      chart.timeScale().fitContent();
 
-  if (isLoading) return <div className="text-white">로딩 중...</div>;
-  if (error) return <div className="text-red-500">{error}</div>;
+      return () => {
+        chart.remove();
+      };
+    }
+  }, [stockData]);
+
+  if (loading) return <div className="text-center p-4">로딩 중...</div>;
+  if (error) return <div className="text-center text-red-500 p-4">{error}</div>;
+  if (!stockData) return <div className="text-center p-4">데이터가 없습니다.</div>;
+
+  const latestData = stockData.stockInfo;
 
   return (
-    <div className="bg-black text-white p-4">
-      <div className="flex justify-between items-center mb-4">
-        <button onClick={() => changeTimeRange('1D')}>1일</button>
-        <button onClick={() => changeTimeRange('1W')}>1주</button>
-        <button onClick={() => changeTimeRange('1M')}>1개월</button>
-        <button onClick={() => changeTimeRange('1Y')}>1년</button>
-      </div>
-      
-      <div className="mb-4 flex justify-between items-center">
-        <div className="flex items-center space-x-2">
-          <span className="text-blue-500">—</span>
-          <span>{stockData.name}</span>
-          <input type="text" value={`${stockData.current.toLocaleString()}`} className="bg-black border-b border-gray-600 w-24 text-right" readOnly />
-          <span>KRW</span>
+    <div className="p-4">
+      <h2 className="text-2xl font-bold mb-4">{latestData.name} ({latestData.stock_code})</h2>
+      <div className="grid grid-cols-2 gap-4 mb-4">
+        <div>
+          <p>종가: {latestData.closing_price?.toLocaleString()} 원</p>
+          <p>시가: {latestData.opening_price?.toLocaleString()} 원</p>
+          <p>고가: {latestData.high_price?.toLocaleString()} 원</p>
+          <p>저가: {latestData.low_price?.toLocaleString()} 원</p>
+        </div>
+        <div>
+          <p>날짜: {latestData.record_date}</p>
+          <p>유형: {latestData.stock_type}</p>
         </div>
       </div>
-      
-      <div className="text-sm mb-2">
-        <span>시 {stockData.open.toLocaleString()} 고 {stockData.high.toLocaleString()} 저 {stockData.low.toLocaleString()} 종 {stockData.close.toLocaleString()}</span>
-      </div>
-      
       <div ref={chartContainerRef} className="w-full h-[400px]" />
     </div>
   );

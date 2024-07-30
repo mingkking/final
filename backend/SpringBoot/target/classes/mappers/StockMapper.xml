@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
@@ -20,36 +19,44 @@
                 SELECT stock_code, MAX(record_date) as max_date
                 FROM STOCK
                 GROUP BY stock_code
-            ) latest ON s.stock_code = latest.stock_code 
-                     AND s.record_date = latest.max_date
+            ) latest ON s.stock_code = latest.stock_code
+            AND s.record_date = latest.max_date
         )
-        WHERE rn <![CDATA[<=]]>20
+        WHERE rn <![CDATA[<=]]> 20
     </select>
-    
+
     <select id="getStockInfo" resultType="com.example.stock.domain.StockVO">
-        SELECT * FROM stocks
-        WHERE stock_code = #{stock_code}
-        ORDER BY record_date DESC
-        LIMIT 1
+        SELECT * FROM (
+            SELECT * FROM STOCK
+            WHERE stock_code = #{stock_code}
+            ORDER BY record_date DESC
+        ) WHERE ROWNUM = 1
     </select>
-    
-     <select id="getStockPriceHistory" resultType="com.example.stock.domain.StockVO">
-        SELECT * FROM stocks
+
+    <select id="getStockPriceHistory" resultType="com.example.stock.domain.StockVO">
+        SELECT * FROM STOCK
         WHERE stock_code = #{stock_code}
         <choose>
             <when test="range == '1D'">
-                AND record_date >= DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+                AND record_date >= SYSDATE - 1
             </when>
             <when test="range == '1W'">
-                AND record_date >= DATE_SUB(CURDATE(), INTERVAL 1 WEEK)
+                AND record_date >= SYSDATE - 7
             </when>
             <when test="range == '1M'">
-                AND record_date >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
+                AND record_date >= ADD_MONTHS(SYSDATE, -1)
             </when>
             <when test="range == '1Y'">
-                AND record_date >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR)
+                AND record_date >= ADD_MONTHS(SYSDATE, -12)
             </when>
         </choose>
+        ORDER BY record_date ASC
+    </select>
+    
+      <select id="getYearlyStockPriceHistory" resultType="com.example.stock.domain.StockVO">
+        SELECT * FROM STOCK
+        WHERE stock_code = #{stock_code}
+        AND record_date >= ADD_MONTHS(SYSDATE, -12)
         ORDER BY record_date ASC
     </select>
 </mapper>

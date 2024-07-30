@@ -28,5 +28,10 @@ public class StockServiceImpl implements StockService{
 	public List<StockVO> getStockPriceHistory(String stock_code, String range) {
 	    return stockDAO.getStockPriceHistory(stock_code, range);
 	}
+	 @Override
+	    public List<StockVO> getYearlyStockPriceHistory(String stock_code) {
+	        return stockDAO.getYearlyStockPriceHistory(stock_code);
+	    }
+	
 
 } 
