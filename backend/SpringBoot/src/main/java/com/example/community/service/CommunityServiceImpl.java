@@ -30,4 +30,9 @@ public class CommunityServiceImpl implements CommunityService{
         communityRepository.save(communityVO);
     }
 
+    @Override
+    public void deleteCommunity(Integer id) throws Exception {
+        communityRepository.deleteById(id);
+    }
+
 }

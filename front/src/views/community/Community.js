@@ -16,7 +16,7 @@ const Community = () => {
 
         loginCheck();                                                       // 로그인 판단 함수 실행
         selectAllPosts();                                                   // 커뮤니티 모든 글 검색 함수 실행
-        console.log("Community.js useEffect", 1);
+        selectAllPopularPosts();                                            // 커뮤니티 모든 인기 글 검색 함수 실행
 
     }, []);
 
@@ -29,6 +29,8 @@ const Community = () => {
         if (response.data.isLoggedIn !== true) {                            // 로그인이 되어 있지 않을 경우
             alert("로그인 및 구독 후 이용해주세요!");                         // 로그인 또는 구독 하라고 하는 경고창 띄우기
             navigate("/login");                                             // 로그인 화면으로 이동시키기
+        }else{
+            communityValue.actions.setUserNick(response.data.userNickname); // 로그인 닉네임 저장
         }
 
     }
@@ -39,6 +41,16 @@ const Community = () => {
 
             .then((res) => {                                                // DB 입력 요청 후 응답
                 communityValue.actions.setSelectAllPosts(res.data);         // 커뮤니티 모든 글 검색 데이터 저장
+            })
+
+    }
+
+    const selectAllPopularPosts = async () => {                             // 커뮤니티 모든 인기 글 검색 함수 생성
+
+        await axios.get("http://localhost:8080/selectPopularCommunity")     // 검색 -> 컨트롤러 요청
+
+            .then((res) => {                                                // DB 입력 요청 후 응답
+                communityValue.actions.setSelectAllPopularPosts(res.data);  // 커뮤니티 모든 인기 글 검색 데이터 저장
             })
 
     }

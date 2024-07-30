@@ -63,7 +63,13 @@ function Posts() {
           onChange={handleSearch}
           className="community-search-bar"
         />
-        <button onClick={insertCommunity} className='community-insertBtn'><img src='https://www.therich.io/images/icons/add.svg'></img></button>
+        <button onClick={insertCommunity} className='community-insertBtn'>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9" />
+            <path d="M15.9 5.1a2 2 0 0 1 2.8 2.8L8.2 19.6a2 2 0 0 1-1.2.4H3v-4.2a2 2 0 0 1 .4-1.2L15.9 5.1z" />
+            <path d="M18.6 7.4l-1.4-1.4" />
+          </svg>
+        </button>
       </div>
       <ul className="post-list">
         {postsValue.state.selectAllPosts.map(post => (
@@ -79,22 +85,14 @@ function Posts() {
             <div className="post-item-middle">
 
               <div className='post-item-title'>
-                <Link className="no-underline-link" to={"/DetailCommunity"} state={{id:post.id}}>
+                <Link className="no-underline-link" to={"/DetailCommunity"} state={{ id: post.id }}>
                   {post.id}<br />
-                  {post.title}<br />
-                  {post.title}<br />
                   {post.title}<br />
                 </Link>
               </div>
 
               <div className='post-item-contents'>
-                <Link className="no-underline-link" to={"/DetailCommunity"} state={{id:post.id}}>
-                  {post.contents}<br />
-                  {post.contents}<br />
-                  {post.contents}<br />
-                  {post.contents}<br />
-                  {post.contents}<br />
-                  {post.contents}<br />
+                <Link className="no-underline-link" to={"/DetailCommunity"} state={{ id: post.id }}>
                   {post.contents}<br />
                 </Link>
               </div>
@@ -160,7 +158,7 @@ function Posts() {
                   height="24"
                   fill="none"
                   stroke="currentColor"
-                  strokeWidth="2" 
+                  strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   className="bi bi-chat">

@@ -3,14 +3,15 @@ const CommunityContext = createContext();
 // 생성자
 const CommunityProvider = (props) => {
 	const [realTime, setRealTime] = useState(null);
-	const [UserNick, setUserNick] = useState(null);
+	const [userNick, setUserNick] = useState(null);
 	const [userNum, setUserNum] = useState(null);
 	const [selectAllPosts, setSelectAllPosts] = useState([]);
-	const [selectOnePost, setSelectOnePost] = useState(null);
+	const [selectOnePost, setSelectOnePost] = useState(null); 
+	const [selectAllPopularPosts, setSelectAllPopularPosts] = useState(null);
 
 	const values = {
-		state: { realTime, UserNick, userNum, selectAllPosts, selectOnePost },
-		actions: { setRealTime, setUserNick, setUserNum, setSelectAllPosts, setSelectOnePost } 
+		state: { realTime, userNick, userNum, selectAllPosts, selectOnePost, selectAllPopularPosts },
+		actions: { setRealTime, setUserNick, setUserNum, setSelectAllPosts, setSelectOnePost, setSelectAllPopularPosts } 
 	}
 
 	return (

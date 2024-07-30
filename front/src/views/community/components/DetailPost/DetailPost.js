@@ -42,12 +42,27 @@ function DetailPost() {
 
   }
 
+  const deletePost = () => {
+    let check = window.confirm("삭제하시겠습니까?");
+    if (check) {
+      deletePostPro();
+    }
+  }
+
+  const deletePostPro = async () => {
+    axios.delete(`http://localhost:8080/deleteCommunity/${detailPostValue.state.selectOnePost.id}`) // 데이터 -> 컨트롤러 요청
+
+      .then((res) => {                                                                              // DB 입력 요청 후 응 답
+        console.log("insertCommunity res :", res.data);                                             // 응답 데이터 확인
+        navigate("/Community");                                                                     // 글 등록 후 커뮤니티 화면으로 이동
+      })
+  }
+
   const toggleDropdown = () => {
     console.log(isDropdownOpen);
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  console.log(detailPostValue.state.selectOnePost);
   if (!detailPostValue.state.selectOnePost) {
     return <div>Loading...</div>;
   }
@@ -57,7 +72,9 @@ function DetailPost() {
 
       <div className='detailCommunity-navbar'>
 
-        <button className='detailPost-item-replyBtn'>
+        <button className='detailPost-item-replyBtn' onClick={() => {
+          navigate("/Community");
+        }}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-menu">
             <path d="M13 17l-5-5 5-5" fill='none' />
             <path d="M18 17l-5-5 5-5" fill='none' />
@@ -69,20 +86,33 @@ function DetailPost() {
         </div>
 
         <div className='dropdown'>
-          <button className='detailCommunity-menuBtn' onClick={toggleDropdown}>
+          {detailPostValue.state.userNick === detailPostValue.state.selectOnePost.user_num.userNickname ?
+            (
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                  <path d="M14.06 2.64l-1.42-1.42a2.01 2.01 0 0 0-2.83 0l-9.9 9.9a2.01 2.01 0 0 0-0.58 1.14l-1.37 7.3a2.01 2.01 0 0 0 2.36 2.36l7.3-1.37a2.01 2.01 0 0 0 1.14-0.58l9.9-9.9a2.01 2.01 0 0 0 0-2.83zm-9.09 13.43l-2.75.53.53-2.75 6.33-6.33 2.75.53zm10.62-8.55l-6.33 6.33-2.75-.53 6.33-6.33 2.75.53z" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-trash-simple">
+                  <path d="M3 6h18" />
+                  <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                  <path d="M5 6v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6" />
+                  <path d="M9 11v6" />
+                  <path d="M15 11v6" />
+                </svg>
+              </div>
+            )
+            :
+            null
+          }
+
+          {/* <button className='detailCommunity-menuBtn'>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon-menu">
               <circle cx="12" cy="12" r="1" />
               <circle cx="12" cy="5" r="1" />
               <circle cx="12" cy="19" r="1" />
             </svg>
-          </button>
+          </button> */}
 
-          {isDropdownOpen && (
-            <div className="dropdown-menu">
-              <div className="dropdown-item"><button>1</button></div>
-              <div className="dropdown-item"><button>2</button></div>
-            </div>
-          )}
         </div>
 
       </div>

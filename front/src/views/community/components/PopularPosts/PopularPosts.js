@@ -16,16 +16,6 @@ const PopularPosts = () => {
                 <h6>{communityValue.state.realTime}</h6>
             </div>
 
-            {/* 필터 및 정렬 옵션 (선택 사항) */}
-            <div className="popular-posts-controls">
-                <select>
-                    <option>정렬 기준</option>
-                    <option>최신순</option>
-                    <option>인기순</option>
-                </select>
-                <button>필터링</button>
-            </div>
-
             <div className="popular-posts-list">
                 {/* 예제 게시글 카드 */}
                 <div className="popular-post-card">

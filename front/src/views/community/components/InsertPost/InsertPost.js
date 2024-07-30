@@ -33,17 +33,17 @@ function InsertPost() {
       setTitleCheck("제목을 입력해주세요.");
       return;
 
-    }else{
+    } else {
       setTitleCheck(null);
     }
 
     if (contents === null || contents === "") {             // 커뮤니티 내용 필드가 비어있을 경우
       setContentsCheck("내용을 입력해주세요.");
       return;
-    }else{
+    } else {
       setContentsCheck(null);
     }
-    
+
     const community = {                                     // 폼 데이터 가공
       user_num: { userNum: communityValue.state.userNum },  // 유저 프라이머리 키
       title: title,                                         // 커뮤니티 제목
@@ -64,7 +64,13 @@ function InsertPost() {
       <form action='post'>
         <div className='community-navbar'>
           <h2 className="community-header">글 쓰기</h2>
-          <button onClick={insertCommunity} className='community-insertBtn'><img src='https://www.therich.io/images/icons/add.svg'></img></button>
+          <button onClick={insertCommunity} className='community-insertBtn'>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 20h9" />
+              <path d="M15.9 5.1a2 2 0 0 1 2.8 2.8L8.2 19.6a2 2 0 0 1-1.2.4H3v-4.2a2 2 0 0 1 .4-1.2L15.9 5.1z" />
+              <path d="M18.6 7.4l-1.4-1.4" />
+            </svg>
+          </button>
         </div>
         <ul className="post-list">
           <li className="post-item">

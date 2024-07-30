@@ -11,12 +11,16 @@ import com.example.community.domain.CommunityVO;
 @Repository
 public interface CommunityRepository extends JpaRepository<CommunityVO, Integer> {
 
-    // 네이티브 쿼리를 사용
+    // 커뮤니티 글 조회
     @Query(value = "SELECT * FROM COMMUNITY ORDER BY created_at DESC", nativeQuery = true)
     public List<CommunityVO> selectAllCommunity() throws Exception;
 
     @Query(value = "SELECT * FROM COMMUNITY WHERE id = ?1", nativeQuery = true)
     public CommunityVO selectOneCommunity(Integer id) throws Exception;
+
+    // 인기 글 조회
+    @Query(value = "SELECT * FROM COMMUNITY ORDER BY created_at DESC", nativeQuery = true)
+    public List<CommunityVO> selectAllPopularCommunity() throws Exception;
 
 }      
  
