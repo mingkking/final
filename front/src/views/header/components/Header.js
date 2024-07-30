@@ -22,7 +22,7 @@ const Header = () => {
             </g>
           </svg>
         </Link>
-          <Navbar/>
+        <Navbar/>
       </div>
       
     </header>
