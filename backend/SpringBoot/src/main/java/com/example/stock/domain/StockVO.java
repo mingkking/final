@@ -1,10 +1,12 @@
 package com.example.stock.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 @Data
 public class StockVO {
-	
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private String record_date; //날짜
 	private String stock_code; //종목 코드
 	private String name; //종목이름

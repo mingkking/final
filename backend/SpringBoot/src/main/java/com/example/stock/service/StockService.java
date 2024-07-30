@@ -8,9 +8,10 @@ import com.example.stock.domain.StockVO;
 
 public interface StockService {
 
-	//종목 리스트 조회
-	List<StockVO> selectStock(PageRequest pageRequest);
+	//종목 목록 조회
+	List<StockVO> selectStockList();
 	
 	//종목 상세조회
-	StockVO selectStockDetail(StockVO VO);
+	StockVO getStockInfo(String stockCode);
+    List<StockVO> getStockPriceHistory(String stock_code, String range);
 }

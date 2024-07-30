@@ -3,7 +3,6 @@ package com.example.stock.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.example.stock.dao.StockDAO;
@@ -15,19 +14,19 @@ public class StockServiceImpl implements StockService{
 	@Autowired
 	private StockDAO stockDAO;
 
-	@Override
-	public List<StockVO> selectStock(PageRequest pageRequest) {
-	    List<StockVO> stocks = stockDAO.selectStockList(pageRequest);
-//	    for (StockVO stock : stocks) {
-//	        log.info("Stock: {}", stock);
-//	    }
-	    return stocks;
+	@Override //주식 목록 조회
+	public List<StockVO> selectStockList() {
+	    return stockDAO.selectStockList();
+	}
+
+	@Override //주식 상세 조회
+	public StockVO getStockInfo(String stock_code) {
+	    return stockDAO.getStockInfo(stock_code);
 	}
 
 	@Override
-	public StockVO selectStockDetail(StockVO VO) {
-			return stockDAO.selectStockDetail(VO);
+	public List<StockVO> getStockPriceHistory(String stock_code, String range) {
+	    return stockDAO.getStockPriceHistory(stock_code, range);
 	}
 
-
-}
+} 

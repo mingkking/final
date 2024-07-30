@@ -1,10 +1,15 @@
 package com.example.stock.controller;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,25 +24,31 @@ import com.example.stock.service.StockService;
 @RestController
 public class StockController {
 	
+	 private static final Logger logger = LoggerFactory.getLogger(StockController.class);
+	
 	@Autowired
 	private StockService stockService;
-	      
+	
 	
 	@GetMapping("/stocks")
-	public List<StockVO> stockList(
-	    @RequestParam(defaultValue = "1") int page,
-	    @RequestParam(defaultValue = "20") int size) {
-	    
-	    PageRequest pageRequest = PageRequest.of(page - 1, size);
-	    return stockService.selectStock(pageRequest);
+	public List<StockVO> stockList() {
+	    return stockService.selectStockList();
 	}
 	
-	 @GetMapping("/{stockCode}") // 종목 상세조회
-	    public StockVO stockDetail(@PathVariable String stockCode) {
-	        StockVO vo = new StockVO();
-	        vo.setStock_code(stockCode);
-	        return stockService.selectStockDetail(vo); 
-	    }
+	@GetMapping("/stock/{stock_code}")
+    public ResponseEntity<Map<String, Object>> getStockDetail(
+            @PathVariable String stock_code,
+            @RequestParam(defaultValue = "1D") String range) {
+        
+        StockVO stockInfo = stockService.getStockInfo(stock_code);
+        List<StockVO> priceHistory = stockService.getStockPriceHistory(stock_code, range);
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("stockInfo", stockInfo);
+        response.put("priceHistory", priceHistory);
+        
+        return ResponseEntity.ok(response);
+    }
 	
 }//end of StockController
  
