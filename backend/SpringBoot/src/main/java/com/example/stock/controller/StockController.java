@@ -1,54 +1,67 @@
 package com.example.stock.controller;
 
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import com.example.stock.domain.StockVO;
 import com.example.stock.service.StockService;
 
-@CrossOrigin(origins = "http://localhost:3000") //리액트의 노드서버와의 크로스 오리진 문제 해결
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class StockController {
-	
-	 private static final Logger logger = LoggerFactory.getLogger(StockController.class);
-	
-	@Autowired
-	private StockService stockService;
-	
-	
-	@GetMapping("/stocks")
-	public List<StockVO> stockList() {
-	    return stockService.selectStockList();
-	}
-	
-	@GetMapping("/stock/{stock_code}")
-    public ResponseEntity<Map<String, Object>> getStockDetail(
-            @PathVariable String stock_code,
-            @RequestParam(defaultValue = "1D") String range) {
-        
-        StockVO stockInfo = stockService.getStockInfo(stock_code);
-        List<StockVO> priceHistory = stockService.getStockPriceHistory(stock_code, range);
-        
-        Map<String, Object> response = new HashMap<>();
-        response.put("stockInfo", stockInfo);
-        response.put("priceHistory", priceHistory);
-        
-        return ResponseEntity.ok(response);
+    
+    private static final Logger logger = LoggerFactory.getLogger(StockController.class);
+    
+    @Autowired
+    private StockService stockService;
+    
+    @GetMapping("/stocks")
+    public ResponseEntity<?> stockList() {
+        try {
+            List<StockVO> stocks = stockService.selectStockList();
+            if (stocks.isEmpty()) {
+                logger.warn("No stocks found");
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(stocks);
+        } catch (Exception e) {
+            logger.error("Error fetching stock list", e);
+            return ResponseEntity.internalServerError().body("Error fetching stock list");
+        }
     }
-	
-}//end of StockController
- 
+    
+    @GetMapping("/stock/{stock_code}")
+    public ResponseEntity<?> getStockDetail(@PathVariable String stock_code) {
+        logger.info("Fetching yearly stock detail for code: {}", stock_code);
+        
+        try {
+            StockVO stockInfo = stockService.getStockInfo(stock_code);
+            if (stockInfo == null) {
+                logger.warn("No stock info found for code: {}", stock_code);
+                return ResponseEntity.notFound().build();
+            }
+            
+            List<StockVO> priceHistory = stockService.getYearlyStockPriceHistory(stock_code);
+            if (priceHistory.isEmpty()) {
+                logger.warn("No yearly price history found for code: {}", stock_code);
+            } else {
+                logger.info("Found {} yearly price history records for code: {}", priceHistory.size(), stock_code);
+            }
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("stockInfo", stockInfo);
+            response.put("priceHistory", priceHistory);
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            logger.error("Error fetching yearly stock detail for code: " + stock_code, e);
+            return ResponseEntity.internalServerError().body("Error fetching yearly stock detail");
+        }
+    
+    }
+}
