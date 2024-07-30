@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import { TextField, Button, Select, MenuItem, FormControl, InputLabel, Box, Typography } from '@mui/material';
+import { Card,TextField, Button, Select, MenuItem, FormControl, InputLabel, Box, Typography } from '@mui/material';
 
 const BacktestOptions = ({ onAnalyze }) => {
-  const [stockCode, setStockCode] = useState('');
+  const [stockName, setStockName] = useState('');
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [initialInvestment, setInitialInvestment] = useState(10000);
   const [rebalancePeriod, setRebalancePeriod] = useState('monthly');
 
   const handleSubmit = () => {
-    if (stockCode && startDate && endDate) {
+    if (stockName && startDate && endDate) {
       onAnalyze({
-        stockCode,
+        stockName,
         startDate: startDate.toISOString().split('T')[0],
         endDate: endDate.toISOString().split('T')[0],
         initialInvestment,
@@ -26,13 +26,14 @@ const BacktestOptions = ({ onAnalyze }) => {
 
   return (
     <Box sx={{ p: 2 }}>
-      <Typography variant="h6" gutterBottom>백테스트 설정</Typography>
-      
+      <Card>
+      <Typography variant="h3" gutterBottom>백테스트 설정</Typography>
+      </Card>
       <TextField
         fullWidth
-        label="주식 코드"
-        value={stockCode}
-        onChange={(e) => setStockCode(e.target.value)}
+        label="주식 종목명"
+        value={stockName}
+        onChange={(e) => setStockName(e.target.value)}
         margin="normal"
       />
       
@@ -65,14 +66,13 @@ const BacktestOptions = ({ onAnalyze }) => {
       />
       
       <FormControl fullWidth margin="normal">
-        <InputLabel>리밸런싱 주기</InputLabel>
+        <Typography>리밸런싱 주기</Typography>
         <Select
           value={rebalancePeriod}
           onChange={(e) => setRebalancePeriod(e.target.value)}
         >
           <MenuItem value="monthly">매월</MenuItem>
           <MenuItem value="quarterly">분기</MenuItem>
-          <MenuItem value="biannually">반기</MenuItem>
           <MenuItem value="annually">매년</MenuItem>
         </Select>
       </FormControl>

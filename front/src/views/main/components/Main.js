@@ -22,14 +22,15 @@ const MemberCount = ({count}) => {
 
   return (
     <div>
+        {/* 
         <Grid>
-          {/* column */}
           <Grid>
             <Typography>
               {count}
             </Typography>
           </Grid>
         </Grid>
+        */} 
     </div>
   );
 };

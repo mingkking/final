@@ -1,0 +1,26 @@
+/* 상위 컨테이너의 스타일 */
+.main-under-container {
+  margin-top: 40px; /* 상위 컨테이너의 위쪽 마진 (필요에 따라 조정) */
+  margin-bottom: 80px; /* 상위 컨테이너의 아래쪽 마진 (필요에 따라 조정) */
+}
+
+/* 제목 스타일 */
+.title {
+  font-family: 'Arial', sans-serif; /* 폰트 패밀리 설정 (예: Arial) */
+  font-size: 24px;                  /* 폰트 사이즈 설정 */
+  font-weight: bold;                /* 폰트 두께 설정 (볼드) */
+  color: #333;                      /* 폰트 색상 설정 */
+  margin-bottom: 20px;              /* 제목과 이미지 사이의 여백 설정 */
+  padding-left: 20px;               /* 제목을 왼쪽으로 띄우기 (예: 20px) */
+  text-align: left;                 /* 제목을 왼쪽 정렬 */
+}
+
+/* 이미지 컨테이너의 스타일 */
+.main-img-container {
+  display: flex;         /* 자식 요소들을 가로로 나열 */
+  justify-content: center; /* 자식 요소들을 중앙 정렬 */
+  gap: 40px;            /* 이미지 사이의 간격 조정 (필요에 따라 조정 가능) */
+  flex-wrap: wrap;      /* 컨테이너의 폭에 따라 이미지가 줄 바꿈되도록 함 (필요에 따라 조정 가능) */
+}
+
+

@@ -14,9 +14,9 @@
   justify-content: space-between;
   background-color: #f8f9fa;
   padding: 10px 20px;
-  /* 양 끝에 추가 여백을 줌 */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 더 부드러운 그림자 효과 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   margin-bottom: 20px;
+  flex-wrap: wrap; /* 요소가 화면 크기에 따라 줄을 바꿀 수 있도록 함 */
 }
 
 .community-header {
@@ -24,21 +24,17 @@
   font-weight: bold;
   color: #333;
   margin: 0;
+  flex: 1 0 100%; /* 한 줄을 차지하도록 함 */
+  text-align: center; /* 중앙 정렬 */
 }
 
 .community-search-bar {
-  flex: 1;
+  flex: 1 1 100%; /* 한 줄을 차지하도록 함 */
   padding: 8px 12px;
-  margin: 0 20px;
+  margin: 10px 0; /* 상하 여백 추가 */
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 16px;
-}
-
-.community-search-bar:focus {
-  border-color: #007bff;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
 
 .community-insertBtn {
@@ -46,11 +42,24 @@
   border: none;
   cursor: pointer;
   padding: 0;
+  flex: 1 0 100%; /* 한 줄을 차지하도록 함 */
+  text-align: center; /* 중앙 정렬 */
 }
 
 .community-insertBtn img {
   width: 24px;
   height: 24px;
+}
+
+@media (min-width: 768px) {
+  .community-header, .community-search-bar, .community-insertBtn {
+    flex: initial; /* 기본 동작으로 돌아가서 한 줄에 배치되도록 함 */
+  }
+  
+  .community-search-bar {
+    margin: 0 20px; /* 좌우 여백 복원 */
+    flex: 1; /* 나머지 공간을 차지하도록 함 */
+  }
 }
 
 .post-list {
@@ -165,7 +174,10 @@
   transform: scale(1.5); /* 버튼 크기 확대 */
 }
 
-
+.no-underline-link {
+  text-decoration: none;
+  color: inherit; /* 선택사항: 링크의 기본 색상을 상속받도록 설정 */
+}
 
 
 

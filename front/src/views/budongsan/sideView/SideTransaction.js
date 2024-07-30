@@ -1,4 +1,3 @@
-import './sideCss/SideView.css';
 import React, { useState, useEffect } from 'react';
 import './sideCss/SideTransaction.css'; // CSS 파일이 제대로 임포트 되었는지 확인하세요.
 
@@ -110,7 +109,7 @@ const SideTransaction = ({ onPropertySelect }) => {
                         value={priceMax} 
                         onChange={handlePriceMaxChange} 
                         min={priceMin}
-                        max={1000000000} // 현실적인 최대값으로 수정
+                        max={1000000000}
                         placeholder="0"
                     />
                     <div className='input-value'>{priceMin}원 - {priceMax}원</div><br/>
@@ -140,6 +139,7 @@ const SideTransaction = ({ onPropertySelect }) => {
                     <div className='input-value'>{areaMin}㎡ - {areaMax}㎡</div>
                 </fieldset>
             </form>
+
 
             <div className="search-container">
                 <input 
