@@ -9,7 +9,7 @@ import Co1 from './routes/co1';
 import Co2 from './routes/co2';
 import Budongsan from './views/budongsan/Budongsan';
 import Bu2 from './routes/bu2';
-import Back1 from './views/backtest/back1';
+import Back1 from './views/backtest/Back1';
 import Login from './views/login/Login';
 import Chatting from './views/chat/Chatting';
 import { RoomListProvider } from './views/chat/contexts/RoomListContext';
@@ -63,7 +63,6 @@ function AppContent() {
         <Route path='/' element={<Main />} />
         <Route path='/stock' element={<Stock />} />
         <Route path="/stock/:stockCode" element={<StockDetail />} />
-        <Route path='/ju2' element={<Ju2 />} />
         <Route path='/co1' element={<Co1 />} />
         <Route path='/co2' element={<Co2 />} />
         <Route path='/budongsan' element={<Budongsan />} />
