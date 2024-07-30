@@ -1,19 +1,44 @@
-/* MainPage.css */
-.main-page {
-    display: flex; /* Flexbox를 사용하여 자식 요소를 가로로 배치합니다. */
-    height: 100vh; /* 페이지의 높이를 100%로 설정하여 전체 화면을 차지하게 합니다. */
+
+html, body {
+    height: 100%;
+    margin: 0;
 }
 
-.chart-container, .list-container {
-    flex: 1; /* 두 컨테이너가 동일한 크기를 가지도록 설정합니다. */
-    padding: 10px; /* 내부 여백을 추가하여 콘텐츠와 경계 사이에 공간을 만듭니다. */
-    box-sizing: border-box; /* 패딩을 포함하여 총 너비와 높이를 계산합니다. */
+.main-page {
+    display: flex;
+    flex-direction: column; /* 자식 요소들을 세로로 배치합니다. */
+    min-height: auto; /* 페이지의 최소 높이를 100%로 설정하여 전체 화면을 차지하게 합니다. */
+    margin-top: 20px; /* 원하는 마진 값을 설정하세요 */
+}
+
+.content-container {
+    flex: 1; /* 남은 공간을 모두 차지하도록 설정합니다. */
+    display: flex;
+    flex-direction: column; /* 자식 요소들을 세로로 배치합니다. */
+}
+
+.chart-list-container {
+    flex: 1; /* 남은 공간을 모두 차지하도록 설정합니다. */
+    display: flex;
 }
 
 .chart-container {
-    background-color: #ffffff; /* 예시로 배경색을 설정합니다. 필요에 따라 변경하세요. */
+    flex: 1; /* chart-container가 남은 공간을 차지하도록 설정합니다. */
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: #ffffff;
 }
 
 .list-container {
+    flex: 0 0 auto; /* list-container의 크기를 자동으로 설정합니다. */
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+}
+
+.under-container {
+    flex: 0 0 auto; /* under-container의 크기를 자동으로 설정합니다. */
+    padding: 10px;
+    box-sizing: border-box;
     background-color: #ffffff; /* 예시로 배경색을 설정합니다. 필요에 따라 변경하세요. */
 }

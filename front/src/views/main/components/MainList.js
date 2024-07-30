@@ -1,10 +1,11 @@
-import React from 'react';
-import { Grid, Paper, Typography, Box } from '@mui/material';
+import React, { useState } from 'react';
+import { Grid, Paper, Typography, Box, Tabs, Tab } from '@mui/material';
 import '../mainCss/Slick.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import { styled } from '@mui/material/styles';
+import '../mainCss/MainList.css'; // CSS 파일 import
 
 // CSS 스타일링된 슬라이드 컴포넌트
 const StyledSlide = styled(Paper)(({ theme }) => ({
@@ -25,6 +26,12 @@ const CustomSlider = styled(Slider)(({ theme }) => ({
 }));
 
 function MainList() {
+    const [tabValue, setTabValue] = useState(0);
+
+    const handleTabChange = (event, newValue) => {
+        setTabValue(newValue);
+    };
+
     const sliderSettings = {
         dots: true,
         infinite: true,
@@ -83,13 +90,38 @@ function MainList() {
             <Box sx={{ p: 2, bgcolor: 'secondary.light', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Grid container spacing={3} sx={{ maxWidth: '650px', width: '100%' }}>
                     <Grid item xs={12}>
-                        <Paper elevation={4} sx={{ p: 2, bgcolor: 'primary.light', borderRadius: 2, width: '100%', maxHeight: '300px', overflow: 'hidden' }}>
-                            <Typography variant="h5" gutterBottom>실시간 뉴스</Typography>
-                            <ul style={{ paddingLeft: '20px', margin: 0, listStyleType: 'disc' }}>
-                                <li>주요 경제 뉴스 헤드라인 1</li>
-                                <li>주요 경제 뉴스 헤드라인 2</li>
-                                <li>주요 경제 뉴스 헤드라인 3</li>
-                            </ul>
+                        <Paper className="news-box">
+                            <Typography className="news-header">실시간 뉴스</Typography>
+                            <Tabs value={tabValue} onChange={handleTabChange} aria-label="tabs example">
+                                <Tab label="주식" />
+                                <Tab label="부동산" />
+                            </Tabs>
+                            <div className="news-list-container">
+                                {tabValue === 0 && (
+                                    <>
+                                        <ul className="news-list">
+                                            <li className="news-list-item">주식 뉴스 헤드라인 1</li>
+                                            <li className="news-list-item">주식 뉴스 헤드라인 2</li>
+                                            <li className="news-list-item">주식 뉴스 헤드라인 3</li>
+                                            <li className="news-list-item">주식 뉴스 헤드라인 4</li>
+                                            <li className="news-list-item">주식 뉴스 헤드라인 5</li>
+                                            {/* 추가 뉴스 항목 */}
+                                        </ul>
+                                    </>
+                                )}
+                                {tabValue === 1 && (
+                                    <>
+                                        <ul className="news-list">
+                                            <li className="news-list-item">부동산 뉴스 헤드라인 1</li>
+                                            <li className="news-list-item">부동산 뉴스 헤드라인 2</li>
+                                            <li className="news-list-item">부동산 뉴스 헤드라인 3</li>
+                                            <li className="news-list-item">부동산 뉴스 헤드라인 4</li>
+                                            <li className="news-list-item">부동산 뉴스 헤드라인 5</li>
+                                            {/* 추가 뉴스 항목 */}
+                                        </ul>
+                                    </>
+                                )}
+                            </div>
                         </Paper>
                     </Grid>
                 </Grid>
