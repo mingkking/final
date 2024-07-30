@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import './Posts.css';
-import { useNavigate } from 'react-router';
+import { useNavigate, Link } from 'react-router-dom';
 import CommunityContext from '../../contexts/CommunityContext';
 
 function Posts() {
@@ -10,7 +10,6 @@ function Posts() {
   const [keyword, setKeyword] = useState('');
 
   const createAtCal = (created_at) => {
-    console.log("1");
     const now = new Date();
     const date = new Date(created_at);
 
@@ -78,20 +77,28 @@ function Posts() {
             </div>
 
             <div className="post-item-middle">
+
               <div className='post-item-title'>
-                {post.title}<br />
-                {post.title}<br />
-                {post.title}<br />
+                <Link className="no-underline-link" to={"/DetailCommunity"} state={{id:post.id}}>
+                  {post.id}<br />
+                  {post.title}<br />
+                  {post.title}<br />
+                  {post.title}<br />
+                </Link>
               </div>
+
               <div className='post-item-contents'>
-                {post.contents}<br/>
-                {post.contents}<br/>
-                {post.contents}<br/>
-                {post.contents}<br/>
-                {post.contents}<br/>
-                {post.contents}<br/>
-                {post.contents}<br/>
+                <Link className="no-underline-link" to={"/DetailCommunity"} state={{id:post.id}}>
+                  {post.contents}<br />
+                  {post.contents}<br />
+                  {post.contents}<br />
+                  {post.contents}<br />
+                  {post.contents}<br />
+                  {post.contents}<br />
+                  {post.contents}<br />
+                </Link>
               </div>
+
             </div>
 
             <div className="post-item-bottom">
@@ -176,7 +183,7 @@ function Posts() {
           </li>
         ))}
       </ul>
-    </div>
+    </div >
   );
 }
 
