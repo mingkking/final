@@ -148,6 +148,8 @@
   border-radius: 8px;
 }
 
+.icon-trash-simple,
+.community-insertBtn,
 .post-item-likeBtn,
 .post-item-replyBtn,
 .post-item-share,
@@ -165,6 +167,8 @@
   margin-left: auto; /* 북마크 버튼을 오른쪽으로 밀어냅니다. */
 }
 
+.icon-trash-simple:hover,
+.community-insertBtn:hover,
 .post-item-likeBtn:hover,
 .post-item-replyBtn:hover,
 .post-item-share:hover,
