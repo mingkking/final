@@ -63,6 +63,7 @@ function AppContent() {
         <Route path='/' element={<Main />} />
         <Route path='/stock' element={<Stock />} />
         <Route path="/stock/:stockCode" element={<StockDetail />} />
+
         <Route path='/co1' element={<Co1 />} />
         <Route path='/co2' element={<Co2 />} />
         <Route path='/budongsan' element={<Budongsan />} />

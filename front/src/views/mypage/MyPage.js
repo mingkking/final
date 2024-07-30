@@ -5,7 +5,7 @@ import LoginContext from '../login/contexts/LoginContext';
 import { Avatar } from '@mui/material';
 import UploadImage from './component/UploadImage';
 import axiosInstance from '../login/component/Token/axiosInstance';
-import imges from '../../imges/123.jpeg';
+import imges from '../../imges/dduksang.jpeg';
 import "./component/UploadImage.css";
 
 const MyPage = () => {
