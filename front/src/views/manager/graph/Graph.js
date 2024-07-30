@@ -24,7 +24,7 @@ const Dashboard = () => {
       .then((result) => {
         value.actions.setTodaySubscribersCount(result.data.selectTodaySubscribers);
         value.actions.setCountByAgeMember(result.data.countByAgeMember);
-        console.log(result.data.countByAgeMember);
+        console.log("count값" , result.data.countByAgeMember);
       })
     },[]);
 

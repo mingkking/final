@@ -9,7 +9,6 @@ import mainContext from "../main/contexts/MainContext";
 import axios from 'axios';
 const MemberList = () => {
   const value = useContext(mainContext);
-  const member10List = 10; // 페이지당 멤버 수
   const [pageTen, setPageTen] = useState(1); // 현재 페이지
   const [searchMember, setSearchMember] = useState(''); // 검색어
   const [filterField, setFilterField] = useState('user_name'); // 필터 기준
@@ -50,9 +49,9 @@ const MemberList = () => {
   };
 
   // 현재 페이지에 표시할 멤버의 마지막 인덱스를 계산
-  const indexLastMember = pageTen * member10List;
+  const indexLastMember = pageTen * 10;
   // 현재 페이지에 표시할 멤버의 첫 번째 인덱스를 계산
-  const indexFirstMember = indexLastMember - member10List;
+  const indexFirstMember = indexLastMember - 10;
   // 현재 페이지에 해당하는 멤버들을 잘라내기
   const sliceMembers = filteredMembers.slice(indexFirstMember, indexLastMember);
 
@@ -60,7 +59,7 @@ const MemberList = () => {
   useEffect(()=>{
     axios.get('http://localhost:8080/manager/memberList')
     .then((result) => {
-      // manager/main 새로고침 할 때 마다 DB에서 값 받아서 데이터 넣기
+      // manager/memberList 새로고침 할 때 마다 DB에서 값 받아서 데이터 넣기
       value.actions.setMemberList(result.data.selectMemberList);
     });
   },[]);
@@ -137,7 +136,7 @@ const MemberList = () => {
             </Grid>
             {/* 페이지 네비게이션 */}
             <Pagination
-              count={Math.ceil(filteredMembers.length / member10List)} // 총 페이지 수 계산
+              count={Math.ceil(filteredMembers.length / 10)} // 총 페이지 수 계산
               page={pageTen} // 현재 페이지 설정
               onChange={handlePageChange} // 페이지 변경 함수
               color="primary"
