@@ -42,6 +42,12 @@ function Login({ onLoginSuccess }) {
             actions.setUserId(response.data.userId);
             actions.setAfterLoginNick(response.data.userNickname);
             console.log('Login response data:', response.data);
+
+             // 프로필 이미지 URL 업데이트
+             if (response.data.profileImageUrl) {
+                actions.setProfileImage(`http://localhost:8080${response.data.profileImageUrl}`);
+            }
+
             alert("로그인 성공")
             // 메인 페이지로 이동
             navigate('/');  
@@ -62,8 +68,19 @@ function Login({ onLoginSuccess }) {
         try {
             const result = await axiosInstance.post('/google-login', { idToken });
             const userNickname = result.data.userNickname;
+            const profileImageUrl = result.data.profileImageUrl;
             actions.setUserId(result.data.userId);
             actions.setAfterLoginNick(userNickname);
+
+             // 프로필 이미지 URL 업데이트
+             if (profileImageUrl) {
+                const fullProfileImageUrl =  profileImageUrl.startsWith('http') ? profileImageUrl : `http://localhost:8080${profileImageUrl}`;
+                actions.setProfileImage(fullProfileImageUrl);
+                console.log('Profile image URL set to:', fullProfileImageUrl);
+            }else {
+                actions.setProfileImage('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');
+            }
+
             alert("구글 로그인 성공");
             navigate("/");
         } catch (error) {

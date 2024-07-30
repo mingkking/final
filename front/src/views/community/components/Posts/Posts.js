@@ -153,7 +153,7 @@ function Posts() {
                   height="24"
                   fill="none"
                   stroke="currentColor"
-                  strokeWidth="2"
+                  strokeWidth="2" 
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   className="bi bi-chat">

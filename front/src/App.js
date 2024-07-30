@@ -10,7 +10,7 @@ import Co1 from './routes/co1';
 import Co2 from './routes/co2';
 import Budongsan from './views/budongsan/Budongsan';
 import Bu2 from './routes/bu2';
-import Back1 from './views/backtest/Back1';
+import Back1 from './views/backtest/back1';
 import Login from './views/login/Login';
 import Chatting from './views/chat/Chatting';
 import { RoomListProvider } from './views/chat/contexts/RoomListContext';
@@ -52,7 +52,7 @@ function AppContent() {
     console.log('Logged in as:', userNickname);
     document.dispatchEvent(new CustomEvent('loginSuccess', { detail: userNickname }));
   };
-  console.log('Host:', process.env.REACT_APP_HOST);
+  
 
   return (
     <>
