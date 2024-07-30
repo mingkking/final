@@ -5,14 +5,12 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: #fff;
     border-radius: 8px;
-    
-
-    margin:auto;
-    position:absolute;
-    top: 43%;
-    left: 50%;
-    transform: translate(-50%, -43%);
-            
+    margin: auto;
+    position: relative; /* absolute -> relative로 변경 */
+    margin-top: 10%;
+    margin-bottom: 6%;
+    left: 14%;
+    transform: translateX(-50%);
     
     
     
@@ -99,8 +97,9 @@
 /* Navbar.css */
 
 .user-menu {
-    position: relative;
-    display: inline-block;
+    display: flex;
+  align-items: center;
+  gap: 10px; /* 닉네임과 아이콘 사이의 간격 조정 */
   }
   
   .user-nickname {
@@ -129,3 +128,5 @@
   .dropdown-menu .dropdown-item:hover {
     background-color: #f1f1f1;
   }
+
+ 

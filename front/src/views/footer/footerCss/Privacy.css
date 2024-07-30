@@ -1,0 +1,53 @@
+.privacy-container {
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 800px;
+    font-family: 'Arial', sans-serif; /* Use Arial font */
+    text-align: left; /* Left-align text */
+  }
+  
+  .privacy-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: 700; /* Bold for titles */
+  }
+  
+  .privacy-content p {
+    margin-bottom: 15px;
+    line-height: 1.6;
+    color: #555;
+    font-weight: 400; /* Normal weight for content */
+    font-size: 16px; /* Increase font size for better readability */
+  }
+  
+  .privacy-content h2 {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    color: #222;
+    font-weight: 700; /* Bold for subtitles */
+  }
+  
+  .privacy-content h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #333;
+    font-weight: 700; /* Bold for section titles */
+  }
+  
+  .privacy-content ul {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+  
+  .privacy-content ol {
+    list-style-type: decimal;
+    padding-left: 20px;
+  }
+  
+  .privacy-content ul li,
+  .privacy-content ol li {
+    margin-bottom: 10px;
+    font-size: 16px; /* Increase font size for better readability */
+  }
+  

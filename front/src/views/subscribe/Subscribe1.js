@@ -3,19 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import './Subscribe.css';
 import { Hearts } from 'tabler-icons-react';
 
-
 function Subscribe1() {
 
     const navigate = useNavigate(); // Detail 페이지 이동
 
     const handleClickSC = () => {
         navigate('/Subscribe2');    
-      }
-  
+    }
+
     return (
-        <div>
+        <div className='subscribe-container'> {/* 변경된 className */}
             <div className='subscribe-img'>
-            <Hearts size={50} />
+                <Hearts size={50} />
             </div>
             <div className='subscribe-title'>
                 <h4>구독 시 얻을 수 있는 혜택</h4>
@@ -28,16 +27,16 @@ function Subscribe1() {
                 <h6>한 번의 결제로 탈퇴시까지 사용 가능 (10,000원)</h6>
             </div>
             <Button  
-            className='subscribe-nextBtn' 
-            variant="contained" 
-            color="success" 
-            sx={{mt:10}}
-            onClick={handleClickSC}
+                className='subscribe-nextBtn' 
+                variant="contained" 
+                color="success" 
+                sx={{mt:10}}
+                onClick={handleClickSC}
             >
-            구독하기
+                구독하기
             </Button>
         </div>
     );
-  }
-  
-  export default Subscribe1;
+}
+
+export default Subscribe1;

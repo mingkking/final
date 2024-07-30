@@ -5,36 +5,51 @@
 <mapper namespace="com.example.stock.dao.StockDAO">
     <select id="selectStockList" resultType="com.example.stock.domain.StockVO">
         SELECT * FROM (
-            SELECT ROWNUM AS rn, t.* FROM (
-                SELECT
-                    s.record_date,
-                    s.stock_code,
-                    s.name,
-                    s.stock_type,
-                    s.closing_price,
-                    s.opening_price,
-                    s.high_price,
-                    s.low_price
-                FROM
-                    (SELECT
-                        stock_code,
-                        MAX(record_date) as max_date
-                    FROM
-                        STOCK
-                    GROUP BY
-                        stock_code) latest
-                INNER JOIN
-                    STOCK s
-                ON
-                    s.stock_code = latest.stock_code
-                    AND s.record_date = latest.max_date
-                ORDER BY
-                    s.stock_code
-        ) t WHERE ROWNUM <![CDATA[<=]]> #{pageSize} * (#{pageNumber} + 1)
-    ) WHERE rn <![CDATA[>]]> #{pageSize} * #{pageNumber}
+            SELECT
+                TO_CHAR(s.record_date, 'YYYY-MM-DD') as record_date,
+                s.stock_code,
+                s.name,
+                s.stock_type,
+                s.closing_price,
+                s.opening_price,
+                s.high_price,
+                s.low_price,
+                ROW_NUMBER() OVER (ORDER BY s.stock_code) as rn
+            FROM STOCK s
+            INNER JOIN (
+                SELECT stock_code, MAX(record_date) as max_date
+                FROM STOCK
+                GROUP BY stock_code
+            ) latest ON s.stock_code = latest.stock_code 
+                     AND s.record_date = latest.max_date
+        )
+        WHERE rn <![CDATA[<=]]>20
     </select>
     
-<select id="selectStockDetail" resultType="com.example.stock.domain.StockVO">
-    SELECT * FROM (SELECT * FROM STOCK WHERE stock_code = #{stockCode}) WHERE ROWNUM = 1
-</select>
+    <select id="getStockInfo" resultType="com.example.stock.domain.StockVO">
+        SELECT * FROM stocks
+        WHERE stock_code = #{stock_code}
+        ORDER BY record_date DESC
+        LIMIT 1
+    </select>
+    
+     <select id="getStockPriceHistory" resultType="com.example.stock.domain.StockVO">
+        SELECT * FROM stocks
+        WHERE stock_code = #{stock_code}
+        <choose>
+            <when test="range == '1D'">
+                AND record_date >= DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+            </when>
+            <when test="range == '1W'">
+                AND record_date >= DATE_SUB(CURDATE(), INTERVAL 1 WEEK)
+            </when>
+            <when test="range == '1M'">
+                AND record_date >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
+            </when>
+            <when test="range == '1Y'">
+                AND record_date >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR)
+            </when>
+        </choose>
+        ORDER BY record_date ASC
+    </select>
 </mapper>

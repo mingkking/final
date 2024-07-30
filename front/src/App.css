@@ -32,9 +32,9 @@ header {
 .nav-area {
   display: flex;
   align-items: center;
-  max-width: 1200px;
+  max-width: 1500px;  /* 헤더 위치 */
   margin: 0 auto;
-  padding: 10px 20px;
+  padding: 10px 130px;
 }
 
 .logo {
@@ -62,7 +62,7 @@ header {
 .search-form {
   display: flex;
   align-items: center;
-  margin-left: 300px;
+  margin-left: 250px;
 }
 
 .desktop-nav .menu-items {
