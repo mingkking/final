@@ -1,6 +1,7 @@
 package com.example.community.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,12 +12,17 @@ import com.example.community.repository.CommunityRepository;
 @Service
 public class CommunityServiceImpl implements CommunityService{
 
-    @Autowired 
+    @Autowired
     private CommunityRepository communityRepository;
 
     @Override
     public List<CommunityVO> selectAllCommunity() throws Exception {
         return communityRepository.selectAllCommunity();
+    }
+
+    @Override
+    public CommunityVO selectOneCommunity(Integer id) throws Exception {
+        return communityRepository.selectOneCommunity(id);
     }
 
     @Override

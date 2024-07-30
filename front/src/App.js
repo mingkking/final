@@ -10,7 +10,7 @@ import Co1 from './routes/co1';
 import Co2 from './routes/co2';
 import Budongsan from './views/budongsan/Budongsan';
 import Bu2 from './routes/bu2';
-import Back1 from './views/backtest/Back1';
+import Back1 from './views/backtest/back1';
 import Login from './views/login/Login';
 import Chatting from './views/chat/Chatting';
 import { RoomListProvider } from './views/chat/contexts/RoomListContext';
@@ -25,6 +25,7 @@ import Subscribe2 from './views/subscribe/Subscribe2'
 import Subscribe3 from './views/subscribe/Subscribe3'
 import MyPage from './views/mypage/MyPage';
 import News from './views/news/News';
+import DetailCommunity from './views/community/DetailCommunity';
 
 
 import Router from './routes/Router'
@@ -70,6 +71,7 @@ function AppContent() {
              <Route path='/Chatting' element={<Chatting />} />
              <Route path='/Community' element={<Community />} />
              <Route path='/InsertCommunity' element={<InsertCommunity />} />
+             <Route path='/DetailCommunity' element={<DetailCommunity />} />
              <Route path='/login' element={<Login onLoginSuccess={handleLoginSuccess} />} />
              <Route path='/Join' element={<Join/>}/>
              <Route path='/IdFind' element={<IdFind/>}/>
