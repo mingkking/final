@@ -13,10 +13,10 @@ oracledb.init_oracle_client()
 app = Flask(__name__)
 CORS(app)
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG) # 디버그 기능 제공
 logger = logging.getLogger(__name__)
 
-def create_connection():
+def create_connection(): #데이터베이스와 연동
     try:
         connection = oracledb.connect(user="investigate", password="team1", dsn="192.168.0.39:1521/XE")
         logger.info("Database connection established successfully.")

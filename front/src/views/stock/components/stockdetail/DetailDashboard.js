@@ -20,4 +20,4 @@ const DetailDashboard = (props) => {
   )
 }
 
-export default DetailDashboard
+export default DetailDashboard;

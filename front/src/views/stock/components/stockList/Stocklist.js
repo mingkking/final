@@ -1,13 +1,26 @@
-// views/stock/stocklist.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  CircularProgress,
+  Typography,
+  Box,
+  useTheme
+} from '@mui/material';
 
-const Stocklist = () => {
+const Stocklist = ({ onStockSelect }) => {
   const [stocks, setStocks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const theme = useTheme();
 
   useEffect(() => {
     const fetchStocks = async () => {
@@ -27,45 +40,72 @@ const Stocklist = () => {
   }, []);
 
   const handleStockSelect = (stock) => {
+    onStockSelect(stock);
     navigate(`/stock/${stock.stock_code}`);
   };
 
-  if (error) return <div>에러: {error}</div>;
-  if (loading) return <div className="text-center p-4">로딩 중...</div>;
+  if (error) return <Typography color="error">{error}</Typography>;
+  if (loading) return <Box display="flex" justifyContent="center" p={4}><CircularProgress /></Box>;
 
   return (
-    <div className="overflow-auto h-screen">
-      <table className="w-full border-collapse">
-        <thead className="sticky top-0 bg-white">
-          <tr className="bg-gray-200">
-            <th className="p-2 text-left">종목명</th>
-            <th className="p-2 text-left">종목코드</th>
-            <th className="p-2 text-right">고가</th>
-            <th className="p-2 text-right">저가</th>
-            <th className="p-2 text-right">종가</th>
-            <th className="p-2 text-right">날짜</th>
-            <th className="p-2 text-right">유형</th>
-          </tr>
-        </thead>
-        <tbody>
+    <TableContainer 
+      component={Paper} 
+      sx={{ 
+        flexGrow: 1,
+        overflow: 'auto',
+        '&::-webkit-scrollbar': {
+          width: '0.4em'
+        },
+        '&::-webkit-scrollbar-track': {
+          background: 'transparent'
+        },
+        '&::-webkit-scrollbar-thumb': {
+          background: 'rgba(0,0,0,.1)'
+        },
+        '&:hover::-webkit-scrollbar-thumb': {
+          background: 'rgba(0,0,0,.2)'
+        },
+        scrollbarWidth: 'thin',
+        scrollbarColor: `rgba(0,0,0,.2) transparent`,
+      }}
+    >
+      <Table stickyHeader>
+        <TableHead>
+          <TableRow>
+            <TableCell sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, fontWeight: 'bold' }}>종목명</TableCell>
+            <TableCell sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, fontWeight: 'bold' }}>종목코드</TableCell>
+            <TableCell align="right" sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, fontWeight: 'bold' }}>고가</TableCell>
+            <TableCell align="right" sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, fontWeight: 'bold' }}>저가</TableCell>
+            <TableCell align="right" sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, fontWeight: 'bold' }}>종가</TableCell>
+            <TableCell align="right" sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, fontWeight: 'bold' }}>날짜</TableCell>
+            <TableCell align="right" sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, fontWeight: 'bold' }}>유형</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
           {stocks.map((stock) => (
-            <tr 
+            <TableRow
               key={`${stock.stock_code}-${stock.record_date}`}
-              onClick={() => handleStockSelect(stock)} 
-              className="hover:bg-gray-100 cursor-pointer"
+              onClick={() => handleStockSelect(stock)}
+              hover
+              sx={{ 
+                cursor: 'pointer',
+                '&:hover': {
+                  backgroundColor: theme.palette.action.hover,
+                },
+              }}
             >
-              <td className="p-2">{stock.name}</td>
-              <td className="p-2">{stock.stock_code}</td>
-              <td className="p-2 text-right">{stock.high_price?.toLocaleString()}</td>
-              <td className="p-2 text-right">{stock.low_price?.toLocaleString()}</td>
-              <td className="p-2 text-right">{stock.closing_price?.toLocaleString()}</td>
-              <td className="p-2 text-right">{stock.record_date}</td>
-              <td className="p-2 text-right">{stock.stock_type}</td>
-            </tr>
+              <TableCell component="th" scope="row" sx={{ fontWeight: 500 }}>{stock.name}</TableCell>
+              <TableCell>{stock.stock_code}</TableCell>
+              <TableCell align="right">{stock.high_price?.toLocaleString()}</TableCell>
+              <TableCell align="right">{stock.low_price?.toLocaleString()}</TableCell>
+              <TableCell align="right">{stock.closing_price?.toLocaleString()}</TableCell>
+              <TableCell align="right">{stock.record_date}</TableCell>
+              <TableCell align="right">{stock.stock_type}</TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
-    </div>
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 
