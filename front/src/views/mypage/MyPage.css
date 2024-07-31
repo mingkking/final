@@ -1,18 +1,18 @@
 .mypage-container {
   width: 100%;
-    max-width: 700px;
+    max-width: 1200px;
     padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    
     background-color: #fff;
     border-radius: 8px;
     margin: auto;
     position: relative; /* absolute -> relative로 변경 */
     margin-top: 5%;
     margin-bottom: 6%;
-    left: 19%;
-    transform: translateX(-50%);
-          
-  
+
+    display: flex;
+  justify-content: space-between; 
+  gap: 5px;
   
   }
   
@@ -23,19 +23,24 @@
   }
   
   .profile-section {
-    display: flex; 
-    flex-direction: column;
-    align-items: center;
-    background-color: #f2f2f2;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
+  flex: 1; 
+  max-width: 600px; 
+  background-color: #f2f2f2;
+  padding: 20px;
+  border-radius: 10px;
+  
+}
   
   .profile-info {
     display: flex;
     flex-direction: center;
     width: 100%;
+  }
+
+  .main-content {
+    margin-left: 5%;
+    background-color: #f2f2f2;
+    
   }
   
   .profile-avatar-container {
@@ -52,7 +57,7 @@
   }
 
   .edit-profile-image-button {
-    margin-top: 10px;
+    margin-top: 20px;
     padding: 5px 10px;
     font-size: 14px;
     cursor: pointer;
@@ -97,8 +102,10 @@
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    width: 100%;
+    width: 30%;
     margin-top: 30px;
+    margin-bottom: 10px;
+    
   }
   
   .edit-profile-button:hover {
@@ -106,11 +113,19 @@
   }
   
   .my-posts {
-    margin-top: 20px;
-    width: 100%;
+    flex: 1; 
+    max-width: 500px; 
+    background-color: #f2f2f2;
+    padding: 20px;
   }
   
   .my-posts h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    text-align: left;
+  }
+
+  .my-interest h3 {
     font-size: 18px;
     margin-bottom: 10px;
     text-align: left;

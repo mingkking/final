@@ -5,11 +5,11 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../Token/axiosInstance';
 import { SubmitHandler, useForm } from 'react-hook-form';
-
-
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 function Join() {
-    const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode: 'onBlur' });
+    const { register, handleSubmit, watch, formState: { errors }, setValue } = useForm({ mode: 'onBlur' });
     const navigate = useNavigate();
     const [usernameExists, setUsernameExists] = useState(false);
     const [nicknameExists, setNicknameExists] = useState(false); // 닉네임 중복 여부
@@ -18,7 +18,7 @@ function Join() {
     const [usernameLengthValid, setUsernameLengthValid] = useState(false); // 아이디 길이 유효성 검사
     const [nicknameChecked, setNicknameChecked] = useState(false); // 닉네임 중복검사 여부
     const [agreeAll, setAgreeAll] = useState(false);
-
+    const [startDate, setStartDate] = useState(null);
     
 
      // 폼 제출 시 호출되는 함수
@@ -105,25 +105,64 @@ function Join() {
             setAgreeAll(false);
         }
     }, [agree1, agree2]);
+
+    const handleDateChange = (date) => {
+        setStartDate(date);
+        if (date) {
+            const formattedDate = date.toISOString().slice(0, 10).replace(/-/g, '').slice(2);
+            setValue('userBirthdate', formattedDate, { shouldValidate: true });
+        }
+    };
+
+    const validateDate = (value) => {
+        const year = parseInt(value.substring(0, 2), 10);
+        const month = parseInt(value.substring(2, 4), 10) - 1; 
+        const day = parseInt(value.substring(4, 6), 10);
+
+        const fullYear = year <= (new Date().getFullYear() % 100) ? 2000 + year : 1900 + year;
+        const date = new Date(fullYear, month, day);
+        
+        
+        return date.getFullYear() === fullYear &&
+               date.getMonth() === month &&
+               date.getDate() === day;
+    };
     
 
     return (
         <div className="signup-container">
             <div className="agreement-section">
                 <div className='allCheck'>
-                    <input type="checkbox" id="allAgree" onChange={(e) => handleAllCheck(e.target.checked)} checked={agreeAll}/>
+                    <input 
+                        type="checkbox" 
+                        id="allAgree" 
+                        
+                        onChange={(e) => handleAllCheck(e.target.checked)} 
+                        checked={agreeAll}
+                    />
                     <label htmlFor="allAgree"> 전체 동의하기</label>
                 </div>
                 <div className="agreement-box">                    
                     <div className="agreement-content">[약관 내용]</div>
                     <span> 위 약관에 동의합니까?(필수)</span>
-                    <input type="checkbox" id="agree1" onChange={(e) => handleSingleCheck(e.target.id, e.target.checked)} checked={agree1} required/>
+                    <input 
+                        type="checkbox" 
+                        id="agree1" 
+                        {...register('agree1', { required: '개별 약관 1은 필수 항목입니다.' })}
+                        onChange={(e) => handleSingleCheck(e.target.id, e.target.checked)} 
+                        checked={agree1}
+                        />
                     <label htmlFor="agree1"> 동의합니다</label>                    
                 </div>
                 <div className="agreement-box">                    
                     <div className="agreement-content">[약관 내용]</div>
                     <span> 위 약관에 동의합니까?(필수)</span>
-                    <input type="checkbox" id="agree2" onChange={(e) => handleSingleCheck(e.target.id, e.target.checked)} checked={agree2} required/>
+                    <input 
+                        type="checkbox" 
+                        id="agree2" 
+                        {...register('agree2', { required: '개별 약관 2는 필수 항목입니다.' })}
+                        onChange={(e) => handleSingleCheck(e.target.id, e.target.checked)} 
+                        checked={agree2} required/>
                     <label htmlFor="agree2"> 동의합니다</label>                    
                 </div>
                 
@@ -284,16 +323,23 @@ function Join() {
                 
                     <div className="form-group">
                         <label>생년월일</label>
-                        <input 
-                            type="text" 
-                            name="userBirthdate" 
-                            placeholder="생년월일 (YYMMDD)"  
+                        <DatePicker
+                            selected={startDate}
+                            onChange={handleDateChange}
+                            dateFormat="yyyy-MM-dd"
+                            placeholderText="생년월일을 선택하세요"
+                            maxDate={new Date()}
+                            showYearDropdown
+                            showMonthDropdown
+                            dropdownMode="select"
+                            className="form-control"
+                        />
+                        <input
+                            type="hidden"
+                            name="userBirthdate"
                             {...register('userBirthdate', {
                                 required: '생년월일은 필수 항목입니다.',
-                                pattern: {
-                                    value: /^\d{6}$/,
-                                    message: '생년월일은 6자리 숫자(YYMMDD)이어야 합니다.'
-                                }
+                                validate: validateDate
                             })}
                         />
                     </div>
