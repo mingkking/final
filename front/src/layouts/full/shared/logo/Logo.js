@@ -11,7 +11,7 @@ const LinkStyled = styled(Link)(() => ({
 }));
 
 const Logo = () => {
-  return (
+  return ( 
     <LinkStyled to="/manager/main">
       <LogoDark style={{ width: '100%' }} />
     </LinkStyled>
