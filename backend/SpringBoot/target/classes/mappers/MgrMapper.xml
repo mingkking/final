@@ -27,7 +27,7 @@
    <select id="selectMonthSession" parameterType="MgrSessionCountVO" resultType="int">
       SELECT count(*)
       FROM countVisit
-      WHERE creationTime BETWEEN TRUNC(SYSDATE) - INTERVAL '1' MONTH AND TRUNC(SYSDATE)
+      WHERE creationTime BETWEEN ADD_MONTHS(TRUNC(SYSDATE), -1) AND TRUNC(SYSDATE)
    </select>
    
    <!-- 회원 수 -->
