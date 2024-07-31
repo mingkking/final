@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Card, Grid } from "@mui/material";
-import Stocklist from "./components/Stocklist";
+import Stocklist from "./components/stockList/Stocklist";
 // import { createChart, CrosshairMode } from 'lightweight-charts';
 
 const StockMain = () => {

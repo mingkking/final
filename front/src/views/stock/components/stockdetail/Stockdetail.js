@@ -91,18 +91,20 @@ const StockDetail = () => {
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">{latestData.name} ({latestData.stock_code})</h2>
-      <div className="grid grid-cols-2 gap-4 mb-4">
-        <div>
-          <p>종가: {latestData.closing_price?.toLocaleString()} 원</p>
-          <p>시가: {latestData.opening_price?.toLocaleString()} 원</p>
-          <p>고가: {latestData.high_price?.toLocaleString()} 원</p>
-          <p>저가: {latestData.low_price?.toLocaleString()} 원</p>
-        </div>
-        <div>
-          <p>날짜: {latestData.record_date}</p>
-          <p>유형: {latestData.stock_type}</p>
-        </div>
+      <div>
+        <h2 className="text-2xl font-bold mb-4">{latestData.name} ({latestData.stock_code})</h2>
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <div>
+              <p>종가: {latestData.closing_price?.toLocaleString()} 원</p>
+              <p>시가: {latestData.opening_price?.toLocaleString()} 원</p>
+              <p>고가: {latestData.high_price?.toLocaleString()} 원</p>
+              <p>저가: {latestData.low_price?.toLocaleString()} 원</p>
+            </div>
+            <div>
+              <p>날짜: {latestData.record_date}</p>
+              <p>유형: {latestData.stock_type}</p>
+            </div>
+          </div>
       </div>
       <div ref={chartContainerRef} className="w-full h-[400px]" />
     </div>
