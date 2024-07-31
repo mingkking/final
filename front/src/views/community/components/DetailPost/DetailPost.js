@@ -4,12 +4,17 @@ import './DetailPost.css';
 import { useNavigate, Link } from 'react-router-dom';
 import CommunityContext from '../../contexts/CommunityContext';
 import axiosInstance from '../../../login/component/Token/axiosInstance';
+import Modal from 'react-modal';
 
 function DetailPost() {
   const navigate = useNavigate();
   const detailPostValue = useContext(CommunityContext);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [keyword, setKeyword] = useState('');
+  const [title, setTitle] = useState(null);                 // form data 제목
+  const [titleCheck, setTitleCheck] = useState(null);       // title data 유효성 검사
+  const [contents, setContents] = useState("");             // form data 내용
+  const [contentsCheck, setContentsCheck] = useState(null); // contents data 유효성 검사
 
   const createAtCal = (created_at) => {
     const now = new Date();
@@ -42,6 +47,62 @@ function DetailPost() {
 
   }
 
+  const insertTitle = (evt) => {                            // 제목  저장
+    setTitle(evt.target.value);
+  }
+
+  const insertContents = (evt) => {                         // 내용  저장
+    setContents(evt.target.value);
+  }
+
+  const closeModal = () => {
+    setIsUpdateModalOpen(!isUpdateModalOpen);
+  }
+
+  const updatePostPro = async (evt) => {
+    evt.preventDefault();
+    dataSubmit(title, contents);
+  }
+
+  const dataSubmit = async (title, contents) => {                 // 데이터 -> 컨트롤러
+
+    if (title === null || title === "") {                   // 커뮤니티 아이디 필드가 비어있을 경우
+
+      setTitleCheck("제목을 입력해주세요.");
+      return;
+
+    } else {
+      setTitleCheck(null);
+    }
+
+    if (contents === null || contents === "") {             // 커뮤니티 내용 필드가 비어있을 경우
+
+      setContentsCheck("내용을 입력해주세요.");
+      return;
+
+    } else {
+      setContentsCheck(null);
+    }
+
+    const community = {                                     // 폼 데이터 가공
+
+      id: detailPostValue.state.selectOnePost.id,           // 커뮤니티 글 프라이머리 키
+      user_num: { userNum: detailPostValue.state.userNum }, // 유저 프라이머리 키
+      title: title,                                         // 커뮤니티 제목
+      contents: contents,                                   // 커뮤니티 내용
+
+    }
+
+    await axios.post("http://localhost:8080/updateCommunity", community) // 데이터 -> 컨트롤러 요청
+
+      .then((res) => {                                             // DB 입력 요청 후 응 답
+        closeModal();
+        
+        navigate(`/DetailCommunity`, { state: { id: res.data } });
+      })
+
+  }
+
   const deletePost = () => {
     let check = window.confirm("삭제하시겠습니까?");
     if (check) {
@@ -50,18 +111,12 @@ function DetailPost() {
   }
 
   const deletePostPro = async () => {
-    axios.delete(`http://localhost:8080/deleteCommunity/${detailPostValue.state.selectOnePost.id}`) // 데이터 -> 컨트롤러 요청
+    await axios.delete(`http://localhost:8080/deleteCommunity/${detailPostValue.state.selectOnePost.id}`) // 데이터 -> 컨트롤러 요청
 
       .then((res) => {                                                                              // DB 입력 요청 후 응 답
-        console.log("insertCommunity res :", res.data);                                             // 응답 데이터 확인
         navigate("/Community");                                                                     // 글 등록 후 커뮤니티 화면으로 이동
       })
   }
-
-  const toggleDropdown = () => {
-    console.log(isDropdownOpen);
-    setIsDropdownOpen(!isDropdownOpen);
-  };
 
   if (!detailPostValue.state.selectOnePost) {
     return <div>Loading...</div>;
@@ -75,7 +130,7 @@ function DetailPost() {
         <button className='detailPost-item-replyBtn' onClick={() => {
           navigate("/Community");
         }}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-menu">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="icon-menu">
             <path d="M13 17l-5-5 5-5" fill='none' />
             <path d="M18 17l-5-5 5-5" fill='none' />
           </svg>
@@ -85,27 +140,72 @@ function DetailPost() {
           {detailPostValue.state.selectOnePost.title}<br />
         </div>
 
-        <div className='dropdown'>
+        <div className='detailCommunity-insertBtn'>
           {detailPostValue.state.userNick === detailPostValue.state.selectOnePost.user_num.userNickname ?
             (
               <div>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                  <path d="M14.06 2.64l-1.42-1.42a2.01 2.01 0 0 0-2.83 0l-9.9 9.9a2.01 2.01 0 0 0-0.58 1.14l-1.37 7.3a2.01 2.01 0 0 0 2.36 2.36l7.3-1.37a2.01 2.01 0 0 0 1.14-0.58l9.9-9.9a2.01 2.01 0 0 0 0-2.83zm-9.09 13.43l-2.75.53.53-2.75 6.33-6.33 2.75.53zm10.62-8.55l-6.33 6.33-2.75-.53 6.33-6.33 2.75.53z" />
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-trash-simple">
-                  <path d="M3 6h18" />
-                  <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                  <path d="M5 6v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6" />
-                  <path d="M9 11v6" />
-                  <path d="M15 11v6" />
-                </svg>
+                <button className='detailCommunity-menuBtn' onClick={() => {
+                  setIsUpdateModalOpen(!isUpdateModalOpen);
+                }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="feather feather-edit">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  </svg>
+                </button>
+
+                <Modal
+                  isOpen={isUpdateModalOpen}
+                  onRequestClose={closeModal}
+                  contentLabel="Confirm Delete"
+                  className="Modal"
+                  overlayClassName="Overlay"
+                >
+                  <div className='detailPost-item-title'>
+                    커뮤니티 글 수정<br />
+                  </div>
+                  <form action='post'>
+                    <ul className="post-list">
+                      <li className="post-item">
+                        <input className='form-control' placeholder='제목' autoFocus type='text' name='title' onChange={insertTitle} maxLength={100}></input>
+                        {titleCheck && <div className='community-check'>{titleCheck}</div>}
+                      </li>
+                      <li className="post-item">
+                        <textarea className="form-control" placeholder="내용을 작성해주세요" rows="10" name="contents" onChange={insertContents} maxLength={500}></textarea>
+                        {contentsCheck && <div className='community-check'>{contentsCheck}</div>}
+                      </li>
+                    </ul>
+                  </form>
+                  <button className='detailCommunity-menuBtn' onClick={updatePostPro}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="feather feather-edit">
+                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                      <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                  </button>
+                  <button className='detailCommunity-menuBtn' onClick={closeModal}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="feather feather-edit">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </button>
+                </Modal>
+
+                <button className='detailCommunity-menuBtn' onClick={deletePost}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="icon-trash-simple">
+                    <path d="M3 6h18" />
+                    <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                    <path d="M5 6v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6" />
+                    <path d="M9 11v6" />
+                    <path d="M15 11v6" />
+                  </svg>
+                </button>
               </div>
             )
             :
             null
           }
+        </div>
 
-          {/* <button className='detailCommunity-menuBtn'>
+        {/* <button className='detailCommunity-menuBtn'>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon-menu">
               <circle cx="12" cy="12" r="1" />
               <circle cx="12" cy="5" r="1" />
@@ -113,7 +213,6 @@ function DetailPost() {
             </svg>
           </button> */}
 
-        </div>
 
       </div>
 
@@ -132,7 +231,6 @@ function DetailPost() {
           <div className="detailPost-item-middle">
 
             <div className='detailPost-item-title'>
-              {detailPostValue.state.selectOnePost.id}<br />
               {detailPostValue.state.selectOnePost.title}<br />
             </div>
 
@@ -211,11 +309,11 @@ function DetailPost() {
             </div>
             <div className='detailPost-item-bookmark'>
               {false ?
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bookmark">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="feather feather-bookmark">
                   <path d="M19 3H5a2 2 0 0 0-2 2v18l7-5 7 5V5a2 2 0 0 0-2-2z" />
                 </svg>
                 :
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bookmark">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" class="feather feather-bookmark">
                   <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />
                 </svg>
               }

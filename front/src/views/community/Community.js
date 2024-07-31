@@ -31,6 +31,7 @@ const Community = () => {
             navigate("/login");                                             // 로그인 화면으로 이동시키기
         }else{
             communityValue.actions.setUserNick(response.data.userNickname); // 로그인 닉네임 저장
+            communityValue.actions.setUserNum(response.data.userNum);       // 로그인 유저 프라이머리 키 저장
         }
 
     }

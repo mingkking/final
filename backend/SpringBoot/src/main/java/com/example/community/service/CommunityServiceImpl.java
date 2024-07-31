@@ -31,6 +31,17 @@ public class CommunityServiceImpl implements CommunityService{
     }
 
     @Override
+    public void updateCommunity(CommunityVO communityVO) throws Exception {
+        CommunityVO selectVO = communityRepository.selectOneCommunity(communityVO.getId());
+        
+        selectVO.getUser_num().setUserNum(communityVO.getUser_num().getUserNum());
+        selectVO.setTitle(communityVO.getTitle());
+        selectVO.setContents(communityVO.getContents());
+
+        communityRepository.save(selectVO);
+    }
+
+    @Override
     public void deleteCommunity(Integer id) throws Exception {
         communityRepository.deleteById(id);
     }
