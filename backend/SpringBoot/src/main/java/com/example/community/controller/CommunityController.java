@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.community.domain.CommunityVO;
+import com.example.community.domain.UserLikeVO;
 import com.example.community.service.CommunityService;
 
 @RestController
@@ -96,6 +97,20 @@ public class CommunityController {
         }
 
         return selectAllPopularPosts;
+
+    } 
+    
+    @PostMapping("/insertUserLike") 
+    public void insertUserLike(@RequestBody UserLikeVO userLikeVO) { // 커뮤니티 글 좋아요 등록 (InsertPost.js 에서 받는 폼 데이터)
+        System.out.println(11111);
+        System.out.println("insertUserLike" + userLikeVO.getUser_num());
+        System.out.println("insertUserLike" + userLikeVO.getId());
+
+        try {
+            communityService.insertUserLike(userLikeVO);              // 커뮤니티 서비스 객체로 커뮤니티 글 좋아요 등록 기능 실행
+        } catch (Exception e) {
+            System.out.println("커뮤니티 글 좋아요 등록 : " + e.getMessage());  // 커뮤니티 글 좋아요 등록 기능 에러 발생
+        }
 
     }
 

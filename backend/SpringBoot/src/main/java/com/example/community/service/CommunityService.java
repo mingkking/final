@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import com.example.community.domain.CommunityVO;
+import com.example.community.domain.UserLikeVO;
 
 @Service
 public interface CommunityService {
@@ -22,6 +23,8 @@ public interface CommunityService {
     public void updateCommunity(CommunityVO communityVO) throws Exception;
 
     public void deleteCommunity(Integer id) throws Exception;
+
+    public void insertUserLike(UserLikeVO userLikeVO) throws Exception;
 
 }
  

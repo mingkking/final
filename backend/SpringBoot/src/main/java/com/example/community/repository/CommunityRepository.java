@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.example.community.domain.CommunityVO;
+import com.example.community.domain.UserLikeVO;
 
 @Repository
 public interface CommunityRepository extends JpaRepository<CommunityVO, Integer> {
@@ -21,6 +22,8 @@ public interface CommunityRepository extends JpaRepository<CommunityVO, Integer>
     // 인기 글 조회
     @Query(value = "SELECT * FROM COMMUNITY ORDER BY created_at DESC", nativeQuery = true)
     public List<CommunityVO> selectAllPopularCommunity() throws Exception;
+
+    public void save(UserLikeVO userLikeVO);
 
 }      
  
