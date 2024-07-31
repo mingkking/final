@@ -1,13 +1,12 @@
-# backtest/models/train_models.py
+import oracledb
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential, save_model
 from tensorflow.keras.layers import LSTM, Dense, Dropout
 from tensorflow.keras.optimizers import Adam
-import oracledb
-from data_processing.data_processor import preprocess_data
 from technical_indicators.indicators import add_technical_indicators
+from data_processing.data_processor import preprocess_data
 
 def create_connection():
     return oracledb.connect(user="investigate", password="team1", dsn="192.168.0.39:1521/XE")
@@ -68,5 +67,3 @@ if __name__ == "__main__":
         print(f"Training model for {stock}")
         train_and_save_model(stock)
         print(f"Model for {stock} trained and saved")
-
-

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Options from "./components/backtestoption/Option";
 import ResultChart from "./components/resultchart/Resultchart"
-import { Card, Container, Grid, Typography, Box, useTheme } from "@mui/material";
+import { Card, Container, Grid, Typography, Box, useTheme,Paper } from "@mui/material";
 import axios from 'axios';
 
 const Back1 = () => {
@@ -11,9 +11,14 @@ const Back1 = () => {
 
   const handleAnalyze = async (options) => {
     setError('');
+    setAnalysisResult(null);  // 새 분석을 시작할 때 이전 결과를 초기화
     try {
       const response = await axios.post('http://localhost:5000/analyze', options);
-      setAnalysisResult(response.data);
+      if (response.data && response.data.processedData) {
+        setAnalysisResult(response.data);
+      } else {
+        setError('서버로부터 유효하지 않은 응답을 받았습니다.');
+      }
     } catch (error) {
       setError('분석 중 오류가 발생했습니다: ' + (error.response?.data?.error || error.message));
     }
@@ -22,9 +27,11 @@ const Back1 = () => {
   return (
     <Box sx={{ bgcolor: theme.palette.background.default, minHeight: '100vh', py: 3 }}>
       <Container maxWidth="lg">
-        <Typography variant="h4" component="h1" gutterBottom align="center">
+      <Paper elevation={3} sx={{ mb: 2, p: 2, backgroundColor: theme.palette.primary.main }}>
+      <Typography variant="h4" component="h1" align="center" sx={{ color: theme.palette.primary.contrastText }}>
           백테스트
         </Typography>
+        </Paper>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
             <Card elevation={3}>

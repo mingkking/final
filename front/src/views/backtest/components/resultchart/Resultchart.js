@@ -9,21 +9,20 @@ const ResultChart = ({ analysisResult, error }) => {
     return <Typography color="error" sx={{ p: 2 }}>{error}</Typography>;
   }
 
-  if (!analysisResult) {
+  if (!analysisResult || !analysisResult.processedData || analysisResult.processedData.length === 0) {
     return (
       <Box sx={{ p: 2, display: 'flex', justifyContent: 'center', alignItems: 'center', height: '300px' }}>
         <Typography align="center">
-          분석을 시작하려면 옵션을 선택하고 '분석 시작' 버튼을 클릭하세요.
+          분석 결과가 없습니다. 다시 시도해 주세요.
         </Typography>
       </Box>
     );
   }
 
   const chartData = analysisResult.processedData.map(d => ({
-    date: new Date(d.record_date).toLocaleDateString(),
-    '종가': d.closing_price,
-    'SMA 20': d.sma_20,
-    'EMA 20': d.ema_20
+    date: new Date(d.date).toLocaleDateString(),
+    '예측 확률': d.predicted_probability,
+    '예측 움직임': d.predicted_movement === 'Up' ? 1 : 0
   }));
 
   return (
@@ -34,16 +33,18 @@ const ResultChart = ({ analysisResult, error }) => {
         height={300}
         dataset={chartData}
         series={[
-          { dataKey: '종가', label: '종가', color: theme.palette.primary.main },
-          { dataKey: 'SMA 20', label: 'SMA 20', color: theme.palette.secondary.main },
-          { dataKey: 'EMA 20', label: 'EMA 20', color: theme.palette.error.main },
+          { dataKey: '예측 확률', label: '예측 확률', color: theme.palette.primary.main },
+          { dataKey: '예측 움직임', label: '예측 움직임', color: theme.palette.secondary.main, yAxisKey: 'movement' },
         ]}
         xAxis={[{ 
           scaleType: 'band', 
           dataKey: 'date',
           label: '날짜',
         }]}
-        yAxis={[{ label: '가격' }]}
+        yAxis={[
+          { label: '확률' },
+          { id: 'movement', label: '움직임', min: 0, max: 1 }
+        ]}
         sx={{
           [`& .${axisClasses.left} .${axisClasses.label}`]: {
             transform: 'translate(-20px, 0)',
@@ -52,13 +53,7 @@ const ResultChart = ({ analysisResult, error }) => {
       />
       <Box sx={{ mt: 3 }}>
         <Typography variant="h6" gutterBottom>
-          다음 날 주가 상승 확률: {(analysisResult.predictionProbability * 100).toFixed(2)}%
-        </Typography>
-        <Typography variant="body1" gutterBottom>
-          총 수익률: {(analysisResult.totalReturn * 100).toFixed(2)}%
-        </Typography>
-        <Typography variant="body1" gutterBottom>
-          샤프 비율: {analysisResult.sharpeRatio.toFixed(2)}
+          모델 정확도: {(analysisResult.modelAccuracy * 100).toFixed(2)}%
         </Typography>
       </Box>
     </Box>

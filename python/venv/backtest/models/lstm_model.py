@@ -25,11 +25,18 @@ def build_lstm_model(input_shape):
     return model
 
 def prepare_data_for_lstm(df, features, target, seq_length=10):
-    data = df[features + [target]].values
+    data = df[features].values
     scaler = MinMaxScaler()
     data_scaled = scaler.fit_transform(data)
     
-    X, y = create_sequences(data_scaled, seq_length)
+    X, y = [], []
+    for i in range(len(data_scaled) - seq_length):
+        X.append(data_scaled[i:(i + seq_length)])
+        y.append(df[target].values[i + seq_length])
+    
+    X = np.array(X)
+    y = np.array(y)
+    
     return train_test_split(X, y, test_size=0.2, random_state=42), scaler
 
 def train_lstm_model(X_train, y_train):

@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import {ko} from "date-fns/locale"
 import { TextField, Button, Select, MenuItem, FormControl, Box, Typography, useTheme } from '@mui/material';
 
 const BacktestOptions = ({ onAnalyze }) => {
   const [stockName, setStockName] = useState('');
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [initialInvestment, setInitialInvestment] = useState(10000);
+  const [initialInvestment, setInitialInvestment] = useState(1000000000);
   const [rebalancePeriod, setRebalancePeriod] = useState('monthly');
   const theme = useTheme();
 
@@ -39,6 +40,7 @@ const BacktestOptions = ({ onAnalyze }) => {
       
       <DatePicker
         selected={startDate}
+        locale={ko}
         onChange={(date) => setStartDate(date)}
         selectsStart
         startDate={startDate}
@@ -48,6 +50,7 @@ const BacktestOptions = ({ onAnalyze }) => {
       
       <DatePicker
         selected={endDate}
+        locale={ko}
         onChange={(date) => setEndDate(date)}
         selectsEnd
         startDate={startDate}
