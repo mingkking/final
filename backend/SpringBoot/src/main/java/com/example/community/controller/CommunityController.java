@@ -61,6 +61,19 @@ public class CommunityController {
 
     }
 
+    @PostMapping("/updateCommunity") 
+    public Integer updateCommunity(@RequestBody CommunityVO communityVO) { // 커뮤니티 글 수정 (DetailPost.js 에서 받는 폼 데이터)
+        System.out.println(communityVO.toString());
+
+        try {
+            communityService.updateCommunity(communityVO);                 // 커뮤니티 서비스 객체로 커뮤니티 글 수정 기능 실행
+        } catch (Exception e) {
+            System.out.println("커뮤니티 글 수정 : " + e.getMessage());     // 커뮤니티 글 수정 기능 에러 발생
+        }
+
+        return communityVO.getId();
+    }
+
     @DeleteMapping("/deleteCommunity/{id}") 
     public void deleteCommunity(@PathVariable Integer id) {             // 커뮤니티 글 삭제 (DetailPost.js 에서 받는 폼 데이터)
 

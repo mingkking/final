@@ -86,7 +86,6 @@ function Posts() {
 
               <div className='post-item-title'>
                 <Link className="no-underline-link" to={"/DetailCommunity"} state={{ id: post.id }}>
-                  {post.id}<br />
                   {post.title}<br />
                 </Link>
               </div>

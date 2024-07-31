@@ -19,6 +19,8 @@ public interface CommunityService {
 
     public void insertCommunity(CommunityVO communityVO) throws Exception;
 
+    public void updateCommunity(CommunityVO communityVO) throws Exception;
+
     public void deleteCommunity(Integer id) throws Exception;
 
 }
