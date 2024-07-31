@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.community.domain.CommunityVO;
+import com.example.community.domain.UserLikeVO;
 import com.example.community.repository.CommunityRepository;
 
 @Service
@@ -44,6 +45,11 @@ public class CommunityServiceImpl implements CommunityService{
     @Override
     public void deleteCommunity(Integer id) throws Exception {
         communityRepository.deleteById(id);
+    }
+
+    @Override
+    public void insertUserLike(UserLikeVO userLikeVO) throws Exception {
+        communityRepository.save(userLikeVO);
     }
 
 }
