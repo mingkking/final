@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import { Card,TextField, Button, Select, MenuItem, FormControl, InputLabel, Box, Typography } from '@mui/material';
+import { TextField, Button, Select, MenuItem, FormControl, Box, Typography, useTheme } from '@mui/material';
 
 const BacktestOptions = ({ onAnalyze }) => {
   const [stockName, setStockName] = useState('');
@@ -9,6 +9,7 @@ const BacktestOptions = ({ onAnalyze }) => {
   const [endDate, setEndDate] = useState(null);
   const [initialInvestment, setInitialInvestment] = useState(10000);
   const [rebalancePeriod, setRebalancePeriod] = useState('monthly');
+  const theme = useTheme();
 
   const handleSubmit = () => {
     if (stockName && startDate && endDate) {
@@ -25,16 +26,15 @@ const BacktestOptions = ({ onAnalyze }) => {
   };
 
   return (
-    <Box sx={{ p: 2 }}>
-      <Card>
-      <Typography variant="h3" gutterBottom>백테스트 설정</Typography>
-      </Card>
+    <Box sx={{ p: 3, bgcolor: theme.palette.background.paper }}>
+      <Typography variant="h5" gutterBottom>백테스트 설정</Typography>
       <TextField
         fullWidth
         label="주식 종목명"
         value={stockName}
         onChange={(e) => setStockName(e.target.value)}
         margin="normal"
+        variant="outlined"
       />
       
       <DatePicker
@@ -43,7 +43,7 @@ const BacktestOptions = ({ onAnalyze }) => {
         selectsStart
         startDate={startDate}
         endDate={endDate}
-        customInput={<TextField fullWidth label="시작 날짜" margin="normal" />}
+        customInput={<TextField fullWidth label="시작 날짜" margin="normal" variant="outlined" />}
       />
       
       <DatePicker
@@ -53,7 +53,7 @@ const BacktestOptions = ({ onAnalyze }) => {
         startDate={startDate}
         endDate={endDate}
         minDate={startDate}
-        customInput={<TextField fullWidth label="종료 날짜" margin="normal" />}
+        customInput={<TextField fullWidth label="종료 날짜" margin="normal" variant="outlined" />}
       />
       
       <TextField
@@ -63,10 +63,11 @@ const BacktestOptions = ({ onAnalyze }) => {
         value={initialInvestment}
         onChange={(e) => setInitialInvestment(Number(e.target.value))}
         margin="normal"
+        variant="outlined"
       />
       
-      <FormControl fullWidth margin="normal">
-        <Typography>리밸런싱 주기</Typography>
+      <FormControl fullWidth margin="normal" variant="outlined">
+        <Typography variant="body2" gutterBottom>리밸런싱 주기</Typography>
         <Select
           value={rebalancePeriod}
           onChange={(e) => setRebalancePeriod(e.target.value)}

@@ -1,14 +1,22 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import { LineChart, axisClasses } from '@mui/x-charts';
 
 const ResultChart = ({ analysisResult, error }) => {
+  const theme = useTheme();
+
   if (error) {
-    return <Typography color="error">{error}</Typography>;
+    return <Typography color="error" sx={{ p: 2 }}>{error}</Typography>;
   }
 
   if (!analysisResult) {
-    return <Typography>분석을 시작하려면 옵션을 선택하고 '분석 시작' 버튼을 클릭하세요.</Typography>;
+    return (
+      <Box sx={{ p: 2, display: 'flex', justifyContent: 'center', alignItems: 'center', height: '300px' }}>
+        <Typography align="center">
+          분석을 시작하려면 옵션을 선택하고 '분석 시작' 버튼을 클릭하세요.
+        </Typography>
+      </Box>
+    );
   }
 
   const chartData = analysisResult.processedData.map(d => ({
@@ -19,15 +27,16 @@ const ResultChart = ({ analysisResult, error }) => {
   }));
 
   return (
-    <Box sx={{ p: 2 }}>
+    <Box sx={{ p: 3, bgcolor: theme.palette.background.paper }}>
+      <Typography variant="h5" gutterBottom>분석 결과</Typography>
       <LineChart
         width={600}
         height={300}
         dataset={chartData}
         series={[
-          { dataKey: '종가', label: '종가' },
-          { dataKey: 'SMA 20', label: 'SMA 20' },
-          { dataKey: 'EMA 20', label: 'EMA 20' },
+          { dataKey: '종가', label: '종가', color: theme.palette.primary.main },
+          { dataKey: 'SMA 20', label: 'SMA 20', color: theme.palette.secondary.main },
+          { dataKey: 'EMA 20', label: 'EMA 20', color: theme.palette.error.main },
         ]}
         xAxis={[{ 
           scaleType: 'band', 
@@ -41,15 +50,17 @@ const ResultChart = ({ analysisResult, error }) => {
           },
         }}
       />
-      <Typography variant="h6" sx={{ mt: 2 }}>
-        다음 날 주가 상승 확률: {(analysisResult.predictionProbability * 100).toFixed(2)}%
-      </Typography>
-      <Typography variant="body1">
-        총 수익률: {(analysisResult.totalReturn * 100).toFixed(2)}%
-      </Typography>
-      <Typography variant="body1">
-        샤프 비율: {analysisResult.sharpeRatio.toFixed(2)}
-      </Typography>
+      <Box sx={{ mt: 3 }}>
+        <Typography variant="h6" gutterBottom>
+          다음 날 주가 상승 확률: {(analysisResult.predictionProbability * 100).toFixed(2)}%
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          총 수익률: {(analysisResult.totalReturn * 100).toFixed(2)}%
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          샤프 비율: {analysisResult.sharpeRatio.toFixed(2)}
+        </Typography>
+      </Box>
     </Box>
   );
 };

@@ -1,8 +1,16 @@
-// views/stock/StockDetail.js
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { createChart } from 'lightweight-charts';
+import { 
+  Card, 
+  CardContent, 
+  Typography, 
+  Grid, 
+  Box, 
+  CircularProgress,
+  useTheme
+} from '@mui/material';
 
 const StockDetail = () => {
   const { stockCode } = useParams();
@@ -10,6 +18,7 @@ const StockDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const chartContainerRef = useRef();
+  const theme = useTheme();
 
   useEffect(() => {
     const fetchStockDetail = async () => {
@@ -35,39 +44,39 @@ const StockDetail = () => {
         height: 400,
         layout: {
           backgroundColor: '#ffffff',
-          textColor: 'rgba(33, 56, 77, 1)',
+          textColor: theme.palette.text.primary,
         },
         grid: {
           vertLines: {
-            color: 'rgba(197, 203, 206, 0.5)',
+            color: theme.palette.divider,
           },
           horzLines: {
-            color: 'rgba(197, 203, 206, 0.5)',
+            color: theme.palette.divider,
           },
         },
         crosshair: {
           mode: 'normal',
         },
         priceScale: {
-          borderColor: 'rgba(197, 203, 206, 1)',
+          borderColor: theme.palette.divider,
         },
         timeScale: {
-          borderColor: 'rgba(197, 203, 206, 1)',
+          borderColor: theme.palette.divider,
         },
       });
 
       const candleSeries = chart.addCandlestickSeries({
-        upColor: '#26a69a',
-        downColor: '#ef5350',
+        upColor: theme.palette.success.main,
+        downColor: theme.palette.error.main,
         borderVisible: false,
-        wickUpColor: '#26a69a',
-        wickDownColor: '#ef5350',
+        wickUpColor: theme.palette.success.main,
+        wickDownColor: theme.palette.error.main,
       });
 
       const mappedData = stockData.priceHistory
         .filter(item => item.opening_price !== null && item.high_price !== null && item.low_price !== null && item.closing_price !== null)
         .map(item => ({
-          time: item.record_date.split(' ')[0], // 'YYYY-MM-DD' 형식만 사용
+          time: item.record_date.split(' ')[0],
           open: item.opening_price,
           high: item.high_price,
           low: item.low_price,
@@ -81,33 +90,37 @@ const StockDetail = () => {
         chart.remove();
       };
     }
-  }, [stockData]);
+  }, [stockData, theme]);
 
-  if (loading) return <div className="text-center p-4">로딩 중...</div>;
-  if (error) return <div className="text-center text-red-500 p-4">{error}</div>;
-  if (!stockData) return <div className="text-center p-4">데이터가 없습니다.</div>;
+  if (loading) return <Box display="flex" justifyContent="center" p={4}><CircularProgress /></Box>;
+  if (error) return <Typography color="error" align="center" p={4}>{error}</Typography>;
+  if (!stockData) return <Typography align="center" p={4}>데이터가 없습니다.</Typography>;
 
   const latestData = stockData.stockInfo;
 
   return (
-    <div className="p-4">
-      <div>
-        <h2 className="text-2xl font-bold mb-4">{latestData.name} ({latestData.stock_code})</h2>
-          <div className="grid grid-cols-2 gap-4 mb-4">
-            <div>
-              <p>종가: {latestData.closing_price?.toLocaleString()} 원</p>
-              <p>시가: {latestData.opening_price?.toLocaleString()} 원</p>
-              <p>고가: {latestData.high_price?.toLocaleString()} 원</p>
-              <p>저가: {latestData.low_price?.toLocaleString()} 원</p>
-            </div>
-            <div>
-              <p>날짜: {latestData.record_date}</p>
-              <p>유형: {latestData.stock_type}</p>
-            </div>
-          </div>
-      </div>
-      <div ref={chartContainerRef} className="w-full h-[400px]" />
-    </div>
+    <Box sx={{ bgcolor: theme.palette.background.default, minHeight: '100vh', py: 3 }}>
+      <Card elevation={3} sx={{ maxWidth: 800, margin: 'auto' }}>
+        <CardContent>
+          <Typography variant="h5" component="h2" gutterBottom>
+            {latestData.name} ({latestData.stock_code})
+          </Typography>
+          <Grid container spacing={2} sx={{ mb: 2 }}>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="body1">종가: {latestData.closing_price?.toLocaleString()} 원</Typography>
+              <Typography variant="body1">시가: {latestData.opening_price?.toLocaleString()} 원</Typography>
+              <Typography variant="body1">고가: {latestData.high_price?.toLocaleString()} 원</Typography>
+              <Typography variant="body1">저가: {latestData.low_price?.toLocaleString()} 원</Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="body1">날짜: {latestData.record_date}</Typography>
+              <Typography variant="body1">유형: {latestData.stock_type}</Typography>
+            </Grid>
+          </Grid>
+          <Box ref={chartContainerRef} sx={{ width: '100%', height: 400 }} />
+        </CardContent>
+      </Card>
+    </Box>
   );
 };
 
