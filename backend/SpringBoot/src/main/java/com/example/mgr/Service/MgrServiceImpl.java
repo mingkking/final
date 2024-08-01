@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import com.example.mgr.dao.MgrDAO;
+import com.example.mgr.domain.MgrCommunityVO;
 import com.example.mgr.domain.MgrMemberVO;
 import com.example.mgr.domain.MgrSessionCountVO;
   
@@ -93,5 +94,9 @@ public class MgrServiceImpl implements MgrService {
 		return mgrDAO.countByAgeMember();
 	}
 
+	// 회원 상세 목록 페이지의 커뮤니티 정보
+	public List<MgrCommunityVO> selectCommPost(MgrCommunityVO vo) {
+		return mgrDAO.selectCommPost(vo);
+	}
 
 }
