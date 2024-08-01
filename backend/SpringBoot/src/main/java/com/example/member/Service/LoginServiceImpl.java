@@ -86,6 +86,13 @@ public class LoginServiceImpl {
         return false; // 비밀번호 변경 실패
     }
     
+    //회원탈퇴
+    public void deleteUserById(String userId) {
+        LoginVO user = findUserByUserId(userId);
+        if (user != null) {
+            repo.delete(user); // 사용자 삭제
+        }
+    }
     
    
 }
