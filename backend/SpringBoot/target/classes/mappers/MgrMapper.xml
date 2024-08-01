@@ -126,6 +126,13 @@
     	WHERE user_num = #{user_num}
     </select>
     
+    <!-- memberDetail 커뮤니티 글 출력 -->
+    <select id="selectCommPost" resultType="MgrCommunityVO">
+    	SELECT *
+    	FROM community
+    	WHERE user_num = #{user_num}
+    </select>
+    
     <!-- 회원 삭제 -->
     <delete id="deleteMember" parameterType="int">
     	DELETE FROM users

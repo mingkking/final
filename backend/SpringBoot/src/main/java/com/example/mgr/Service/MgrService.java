@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 
 import com.example.mgr.domain.MgrMemberVO;
 import com.example.mgr.domain.MgrSessionCountVO;
+import com.example.mgr.domain.MgrCommunityVO;
   
 public interface MgrService {
 	 
@@ -40,6 +41,9 @@ public interface MgrService {
 	
 	// 회원 상세 목록
 	List<MgrMemberVO> selectMemberDetail(MgrMemberVO vo);
+	
+	// 회원 상세 목록 페이지의 커뮤니티 정보
+	List<MgrCommunityVO> selectCommPost(MgrCommunityVO vo);
 	
 	// 회원 삭제
 	void deleteMember(int user_num);

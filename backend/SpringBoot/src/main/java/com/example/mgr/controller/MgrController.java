@@ -1,6 +1,7 @@
 package com.example.mgr.controller;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.mgr.Service.MgrService;
 import com.example.mgr.domain.MgrMemberVO;
 import com.example.mgr.domain.MgrSessionCountVO;
+import com.example.mgr.domain.MgrCommunityVO;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -106,7 +111,9 @@ public class MgrController {
 	    List<Map<String, Object>> countByAgeMember = mgrservice.countByAgeMember();
 	    
 	    // Gson 객체 생성
-	    Gson gson = new Gson();
+	    Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy년 M월 d일") // 날짜 포맷 문자열 직접 설정
+                .create();
 	    
 	    // json 생성
 	    String jsonString = gson.toJson(Map.of(
@@ -121,19 +128,28 @@ public class MgrController {
 	
 	// 회원 상세정보 보기
     @GetMapping("/manager/memberDetail/{user_num}")
-    public String getMemberDetail(@PathVariable String user_num, MgrMemberVO vo) {
+    public String getMemberDetail(@PathVariable String user_num, MgrMemberVO membervo, MgrCommunityVO commvo) {
         
         // 받은 번호 값 지정
-        vo.setUser_num(user_num);
+    	membervo.setUser_num(user_num);
+    	commvo.setUser_num(user_num);
         
         // 회원 상세 정보 조회
-        List<MgrMemberVO> mgrMemberDetail = mgrservice.selectMemberDetail(vo);
+        List<MgrMemberVO> mgrMemberDetail = mgrservice.selectMemberDetail(membervo);
+        List<MgrCommunityVO> mgrCommPost = mgrservice.selectCommPost(commvo);
+        
+        System.out.println("이것이 커뮤니티다" + mgrCommPost);
         
         // Gson 객체 생성
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy년 M월 d일") // 날짜 포맷 문자열 직접 설정
+                .create();
         
         // List인 mgrMemberDetail를 gson을 이용하여 JSON 문자열로 변환
-        String jsonString = gson.toJson(mgrMemberDetail);
+        String jsonString = gson.toJson(Map.of(
+                "selectMemberList", mgrMemberDetail,
+                "commPost", mgrCommPost
+            ));
         
         System.out.println("memberDetail:" + jsonString);
         
