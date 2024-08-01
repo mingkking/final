@@ -88,28 +88,50 @@ public class CommunityController {
 
     @GetMapping("/selectPopularCommunity") 
     public List<CommunityVO> selectPopularCommunity() {                          // 커뮤니티 모든 인기 글 검색
-
+        
         List<CommunityVO> selectAllPopularPosts = null;
         try {
-            // selectAllPopularPosts = communityService.selectAllPopularCommunity();       // 커뮤니티 서비스 객체로 커뮤니티 모든 인기 글 검색 기능 실행
+            selectAllPopularPosts = communityService.selectAllPopularCommunity();       // 커뮤니티 서비스 객체로 커뮤니티 모든 인기 글 검색 기능 실행
         } catch (Exception e) {
             System.out.println("커뮤니티 모든 인기 글 검색 : " + e.getMessage());  // 커뮤니티 모든 인기 글 검색 기능 에러 발생
         }
 
         return selectAllPopularPosts;
 
-    } 
+    }
+    
+    @GetMapping("/selectAllUserLike") 
+    public List<UserLikeVO> selectAllUserLike() {                                 // 커뮤니티 모든 글 좋아요 검색
+
+        List<UserLikeVO> selectAllUserLike = null;
+        try {
+            selectAllUserLike = communityService.selectAllUserLike();             // 커뮤니티 서비스 객체로 커뮤니티 모든 글 좋아요 검색 기능 실행
+        } catch (Exception e) {
+            System.out.println("커뮤니티 모든 글 좋아요 검색 : " + e.getMessage()); // 커뮤니티 모든 글 좋아요 검색 기능 에러 발생
+        }
+
+        return selectAllUserLike;
+
+    }
     
     @PostMapping("/insertUserLike") 
-    public void insertUserLike(@RequestBody UserLikeVO userLikeVO) { // 커뮤니티 글 좋아요 등록 (InsertPost.js 에서 받는 폼 데이터)
-        System.out.println(11111);
-        System.out.println("insertUserLike" + userLikeVO.getUser_num());
-        System.out.println("insertUserLike" + userLikeVO.getId());
+    public void insertUserLike(@RequestBody UserLikeVO userLikeVO) { // 커뮤니티 글 좋아요 등록 (UserLike.js 에서 받는 폼 데이터)
 
         try {
             communityService.insertUserLike(userLikeVO);              // 커뮤니티 서비스 객체로 커뮤니티 글 좋아요 등록 기능 실행
         } catch (Exception e) {
             System.out.println("커뮤니티 글 좋아요 등록 : " + e.getMessage());  // 커뮤니티 글 좋아요 등록 기능 에러 발생
+        }
+
+    }
+
+    @PostMapping("/deleteUserLike") 
+    public void deleteUserLike(@RequestBody UserLikeVO userLikeVO) { // 커뮤니티 글 좋아요 삭제 (UserLike.js 에서 받는 폼 데이터)
+
+        try {
+            communityService.deleteUserLike(userLikeVO.getUser_num().getUserNum(), userLikeVO.getId().getId());             // 커뮤니티 서비스 객체로 커뮤니티 글 좋아요 삭제 기능 실행
+        } catch (Exception e) {
+            System.out.println("커뮤니티 글 좋아요 삭제 : " + e.getMessage());  // 커뮤니티 글 좋아요 삭제 기능 에러 발생
         }
 
     }

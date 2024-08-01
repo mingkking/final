@@ -90,13 +90,13 @@ function Posts() {
             <div className="post-item-middle">
 
               <div className='post-item-title'>
-                <Link className="no-underline-link" to={"/DetailCommunity"} state={{ id: post.id }}>
+                <Link className="no-underline-link" to={`/DetailCommunity?id=${post.id}`} state={{ id: post.id }}>
                   {post.title}<br />
                 </Link>
               </div>
 
               <div className='post-item-contents'>
-                <Link className="no-underline-link" to={"/DetailCommunity"} state={{ id: post.id }}>
+                <Link className="no-underline-link" to={`/DetailCommunity?id=${post.id}`} state={{ id: post.id }}>
                   {post.contents}<br />
                 </Link>
               </div>

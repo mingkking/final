@@ -96,6 +96,10 @@
   grid-area: middle;
 }
 
+.post-item-middle:hover {
+  background-color: whitesmoke;
+}
+
 .post-item-bottom {
   grid-area: bottom;
 }
@@ -124,9 +128,8 @@
 }
 
 .post-item-created_at {
-  /* 시간 스타일 */
-  color: gray;
-  margin-top: 4px; /* 닉네임과 시간 사이의 간격 */
+  font-size: 14px; /* 생성 시간 텍스트 크기 */
+  color: #999; /* 생성 시간 텍스트 색상 */
 }
 
 .post-item-title {
@@ -174,8 +177,8 @@
 .post-item-replyBtn:hover,
 .post-item-share:hover,
 .post-item-bookmark:hover {
-  background-color: #6c757d; /* 부드러운 회색 블루 */
-  color: #fff;
+  background-color: whitesmoke;
+  color: black;
   transform: scale(1.5); /* 버튼 크기 확대 */
 }
 
