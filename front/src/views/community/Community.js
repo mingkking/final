@@ -17,8 +17,10 @@ const Community = () => {
         loginCheck();                                                       // 로그인 판단 함수 실행
         selectAllPosts();                                                   // 커뮤니티 모든 글 검색 함수 실행
         selectAllUserLike();                                                // 커뮤니티 모든 글 좋아요 검색 함수 실행
-        selectAllPopularPosts();  // 커뮤니티 모든 인기 글 검색 함수 실행
+        selectAllPopularPosts();                                            // 커뮤니티 모든 인기 글 검색 함수 실행
+
         communityValue.actions.setRealTime(new Date().toLocaleString());
+        
         const intervalId = setInterval(() => {
             communityValue.actions.setRealTime(new Date().toLocaleString());
             selectAllPopularPosts();  // 커뮤니티 모든 인기 글 검색 함수 실행

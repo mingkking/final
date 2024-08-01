@@ -3,6 +3,7 @@ import axios from 'axios';
 import './InsertPost.css';
 import { useNavigate } from 'react-router';
 import CommunityContext from '../../contexts/CommunityContext';
+import ImageUpload from '../ImageUpload/ImageUpload';
 
 function InsertPost() {
 
@@ -61,7 +62,7 @@ function InsertPost() {
 
   return (
     <div className="container">
-      <form action='post'>
+      <form action='post' enctype="multipart/form-data">
         <div className='community-navbar'>
           <h2 className="community-header">글 쓰기</h2>
           <button onClick={insertCommunity} className='community-insertBtn'>
@@ -78,6 +79,7 @@ function InsertPost() {
             {titleCheck && <div className='community-check'>{titleCheck}</div>}
           </li>
           <li className="post-item">
+            {/* <ImageUpload /> */}
             <textarea className="form-control" placeholder="내용을 작성해주세요" rows="10" name="contents" onChange={insertContents} maxLength={500}></textarea>
             {contentsCheck && <div className='community-check'>{contentsCheck}</div>}
           </li>

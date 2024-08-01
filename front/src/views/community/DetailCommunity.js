@@ -14,7 +14,7 @@ const DetailCommunity = () => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const location = useLocation();
-    
+    const popularGetId = searchParams.get('id');
 
     useEffect(() => {                                                       // 처음 한번 실행하는 훅
 
@@ -24,6 +24,11 @@ const DetailCommunity = () => {
         selectOnePost(postId);
 
     }, []);
+
+    useEffect(()=>{
+        selectOnePost(popularGetId);
+    }, [popularGetId]);
+
 
     const loginCheck = async () => {                                        // 로그인 판단 함수 생성
 

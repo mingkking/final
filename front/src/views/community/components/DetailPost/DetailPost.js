@@ -144,11 +144,11 @@ function DetailPost() {
           {detailPostValue.state.selectOnePost.title}<br />
         </div>
 
-        <div className='detailCommunity-insertBtn'>
+        <div>
           {detailPostValue.state.userNick === detailPostValue.state.selectOnePost.user_num.userNickname ?
             (
               <div>
-                <button className='detailCommunity-menuBtn' onClick={() => {
+                <button className='detailCommunity-insertBtn' onClick={() => {
                   setIsUpdateModalOpen(!isUpdateModalOpen);
                 }}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-edit">
@@ -193,7 +193,7 @@ function DetailPost() {
                   </button>
                 </Modal>
 
-                <button className='detailCommunity-menuBtn' onClick={deletePost}>
+                <button className='detailCommunity-insertBtn' onClick={deletePost}>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon-trash-simple">
                     <path d="M3 6h18" />
                     <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />

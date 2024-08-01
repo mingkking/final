@@ -16,7 +16,7 @@
   padding: 10px 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   margin-bottom: 20px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   /* 요소가 화면 크기에 따라 줄을 바꿀 수 있도록 함 */
 }
 
@@ -112,11 +112,6 @@
   grid-area: middle;
 }
 
-.detailPost-item-middle:hover {
-  cursor: pointer;
-  background-color: whitesmoke;
-}
-
 .detailPost-item-bottom {
   grid-area: bottom;
 }
@@ -154,11 +149,12 @@
 }
 
 .detailPost-item-title {
-  text-align: left;
+  flex: 1; /* 가능한 공간을 차지하도록 설정 */
+  text-align: center;
   font-size: 20px;
   font-weight: bold;
   color: #333;
-  margin-top: 10px;
+  margin: 0; /* 마진을 0으로 설정 */
 }
 
 .detailPost-item-contents {
@@ -179,7 +175,7 @@
 .detailPost-item-replyBtn,
 .detailPost-item-likeBtn,
 .detailPost-item-replyBtn,
-.detailPost-item-share,
+.detailPost-item-share, 
 .detailPost-item-bookmark {
   background: none;
   border: none;
