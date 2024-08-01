@@ -24,7 +24,13 @@ public interface CommunityService {
 
     public void deleteCommunity(Integer id) throws Exception;
 
+    public List<CommunityVO> selectAllPopularCommunity() throws Exception;
+
+    public List<UserLikeVO> selectAllUserLike() throws Exception;
+
     public void insertUserLike(UserLikeVO userLikeVO) throws Exception;
+
+    public void deleteUserLike(Integer userNum, Integer id) throws Exception;
 
 }
  

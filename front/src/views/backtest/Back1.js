@@ -1,37 +1,97 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Options from "./components/backtestoption/Option";
 import ResultChart from "./components/resultchart/Resultchart"
-import { Card, Container, Grid, Typography, Box, useTheme,Paper } from "@mui/material";
+import { Card, Container, Grid, Typography, Box, useTheme, CircularProgress, Snackbar, Alert } from "@mui/material";
 import axios from 'axios';
+
+// axios 인스턴스 생성
+const api = axios.create({
+  baseURL: 'http://localhost:5000',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// axios 인터셉터 설정
+api.interceptors.request.use(
+  (config) => {
+    console.log('Request config:', JSON.stringify(config, null, 2));
+    return config;
+  },
+  (error) => {
+    console.error('Request error:', error);
+    return Promise.reject(error);
+  }
+);
+
+api.interceptors.response.use(
+  (response) => {
+    console.log('Response:', JSON.stringify(response.data, null, 2));
+    return response;
+  },
+  (error) => {
+    console.error('Response error:', error.response ? error.response.data : error.message);
+    return Promise.reject(error);
+  }
+);
 
 const Back1 = () => {
   const [analysisResult, setAnalysisResult] = useState(null);
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
   const theme = useTheme();
 
   const handleAnalyze = async (options) => {
     setError('');
-    setAnalysisResult(null);  // 새 분석을 시작할 때 이전 결과를 초기화
+    setAnalysisResult(null);
+    setIsLoading(true);
     try {
-      const response = await axios.post('http://localhost:5000/analyze', options);
+      console.log('Sending request with options:', options);
+      const response = await api.post('/analyze', options, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log('Received response:', response.data);
       if (response.data && response.data.processedData) {
         setAnalysisResult(response.data);
       } else {
-        setError('서버로부터 유효하지 않은 응답을 받았습니다.');
+        throw new Error('서버로부터 유효하지 않은 응답을 받았습니다.');
       }
     } catch (error) {
-      setError('분석 중 오류가 발생했습니다: ' + (error.response?.data?.error || error.message));
+      console.error('Error in handleAnalyze:', error);
+      if (axios.isCancel(error)) {
+        console.log('Request canceled', error.message);
+      } else if (error.response) {
+        // 서버 응답이 있는 경우
+        setError(`서버 오류: ${error.response.status} - ${error.response.data.message || error.message}`);
+      } else if (error.request) {
+        // 요청이 만들어졌으나 응답을 받지 못한 경우
+        setError('서버로부터 응답을 받지 못했습니다. 네트워크 연결을 확인해주세요.');
+      } else {
+        // 요청을 만드는 중에 오류가 발생한 경우
+        setError(`오류 발생: ${error.message}`);
+      }
+      setOpenSnackbar(true);
+    } finally {
+      setIsLoading(false);
     }
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackbar(false);
   };
 
   return (
     <Box sx={{ bgcolor: theme.palette.background.default, minHeight: '100vh', py: 3 }}>
       <Container maxWidth="lg">
-      <Paper elevation={3} sx={{ mb: 2, p: 2, backgroundColor: theme.palette.primary.main }}>
-      <Typography variant="h4" component="h1" align="center" sx={{ color: theme.palette.primary.contrastText }}>
+        <Typography variant="h4" component="h1" gutterBottom align="center">
           백테스트
         </Typography>
-        </Paper>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
             <Card elevation={3}>
@@ -40,11 +100,22 @@ const Back1 = () => {
           </Grid>
           <Grid item xs={12} md={6}>
             <Card elevation={3}>
-              <ResultChart analysisResult={analysisResult} error={error} />
+              {isLoading ? (
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '300px' }}>
+                  <CircularProgress />
+                </Box>
+              ) : (
+                <ResultChart analysisResult={analysisResult} error={error} />
+              )}
             </Card>
           </Grid>
         </Grid>
       </Container>
+      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+        <Alert onClose={handleCloseSnackbar} severity="error" sx={{ width: '100%' }}>
+          {error}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

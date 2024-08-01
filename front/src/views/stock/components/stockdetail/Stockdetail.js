@@ -113,6 +113,7 @@ const StockDetail = () => {
               <Typography variant="body1">저가: {latestData.low_price?.toLocaleString()} 원</Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
+              <div>관심등록</div>
               <Typography variant="body1">날짜: {latestData.record_date}</Typography>
               <Typography variant="body1">유형: {latestData.stock_type}</Typography>
             </Grid>

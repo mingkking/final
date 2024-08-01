@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.example.mgr.domain.MgrCommunityVO;
 import com.example.mgr.domain.MgrMemberVO;
 import com.example.mgr.domain.MgrSessionCountVO;
 
@@ -41,4 +42,7 @@ public interface MgrDAO {
 	
 	// 회원 삭제
 	public void deleteMember(int user_num);
+
+	// 회원 상세 목록 페이지의 커뮤니티 정보
+	public List<MgrCommunityVO> selectCommPost(MgrCommunityVO vo);
 }

@@ -5,16 +5,21 @@ import LoginContext from '../login/contexts/LoginContext';
 import { Avatar } from '@mui/material';
 import UploadImage from './component/UploadImage';
 import axiosInstance from '../login/component/Token/axiosInstance';
-import imges from '../../imges/dduksang.jpeg';
 import "./component/UploadImage.css";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import UserLike from '../community/components/UserLike/UserLike';
+import Reply from '../community/components/Reply/Reply';
+import Share from '../community/components/Share/Share';
+import Bookmark from '../community/components/Bookmark/Bookmark';
+import CommunityContext from '../community/contexts/CommunityContext';
 
 const MyPage = () => {
 
   const { state, actions } = useContext(LoginContext);
   const [profileImage, setProfileImage] = useState('');
-
+  
+  const [isEditing, setIsEditing] = useState(false);
   const BASE_URL = 'http://localhost:8080';
   
 
@@ -28,6 +33,8 @@ const MyPage = () => {
                 actions.setProfileImage(fullImageUrl); // 상태 업데이트
             })
             .catch(error => console.error('Error fetching profile image:', error));
+            
+            
     }
 }, [state.userId, actions]);
 
@@ -51,7 +58,8 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
           userId: state.userId,
           ...data
         });
-        alert("정보가 업데이트 되었습니다."); 
+        alert("정보가 업데이트 되었습니다.");
+        actions.setAfterLoginNick(data.userNickname);
         navigate('/'); 
       } catch (error) {
         alert("정보를 정확히 입력해주세요. \n업데이트 실패: " + error.response?.data || error.message);
@@ -72,7 +80,61 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
             alert('Error checking nickname. ' + error);
         }
     };
+
+
+    //---------------------------------------------------------------
+
+    const communityContext = useContext(CommunityContext);
+  
+  
+
+  const createAtCal = (created_at) => {
+    const now = new Date();
+    const date = new Date(created_at);
+
+    const diffInSeconds = Math.floor((now - date) / 1000);
+    if (diffInSeconds < 60) {
+      return `${diffInSeconds}초 전`;
+    }
+
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+    if (diffInMinutes < 60) {
+      return `${diffInMinutes}분 전`;
+    }
+
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    if (diffInHours < 24) {
+      return `${diffInHours}시간 전`;
+    }
+
+    const diffInDays = Math.floor(diffInHours / 24);
+    if (diffInDays < 7) {
+      return `${diffInDays}일 전`;
+    }
+
+    const diffInWeeks = Math.floor(diffInDays / 7);
+    if (diffInWeeks < 4) {
+      return `${diffInWeeks}개월 전`;
+    }
+
+  }
+
+  // 현재 사용자 ID에 해당하는 게시글만 필터링
+  const [myPosts, setMyPosts] = useState([]);
+
+  useEffect(() => {
+    const userId = state.userId;
+    
+
+    // user_num의 userId 필드를 사용하여 필터링
+    const filteredPosts = communityContext.state.selectAllPosts.filter(post => {
       
+      return post.user_num.userId === userId; // userId 필드로 필터링
+    });
+
+    
+    setMyPosts(filteredPosts);
+  }, [state.userId, communityContext.state.selectAllPosts]);
 
     return (
       <div className="mypage-container">
@@ -114,8 +176,9 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
               </table>
             </div>
           </div>
-          <hr/>
           
+          
+          {isEditing && (
             <div className="form-section">
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="form-group">
@@ -129,21 +192,7 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
                     />  
                 </div>
 
-                <div className="form-group">
-                  <label htmlFor="userName">이름</label>
-                  <input
-                    type="text"
-                    id="userName"
-                    placeholder="이름"
-                    {...register('userName', {
-                      required: '이름은 필수 항목입니다.',
-                      pattern: {
-                        value: /^[가-힣]{2,5}$/,
-                        message: '한글 2글자에서 5글자 사이여야 합니다.'
-                      }
-                    })}
-                  />    
-                    </div>
+                
 
                     {errors.userName && <p className='err'>{errors.userName.message}</p>}
 
@@ -218,78 +267,88 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
                 
               </form>
             </div>
+          )}
+             <button onClick={() => setIsEditing(!isEditing)} className="edit-profile-toggle-button">
+          {isEditing ? '취소' : '프로필 편집'}
+        </button>
           <hr/>
-            <div className='my-interest'>
+           
+          <div className="my-posts">
+          
+          <h3>내가 쓴 글</h3>
+          <ul className="post-list">
+            {myPosts.length > 0 ? (
+              myPosts.map(post => (
+                <li key={post.id} className="post-item">
+                  <div className="post-item-top">
+                    <div className='post-item-profile'>
+                      <Avatar
+                        src={profileImage || state.profileImage}
+                        alt="Profile"
+                        sx={{ width: 35, height: 35 }}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+                        }}
+                      />
+                    </div>
+                    <div className='post-item-info'>
+                      <div className='post-item-userNickname'>{state.afterLoginNick}</div>
+                      <div className='post-item-created_at'>{createAtCal(post.created_at)}</div>
+                    </div>
+                  </div>
 
-              <h3>내 관심종목</h3>
-            </div>
+                  <div className="post-item-middle">
+                    <div className='post-item-title'>
+                      <Link className="no-underline-link" to={"/DetailCommunity"} state={{ id: post.id }}>
+                        {post.title}<br />
+                      </Link>
+                    </div>
 
+                    <div className='post-item-contents'>
+                      <Link className="no-underline-link" to={"/DetailCommunity"} state={{ id: post.id }}>
+                        {post.contents}<br />
+                      </Link>
+                    </div>
+                  </div>
+
+                  <div className="post-item-bottom">
+                    <div className='post-item-uploadFile'>
+                      사진 업로드 파일<br />
+                    </div>
+                  </div>
+
+                  <div className="post-item-actions">
+                    <UserLike postId={post.id} />
+                    <Reply />
+                    <Share />
+                    <Bookmark />
+                  </div>
+                </li>
+              ))
+            ) : (
+              <p>작성한 게시글이 없습니다.</p>
+            )}
+          </ul>
+      </div>
 
 
 
         </div>
-        <div className="my-posts">
-          <h3>내가 쓴 글</h3>
-          <div className="post">
-            <div className="post-header">
-              <Avatar
-                src={profileImage || state.profileImage}
-                alt="Profile"
-                sx={{ width: 60, height: 60 }}
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
-                }}
-              />
-              <div>
-                <h3 className="post-nickname">{state.afterLoginNick}</h3>
-                <span className="post-date">2024.07.03</span>
-              </div>
-            </div>
-            <div className="post-content">
-              <h3>오늘 도지코인 매수 했습니다!!</h3>
-              <h3>  화성 갈끄니끄아~!!</h3>
-              <div className="post-image-placeholder">
-                <img src={imges} alt="Post" />
-              </div>
-            </div>
-            <div className="mypage-item">
-            <div className='mypage-item-likeBtn'>
-                {false ? (
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" className="bi bi-heart">
-                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                  </svg>
-                ) : (
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="bi bi-heart">
-                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                  </svg>
-                )}
-              </div>
-              <div className='mypage-item-replyBtn'>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="bi bi-chat">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10z" />
-                </svg>
-              </div>
-              <div className='mypage-item-share'>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="bi bi-share">
-                  <path d="M18 16.08C17.24 16.08 16.56 16.38 16.05 16.88L8.91 12.7C8.96 12.47 9 12.24 9 12C9 11.76 8.96 11.53 8.91 11.3L15.96 7.19C16.5 7.69 17.21 8 18 8C19.66 8 21 6.66 21 5C21 3.34 19.66 2 18 2C16.34 2 15 3.34 15 5C15 5.24 15.04 5.47 15.09 5.7L8.04 9.81C7.5 9.31 6.79 9 6 9C4.34 9 3 10.34 3 12C3 13.66 4.34 15 6 15C6.79 15 7.5 14.69 8.04 14.19L15.16 18.36C15.11 18.58 15.08 18.79 15.08 19C15.08 20.66 16.42 22 18.08 22C19.74 22 21.08 20.66 21.08 19C21.08 17.34 19.74 16 18.08 16H18V16.08Z" />
-                </svg>
-              </div>
-              <div className='mypage-item-bookmark'>
-                {false ? (
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-bookmark">
-                    <path d="M19 3H5a2 2 0 0 0-2 2v18l7-5 7 5V5a2 2 0 0 0-2-2z" />
-                  </svg>
-                ) : (
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-bookmark">
-                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />
-                  </svg>
-                )}
-              </div>
-            </div>
+
+        <div className='my-interest'>
+
+          <h3>내 관심종목</h3>
+          <div className='my-interest-item'>
+            <div>비트코인</div>
+            <div>도지코인</div>
+            <div>삼성전자</div>
+            <div>테슬라</div>
           </div>
         </div>
-      </div>
+        
+    </div>
+      
     );
   };
 export default MyPage;

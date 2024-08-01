@@ -240,6 +240,7 @@ public class LoginController {
         }
     }  
     
+    // 프로필 수정
     @PutMapping("/user/{userId}")
     public ResponseEntity<String> updateUser(@PathVariable String userId, @RequestBody UpdateUserRequest updateUserRequest) {
         try {
@@ -271,6 +272,33 @@ public class LoginController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage()); 
         }
     }
+    
+    //회원탈퇴
+    @PostMapping("/delete-member")
+    public ResponseEntity<String> deleteMember(@RequestBody Map<String, String> request, HttpServletResponse response) {
+        String userId = request.get("userId");
+
+        if (userId == null || userId.isEmpty()) {
+            return ResponseEntity.badRequest().body("사용자 ID가 필요합니다.");
+        }
+
+        try {
+            loginService.deleteUserById(userId);
+            
+            // 쿠키에서 accessToken 제거
+            Cookie cookie = new Cookie("accessToken", null);
+            cookie.setPath("/"); // 쿠키의 경로를 설정
+            cookie.setMaxAge(0); // 쿠키 만료
+            response.addCookie(cookie); // 응답에 쿠키 추가
+            
+            return ResponseEntity.ok("사용자가 성공적으로 탈퇴되었습니다.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("탈퇴 처리 중 오류가 발생했습니다.");
+        }
+    }
+    
+    
     
     @Data
     static class PasswordChangeRequest {
@@ -311,6 +339,14 @@ public class LoginController {
         private String userNickname;
         
     }
+ 
+    
+//------------------------------------------------
+    
+    
+    
+    
+    
     
 }
 

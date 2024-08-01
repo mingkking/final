@@ -117,7 +117,7 @@ const Profile = ({ onLogout }) => {
           <ListItemText>비밀번호변경</ListItemText>
         </MenuItem>
         
-        <MenuItem>
+        <MenuItem component={Link} to="/DeleteMember" onClick={handleClose2}>
           <ListItemIcon>
             <IconLeaf width={20} />
           </ListItemIcon>

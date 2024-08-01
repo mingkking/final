@@ -1,6 +1,8 @@
 package com.example.mgr.domain;
  
-import java.util.Date; 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
  
@@ -15,4 +17,5 @@ public class MgrMemberVO {
 	private String user_nickname;
 	private String user_pass;
 	private String user_tel;
+	private String user_birthdate;
 }

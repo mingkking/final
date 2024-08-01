@@ -1,12 +1,12 @@
-import React, { useContext, useState,useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Typography, Grid, Pagination, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import PageContainer from '../../../components/container/PageContainer';
 import DashboardCard from '../../../components/shared/DashboardCard';
 import BlankCard from '../../../components/shared/BlankCard';
-import MemberListTest from './components/MemberList';
 import mainContext from "../main/contexts/MainContext";
 import axios from 'axios';
+
 const MemberList = () => {
   const value = useContext(mainContext);
   const member10List = 10; // 페이지당 멤버 수
@@ -56,23 +56,23 @@ const MemberList = () => {
   // 현재 페이지에 해당하는 멤버들을 잘라내기
   const sliceMembers = filteredMembers.slice(indexFirstMember, indexLastMember);
 
-
-  useEffect(()=>{
+  useEffect(() => {
     axios.get('http://localhost:8080/manager/memberList')
-    .then((result) => {
-      // manager/main 새로고침 할 때 마다 DB에서 값 받아서 데이터 넣기
-      value.actions.setMemberList(result.data.selectMemberList);
-    });
-  },[]);
+      .then((result) => {
+        // manager/memberList 새로고침 할 때 마다 DB에서 값 받아서 데이터 넣기
+        value.actions.setMemberList(result.data.selectMemberList);
+      });
+  }, []);
 
   return (
-    <PageContainer title="Typography" description="this is Typography">
+    <PageContainer title="회원 목록" description="회원 목록을 확인합니다.">
       <Grid container spacing={3}>
         <Grid item sm={12}>
           <DashboardCard>
-            <Typography variant='h2' style={{ marginBottom: '40px', color: '#000000' }}>-- 회원목록 --</Typography>
+            <Typography variant='h2' color='primary' style={{ textAlign: 'center', marginTop: '30px', marginBottom: '60px' }}>회원 목록</Typography>
+            
             {/* 필터링 및 검색 */}
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '20px' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '30px' }}>
               <FormControl variant="outlined" style={{ marginRight: '10px', minWidth: '120px' }}>
                 <InputLabel>필터</InputLabel>
                 <Select
@@ -106,35 +106,63 @@ const MemberList = () => {
                 검색
               </Button>
             </div>
+            
             {/* 멤버 리스트 헤더 */}
-            <div style={{ display: 'flex' }} >
-              <Typography variant="h4" style={{ marginBottom: '20px', marginLeft: '30px' }}>번호</Typography>
-              <Typography variant="h4" style={{ marginBottom: '20px', marginLeft: '70px' }}>이름</Typography>
-              <Typography variant="h4" style={{ marginBottom: '20px', marginLeft: '100px' }}>닉네임</Typography>
-              <Typography variant="h4" style={{ marginBottom: '20px', marginLeft: '100px' }}>전화번호</Typography>
-              <Typography variant="h4" style={{ marginBottom: '20px', marginLeft: '120px' }}>이메일</Typography>
-              <Typography variant="h4" style={{ marginBottom: '20px', marginLeft: '100px' }}>가입일자</Typography>
-              <Typography variant="h4" style={{ marginBottom: '20px', marginLeft: '70px' }}>구독일시</Typography>
-            </div>
-            {/* 멤버 리스트 */}
-            <Grid container spacing={3}>
-              <Grid item sm={12}>
-                {sliceMembers.map((member) => (
-                  <div key={member.user_num} style={{ cursor: 'pointer', marginBottom: '20px' }} onClick={() => handleClickDetail(member.user_num)}>
-                  <BlankCard >
-                    <MemberListTest 
-                      num={member.user_num}
-                      name={member.user_name}
-                      nickname={member.user_nickname}
-                      tel={member.user_tel}
-                      email={member.user_email}
-                      created_at={member.created_at}
-                    />
-                  </BlankCard>
-                  </div>
-                ))}
+            <Grid container spacing={3} style={{ marginBottom: '20px' }}>
+              <Grid item xs={2}>
+                <Typography variant='h5' align='center'>회원번호</Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <Typography variant='h5' align='center'>이름</Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <Typography variant='h5' align='center'>닉네임</Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <Typography variant='h5' align='center'>전화번호</Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <Typography variant='h5' align='center'>가입일자</Typography>                  
+              </Grid>
+              <Grid item xs={2}>
+                <Typography variant='h5' align='center'>구독일자</Typography>
               </Grid>
             </Grid>
+
+            {/* 분류선 */}
+            <div style={{ borderBottom: '1px solid #c9c9c9', marginBottom: '20px' }} /> 
+
+
+            {/* 멤버 리스트 */}
+            <Grid container spacing={3}>
+              {sliceMembers.map((member) => (
+                <Grid item xs={12} key={member.user_num} style={{ cursor: 'pointer', marginBottom: '5px' }} onClick={() => handleClickDetail(member.user_num)}>
+                  <BlankCard>
+                    <Grid container spacing={3} style={{ paddingTop: '30px', paddingBottom: '30px' }}>
+                      <Grid item xs={2}>
+                        <Typography variant='h6' align='center'>{member.user_num}</Typography>
+                      </Grid>
+                      <Grid item xs={2}>
+                        <Typography variant='h6' align='center'>{member.user_name}</Typography>
+                      </Grid>
+                      <Grid item xs={2}>
+                        <Typography variant='h6' align='center'>{member.user_nickname}</Typography>
+                      </Grid>
+                      <Grid item xs={2}>
+                        <Typography variant='h6' align='center'>{member.user_tel}</Typography>
+                      </Grid>
+                      <Grid item xs={2}>
+                        <Typography variant='h6' align='center'>{member.created_at}</Typography>                  
+                      </Grid>
+                      <Grid item xs={2}>
+                        <Typography variant='h6' align='center'>2024-07-21</Typography>
+                      </Grid>
+                    </Grid>
+                  </BlankCard>
+                </Grid>
+              ))}
+            </Grid>
+            
             {/* 페이지 네비게이션 */}
             <Pagination
               count={Math.ceil(filteredMembers.length / member10List)} // 총 페이지 수 계산

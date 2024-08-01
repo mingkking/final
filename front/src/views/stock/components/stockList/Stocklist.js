@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
@@ -12,100 +12,159 @@ import {
   CircularProgress,
   Typography,
   Box,
-  useTheme
+  useTheme,
+  TextField,
+  InputAdornment,
+  IconButton
 } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
 const Stocklist = ({ onStockSelect }) => {
   const [stocks, setStocks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [hasMore, setHasMore] = useState(true);
+  const [lastLoadedId, setLastLoadedId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const observer = useRef();
   const navigate = useNavigate();
   const theme = useTheme();
 
-  useEffect(() => {
-    const fetchStocks = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get('http://localhost:8080/stocks');
-        setStocks(response.data);
-        setLoading(false);
-      } catch (err) {
-        console.error('주식 데이터 불러오기 오류:', err);
-        setError('주식 데이터를 불러오는 데 실패했습니다.');
-        setLoading(false);
+  const lastStockElementRef = useCallback(node => {
+    if (loading) return;
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && hasMore) {
+        loadMoreStocks();
       }
-    };
+    });
+    if (node) observer.current.observe(node);
+  }, [loading, hasMore]);
 
-    fetchStocks();
-  }, []);
+  const fetchStocks = async (url) => {
+    try {
+      setLoading(true);
+      const response = await axios.get(url);
+      setStocks(prevStocks => [...prevStocks, ...response.data.stocks]);
+      setHasMore(response.data.hasMore);
+      setLastLoadedId(response.data.lastLoadedId);
+      setLoading(false);
+    } catch (err) {
+      console.error('주식 데이터 불러오기 오류:', err);
+      setError('주식 데이터를 불러오는 데 실패했습니다.');
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    setStocks([]);
+    setLastLoadedId(null);
+    setHasMore(true);
+    fetchStocks(`http://localhost:8080/stocks?limit=15&search=${searchTerm}`);
+  }, [searchTerm]);
+
+  const loadMoreStocks = () => {
+    if (hasMore) {
+      fetchStocks(`http://localhost:8080/stocks?limit=15&lastId=${lastLoadedId}&search=${searchTerm}`);
+    }
+  };
 
   const handleStockSelect = (stock) => {
     onStockSelect(stock);
     navigate(`/stock/${stock.stock_code}`);
   };
 
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
   if (error) return <Typography color="error">{error}</Typography>;
-  if (loading) return <Box display="flex" justifyContent="center" p={4}><CircularProgress /></Box>;
 
   return (
-    <TableContainer 
-      component={Paper} 
-      sx={{ 
-        flexGrow: 1,
-        overflow: 'auto',
-        '&::-webkit-scrollbar': {
-          width: '0.4em'
-        },
-        '&::-webkit-scrollbar-track': {
-          background: 'transparent'
-        },
-        '&::-webkit-scrollbar-thumb': {
-          background: 'rgba(0,0,0,.1)'
-        },
-        '&:hover::-webkit-scrollbar-thumb': {
-          background: 'rgba(0,0,0,.2)'
-        },
-        scrollbarWidth: 'thin',
-        scrollbarColor: `rgba(0,0,0,.2) transparent`,
-      }}
-    >
-      <Table stickyHeader>
-        <TableHead>
-          <TableRow>
-            <TableCell sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, fontWeight: 'bold' }}>종목명</TableCell>
-            <TableCell sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, fontWeight: 'bold' }}>종목코드</TableCell>
-            <TableCell align="right" sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, fontWeight: 'bold' }}>고가</TableCell>
-            <TableCell align="right" sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, fontWeight: 'bold' }}>저가</TableCell>
-            <TableCell align="right" sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, fontWeight: 'bold' }}>종가</TableCell>
-            <TableCell align="right" sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, fontWeight: 'bold' }}>날짜</TableCell>
-            <TableCell align="right" sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, fontWeight: 'bold' }}>유형</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {stocks.map((stock) => (
-            <TableRow
-              key={`${stock.stock_code}-${stock.record_date}`}
-              onClick={() => handleStockSelect(stock)}
-              hover
-              sx={{ 
-                cursor: 'pointer',
-                '&:hover': {
-                  backgroundColor: theme.palette.action.hover,
-                },
-              }}
-            >
-              <TableCell component="th" scope="row" sx={{ fontWeight: 500 }}>{stock.name}</TableCell>
-              <TableCell>{stock.stock_code}</TableCell>
-              <TableCell align="right">{stock.high_price?.toLocaleString()}</TableCell>
-              <TableCell align="right">{stock.low_price?.toLocaleString()}</TableCell>
-              <TableCell align="right">{stock.closing_price?.toLocaleString()}</TableCell>
-              <TableCell align="right">{stock.record_date}</TableCell>
-              <TableCell align="right">{stock.stock_type}</TableCell>
+    <Box>
+      <TextField
+        fullWidth
+        variant="outlined"
+        placeholder="종목명 또는 종목코드로 검색"
+        value={searchTerm}
+        onChange={handleSearch}
+        sx={{ mb: 2 }}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton>
+                <SearchIcon />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+      />
+      <TableContainer 
+        component={Paper} 
+        sx={{ 
+          flexGrow: 1,
+          height: 'calc(100vh - 200px)', // Adjust based on your layout
+          overflow: 'auto',
+          '&::-webkit-scrollbar': {
+            width: '0.4em'
+          },
+          '&::-webkit-scrollbar-track': {
+            background: 'transparent'
+          },
+          '&::-webkit-scrollbar-thumb': {
+            background: 'rgba(0,0,0,.1)'
+          },
+          '&:hover::-webkit-scrollbar-thumb': {
+            background: 'rgba(0,0,0,.2)'
+          },
+          scrollbarWidth: 'thin',
+          scrollbarColor: `rgba(0,0,0,.2) transparent`,
+        }}
+      >
+        <Table stickyHeader>
+          <TableHead>
+            <TableRow>
+              <TableCell sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, fontWeight: 'bold' }}>종목명</TableCell>
+              <TableCell sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, fontWeight: 'bold' }}>종목코드</TableCell>
+              <TableCell align="right" sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, fontWeight: 'bold' }}>고가</TableCell>
+              <TableCell align="right" sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, fontWeight: 'bold' }}>저가</TableCell>
+              <TableCell align="right" sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, fontWeight: 'bold' }}>종가</TableCell>
+              <TableCell align="right" sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, fontWeight: 'bold' }}>날짜</TableCell>
+              <TableCell align="right" sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, fontWeight: 'bold' }}>유형</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {stocks.map((stock, index) => (
+              <TableRow
+                key={`${stock.stock_code}-${stock.record_date}`}
+                onClick={() => handleStockSelect(stock)}
+                hover
+                ref={stocks.length === index + 1 ? lastStockElementRef : null}
+                sx={{ 
+                  cursor: 'pointer',
+                  '&:hover': {
+                    backgroundColor: theme.palette.action.hover,
+                  },
+                }}
+              >
+                <TableCell component="th" scope="row" sx={{ fontWeight: 500 }}>{stock.name}</TableCell>
+                <TableCell>{stock.stock_code}</TableCell>
+                <TableCell align="right">{stock.high_price?.toLocaleString()}</TableCell>
+                <TableCell align="right">{stock.low_price?.toLocaleString()}</TableCell>
+                <TableCell align="right">{stock.closing_price?.toLocaleString()}</TableCell>
+                <TableCell align="right">{stock.record_date}</TableCell>
+                <TableCell align="right">{stock.stock_type}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      {loading && 
+        <Box display="flex" justifyContent="center" p={2}>
+          <CircularProgress />
+        </Box>
+      }
+    </Box>
   );
 };
 
