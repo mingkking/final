@@ -21,14 +21,20 @@ public class StockController {
     private StockService stockService;
     
     @GetMapping("/stocks")
-    public ResponseEntity<?> stockList() {
+    public ResponseEntity<?> stockList(@RequestParam(defaultValue = "15") int limit,
+                                       @RequestParam(required = false) String lastId,
+                                       @RequestParam(required = false) String search) {
         try {
-            List<StockVO> stocks = stockService.selectStockList();
-            if (stocks.isEmpty()) {
-                logger.warn("No stocks found");
-                return ResponseEntity.noContent().build();
-            }
-            return ResponseEntity.ok(stocks);
+            List<StockVO> stocks = stockService.selectStockList(limit, lastId,search);
+            boolean hasMore = stocks.size() == limit;
+            String newLastId = hasMore ? stocks.get(stocks.size() - 1).getStock_code() : null;
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("stocks", stocks);
+            response.put("hasMore", hasMore);
+            response.put("lastLoadedId", newLastId);
+
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             logger.error("Error fetching stock list", e);
             return ResponseEntity.internalServerError().body("Error fetching stock list");

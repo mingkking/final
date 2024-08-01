@@ -34,21 +34,7 @@ const StockMain = () => {
         </Typography>
       </Paper>
       <Container maxWidth="lg" sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-        <Grid container spacing={2} sx={{ flexGrow: 1 }}>
-          <Grid item xs={12} md={4}>
-            <Card elevation={3} sx={{ 
-              height: isMobile ? 'auto' : '200px', // 고정 높이 설정
-              display: 'flex', 
-              flexDirection: 'column',
-              justifyContent: 'center', 
-              alignItems: 'center',
-              p: 2
-            }}>
-              <Typography variant="body1" color="text.secondary">
-                검색 기능이 들어갈 자리입니다.
-              </Typography>
-            </Card>
-          </Grid>
+        <Grid>
           <Grid item xs={12} md={8} sx={{ display: 'flex', flexDirection: 'column', height: isMobile ? 'auto' : 'calc(100vh - 200px)' }}>
             <Card elevation={3} sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
               <Stocklist onStockSelect={handleStockSelect} />
