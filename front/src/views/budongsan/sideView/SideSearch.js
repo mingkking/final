@@ -29,9 +29,13 @@ const SideSearch = ({ onPropertySelect }) => {  // onPropertySelect를 props로 
         onPropertySelect(property);  // 선택된 프로퍼티를 상위 컴포넌트로 전달합니다.
     };
 
+    const handleSubmit = (e) => {
+        e.preventDefault(); // Enter 키 입력 시 폼 제출 방지
+    };
+
     return (
         <div>
-            <form className="d-flex">
+            <form className="d-flex" onSubmit={handleSubmit}>
                 <input
                     className="form-control me-sm-2"
                     type="search"

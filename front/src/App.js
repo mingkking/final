@@ -43,7 +43,9 @@ import { MainProvider } from './views/manager/main/contexts/MainContext';
 import Community from './views/community/Community';
 import InsertCommunity from './views/community/InsertCommunity';
 import { CommunityProvider } from './views/community/contexts/CommunityContext';
+import { BudongsanProvider } from './views/budongsan/sideView/componoets/BudongsanContext';
 import { LoginProvider } from './views/login/contexts/LoginContext';
+
 
 function AppContent() {
   const location = useLocation();
@@ -111,11 +113,13 @@ function App() {
         <LoginProvider>
           <RoomListProvider>
             <CommunityProvider>
-              <MainProvider>
-                <ThemeProvider theme={theme}>
-                  <AppContent />
-                </ThemeProvider>
-              </MainProvider>
+              <BudongsanProvider>
+                <MainProvider>
+                  <ThemeProvider theme={theme}>
+                    <AppContent />
+                  </ThemeProvider>
+                </MainProvider>
+              </BudongsanProvider>
             </CommunityProvider>
           </RoomListProvider>
         </LoginProvider>

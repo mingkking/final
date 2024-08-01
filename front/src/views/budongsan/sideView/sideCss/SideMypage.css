@@ -1,0 +1,84 @@
+/* SideMypage.css */
+
+/* Container styling */
+.container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+}
+
+/* Heading styling */
+.container h2 {
+    font-size: 22px; /* Slightly smaller heading */
+    margin-bottom: 15px;
+    color: #333;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 8px;
+}
+
+/* Property list styling */
+.property-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Property item styling */
+.property-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    padding: 12px; /* Slightly reduced padding */
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+    text-align: left; /* Ensure text is left-aligned */
+}
+
+.property-item:hover {
+    background-color: #f0f0f0;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Property details styling */
+.property-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.property-details p {
+    margin: 4px 0; /* Reduced margin for a more compact look */
+    color: #555;
+    font-size: 14px; /* Smaller font size */
+}
+
+/* Label and value styling */
+.property-details .label {
+    font-weight: bold;
+    color: #333;
+}
+
+.property-details .value {
+    margin-left: 8px; /* Reduced margin */
+    color: #666; /* Slightly lighter color for values */
+}
+
+/* Specific styling for address */
+.property-details .address {
+    font-weight: bold;
+    color: #0056b3; /* Blue color for address */
+    background-color: #e6f7ff; /* Light blue background */
+    padding: 4px 6px; /* Padding for background */
+    border-radius: 4px; /* Rounded corners */
+    display: inline-block; /* To fit the background and padding */
+}
+
+/* Loader and error message styling */
+.loader,
+.error {
+    font-size: 16px; /* Slightly smaller font size */
+    color: #d9534f;
+    text-align: center;
+    margin: 20px 0;
+}

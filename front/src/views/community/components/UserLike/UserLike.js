@@ -8,6 +8,9 @@ const UserLike = (props) => {
     const navigate = useNavigate();
     const [isLike, setIsLike] = useState(false);
 
+
+    
+
     useEffect(() => {
 
         let liked = false;
@@ -21,6 +24,7 @@ const UserLike = (props) => {
         setIsLike(liked);
 
     }, [communityValue.state.selectAllUserLike, props.postId, communityValue.state.userNum]);
+
 
     const likeBtn = () => {
         setIsLike(!isLike);
