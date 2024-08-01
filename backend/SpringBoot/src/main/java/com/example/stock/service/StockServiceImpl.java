@@ -15,8 +15,8 @@ public class StockServiceImpl implements StockService{
 	private StockDAO stockDAO;
 
 	@Override //주식 목록 조회
-	public List<StockVO> selectStockList() {
-	    return stockDAO.selectStockList();
+	public List<StockVO> selectStockList(int limit, String lastId, String search) {
+	    return stockDAO.selectStockList(limit, lastId,search);
 	}
 
 	@Override //주식 상세 조회
