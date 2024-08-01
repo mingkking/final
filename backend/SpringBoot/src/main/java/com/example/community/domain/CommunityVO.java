@@ -35,6 +35,9 @@ public class CommunityVO {
     @Column(name = "title", length = 300, nullable = false)
     private String title;
 
+    @Column(name = "image_path", length = 1000, nullable = true)
+    private String image_path;
+
     @Lob
     @Column(name = "contents", nullable = false)
     private String contents;

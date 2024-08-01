@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import './PopularPosts.css';
 import CommunityContext from '../../contexts/CommunityContext';
+import { Link } from 'react-router-dom';
 
 const PopularPosts = () => {
     const communityValue = useContext(CommunityContext);
@@ -46,23 +47,25 @@ const PopularPosts = () => {
 
             {popularList.length > 0 ? (
                 popularList.map((popularPost, i) => (
-                    <div key={i} className="popular-posts-card">
+                    <Link className="no-underline-link" to={`/DetailCommunity?id=${popularPost.id}`} state={{ id: popularPost.id }}>
+                        <div key={i} className="popular-posts-card">
 
-                        <div className="popular-posts-content">
-                            {popularPost.contents.length > 15
-                                ? `${popularPost.contents.substring(0, 15)}...`
-                                : popularPost.contents}
-                        </div>
-                        <div className="popular-posts-item-top">
-                            <div className="popular-posts-item-profile">
-                                <img src="profile.jpeg" alt="Profile" className="popular-posts-profile-image" />
+                            <div className="popular-posts-content">
+                                {popularPost.contents.length > 15
+                                    ? `${popularPost.contents.substring(0, 15)}...`
+                                    : popularPost.contents}
                             </div>
-                            <div className="popular-posts-item-info">
-                                <div className="popular-posts-item-created_at">{popularPost.user_num.userNum} &bull; {createAtCal(popularPost.created_at)}</div>
+                            <div className="popular-posts-item-top">
+                                <div className="popular-posts-item-profile">
+                                    <img src="profile.jpeg" alt="Profile" className="popular-posts-profile-image" />
+                                </div>
+                                <div className="popular-posts-item-info">
+                                    <div className="popular-posts-item-created_at">{popularPost.user_num.userNickname} &bull; {createAtCal(popularPost.created_at)}</div>
+                                </div>
+                                <img src='./123.jpeg' className='popular-posts-item-upload' />
                             </div>
-                            <img src='./123.jpeg' className='popular-posts-item-upload' />
                         </div>
-                    </div>
+                    </Link>
                 ))
             ) : (
                 <div className="no-popular-posts">

@@ -7,21 +7,19 @@ const UserLike = (props) => {
     const communityValue = useContext(CommunityContext);
     const navigate = useNavigate();
     const [isLike, setIsLike] = useState(false);
-
-
-    
+    const userLikeList = communityValue.state.selectAllUserLike || [];
 
     useEffect(() => {
 
-        let liked = false;
-
-        communityValue.state.selectAllUserLike.map(userLike => {
-            if (userLike.id.id === props.postId && userLike.user_num.userNum === communityValue.state.userNum) {
-                liked = true;
-            }
-        });
-
-        setIsLike(liked);
+        if(userLikeList.length > 0){
+            let liked = false;
+            userLikeList.map(userLike => {
+                if (userLike.id.id === props.postId && userLike.user_num.userNum === communityValue.state.userNum) {
+                    liked = true;
+                }
+            });
+            setIsLike(liked);
+        }
 
     }, [communityValue.state.selectAllUserLike, props.postId, communityValue.state.userNum]);
 
