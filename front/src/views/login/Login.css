@@ -7,9 +7,9 @@
     border-radius: 8px;
     margin: auto;
     position: relative; /* absolute -> relative로 변경 */
-    margin-top: 10%;
+    margin-top: 5%;
     margin-bottom: 6%;
-    left: 14%;
+    left: 10%;
     transform: translateX(-50%);
     
     
