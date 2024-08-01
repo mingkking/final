@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { 
   Container, 
   Card, 
-  Grid, 
   Typography, 
   Box, 
   useTheme, 
@@ -21,7 +20,7 @@ const StockMain = () => {
   };
 
   return (
-    <div className='container'>
+    <Container>
     <Box sx={{ 
       bgcolor: theme.palette.background.default, 
       minHeight: '100vh', 
@@ -34,17 +33,22 @@ const StockMain = () => {
         </Typography>
       </Paper>
       <Container maxWidth="lg" sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-        <Grid>
-          <Grid item xs={12} md={8} sx={{ display: 'flex', flexDirection: 'column', height: isMobile ? 'auto' : 'calc(100vh - 200px)' }}>
-            <Card elevation={3} sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-              <Stocklist onStockSelect={handleStockSelect} />
-            </Card>
-          </Grid> 
-        </Grid>
+        <Card 
+          elevation={3} 
+          sx={{ 
+            flexGrow: 1, 
+            display: 'flex', 
+            flexDirection: 'column', 
+            overflow: 'hidden',
+            height: isMobile ? 'auto' : 'calc(100vh - 200px)' // 모바일에서는 auto, 데스크톱에서는 고정 높이
+          }}
+        >
+          <Stocklist onStockSelect={handleStockSelect} />
+        </Card>
       </Container>
     </Box>
-    </div>
+    </Container>
   );
 };
 
-export default StockMain;
+export default StockMain; 

@@ -41,11 +41,11 @@ const Stocklist = ({ onStockSelect }) => {
     if (node) observer.current.observe(node);
   }, [loading, hasMore]);
 
-  const fetchStocks = async (url) => {
+  const fetchStocks = async (url, isInitialLoad = false) => {
     try {
       setLoading(true);
       const response = await axios.get(url);
-      setStocks(prevStocks => [...prevStocks, ...response.data.stocks]);
+      setStocks(prevStocks => isInitialLoad ? response.data.stocks : [...prevStocks, ...response.data.stocks]);
       setHasMore(response.data.hasMore);
       setLastLoadedId(response.data.lastLoadedId);
       setLoading(false);
@@ -60,12 +60,12 @@ const Stocklist = ({ onStockSelect }) => {
     setStocks([]);
     setLastLoadedId(null);
     setHasMore(true);
-    fetchStocks(`http://localhost:8080/stocks?limit=15&search=${searchTerm}`);
+    fetchStocks(`http://localhost:8080/stock/search?query=${searchTerm}&page=0&size=15`, true);
   }, [searchTerm]);
 
   const loadMoreStocks = () => {
-    if (hasMore) {
-      fetchStocks(`http://localhost:8080/stocks?limit=15&lastId=${lastLoadedId}&search=${searchTerm}`);
+    if (hasMore && !loading) {
+      fetchStocks(`http://localhost:8080/stock/search?query=${searchTerm}&lastId=${lastLoadedId}&size=15`);
     }
   };
 
@@ -103,7 +103,7 @@ const Stocklist = ({ onStockSelect }) => {
         component={Paper} 
         sx={{ 
           flexGrow: 1,
-          height: 'calc(100vh - 200px)', // Adjust based on your layout
+          height: 'calc(100vh - 250px)', // 검색 필드 공간 고려
           overflow: 'auto',
           '&::-webkit-scrollbar': {
             width: '0.4em'
