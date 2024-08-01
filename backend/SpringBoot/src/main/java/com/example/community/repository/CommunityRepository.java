@@ -20,10 +20,18 @@ public interface CommunityRepository extends JpaRepository<CommunityVO, Integer>
     public CommunityVO selectOneCommunity(Integer id) throws Exception;
 
     // 인기 글 조회
-    @Query(value = "SELECT * FROM COMMUNITY ORDER BY created_at DESC", nativeQuery = true)
+    @Query(value = "SELECT c.*, u.cnt\r\n" + //
+                "FROM community c\r\n" + //
+                "JOIN (\r\n" + //
+                "    SELECT ID, COUNT(*) AS cnt\r\n" + //
+                "    FROM USERLIKE\r\n" + //
+                "    GROUP BY ID\r\n" + //
+                "    ORDER BY cnt DESC\r\n" + //
+                ") u ON c.id = u.id\r\n" + //
+                "WHERE u.cnt IS NOT NULL\r\n" + //
+                "AND ROWNUM <= 7\r\n" + //
+                "ORDER BY u.cnt DESC, c.created_at ASC", nativeQuery = true)
     public List<CommunityVO> selectAllPopularCommunity() throws Exception;
-
-    public void save(UserLikeVO userLikeVO);
 
 }      
  

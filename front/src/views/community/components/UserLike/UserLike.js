@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CommunityContext from "../../contexts/CommunityContext";
 import { useNavigate } from "react-router";
 
@@ -8,25 +8,36 @@ const UserLike = (props) => {
     const navigate = useNavigate();
     const [isLike, setIsLike] = useState(false);
 
+    useEffect(() => {
+
+        let liked = false;
+
+        communityValue.state.selectAllUserLike.map(userLike => {
+            if (userLike.id.id === props.postId && userLike.user_num.userNum === communityValue.state.userNum) {
+                liked = true;
+            }
+        });
+
+        setIsLike(liked);
+
+    }, [communityValue.state.selectAllUserLike, props.postId, communityValue.state.userNum]);
+
     const likeBtn = () => {
         setIsLike(!isLike);
-
         likePro();
     }
 
     const likePro = async () => {
-        console.log("communityValue.state.userNum", communityValue.state.userNum);
-        console.log("props.postId", props.postId);
+
         const userLike = {
             user_num: { userNum: communityValue.state.userNum },
-            id: { id: props.postId},
+            id: { id: props.postId },
         }
-
-        axios.post("http://localhost:8080/insertUserLike", userLike) // 데이터 -> 컨트롤러 요청
-
-            .then((res) => {                                             // DB 입력 요청 후 응 답
-                console.log("insertUserLike res :", res.data);           // 응답 데이터 확인
-            })
+        if (!isLike) {
+            axios.post("http://localhost:8080/insertUserLike", userLike) // 데이터 -> 컨트롤러 요청
+        } else {
+            axios.post("http://localhost:8080/deleteUserLike", userLike) // 데이터 -> 컨트롤러 요청
+        }
 
     }
 

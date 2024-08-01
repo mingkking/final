@@ -1,85 +1,66 @@
-/* PopularPosts.css */
+.popular-posts-header {
+  text-align: left;
+}
 
-.popular-posts-container {
-    background-color: #f9f9f9; /* 부드러운 배경색 */
-    border-radius: 8px; /* 모서리 둥글게 */
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
-    width: 100%;
-    max-width: 400px; /* 최대 너비 설정 */
-    margin: auto; /* 중앙 정렬 */
-  }
-  
-  .popular-posts-header {
-    text-align: left;
-    border-bottom: 2px solid #e0e0e0; /* 헤더 아래 경계선 */
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-  }
-  
-  .popular-posts-header h3 {
-    margin: 0;
-    font-size: 1.5rem;
-    color: #333; /* 어두운 글자 색상 */
-  }
-  
-  .popular-posts-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .popular-posts-controls select,
-  .popular-posts-controls button {
-    padding: 8px 12px;
-    font-size: 1rem;
-    border-radius: 4px; /* 버튼과 셀렉트 박스 모서리 둥글게 */
-    border: 1px solid #ddd; /* 경계선 색상 */
-    background-color: #fff; /* 배경 색상 */
-  }
-  
-  .popular-posts-controls select {
-    flex: 1;
-    margin-right: 10px; /* 버튼과의 간격 */
-  }
-  
-  .popular-posts-controls button {
-    background-color: #007bff; /* 버튼 배경 색상 */
-    color: #fff; /* 버튼 텍스트 색상 */
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .popular-posts-controls button:hover {
-    background-color: #0056b3; /* 버튼 호버 시 색상 변화 */
-  }
-  
-  .popular-posts-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px; /* 카드 간의 간격 */
-  }
-  
-  .popular-post-card {
-    background-color: #fff; /* 카드 배경 색상 */
-    border: 1px solid #ddd; /* 카드 경계선 색상 */
-    border-radius: 8px; /* 카드 모서리 둥글게 */
-    padding: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 카드 그림자 */
-  }
-  
-  .popular-post-title {
-    font-size: 1.25rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #333; /* 어두운 글자 색상 */
-  }
-  
-  .popular-post-content {
-    font-size: 1rem;
-    color: #666; /* 내용 텍스트 색상 */
-    line-height: 1.5; /* 줄 간격 */
-  }
-  
+.popular-posts-card {
+  background-color: #fff; /* 카드 배경 색상 */
+  border: 1px solid #ddd; /* 카드 경계선 색상 */
+  border-radius: 8px; /* 카드 모서리 둥글게 */
+  padding: 10px 13px; /* 카드 내 여백: 좌우 패딩을 13px로 설정 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 카드 그림자 */
+  margin-bottom: 10px; /* 카드 간의 간격 */
+  display: flex;
+  flex-direction: column; /* 카드 내용 세로 정렬 */
+  text-align: left;
+  height: 95px; /* 카드 높이를 자동으로 조정 */
+  max-height: 120px; /* 카드의 최대 높이 설정 */
+}
+
+.popular-posts-card:hover {
+  cursor: pointer;
+  background-color: whitesmoke;
+}
+
+.popular-posts-content {
+  font-size: 14px; /* 콘텐츠 글자 크기 */
+  color: #666; /* 콘텐츠 텍스트 색상 */
+  margin-bottom: 8px; /* 콘텐츠와 다음 요소 간의 간격 줄이기 */
+  font-weight: bold;
+  overflow: hidden; /* 내용이 카드 영역을 넘어가지 않도록 */
+}
+
+.popular-posts-item-top {
+  display: flex;
+  align-items: center; /* 세로 중앙 정렬 */
+  justify-content: space-between; /* 아이템을 양쪽 끝에 배치 */
+}
+
+.popular-posts-item-profile {
+  flex-shrink: 0; /* 프로필 이미지 크기 고정 */
+}
+
+.popular-posts-profile-image {
+  width: 32px; /* 프로필 이미지 크기 줄이기 */
+  height: 32px;
+  border-radius: 50%; /* 원형 프로필 이미지 */
+  border: 2px solid #ddd; /* 프로필 이미지 경계선 색상 */
+  object-fit: cover; /* 이미지 크기 맞춤 */
+}
+
+.popular-posts-item-info {
+  flex-grow: 1; /* 텍스트 영역 확장 */
+  margin-left: 8px; /* 프로필 이미지와의 간격 줄이기 */
+}
+
+.popular-posts-item-created_at {
+  font-size: 12px; /* 생성 시간 텍스트 크기 줄이기 */
+  color: #999; /* 생성 시간 텍스트 색상 */
+}
+
+.popular-posts-item-upload {
+  width: 48px; /* 업로드 이미지 너비 줄이기 */
+  height: 48px; /* 업로드 이미지 높이 줄이기 */
+  object-fit: cover; /* 이미지 크기 맞춤 */
+  margin-left: 8px; /* 이미지와 텍스트 간의 간격 줄이기 */
+  border-radius: 4px; /* 업로드 이미지 모서리 둥글게 */
+}

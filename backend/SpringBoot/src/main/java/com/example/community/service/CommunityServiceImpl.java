@@ -9,12 +9,16 @@ import org.springframework.stereotype.Service;
 import com.example.community.domain.CommunityVO;
 import com.example.community.domain.UserLikeVO;
 import com.example.community.repository.CommunityRepository;
+import com.example.community.repository.UserLikeRepository;
 
 @Service
 public class CommunityServiceImpl implements CommunityService{
 
     @Autowired
     private CommunityRepository communityRepository;
+
+    @Autowired
+    private UserLikeRepository userLikeRepository;
 
     @Override
     public List<CommunityVO> selectAllCommunity() throws Exception {
@@ -48,8 +52,25 @@ public class CommunityServiceImpl implements CommunityService{
     }
 
     @Override
-    public void insertUserLike(UserLikeVO userLikeVO) throws Exception {
-        communityRepository.save(userLikeVO);
+    public List<CommunityVO> selectAllPopularCommunity() throws Exception {
+        return communityRepository.selectAllPopularCommunity();
     }
+
+    @Override
+    public List<UserLikeVO> selectAllUserLike() throws Exception {
+        return userLikeRepository.findAll();
+    }
+
+    @Override
+    public void insertUserLike(UserLikeVO userLikeVO) throws Exception {
+        userLikeRepository.save(userLikeVO);
+    }
+
+    @Override
+    public void deleteUserLike(Integer userNum, Integer id) throws Exception {
+        userLikeRepository.deleteUserLike(userNum, id);;
+    }
+
+    
 
 }

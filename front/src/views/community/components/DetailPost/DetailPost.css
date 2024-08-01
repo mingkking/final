@@ -112,6 +112,11 @@
   grid-area: middle;
 }
 
+.detailPost-item-middle:hover {
+  cursor: pointer;
+  background-color: whitesmoke;
+}
+
 .detailPost-item-bottom {
   grid-area: bottom;
 }
@@ -200,9 +205,9 @@
 .detailPost-item-replyBtn:hover,
 .detailPost-item-share:hover,
 .detailPost-item-bookmark:hover {
-  background-color: #6c757d;
+  background-color: whitesmoke;
   /* 부드러운 회색 블루 */
-  color: #fff;
+  color: black;
   transform: scale(1.5);
   /* 버튼 크기 확대 */
 }
