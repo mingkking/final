@@ -14,10 +14,15 @@ public class StockServiceImpl implements StockService{
 	@Autowired
 	private StockDAO stockDAO;
 
-	@Override //주식 목록 조회
-	public List<StockVO> selectStockList(int limit, String lastId, String search) {
-	    return stockDAO.selectStockList(limit, lastId,search);
-	}
+	@Override
+    public List<StockVO> searchStocks(String query, String lastId, int limit) {
+        return stockDAO.searchStocks(query, lastId, limit);
+    }
+
+    @Override
+    public List<StockVO> listStocks(String lastId, int limit) {
+        return stockDAO.listStocks(lastId, limit);
+    }
 
 	@Override //주식 상세 조회
 	public StockVO getStockInfo(String stock_code) {

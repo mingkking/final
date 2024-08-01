@@ -21,7 +21,7 @@ const ResultChart = ({ analysisResult, error }) => {
 
   const chartData = analysisResult.processedData.map(d => ({
     date: d.date,
-    '예측 확률': d.predicted_probability
+    '예측 수익률': d.predicted_return
   }));
 
   return (
@@ -32,14 +32,14 @@ const ResultChart = ({ analysisResult, error }) => {
         height={300}
         dataset={chartData}
         series={[
-          { dataKey: '예측 확률', label: '예측 확률', color: theme.palette.primary.main },
+          { dataKey: '예측 수익률', label: '예측 수익률', color: theme.palette.primary.main },
         ]}
         xAxis={[{ 
           scaleType: 'point', 
           dataKey: 'date',
           label: '날짜',
         }]}
-        yAxis={[{ label: '확률' }]}
+        yAxis={[{ label: '예측 수익률' }]}
         sx={{
           [`& .${axisClasses.left} .${axisClasses.label}`]: {
             transform: 'translate(-20px, 0)',
@@ -48,7 +48,19 @@ const ResultChart = ({ analysisResult, error }) => {
       />
       <Box sx={{ mt: 3 }}>
         <Typography variant="h6" gutterBottom>
-          모델 정확도: {(analysisResult.modelAccuracy * 100).toFixed(2)}%
+          모델 MAE: {analysisResult.modelMAE.toFixed(4)}
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          주식명: {analysisResult.stockName}
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          분석 기간: {analysisResult.startDate} ~ {analysisResult.endDate}
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          최종 예측 수익률: {analysisResult.processedData[analysisResult.processedData.length - 1].predicted_return.toFixed(2)}
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          최종 예측 움직임: {analysisResult.processedData[analysisResult.processedData.length - 1].predicted_movement}
         </Typography>
       </Box>
     </Box>

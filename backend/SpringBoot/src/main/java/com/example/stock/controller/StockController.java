@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.stock.domain.StockVO;
 import com.example.stock.service.StockService;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins="http://localhost:3000")
 @RestController
 public class StockController {
     
@@ -20,24 +20,46 @@ public class StockController {
     @Autowired
     private StockService stockService;
     
-    @GetMapping("/stocks")
-    public ResponseEntity<?> stockList(@RequestParam(defaultValue = "15") int limit,
-                                       @RequestParam(required = false) String lastId,
-                                       @RequestParam(required = false) String search) {
+    @GetMapping("/stock/search")
+    public ResponseEntity<?> searchStocks(
+            @RequestParam String query, 
+            @RequestParam(required = false) String lastId,
+            @RequestParam(defaultValue = "15") int limit) {
         try {
-            List<StockVO> stocks = stockService.selectStockList(limit, lastId,search);
+            List<StockVO> stocks = stockService.searchStocks(query, lastId, limit);
             boolean hasMore = stocks.size() == limit;
             String newLastId = hasMore ? stocks.get(stocks.size() - 1).getStock_code() : null;
-
+            
             Map<String, Object> response = new HashMap<>();
             response.put("stocks", stocks);
             response.put("hasMore", hasMore);
             response.put("lastLoadedId", newLastId);
-
+            
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            logger.error("Error fetching stock list", e);
-            return ResponseEntity.internalServerError().body("Error fetching stock list");
+            logger.error("Error searching stocks", e);
+            return ResponseEntity.internalServerError().body("Error searching stocks");
+        }
+    }
+    
+    @GetMapping("/stock/list")
+    public ResponseEntity<?> listStocks(
+            @RequestParam(required = false) String lastId,
+            @RequestParam(defaultValue = "15") int limit) {
+        try {
+            List<StockVO> stocks = stockService.listStocks(lastId, limit);
+            boolean hasMore = stocks.size() == limit;
+            String newLastId = hasMore ? stocks.get(stocks.size() - 1).getStock_code() : null;
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("stocks", stocks);
+            response.put("hasMore", hasMore);
+            response.put("lastLoadedId", newLastId);
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            logger.error("Error listing stocks", e);
+            return ResponseEntity.internalServerError().body("Error listing stocks");
         }
     }
     

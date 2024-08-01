@@ -9,8 +9,8 @@ import com.example.stock.domain.StockVO;
 public interface StockService {
 
 	//종목 목록 조회
-	List<StockVO> selectStockList(int limit, String lastId, String search);
-	
+    List<StockVO> searchStocks(String query, String lastId, int limit);
+    List<StockVO> listStocks(String lastId, int limit);
 	//종목 상세조회
 	 StockVO getStockInfo(String stock_code);
 	 List<StockVO> getStockPriceHistory(String stock_code, String range);

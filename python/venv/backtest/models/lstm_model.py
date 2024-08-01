@@ -77,14 +77,23 @@ def build_lstm_model(input_shape):
     return model
 
 def prepare_data_for_lstm(df, features, target, seq_length=10):
-    # 수익률 계산
+    # 수익률 계산 (필요하다면)
     df['returns'] = df[target].pct_change()
     
-    data = df[features + ['returns']].values
+    # NaN 값을 평균으로 대체
+    for column in features:
+        df[column] = df[column].fillna(df[column].mean())
+    
+    data = df[features].values
     scaler = MinMaxScaler()
     data_scaled = scaler.fit_transform(data)
     
-    X, y = create_sequences(data_scaled, seq_length)
+    X, y = [], []
+    for i in range(len(data_scaled) - seq_length):
+        X.append(data_scaled[i:(i + seq_length)])
+        y.append(data_scaled[i + seq_length, 0])  # closing_price를 타겟으로 사용
+    
+    X, y = np.array(X), np.array(y)
     return train_test_split(X, y, test_size=0.2, random_state=42), scaler
 
 def train_lstm_model(X_train, y_train):
