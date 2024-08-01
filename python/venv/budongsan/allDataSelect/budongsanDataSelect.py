@@ -3,7 +3,7 @@ import csv
 import os
 
 oracledb.init_oracle_client()
-con = oracledb.connect(user="scott", password="tiger", dsn="localhost:1521")
+con = oracledb.connect(user="investigate", password="team1", dsn="192.168.0.39:1521/XE")
 
 print('연결성공')
 

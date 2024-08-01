@@ -2,14 +2,21 @@ import oracledb
 import csv
 import os
 
+# Oracle 클라이언트 초기화 (필요한 경우만 호출)
 oracledb.init_oracle_client()
-con = oracledb.connect(user="scott", password="tiger", dsn="localhost:1521")
 
-print('연결성공')
-
+# 데이터베이스 연결
+try:
+    print('Connecting to the database...')
+    con = oracledb.connect(user="investigate", password="team1", dsn="192.168.0.39:1521/XE")
+    print('Connection successful')
+except oracledb.DatabaseError as e:
+    print("Database connection error:", e)
+    raise
 
 cursor = con.cursor()
 
+# SQL 구문 정의
 sql = '''
     INSERT INTO property (
         transaction_amount, year_built, address, registration_date, road_name, apartment_name, square_footage, floor_number
@@ -18,9 +25,10 @@ sql = '''
 '''
 
 try:
-    # 상대경로로 CSV 파일 열기
-    csv_file_path = os.path.join(os.path.dirname(__file__),'budongsanData.csv')
-    print(csv_file_path)
+    # 상대 경로로 CSV 파일 열기
+    csv_file_path = os.path.join(os.path.dirname(__file__), 'budongsanData.csv')
+    print("CSV 파일 경로:", csv_file_path)
+    
     with open(csv_file_path, 'r', encoding='utf-8') as f:
         reader = csv.reader(f)
         
@@ -29,19 +37,22 @@ try:
         
         # 데이터 삽입
         for row in reader:
-            # 데이터가 8개 항목을 포함하는지 확인
             if len(row) == 8:
-                # transaction_amount에 '0000' 추가
-                transaction_amount = row[0] + '0000'
-
-                # year_built에서 연도만 추출
-                year_built = int(row[1][:4])
-                # row[1] 값을 year_built로 대체
-                row[0] = transaction_amount
-                row[1] = year_built
-                
-                # SQL 실행
-                cursor.execute(sql, row)
+                try:
+                    # transaction_amount에 '0000' 추가
+                    transaction_amount = row[0] + '0000'
+                    
+                    # year_built에서 연도만 추출
+                    year_built = int(row[1][:4])
+                    
+                    # 값 수정
+                    row[0] = transaction_amount
+                    row[1] = year_built
+                    
+                    # SQL 실행
+                    cursor.execute(sql, row)
+                except Exception as e:
+                    print(f"행 오류: {row}, 오류: {e}")
             else:
                 print(f"행 오류: {row}")
 
@@ -49,8 +60,9 @@ try:
     con.commit()
 
 except Exception as e:
-    print("오류 발생:", e)
+    print("데이터 처리 중 오류 발생:", e)
 
 finally:
-    # 연결 닫기
+    # 커서 및 연결 닫기
+    cursor.close()
     con.close()

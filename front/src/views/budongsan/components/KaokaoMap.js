@@ -25,23 +25,29 @@ function KakaoMap({ selectedProperty, setSchoolMarkerCount, setStoreMarkerCount,
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [budongsanResponse, schoolResponse, storeResponse, busStationResponse] = await Promise.all([
-                    fetch('http://localhost:5000/budongsanMapData'),
+                const budongsanResponse = await fetch('http://localhost:5000/budongsanMapData');
+                if (!budongsanResponse.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const budongsanData = await budongsanResponse.json();
+                setData(budongsanData); // 데이터를 상태에 저장
+
+                // budongsanMapData 데이터가 성공적으로 받아진 후에 나머지 데이터를 fetch
+                const [schoolResponse, storeResponse, busStationResponse] = await Promise.all([
                     fetch('http://localhost:5000/schoolData'),
                     fetch('http://localhost:5000/storeData'),
                     fetch('http://localhost:5000/busStationData')
                 ]);
 
-                if (!budongsanResponse.ok || !schoolResponse.ok || !storeResponse.ok || !busStationResponse.ok) {
+                if (!schoolResponse.ok || !storeResponse.ok || !busStationResponse.ok) {
                     throw new Error('Network response was not ok');
                 }
 
-                const budongsanData = await budongsanResponse.json();
                 const schoolData = await schoolResponse.json();
                 const storeData = await storeResponse.json();
                 const busStationData = await busStationResponse.json();
 
-                setData(budongsanData);             // 데이터를 상태에 저장
                 setSchoolData(schoolData);          // 학교 데이터를 상태에 저장
                 setStoreData(storeData);            // 편의점 데이터를 상태에 저장
                 setBusStationData(busStationData);  // 버스정류장 데이터를 상태에 저장

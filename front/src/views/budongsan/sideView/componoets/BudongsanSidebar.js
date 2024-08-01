@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState, useEffect  } from "react";
 import '../../Budongsan.css';
 import Navbar from './Navbar.js';
 import '../sideCss/SideView.css';
@@ -7,12 +7,28 @@ import SideSearch from "../SideSearch.js";
 import SideApartment from "../SideApartment.js";
 import SideTransaction from "../SideTransaction.js";
 import SideMypage from "../SideMypage.js";
+import BudongsanContext from "./BudongsanContext.js";
+import axiosInstance from "../../../login/component/Token/axiosInstance.js";
 
 const BudongsanSidebar = ({ onPropertySelect, schoolMarkerCount, storeMarkerCount, busStationMarkerCount }) => {
   const [selectedMenu, setSelectedMenu] = useState('검색'); // 기본 메뉴 설정
   const [selectedProperty, setSelectedProperty] = useState(null); // 선택된 프로퍼티 상태
-
+  const budongsanSidebarValue = useContext(BudongsanContext);
   
+  useEffect(() => {
+
+    loginCheck();
+
+  }, []);
+
+  const loginCheck = async () => {
+    const response = await axiosInstance.get('/check-login-status', {
+      withCredentials: true,
+    });
+
+    if ( response.data.isLoggedIn === true) budongsanSidebarValue.actions.setUserNum(response.data.userNum);
+  }
+
 
   const handlePropertySelect = (property) => {
     setSelectedProperty(property);

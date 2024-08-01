@@ -1,11 +1,37 @@
-import React, { useState } from 'react';
-import SideStarAuto from './componoets/SideStarAuto';
+import React, { useContext, useState, useEffect } from 'react';
+import SideStarAuto from './componoets/SideStarAuto'; // 올바른 경로로 수정
 import Delete from '../../../imges/delete.png';
 import Insert from '../../../imges/insert.png';
+import BudongsanContext from './componoets/BudongsanContext';
 
 const SideApartment = ({ property, schoolMarkerCount, storeMarkerCount, busStationMarkerCount }) => {
-
   const [currentImage, setCurrentImage] = useState(Delete);
+  const budongsanValue = useContext(BudongsanContext);
+
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때 현재 관심 등록 상태를 확인
+    fetch('http://localhost:5000/check-property', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        user_num: budongsanValue.state.userNum,
+        property_num: property.property_num,
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.isFavorite) {
+          setCurrentImage(Insert); // 관심 등록 상태
+        } else {
+          setCurrentImage(Delete); // 관심 미등록 상태
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }, [property, budongsanValue.state.userNum]);
 
   if (!property) {
     return <div>선택된 아파트가 없습니다.</div>;
@@ -17,31 +43,34 @@ const SideApartment = ({ property, schoolMarkerCount, storeMarkerCount, busStati
   };
 
   // 별점 기준
-  const trafficThresholds = [10, 30, 40, 50]; // 교통 시설의 별점 기준 배열
-  const convenienceThresholds = [15, 30, 45, 60]; // 편의 시설의 별점 기준 배열
-  const educationThresholds = [3, 6, 9, 12]; // 교육 시설의 별점 기준 배열
-
+  const trafficThresholds = [10, 30, 40, 50];
+  const convenienceThresholds = [15, 30, 45, 60];
+  const educationThresholds = [3, 6, 9, 12];
+  
   const handleImageClick = () => {
-    setCurrentImage((prevImage) => (prevImage === Delete ? Insert : Delete));
+    const isInserting = currentImage === Insert;
+    const endpoint = isInserting ? 'delete-property' : 'add-property';
+    setCurrentImage(isInserting ? Delete : Insert);
 
-    // property 데이터를 서버로 전송
-    fetch('/save-property', {
+    // property와 userNum 데이터를 서버로 전송
+    fetch(`http://localhost:5000/${endpoint}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(property.property_num),
+      body: JSON.stringify({
+        user_num: budongsanValue.state.userNum,
+        property_num: property.property_num,
+      }),
     })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:', data);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
   };
-
-  
 
   return (
     <div>
@@ -59,7 +88,7 @@ const SideApartment = ({ property, schoolMarkerCount, storeMarkerCount, busStati
           <text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
         </svg>
         <div className="card-body">
-        <p className="card-text">실거래가: {formatNumber(property.transactionAmount)} 원</p>
+          <p className="card-text">실거래가: {formatNumber(property.transactionAmount)} 원</p>
         </div>
         <ul className="list-group list-group-flush">
           <li className="list-group-item">건축년도: {property.yearBuilt}</li>
@@ -70,23 +99,31 @@ const SideApartment = ({ property, schoolMarkerCount, storeMarkerCount, busStati
           <li className="list-group-item">도로명: {property.road_name}</li>
         </div>
       </div>
-      <div className="card mb-3">
-        <h3 className="card-header">별점</h3>
-        <ul className="list-group list-group-flush">
-          <li className="list-group-item">
-            교통 시설: {busStationMarkerCount}
-            <SideStarAuto rating={busStationMarkerCount} thresholds={trafficThresholds} />
-          </li>
-          <li className="list-group-item">
-            편의 시설: {storeMarkerCount}
-            <SideStarAuto rating={storeMarkerCount} thresholds={convenienceThresholds} />
-          </li>
-          <li className="list-group-item">
-            교육 시설: {schoolMarkerCount}
-            <SideStarAuto rating={schoolMarkerCount} thresholds={educationThresholds} />
-          </li>
-        </ul>
-      </div>
+      {(busStationMarkerCount !== 0 || storeMarkerCount !== 0 || schoolMarkerCount !== 0) && (
+        <div className="card mb-3">
+          <h3 className="card-header">별점</h3>
+          <ul className="list-group list-group-flush">
+            {busStationMarkerCount !== 0 && (
+              <li className="list-group-item">
+                교통 시설: {busStationMarkerCount}
+                <SideStarAuto rating={busStationMarkerCount} thresholds={trafficThresholds} />
+              </li>
+            )}
+            {storeMarkerCount !== 0 && (
+              <li className="list-group-item">
+                편의 시설: {storeMarkerCount}
+                <SideStarAuto rating={storeMarkerCount} thresholds={convenienceThresholds} />
+              </li>
+            )}
+            {schoolMarkerCount !== 0 && (
+              <li className="list-group-item">
+                교육 시설: {schoolMarkerCount}
+                <SideStarAuto rating={schoolMarkerCount} thresholds={educationThresholds} />
+              </li>
+            )}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
