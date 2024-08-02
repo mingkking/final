@@ -4,7 +4,7 @@ import java.util.Date;
 
 import lombok.Data;
  
-@Data
+@Data 
 public class MgrSessionCountVO {
 	private String sessionId;
 	private Date creationTime; 

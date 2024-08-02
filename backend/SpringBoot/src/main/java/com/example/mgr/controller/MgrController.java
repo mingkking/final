@@ -55,7 +55,7 @@ public class MgrController {
 	    List<Map<String, Object>> last5MonthsMember = mgrservice.selectLast5MonthsMember();
 	    List<Map<String, Object>> last2YearsMember = mgrservice.selectLast2YearsMember();
 	    
-	    // 각 객체에 검색한 값 저장
+	    // 각 객체에 검색한 값 저장 
 	    int selectTotalSession = mgrservice.selectTotalSession();
 	    int selectTodaySession = mgrservice.selectTodaySession();
 	    int selectMonthSession = mgrservice.selectMonthSession();

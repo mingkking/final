@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import com.example.mgr.domain.MgrMemberVO;
 import com.example.mgr.domain.MgrSessionCountVO;
 import com.example.mgr.domain.MgrCommunityVO;
-  
+   
 public interface MgrService {
 	 
 	// session 값 저장

@@ -3,7 +3,7 @@ package com.example.subscribe.domain;
 import java.util.Date;
 
 import lombok.Data;
- 
+  
 @Data
 public class SubscribeVO {
 	private int subscribe_num;

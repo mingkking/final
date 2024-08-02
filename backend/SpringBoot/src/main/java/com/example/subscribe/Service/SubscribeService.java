@@ -1,7 +1,7 @@
 package com.example.subscribe.Service;
 
 import com.example.subscribe.domain.SubscribeVO;
-
+ 
 public interface SubscribeService {
 	 
 	// 구독 결제 시 데이터 저장

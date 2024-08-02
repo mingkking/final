@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.subscribe.dao.SubscribeDAO;
 import com.example.subscribe.domain.SubscribeVO;
-
+ 
 @Service
 public class SubscribeServiceImpl implements SubscribeService {
 	 

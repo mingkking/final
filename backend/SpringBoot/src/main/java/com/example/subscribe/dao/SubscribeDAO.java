@@ -4,7 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.example.subscribe.domain.SubscribeVO;
 
-
+ 
 @Mapper 
 public interface SubscribeDAO {
 

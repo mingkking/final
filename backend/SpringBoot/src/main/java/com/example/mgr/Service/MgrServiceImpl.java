@@ -12,7 +12,7 @@ import com.example.mgr.domain.MgrCommunityVO;
 import com.example.mgr.domain.MgrMemberVO;
 import com.example.mgr.domain.MgrSessionCountVO;
   
-@Service
+@Service 
 public class MgrServiceImpl implements MgrService {
 	 
 	@Autowired

@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
 <mapper namespace="com.example.stock.dao.StockDAO">
-     <select id="searchStocks" resultType="com.example.stock.domain.StockVO">
-        <![CDATA[
+      <select id="selectStockList" resultType="com.example.stock.domain.StockVO">
         SELECT * FROM (
             SELECT
                 TO_CHAR(s.record_date, 'YYYY-MM-DD') as record_date,
@@ -12,7 +12,8 @@
                 s.closing_price,
                 s.opening_price,
                 s.high_price,
-                s.low_price
+                s.low_price,
+                ROW_NUMBER() OVER (ORDER BY s.stock_code) as rn
             FROM STOCK s
             INNER JOIN (
                 SELECT stock_code, MAX(record_date) as max_date
@@ -20,57 +21,52 @@
                 GROUP BY stock_code
             ) latest ON s.stock_code = latest.stock_code
             AND s.record_date = latest.max_date
-            WHERE (LOWER(s.name) LIKE LOWER('%' || #{query} || '%') 
-                OR LOWER(s.stock_code) LIKE LOWER('%' || #{query} || '%'))
-            AND (#{lastId, jdbcType=VARCHAR} IS NULL OR s.stock_code > #{lastId, jdbcType=VARCHAR})
+            <where>
+                <if test="lastId != null">
+                    s.stock_code <![CDATA[>]]> #{lastId}
+                </if>
+                <if test="search != null and search != ''">
+                    AND (LOWER(s.name) LIKE LOWER(CONCAT(CONCAT('%', #{search}), '%')) 
+                    OR LOWER(s.stock_code) LIKE LOWER(CONCAT(CONCAT('%', #{search}), '%')))
+                </if>
+            </where>
             ORDER BY s.stock_code
         )
-        WHERE ROWNUM <= #{limit}
-        ]]>
-    </select>
-
-    <select id="listStocks" resultType="com.example.stock.domain.StockVO">
-        <![CDATA[
-        SELECT * FROM (
-            SELECT
-                TO_CHAR(s.record_date, 'YYYY-MM-DD') as record_date,
-                s.stock_code,
-                s.name,
-                s.stock_type,
-                s.closing_price,
-                s.opening_price,
-                s.high_price,
-                s.low_price
-            FROM STOCK s
-            INNER JOIN (
-                SELECT stock_code, MAX(record_date) as max_date
-                FROM STOCK
-                GROUP BY stock_code
-            ) latest ON s.stock_code = latest.stock_code
-            AND s.record_date = latest.max_date
-            WHERE #{lastId} IS NULL OR s.stock_code > #{lastId}
-            ORDER BY s.stock_code
-        )
-        WHERE ROWNUM <= #{limit}
-        ]]>
+        WHERE rn <![CDATA[<=]]> #{limit}
     </select>
 
     <select id="getStockInfo" resultType="com.example.stock.domain.StockVO">
-        <![CDATA[
         SELECT * FROM (
             SELECT * FROM STOCK
             WHERE stock_code = #{stock_code}
             ORDER BY record_date DESC
         ) WHERE ROWNUM = 1
-        ]]>
     </select>
 
-    <select id="getYearlyStockPriceHistory" resultType="com.example.stock.domain.StockVO">
-        <![CDATA[
+    <select id="getStockPriceHistory" resultType="com.example.stock.domain.StockVO">
+        SELECT * FROM STOCK
+        WHERE stock_code = #{stock_code}
+        <choose>
+            <when test="range == '1D'">
+                AND record_date >= SYSDATE - 1
+            </when>
+            <when test="range == '1W'">
+                AND record_date >= SYSDATE - 7
+            </when>
+            <when test="range == '1M'">
+                AND record_date >= ADD_MONTHS(SYSDATE, -1)
+            </when>
+            <when test="range == '1Y'">
+                AND record_date >= ADD_MONTHS(SYSDATE, -12)
+            </when>
+        </choose>
+        ORDER BY record_date ASC
+    </select>
+    
+      <select id="getYearlyStockPriceHistory" resultType="com.example.stock.domain.StockVO">
         SELECT * FROM STOCK
         WHERE stock_code = #{stock_code}
         AND record_date >= ADD_MONTHS(SYSDATE, -12)
         ORDER BY record_date ASC
-        ]]>
     </select>
 </mapper>

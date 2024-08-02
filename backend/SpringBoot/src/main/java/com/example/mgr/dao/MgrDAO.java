@@ -9,7 +9,7 @@ import com.example.mgr.domain.MgrCommunityVO;
 import com.example.mgr.domain.MgrMemberVO;
 import com.example.mgr.domain.MgrSessionCountVO;
 
-@Mapper 
+@Mapper  
 public interface MgrDAO {
 	
 	// session 값 저장
