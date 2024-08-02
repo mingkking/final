@@ -26,7 +26,11 @@ const BudongsanSidebar = ({ onPropertySelect, schoolMarkerCount, storeMarkerCoun
       withCredentials: true,
     });
 
-    if ( response.data.isLoggedIn === true) budongsanSidebarValue.actions.setUserNum(response.data.userNum);
+    if ( response.data.isLoggedIn === true) {
+      budongsanSidebarValue.actions.setUserNum(response.data.userNum);
+    }else{
+      budongsanSidebarValue.actions.setUserNum("");
+    }
   }
 
 

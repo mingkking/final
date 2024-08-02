@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import BudongsanContext from './componoets/BudongsanContext';
 import './sideCss/SideMypage.css';
 
-const SideMypage = () => {
+const SideMypage = ({setMySelectedProperty}) => {
     const [properties, setProperties] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -44,15 +44,25 @@ const SideMypage = () => {
         return <div className="error">오류 발생: {error}</div>;
     }
 
+    const handlePropertyClick = (property) => {
+        setMySelectedProperty(property);
+        // 여기서 필요한 동작을 추가하면 됩니다.
+        console.log("Clicked property:", property);
+    };
+
     return (
-        <div className="container">
+        <div className="side-mypage container">
             <h2>관심 등록 매물 목록</h2>
             {properties.length === 0 ? (
                 <p>관심 등록한 매물이 없습니다.</p>
             ) : (
                 <ul className="property-list">
                     {properties.map((property) => (
-                        <li key={property.property_num} className="property-item">
+                        <li
+                        key={property.property_num}
+                        className="property-item"
+                        onClick={() => handlePropertyClick(property)}
+                    >
                             <div className="property-details">
                                 <p>
                                     <span className="address">{property.address}</span>
