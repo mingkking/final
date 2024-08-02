@@ -1,83 +1,83 @@
-/* SideMypage.css */
-
-/* Container styling */
-.container {
+/* 전체 컨테이너 스타일링 */
+.side-mypage .container {
     padding: 20px;
     max-width: 800px;
     margin: 0 auto;
     font-family: Arial, sans-serif;
 }
 
-/* Heading styling */
-.container h2 {
-    font-size: 22px; /* Slightly smaller heading */
+/* 헤딩(제목) 스타일링 */
+.side-mypage .container h2 {
+    font-size: 22px; /* 헤딩 폰트 크기 */
     margin-bottom: 15px;
     color: #333;
     border-bottom: 2px solid #ddd;
     padding-bottom: 8px;
 }
 
-/* Property list styling */
-.property-list {
+/* 매물 리스트 스타일링 */
+.side-mypage .property-list {
     list-style-type: none;
     padding: 0;
     margin: 0;
+    max-height: 900px; /* 최대 높이 설정 */
+    overflow-y: auto; /* 수직 스크롤 활성화 */
 }
 
-/* Property item styling */
-.property-item {
+/* 매물 항목 스타일링 */
+.side-mypage .property-item {
     border: 1px solid #ddd;
     border-radius: 8px;
     margin-bottom: 15px;
-    padding: 12px; /* Slightly reduced padding */
+    padding: 12px; /* 패딩 설정 */
     background-color: #f9f9f9;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s, box-shadow 0.3s;
-    text-align: left; /* Ensure text is left-aligned */
+    text-align: left; /* 텍스트 왼쪽 정렬 */
 }
 
-.property-item:hover {
+.side-mypage .property-item:hover {
     background-color: #f0f0f0;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Property details styling */
-.property-details {
+/* 매물 세부 사항 스타일링 */
+.side-mypage .property-details {
     display: flex;
     flex-direction: column;
 }
 
-.property-details p {
-    margin: 4px 0; /* Reduced margin for a more compact look */
+.side-mypage .property-details p {
+    margin: 4px 0; /* 마진 설정 */
     color: #555;
-    font-size: 14px; /* Smaller font size */
+    font-size: 14px; /* 폰트 크기 설정 */
 }
 
-/* Label and value styling */
-.property-details .label {
+/* 레이블 및 값 스타일링 */
+.side-mypage .property-details .label {
     font-weight: bold;
     color: #333;
 }
 
-.property-details .value {
-    margin-left: 8px; /* Reduced margin */
-    color: #666; /* Slightly lighter color for values */
+.side-mypage .property-details .value {
+    margin-left: 8px; /* 왼쪽 마진 설정 */
+    color: #666; /* 값 색상 설정 */
 }
 
-/* Specific styling for address */
-.property-details .address {
+/* 주소 부분의 특별한 스타일링 */
+.side-mypage .property-details .address {
     font-weight: bold;
-    color: #0056b3; /* Blue color for address */
-    background-color: #e6f7ff; /* Light blue background */
-    padding: 4px 6px; /* Padding for background */
-    border-radius: 4px; /* Rounded corners */
-    display: inline-block; /* To fit the background and padding */
+    color: #0056b3; /* 주소 색상 설정 */
+    background-color: #e6f7ff; /* 주소 배경 색상 설정 */
+    padding: 4px 6px; /* 배경 패딩 설정 */
+    border-radius: 4px; /* 모서리 둥글게 설정 */
+    display: inline-block; /* 배경 및 패딩에 맞게 표시 */
 }
 
-/* Loader and error message styling */
-.loader,
-.error {
-    font-size: 16px; /* Slightly smaller font size */
+/* 로딩 및 오류 메시지 스타일링 */
+.side-mypage .loader,
+.side-mypage .error {
+    font-size: 16px; /* 폰트 크기 설정 */
     color: #d9534f;
     text-align: center;
     margin: 20px 0;
