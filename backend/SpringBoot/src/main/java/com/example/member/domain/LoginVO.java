@@ -1,15 +1,21 @@
 package com.example.member.domain;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import com.example.community.domain.CommunityVO;
+
+import jakarta.persistence.*;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Data;
-import java.time.LocalDateTime;
-import jakarta.persistence.PrePersist;
 
 @Data
 @Entity 
@@ -38,16 +44,18 @@ public class LoginVO {
     private String refreshToken;  // 리프레시 토큰 (길이 255자)
     @Column(name = "profile_image_url", length = 255)
     private String profileImageUrl;  // 프로필 사진 URL (길이 255자)
-    
-
     @Column(name = "created_at")
     private LocalDateTime createdAt;  // 생성일
+    
     
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
         System.out.println("Setting createdAt: " + this.createdAt);
     }
+    
+    
+    
     
 	
 } 

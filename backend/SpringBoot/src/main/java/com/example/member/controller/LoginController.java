@@ -69,9 +69,22 @@ public class LoginController {
         return ResponseEntity.ok(loginService.findByUserId(userId) != null); 
     }
     
+    // 사용자 닉네임 존재 여부 확인
     @GetMapping("/check-nickname")
     public ResponseEntity<Boolean> checkNickname(@RequestParam String nickname) {
         return ResponseEntity.ok(loginService.findByUserNickname(nickname) != null); 
+    }
+    
+    // 사용자 이메일 존재 여부 확인
+    @GetMapping("/check-email")
+    public ResponseEntity<Boolean> checkEmail(@RequestParam String email) {
+        return ResponseEntity.ok(loginService.findByUserEmail(email));
+    }
+
+    // 사용자 전화번호 존재 여부 확인
+    @GetMapping("/check-tel")
+    public ResponseEntity<Boolean> checkTel(@RequestParam String usertel) {
+        return ResponseEntity.ok(loginService.findByUserTel(usertel));
     }
    
     

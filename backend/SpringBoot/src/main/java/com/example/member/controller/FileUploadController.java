@@ -31,7 +31,7 @@ import com.example.member.repository.LoginRepository;
 public class FileUploadController {
 
     // 파일 업로드를 위한 기본 폴더 경로
-    private static final String UPLOADED_FOLDER = System.getProperty("user.dir")+"/uploads/";
+    private static final String UPLOADED_FOLDER = "src/main/resources/static/uploads/";
 
     @Autowired
     private LoginRepository repo;

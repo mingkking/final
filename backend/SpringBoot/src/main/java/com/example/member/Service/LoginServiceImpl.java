@@ -68,6 +68,15 @@ public class LoginServiceImpl {
         return repo.findByUserNickname(userNickname);
     }
     
+    
+    public boolean findByUserEmail(String userEmail) {
+        return repo.findByUserEmail(userEmail) != null;
+    }
+
+    public boolean findByUserTel(String userTel) {
+        return repo.findByUserTel(userTel) != null;
+    }
+    
     // 비밀번호 찾기 인증
     public boolean findByUserEmailAndUserId(String email, String userId) {
         LoginVO user = repo.findByUserEmailAndUserId(email, userId);
@@ -88,7 +97,7 @@ public class LoginServiceImpl {
     
     //회원탈퇴
     public void deleteUserById(String userId) {
-        LoginVO user = findUserByUserId(userId);
+        LoginVO user = findByUserId(userId);
         if (user != null) {
             repo.delete(user); // 사용자 삭제
         }
