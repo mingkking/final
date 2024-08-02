@@ -16,27 +16,16 @@ public class StockServiceImpl implements StockService{
 
 	@Override
     public List<StockVO> searchStocks(String query, String lastId, int limit) {
-        return stockDAO.searchStocks(query, lastId, limit);
+        return stockDAO.selectStockList(lastId, query, limit);
     }
 
     @Override
-    public List<StockVO> listStocks(String lastId, int limit) {
-        return stockDAO.listStocks(lastId, limit);
+    public StockVO getStockInfo(String stock_code) {
+        return stockDAO.getStockInfo(stock_code);
     }
 
-	@Override //주식 상세 조회
-	public StockVO getStockInfo(String stock_code) {
-	    return stockDAO.getStockInfo(stock_code);
-	}
-
-	@Override
-	public List<StockVO> getStockPriceHistory(String stock_code, String range) {
-	    return stockDAO.getStockPriceHistory(stock_code, range);
-	}
-	 @Override
-	    public List<StockVO> getYearlyStockPriceHistory(String stock_code) {
-	        return stockDAO.getYearlyStockPriceHistory(stock_code);
-	    }
-	
-
-} 
+    @Override
+    public List<StockVO> getYearlyStockPriceHistory(String stock_code) {
+        return stockDAO.getYearlyStockPriceHistory(stock_code);
+    }
+}
