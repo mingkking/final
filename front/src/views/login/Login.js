@@ -47,7 +47,7 @@ function Login({ onLoginSuccess }) {
              if (response.data.profileImageUrl) {
                 actions.setProfileImage(`http://localhost:8080${response.data.profileImageUrl}`);
             }
-
+ 
             alert("로그인 성공")
             // 메인 페이지로 이동
             navigate('/');  

@@ -6,7 +6,7 @@ import "./DeleteMember.css";
 import LoginContext from '../../login/contexts/LoginContext';
 
 const DeleteMember = () => {
-    const [userId, setUserId] = useState('');
+   
     const [reason, setReason] = useState('');
     const [customReason, setCustomReason] = useState('');
     const { state, actions } = useContext(LoginContext);
