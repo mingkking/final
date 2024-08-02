@@ -44,15 +44,28 @@ const SideMypage = () => {
         return <div className="error">오류 발생: {error}</div>;
     }
 
+    const handlePropertyClick = (property) => {
+        if (onPropertySelect) {
+            onPropertySelect(property); // 부모 컴포넌트의 함수 호출
+        } else {
+            console.error("onPropertySelect is not defined.");
+        }
+        console.log("Clicked property:", property);
+    };
+
     return (
-        <div className="container">
+        <div className="side-mypage container">
             <h2>관심 등록 매물 목록</h2>
             {properties.length === 0 ? (
                 <p>관심 등록한 매물이 없습니다.</p>
             ) : (
                 <ul className="property-list">
                     {properties.map((property) => (
-                        <li key={property.property_num} className="property-item">
+                        <li
+                        key={property.property_num}
+                        className="property-item"
+                        onClick={() => handlePropertyClick(property)}
+                    >
                             <div className="property-details">
                                 <p>
                                     <span className="address">{property.address}</span>

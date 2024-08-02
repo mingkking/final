@@ -1,26 +1,5 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
-<mapper namespace="com.example.stock.dao.StockDAO">
-      <select id="selectStockList" resultType="com.example.stock.domain.StockVO">
-        SELECT * FROM (
-            SELECT
-                TO_CHAR(s.record_date, 'YYYY-MM-DD') as record_date,
-                s.stock_code,
-                s.name,
-                s.stock_type,
-                s.closing_price,
-                s.opening_price,
-                s.high_price,
-                s.low_price,
-                ROW_NUMBER() OVER (ORDER BY s.stock_code) as rn
-            FROM STOCK s
-            INNER JOIN (
-                SELECT stock_code, MAX(record_date) as max_date
-                FROM STOCK
-                GROUP BY stock_code
-            ) latest ON s.stock_code = latest.stock_code
-            AND s.record_date = latest.max_date
             <where>
                 <if test="lastId != null">
                     s.stock_code <![CDATA[>]]> #{lastId}
@@ -33,6 +12,21 @@
             ORDER BY s.stock_code
         )
         WHERE rn <![CDATA[<=]]> #{limit}
+
+            WHERE 1=1
+        ]]>
+            <if test="lastId != null">
+                AND s.stock_code > #{lastId}
+            </if>
+            <if test="search != null and search != ''">
+                AND (LOWER(s.name) LIKE LOWER('%' || #{search} || '%') 
+                OR LOWER(s.stock_code) LIKE LOWER('%' || #{search} || '%'))
+            </if>
+        <![CDATA[
+            ORDER BY s.stock_code
+        )
+        WHERE rn <= #{limit}
+        ]]>
     </select>
 
     <select id="getStockInfo" resultType="com.example.stock.domain.StockVO">

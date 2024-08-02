@@ -42,26 +42,6 @@ public class StockController {
         }
     }
     
-    @GetMapping("/stock/list")
-    public ResponseEntity<?> listStocks(
-            @RequestParam(required = false) String lastId,
-            @RequestParam(defaultValue = "15") int limit) {
-        try {
-            List<StockVO> stocks = stockService.listStocks(lastId, limit);
-            boolean hasMore = stocks.size() == limit;
-            String newLastId = hasMore ? stocks.get(stocks.size() - 1).getStock_code() : null;
-            
-            Map<String, Object> response = new HashMap<>();
-            response.put("stocks", stocks);
-            response.put("hasMore", hasMore);
-            response.put("lastLoadedId", newLastId);
-            
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            logger.error("Error listing stocks", e);
-            return ResponseEntity.internalServerError().body("Error listing stocks");
-        }
-    }
     
     @GetMapping("/stock/{stock_code}")
     public ResponseEntity<?> getStockDetail(@PathVariable String stock_code) {
@@ -90,6 +70,5 @@ public class StockController {
             logger.error("Error fetching yearly stock detail for code: " + stock_code, e);
             return ResponseEntity.internalServerError().body("Error fetching yearly stock detail");
         }
-    
     }
 }

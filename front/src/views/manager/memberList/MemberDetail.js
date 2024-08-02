@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Grid, Button } from '@mui/material';
+import { Typography, Grid, Button, TextField } from '@mui/material';
 import PageContainer from '../../../components/container/PageContainer';
 import DashboardCard from '../../../components/shared/DashboardCard';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -7,11 +7,14 @@ import axios from 'axios';
 
 const MemberDetail = () => {
   const { user_num } = useParams();
-  const [memberDetail, setMemberDetail] = useState(null); // 초기 상태를 null로 설정
+  const [memberDetail, setMemberDetail] = useState(null);
   const [commPost, setCommPost] = useState(null);
-  const [loading, setLoading] = useState(true); // 로딩 상태를 추가
+  const [loading, setLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false); // 수정 모드 상태
+  const [formData, setFormData] = useState({}); // 수정 가능한 필드의 값 저장
   const navigate = useNavigate();
 
+  // 상세 정보 가져오기
   useEffect(() => {
     const getMemberDetail = async () => {
       try {
@@ -19,32 +22,74 @@ const MemberDetail = () => {
         console.log("디테일페이지 리스폰값", response)
         setMemberDetail(response.data.selectMemberList[0]);
         setCommPost(response.data.commPost);
+        setFormData(response.data.selectMemberList[0]); // 기본값 설정
       } catch (error) {
         console.error('회원 상세 정보 가져오기 실패:', error);
       } finally {
-        setLoading(false); // 데이터 로딩 완료
+        setLoading(false);
       }
     };
     getMemberDetail();
-  }, [user_num]); // useEffect
+  }, [user_num]);
 
-
+  // 삭제 함수
   const handleDelete = async () => {
     setLoading(true);
     try {
       await axios.delete(`http://localhost:8080/manager/memberDetail/${user_num}`);
       alert('회원이 성공적으로 삭제되었습니다.');
       navigate('/manager/memberList', { replace: true });
-      // 페이지 이동 후 새로고침(DB 가져오기)
       setTimeout(() => {
         window.location.reload();
-      },100);
+      }, 100);
     } catch (error) {
       console.error('회원 삭제 실패:', error);
       alert('회원 삭제에 실패했습니다.');
     } finally {
-      setLoading(false); // 데이터 로딩 완료
+      setLoading(false);
     }
+  };
+
+  //  수정
+  const handleUpdate = () => {
+    setIsEditing(true); // 수정 모드로 전환
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false); // 수정 모드 취소
+    setFormData(memberDetail); // 수정 전의 값으로 복원
+  };
+
+  const handleChange = (e) => {
+    // console.log("handleChange함수 값---------", e.target.user_name)
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSave = async () => {
+    alert("저장버튼눌러짐");
+    try {
+
+      const dataToSend = {
+        user_name: formData.user_name,
+        user_nickname: formData.user_nickname,
+        user_id: formData.user_id,
+        user_tel: formData.user_tel,
+        user_email: formData.user_email
+      };
+
+    const response = await axios.put(`http://localhost:8080/manager/memberDetail/${user_num}`, dataToSend);
+
+    if (response.data === 1) {
+      alert('회원 정보가 성공적으로 수정되었습니다.');
+      setMemberDetail({...memberDetail, ...dataToSend});
+      setIsEditing(false);
+    } else {
+      throw new Error(response.data.message || '수정에 실패했습니다.');
+    }
+  } catch (error) {
+    console.error('회원 정보 수정 실패:', error);
+    alert('회원 정보 수정에 실패했습니다: ' + error.message);
+  }
   };
 
   if (loading) {
@@ -55,20 +100,22 @@ const MemberDetail = () => {
     );
   }
 
-// 생년월일 8글자로 바꾸기
-const formatBirthDate = (birthDate) => {
+  // 생년월일 설정
+  const formatBirthDate = (birthDate) => {
 
-  const yearPrefix = parseInt(birthDate.substring(0, 2), 10);
-  const month = parseInt(birthDate.substring(2, 4), 10);
-  const day = parseInt(birthDate.substring(4, 6), 10);
+    // 구글 로그인이면 생년월일이 null 값이라 처리 -- 안돼
+    if (!birthDate) {
+      return "구글 회원(생년월일 X)";
+    }
 
-  // 2000년 이후라면 20세기, 그 전이면 21세기
-  const year = yearPrefix >= 0 && yearPrefix <= 99 ? (yearPrefix >= 0 && yearPrefix <= 22 ? 2000 + yearPrefix : 1900 + yearPrefix) : null;
-  return `${year}년 ${month}월 ${day}일`;
-};
+    const yearPrefix = parseInt(birthDate.substring(0, 2), 10);
+    const month = parseInt(birthDate.substring(2, 4), 10);
+    const day = parseInt(birthDate.substring(4, 6), 10);
+    const year = yearPrefix >= 0 && yearPrefix <= 99 ? (yearPrefix >= 0 && yearPrefix <= 24 ? 2000 + yearPrefix : 1900 + yearPrefix) : null;
+    return `${year}년 ${month}월 ${day}일`;
+  };
 
-const eightBirthdate = formatBirthDate(memberDetail.user_birthdate);
-
+  const eightBirthdate = formatBirthDate(formData.user_birthdate || '');
 
   return (
     <PageContainer title="회원 상세" description="회원의 상세 정보를 확인합니다.">
@@ -84,27 +131,79 @@ const eightBirthdate = formatBirthDate(memberDetail.user_birthdate);
                   <Typography variant='h5' style={{ marginBottom: '20px' }}>아이디</Typography>
                   <Typography variant='h5' style={{ marginBottom: '20px' }}>전화번호</Typography>
                   <Typography variant='h5' style={{ marginBottom: '20px' }}>이메일</Typography>
-                  <Typography variant='h5' style={{ marginBottom: '20px' }}>생일</Typography>
+                  <Typography variant='h5' style={{ marginBottom: '20px' }}>생년월일</Typography>
                   <Typography variant='h5' style={{ marginBottom: '20px' }}>가입일시</Typography>
                   <Typography variant='h5' style={{ marginBottom: '20px' }}>구독일시</Typography>
                 </Grid>
                 <Grid item sm={6}>
                   <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.user_num}</Typography>
-                  <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.user_name}</Typography>
-                  <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.user_nickname}</Typography>
-                  <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.user_id}</Typography>
-                  <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.user_tel}</Typography>
-                  <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.user_email}</Typography>
-                  <Typography variant='h5' style={{ marginBottom: '20px' }}>{eightBirthdate}</Typography>
+                  {isEditing ? (
+                    <>
+                      <TextField name="user_name" value={formData.user_name} onChange={handleChange} size='small' style={{ marginBottom: '9px' }} />
+                      <TextField name="user_nickname" value={formData.user_nickname} onChange={handleChange} size='small' style={{ marginBottom: '9px' }} />
+                      <TextField name="user_id" value={formData.user_id} onChange={handleChange} size='small' style={{ marginBottom: '9px' }} />
+                      <TextField name="user_tel" value={formData.user_tel} onChange={handleChange} size='small' style={{ marginBottom: '9px' }} />
+                      <TextField name="user_email" value={formData.user_email} onChange={handleChange} size='small' style={{ marginBottom: '9px' }} />
+                      <Typography variant='h5' style={{ marginBottom: '20px' }}>{eightBirthdate}</Typography>
+                    </>
+                  ) : (
+                    <>
+                      <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.user_name}</Typography>
+                      <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.user_nickname}</Typography>
+                      <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.user_id}</Typography>
+                      <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.user_tel}</Typography>
+                      <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.user_email}</Typography>
+                      <Typography variant='h5' style={{ marginBottom: '20px' }}>{eightBirthdate}</Typography>
+                    </>
+                  )}
                   <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.created_at}</Typography>
-                  <Typography variant='h5' style={{ marginBottom: '20px' }}>
-                  {memberDetail.subscribe_date ? memberDetail.subscribe_date : '구독 X'}
-                  </Typography>
+                  <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.subscribe_date ? memberDetail.subscribe_date : '구독 X'}</Typography>
                 </Grid>
               </Grid>
           </div>
-          <Button onClick={handleDelete}>회원수정</Button>
-          <Button onClick={handleDelete}>회원삭제</Button>
+          {isEditing ? (
+            <div style={{ marginTop: '30px' }}>
+              <Button 
+                onClick={handleSave}
+                variant="contained"
+                color="primary"
+                size="small"
+                style={{ height: '35px', padding: '6px 16px', margin: '5px' }}
+              >
+              저장
+              </Button>
+              <Button 
+                onClick={handleCancel}
+                variant="contained"
+                color="primary"
+                size="small"
+                style={{ height: '35px', padding: '6px 16px', margin: '5px' }}
+              >
+              취소
+              </Button>
+            </div>
+          ) : (
+            <div style={{ marginTop: '30px' }}>
+              <Button 
+                onClick={handleUpdate}
+                variant="contained"
+                color="primary"
+                size="small"
+                style={{ height: '35px', padding: '6px 16px', margin: '5px' }}
+              >
+              회원수정
+              </Button>
+              <Button 
+                onClick={handleDelete}
+                variant="contained"
+                color="primary"
+                size="small"
+                style={{ height: '35px', padding: '6px 16px', margin: '5px' }}
+              >
+              회원삭제
+              </Button>
+            </div>
+          )}
         </Grid>
         <Grid item sm={6}>
           <Grid container spacing={3}>

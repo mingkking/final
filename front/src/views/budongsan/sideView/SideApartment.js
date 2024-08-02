@@ -9,28 +9,29 @@ const SideApartment = ({ property, schoolMarkerCount, storeMarkerCount, busStati
   const budongsanValue = useContext(BudongsanContext);
 
   useEffect(() => {
-    // 컴포넌트가 마운트될 때 현재 관심 등록 상태를 확인
-    fetch('http://localhost:5000/check-property', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        user_num: budongsanValue.state.userNum,
-        property_num: property.property_num,
-      }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.isFavorite) {
-          setCurrentImage(Insert); // 관심 등록 상태
-        } else {
-          setCurrentImage(Delete); // 관심 미등록 상태
-        }
+    if (property && budongsanValue.state.userNum) {
+      fetch('http://localhost:5000/check-property', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_num: budongsanValue.state.userNum,
+          property_num: property.property_num,
+        }),
       })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+        .then(response => response.json())
+        .then(data => {
+          if (data.isFavorite) {
+            setCurrentImage(Insert); // 관심 등록 상태
+          } else {
+            setCurrentImage(Delete); // 관심 미등록 상태
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    }
   }, [property, budongsanValue.state.userNum]);
 
   if (!property) {
@@ -74,9 +75,11 @@ const SideApartment = ({ property, schoolMarkerCount, storeMarkerCount, busStati
 
   return (
     <div>
-      <div style={{ textAlign: 'left' }}>
-        <img src={currentImage} alt="Placeholder" width="40" height="40" onClick={handleImageClick} />
-      </div>
+      {budongsanValue.state.userNum && (
+        <div style={{ textAlign: 'left' }}>
+          <img src={currentImage} alt="Placeholder" width="40" height="40" onClick={handleImageClick} />
+        </div>
+      )}
       <div className="card mb-3">
         <h3 className="card-header">{property.address}</h3>
         <div className="card-body">

@@ -22,11 +22,11 @@ const MemberAgeDonut = () => {
                 show: true,
             }
         },
-        colors: [primary, secondary, "#c2fcc3", "#fcc2ce", "#fcf6c2"], // 색상 지정하기
+        colors: ["#ff9c9c", "#ffc29c", "#fffc9c", "#b5ff9c", "#9cf8ff", "#9c9eff"], // 색상 지정하기
         dataLabels: {
             enabled: false,
         },
-        labels: ["10대", "20대", "30대", "40대", "50대 이상"], // 연령대
+        labels: ["10대", "20대", "30대", "40대", "50대 이상", "구글 회원"], // 연령대
         legend: {
             show: true,
         },
@@ -37,7 +37,7 @@ const MemberAgeDonut = () => {
     };
 
     // 차트 데이터
-    const seriescolumnchart = ["10대", "20대", "30대", "40대", "50대 이상"].map(ageGroup => 
+    const seriescolumnchart = ["10대", "20대", "30대", "40대", "50대 이상", "구글 회원"].map(ageGroup => 
         value.state.countByAgeMember.find(item => item.AGE_GROUP === ageGroup)?.COUNT || 0
     );
 

@@ -1,4 +1,5 @@
 import { Button } from '@mui/material';
+import { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import './Subscribe.css';
 import { HeartHandshake, Check } from 'tabler-icons-react';
@@ -11,7 +12,7 @@ function Subscribe3() {
     const handleClickMain = () => {
         navigate('/');    
       }
-   
+
     return (
         <div>
             <div className='subscribe-img'>
