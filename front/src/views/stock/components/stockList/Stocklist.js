@@ -103,7 +103,7 @@ const Stocklist = ({ onStockSelect }) => {
         component={Paper} 
         sx={{ 
           flexGrow: 1,
-          height: 'calc(100vh - 250px)', // 검색 필드 공간 고려
+          height: 'calc(100vh - 180px)', // 검색 필드 공간 고려
           overflow: 'auto',
           '&::-webkit-scrollbar': {
             width: '0.4em'
@@ -159,11 +159,6 @@ const Stocklist = ({ onStockSelect }) => {
           </TableBody>
         </Table>
       </TableContainer>
-      {loading && 
-        <Box display="flex" justifyContent="center" p={2}>
-          <CircularProgress />
-        </Box>
-      }
     </Box>
   );
 };
