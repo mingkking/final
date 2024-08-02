@@ -20,6 +20,7 @@ const MonthJoinMembers = () => {
       axios.get('http://localhost:8080')
       .then((result) => {
         value.actions.setLast5MonthsMember(result.data.selectLast5MonthsMember);
+        console.log("데이타값" , data);
       });
     },[]);
 
@@ -99,7 +100,7 @@ const MonthJoinMembers = () => {
 
         {
             name: 'Month',
-            data: [data[4], data[3], data[2], data[1], data[0]],
+            data: [data[0], data[1], data[2], data[3], data[4]],
         },
     ];
 

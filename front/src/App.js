@@ -45,6 +45,7 @@ import InsertCommunity from './views/community/InsertCommunity';
 import { CommunityProvider } from './views/community/contexts/CommunityContext';
 import { BudongsanProvider } from './views/budongsan/sideView/componoets/BudongsanContext';
 import { LoginProvider } from './views/login/contexts/LoginContext';
+import { SubscribeProvider } from './views/subscribe/context/SubscribeContext';
 
 
 function AppContent() {
@@ -115,9 +116,11 @@ function App() {
             <CommunityProvider>
               <BudongsanProvider>
                 <MainProvider>
-                  <ThemeProvider theme={theme}>
-                    <AppContent />
-                  </ThemeProvider>
+                  <SubscribeProvider>
+                    <ThemeProvider theme={theme}>
+                      <AppContent />
+                    </ThemeProvider>
+                  </SubscribeProvider>
                 </MainProvider>
               </BudongsanProvider>
             </CommunityProvider>
