@@ -136,14 +136,11 @@
   }
 
   .my-interest{
-    position: fixed;
-    right: 100px;
-    top: 205px;
-    z-index: 1000;
-    flex: 1; 
-    max-width: 200px; 
-    background-color: #f2f2f2;
-    padding: 20px;
+    position: sticky; /* 스크롤 시 특정 위치에 붙도록 설정 */
+  top: 20px; /* 스크롤이 시작된 후, 20px 떨어진 위치에 붙음 */
+  max-width: 200px; /* 최대 너비 설정 */
+  background-color: #f2f2f2; /* 배경 색상 */
+  padding: 20px; /* 내부 여백 */
   }
 
   .my-interest h3 {
@@ -241,4 +238,48 @@
     color: #fff;
     transform: scale(1.2);
   }
+
+  @media (max-width: 768px) {
+    .profile-section {
+      flex-direction: column;
+      align-items: center;
+    }
   
+    .profile-avatar-container {
+      margin-right: 0;
+      margin-bottom: 20px;
+    }
+  
+    .my-interest {
+      position: static; /* 절대 위치 제거 */
+      width: 50%;
+      max-width: none;
+      top: 10px;
+      bottom: 10px;
+      padding: 10px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .nickname {
+      font-size: 20px;
+    }
+  
+    .edit-profile-button {
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+  
+    .my-interest h3 {
+      font-size: 16px;
+    }
+  
+    .my-interest-item {
+      padding: 5px;
+      font-size: 14px;
+    }
+  }
+  
+  @media (max-width: 344px) {
+    
+  }   

@@ -49,6 +49,10 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
     const navigate = useNavigate();
     const [nicknameExists, setNicknameExists] = useState(false);
     const [nicknameChecked, setNicknameChecked] = useState(false);
+    const [useremailExists, setUseremailExists] = useState(false); // 이메일 중복 여부
+    const [usertelExists, setUsertelExists] = useState(false); // 전화번호 중복 여부
+    const [useremailChecked, setUseremailChecked] = useState(false); // 이메일 중복검사 여부
+    const [usertelChecked, setUsertelChecked] = useState(false); // 전화번호 중복검사 여부
     
 
     const onSubmit = async (data) => {
@@ -81,13 +85,43 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
         }
     };
 
+    // 이메일 중복검사
+    const checkEmailExists = async (userEmail) => {
+      try {
+          setUseremailChecked(false); // 중복검사 시작 전에 false로 설정
+          const response = await axiosInstance.get(`/check-email?email=${userEmail}`);
+          const exists = response.data;
+          setUseremailExists(exists);
+          setUseremailChecked(true); // 중복검사 완료 후 true로 설정
+
+      } catch (error) {
+          console.error('Error checking email:', error);
+          alert('Error checking email. ' + error);
+      }
+  };
+
+  // 전화번호 중복검사
+  const checkTelExists = async (userTel) => {
+      try {
+          setUsertelChecked(false); // 중복검사 시작 전에 false로 설정
+          const response = await axiosInstance.get(`/check-tel?usertel=${userTel}`);
+          const exists = response.data;
+          setUsertelExists(exists);
+          setUsertelChecked(true); // 중복검사 완료 후 true로 설정
+
+      } catch (error) {
+          console.error('Error checking phone:', error);
+          alert('Error checking phone. ' + error);
+      }
+  };
+
 
     //---------------------------------------------------------------
 
     const communityContext = useContext(CommunityContext);
   
   
-
+ 
   const createAtCal = (created_at) => {
     const now = new Date();
     const date = new Date(created_at);
@@ -226,42 +260,65 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
                             </>
                         )}
 
-                    <div className="form-group">
-                        <label htmlFor="userTel">전화번호</label>
-                        <input
-                            type="text"
-                            id="userTel"
-                            placeholder="전화번호"
-                            {...register('userTel', {
-                                required: '전화번호는 필수 항목입니다.',
-                                pattern: {
-                                    value: /^\d{3}-\d{3,4}-\d{4}$/,
-                                    message: '전화번호 형식이 올바르지 않습니다. (예: 010-1234-5678)'
-                                }
-                            })}
-                        />
-                        
-                    </div>
-
+                  <div className="form-group">
+                    <label>전화번호</label>
+                    <input 
+                    type="tel" 
+                    name="userTel" 
+                    placeholder="전화번호"  
+                    {...register('userTel', {
+                        required: '전화번호는 필수 항목입니다.',
+                        pattern: {
+                            value: /^\d{3}-\d{3,4}-\d{4}$/,
+                            message: '전화번호 형식이 올바르지 않습니다. (예: 010-1234-5678)'
+                          },
+                        onChange: (e) => {
+                            // 전화번호 중복 검사 실행
+                            checkTelExists(e.target.value);
+                        }
+                      })}
+                    />
+                    
+                </div>
+                
                     {errors.userTel && <p className='err'>{errors.userTel.message}</p>}
+                    {usertelChecked && (
+                        <>
+                            
+                            {usertelExists && <p className="err">이미 존재하는 전화번호입니다.</p>}
+                        </>
+                    )}
 
                     <div className="form-group">
-                        <label htmlFor="userEmail">이메일</label>
-                        <input
-                            type="email"
-                            id="userEmail"
-                            placeholder="이메일"
-                            {...register('userEmail', {
-                                required: '이메일은 필수 항목입니다.',
-                                pattern: {
-                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                    message: '유효한 이메일 주소를 입력하세요.'
-                                }
-                            })}
-                        />
-                    </div>
-
+                    <label>이메일</label>
+                    <input 
+                        type="email" 
+                        name="userEmail" 
+                        placeholder="이메일"  
+                        {...register('userEmail', {
+                            required: '이메일은 필수 항목입니다.',
+                            pattern: {
+                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            message: '유효한 이메일 주소를 입력하세요.'
+                            },
+                            onChange: (e) => {
+                                // 이메일 중복 검사 실행
+                                checkEmailExists(e.target.value);
+                            }
+                          })}
+                    />
+                    
+                    
+                </div>
+                
                     {errors.userEmail && <p className='err'>{errors.userEmail.message}</p>}
+                    {useremailChecked && (
+                        <>
+                            
+                            {useremailExists && <p className="err">이미 존재하는 이메일입니다.</p>}
+                        </>
+                    )}
+
 
                     <button className="edit-profile-button">수정하기</button>
                 
