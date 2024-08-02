@@ -1,9 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { FormControl, RadioGroup, FormControlLabel, Radio, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { ReportMoney } from 'tabler-icons-react';
+import axios from 'axios';
+import SubscribeContext from './context/SubscribeContext';
 
 const Subscribe2 = () => {
+
+  const navigate = useNavigate();
+  const value = useContext(SubscribeContext);
   const [paymentMethod, setPaymentMethod] = useState('');
   const [impReady, setImpReady] = useState(false);
   const [orderNum, setOrderNum] = useState(makeOrderNum());
@@ -17,7 +22,7 @@ const Subscribe2 = () => {
     return `${year}${month}${day}${randomNum}`;
   }
 
-  // script load
+  // 결제 script
   useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://cdn.iamport.kr/v1/iamport.js';
@@ -33,7 +38,7 @@ const Subscribe2 = () => {
   // 카드 결제 시 출력
   const cardPay = () => {
     if (!impReady) {
-      alert('임포트 스크립트가 아직 로드되지 않았습니다.');
+      alert('로딩중...');
       return;
     }
 
@@ -53,22 +58,13 @@ const Subscribe2 = () => {
       buyer_postcode: '123-456',
     };
 
-    IMP.request_pay(data, callbackMsg);
-  };
-
-  const callbackMsg = (response) => {
-    const { success, error_msg } = response;
-    if (success) {
-      successSubscribe();
-    } else {
-      alert(`결제 실패: ${error_msg}`);
-    }
+    IMP.request_pay(data, callback);
   };
 
   // kakaopay 결제 시 출력
   const kakaoPay = () => {
     if (!impReady) {
-      alert('임포트 스크립트가 아직 로드되지 않았습니다.');
+      alert('로딩중...');
       return;
     }
 
@@ -91,17 +87,16 @@ const Subscribe2 = () => {
     IMP.request_pay(data, callback);
   };
 
-  const navigate = useNavigate();
-
-  const successSubscribe = () => {
-    navigate('/subscribe3')
-  }
-
-  const callback = (response) => {
+  // 결제 후 함수
+  const callback = async(response) => {
     const { success, error_msg } = response;
+    
+    // 결제 성공 시 3페이지로 이동
     if (success) {
-      successSubscribe();
+      await axios.put(`http://localhost:8080/subscribe2/${value.state.userNum}`, value.state.userNum);
+      navigate('/subscribe3');
     } else {
+      // 실패시 에러 문구 출력
       alert(`결제 실패: ${error_msg}`);
     }
   };
