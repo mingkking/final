@@ -3,12 +3,16 @@ import oracledb
 import time
 from datetime import datetime, timedelta
 # from data_collection.krx_data_fetcher import get_krx_stock_data
-from data_collection.krx_data_fetcher import get_krx_stock_data
+from backtest.data_collection.krx_data_fetcher import get_krx_stock_data
 oracledb.init_oracle_client()
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 def create_connection():
     try:
-        connection = oracledb.connect(user="investigate", password="team1", dsn="192.168.0.39:1521/XE") #데이터 베이스 연결에 필요한 정보들 입력
+        #connection = oracledb.connect(user="investigate", password="team1", dsn="192.168.0.39:1521/XE") #데이터 베이스 연결에 필요한 정보들 입력
+        connection = oracledb.connect(user="investigate", password="team1", dsn="13.125.176.132:1521/XE")
         print("Database connection established successfully.")
         return connection
     except oracledb.Error as e:
