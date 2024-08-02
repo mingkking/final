@@ -2,16 +2,15 @@ import React, { useContext, useState, useEffect } from 'react';
 import BudongsanContext from './componoets/BudongsanContext';
 import './sideCss/SideMypage.css';
 
-const SideMypage = () => {
+const SideMypage = ({ onPropertySelect }) => {
     const [properties, setProperties] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const myPageValue = useContext(BudongsanContext);
+    const { state: { userNum } } = useContext(BudongsanContext);
 
     useEffect(() => {
         const fetchProperties = async () => {
             try {
-                const userNum = myPageValue.state.userNum;
                 const response = await fetch('http://localhost:5000/get-favorite-properties', {
                     method: 'POST',
                     headers: {
@@ -24,8 +23,8 @@ const SideMypage = () => {
                     throw new Error('네트워크 응답이 실패했습니다.');
                 }
 
-                const data = await response.json();
-                setProperties(data.properties);
+                const { properties } = await response.json();
+                setProperties(properties);
             } catch (error) {
                 setError(error.message);
             } finally {
@@ -34,24 +33,20 @@ const SideMypage = () => {
         };
 
         fetchProperties();
-    }, [myPageValue.state.userNum]);
-
-    if (loading) {
-        return <div className="loader">로딩 중...</div>;
-    }
-
-    if (error) {
-        return <div className="error">오류 발생: {error}</div>;
-    }
+    }, [userNum]);
 
     const handlePropertyClick = (property) => {
         if (onPropertySelect) {
-            onPropertySelect(property); // 부모 컴포넌트의 함수 호출
+            onPropertySelect(property);
         } else {
             console.error("onPropertySelect is not defined.");
         }
         console.log("Clicked property:", property);
     };
+
+    if (loading) return <div className="loader">로딩 중...</div>;
+
+    if (error) return <div className="error">오류 발생: {error}</div>;
 
     return (
         <div className="side-mypage container">
@@ -62,30 +57,16 @@ const SideMypage = () => {
                 <ul className="property-list">
                     {properties.map((property) => (
                         <li
-                        key={property.property_num}
-                        className="property-item"
-                        onClick={() => handlePropertyClick(property)}
-                    >
+                            key={property.property_num}
+                            className="property-item"
+                            onClick={() => handlePropertyClick(property)}
+                        >
                             <div className="property-details">
-                                <p>
-                                    <span className="address">{property.address}</span>
-                                </p>
-                                <p>
-                                    <span className="label">아파트 이름</span>
-                                    <span className="value">{property.apartMentName}</span>
-                                </p>
-                                <p>
-                                    <span className="label">층수:</span>
-                                    <span className="value">{property.floorNumber}층</span>
-                                </p>
-                                <p>
-                                    <span className="label">거래 금액:</span>
-                                    <span className="value">{property.transactionAmount} 원</span>
-                                </p>
-                                <p>
-                                    <span className="label">건축 연도:</span>
-                                    <span className="value">{property.yearBuilt}년</span>
-                                </p>
+                                <p><span className="address">{property.address}</span></p>
+                                <p><span className="label">아파트 이름:</span> <span className="value">{property.apartMentName}</span></p>
+                                <p><span className="label">층수:</span> <span className="value">{property.floorNumber}층</span></p>
+                                <p><span className="label">거래 금액:</span> <span className="value">{property.transactionAmount} 원</span></p>
+                                <p><span className="label">건축 연도:</span> <span className="value">{property.yearBuilt}년</span></p>
                             </div>
                         </li>
                     ))}

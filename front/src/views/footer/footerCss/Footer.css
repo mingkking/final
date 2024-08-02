@@ -1,35 +1,47 @@
-/* footerCss/Footer.css */
-
+/* 기본 스타일 */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
-  
-  .Footer {
-      background-color: #f8f9fa; /* 밝은 배경 색상 */
-      color: #333; /* 어두운 텍스트 색상 */
-      padding: 20px;
-      font-size: 14px;
-      line-height: 1.6;
-      border-top: 1px solid #e1e1e1; /* 상단 경계선 */
-      display: flex; /* Flexbox 사용 */
-      justify-content: space-between; /* 항목들 사이에 공간을 고르게 배분 */
-      flex-wrap: wrap; /* 화면 크기에 따라 항목들이 줄 바꿈되도록 설정 */
-  }
-  
-  .footer-section {
-      margin-bottom: 15px;
-      flex: 1; /* 각 항목이 유연하게 공간을 차지하도록 설정 */
-      min-width: 150px; /* 각 항목의 최소 너비 설정 */
-  }
-  
-  .footer-section a {
-      color: #007bff; /* 링크 색상 */
-      text-decoration: none;
-  }
-  
-  .footer-section a:hover {
-      text-decoration: underline; /* 링크에 마우스를 올렸을 때 밑줄 추가 */
-  }
-  
+}
+
+.Footer {
+    background-color: #f8f9fa; /* 밝은 배경 색상 */
+    color: #333; /* 어두운 텍스트 색상 */
+    padding: 20px;
+    font-size: 14px;
+    line-height: 1.6;
+    border-top: 1px solid #e1e1e1; /* 상단 경계선 */
+    display: flex; /* Flexbox 사용 */
+    justify-content: space-between; /* 항목들 사이에 공간을 고르게 배분 */
+    flex-wrap: wrap; /* 화면 크기에 따라 항목들이 줄 바꿈되도록 설정 */
+}
+
+.footer-section {
+    margin-bottom: 15px;
+    flex: 1; /* 각 항목이 유연하게 공간을 차지하도록 설정 */
+    min-width: 150px; /* 각 항목의 최소 너비 설정 */
+}
+
+/* 링크 스타일 */
+.footer-section a {
+    color: #007bff; /* 링크 색상 */
+    text-decoration: none;
+}
+
+.footer-section a:hover {
+    text-decoration: underline; /* 링크에 마우스를 올렸을 때 밑줄 추가 */
+}
+
+/* 화면 크기가 768px 이하일 때 스타일 */
+@media (max-width: 768px) {
+    .Footer {
+        justify-content: flex-start; /* 왼쪽 정렬 */
+        text-align: left; /* 텍스트 왼쪽 정렬 */
+    }
+    
+    .footer-section {
+        flex: none; /* 기본 너비로 변경 */
+        min-width: 100%; /* 전체 너비를 사용 */
+    }
+}
