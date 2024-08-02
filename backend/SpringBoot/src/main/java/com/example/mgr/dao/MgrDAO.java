@@ -45,4 +45,7 @@ public interface MgrDAO {
 
 	// 회원 상세 목록 페이지의 커뮤니티 정보
 	public List<MgrCommunityVO> selectCommPost(MgrCommunityVO vo);
+	
+	// 회원 수정
+	public int updateMember(MgrMemberVO vo);
 }

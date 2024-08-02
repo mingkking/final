@@ -99,4 +99,10 @@ public class MgrServiceImpl implements MgrService {
 		return mgrDAO.selectCommPost(vo);
 	}
 
+	// 회원 수정
+	public int updateMember(MgrMemberVO vo) {
+		mgrDAO.updateMember(vo);
+		return 1;
+	}
+
 }

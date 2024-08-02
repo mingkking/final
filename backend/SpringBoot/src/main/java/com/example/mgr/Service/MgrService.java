@@ -47,4 +47,7 @@ public interface MgrService {
 	
 	// 회원 삭제
 	void deleteMember(int user_num);
+	
+	// 회원 수정
+	int updateMember(MgrMemberVO vo);
 }

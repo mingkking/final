@@ -101,7 +101,8 @@
                 WHEN age BETWEEN 20 AND 29 THEN '20대'
                 WHEN age BETWEEN 30 AND 39 THEN '30대'
                 WHEN age BETWEEN 40 AND 49 THEN '40대'
-                ELSE '50대 이상'
+                WHEN age >= 50 THEN '50대 이상'
+                ELSE '구글 회원'
             END AS age_group
       FROM (
             SELECT 
@@ -126,6 +127,23 @@
     	WHERE user_num = #{user_num}
     </select>
     
+    <!-- 회원 삭제 -->
+    <delete id="deleteMember" parameterType="int">
+    	DELETE FROM users
+    	WHERE user_num = #{user_num}
+    </delete>
+    
+    <!-- 회원 수정 -->
+    <update id="updateMember" parameterType="MgrMemberVO">
+    	UPDATE users
+    	SET user_name = #{user_name},
+    		user_nickname = #{user_nickname},
+    		user_id = #{user_id},
+    		user_tel = #{user_tel},
+    		user_email = #{user_email}
+    	WHERE user_num = #{user_num}
+    </update>
+    
     <!-- memberDetail 커뮤니티 글 출력 -->
     <select id="selectCommPost" resultType="MgrCommunityVO">
     	SELECT *
@@ -133,10 +151,5 @@
     	WHERE user_num = #{user_num}
     </select>
     
-    <!-- 회원 삭제 -->
-    <delete id="deleteMember" parameterType="int">
-    	DELETE FROM users
-    	WHERE user_num = #{user_num}
-    </delete>
 </mapper>
 
