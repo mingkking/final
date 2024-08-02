@@ -5,7 +5,7 @@ import java.util.Date;
 
 import lombok.Data;
  
-@Data
+@Data 
 public class MgrSubscriberCountVO {
 	private String id;
 	private String user_id; 

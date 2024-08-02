@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
  
-@Data
+@Data 
 public class MgrMemberVO {
 	private String user_num;
 	private Date   created_at;

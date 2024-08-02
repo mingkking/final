@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.example.subscribe.dao.SubscribeDAO">
+
+	<!-- 구독 결제 시 데이터 저장 -->
+	<insert id="insertSubscriber" parameterType="com.example.subscribe.domain.SubscribeVO">
+		INSERT INTO subscribe(user_num, amount, payment_date)
+		VALUES(#{user_num}, 10000, TRUNC(SYSDATE))
+	</insert>
+	
+	<!-- 구독 중복 체크 -->
+	<select id="selectSubscriber" parameterType="com.example.subscribe.domain.SubscribeVO" resultType="int">
+		SELECT count(*)
+		FROM subscribe
+		WHERE user_num = #{user_num}
+	</select>
+	
+</mapper>
+

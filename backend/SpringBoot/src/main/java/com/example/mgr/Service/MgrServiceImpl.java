@@ -12,7 +12,7 @@ import com.example.mgr.domain.MgrCommunityVO;
 import com.example.mgr.domain.MgrMemberVO;
 import com.example.mgr.domain.MgrSessionCountVO;
   
-@Service
+@Service 
 public class MgrServiceImpl implements MgrService {
 	 
 	@Autowired
@@ -97,6 +97,12 @@ public class MgrServiceImpl implements MgrService {
 	// 회원 상세 목록 페이지의 커뮤니티 정보
 	public List<MgrCommunityVO> selectCommPost(MgrCommunityVO vo) {
 		return mgrDAO.selectCommPost(vo);
+	}
+
+	// 회원 수정
+	public int updateMember(MgrMemberVO vo) {
+		mgrDAO.updateMember(vo);
+		return 1;
 	}
 
 }
