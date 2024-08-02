@@ -226,9 +226,9 @@ def get_favorite_properties():
         with get_db_connection() as connection:
             with connection.cursor() as cursor:
                 select_query = """
-                SELECT p.property_num, p.address, p.apartMent_Name, p.transaction_Amount
+                SELECT p.property_num, p.transaction_Amount, p.year_Built, p.address, p.registration_Date, p.road_name, p.apartMent_Name, square_Footage,p.floor_Number
                 FROM PROPERTY_FAVORITE pf
-                JOIN PROPERTY p ON pf.property_num = p.property_num, p.year_Built, p.floor_Number, p.year_Built, p.registration_Date
+                JOIN PROPERTY p ON pf.property_num = p.property_num
                 WHERE pf.user_num = :user_num
                 """
                 
@@ -238,11 +238,14 @@ def get_favorite_properties():
                 properties_list = [
                     {
                         'property_num': row[0],
-                        'address': row[1],
-                        'apartMentName': row[2],
-                        'transactionAmount': row[3],
-                        'yearBuilt': row[4],
-                        'floorNumber': row[5]
+                        'transactionAmount': row[1],
+                        'yearBuilt': row[2],
+                        'address': row[3],
+                        'registrationDate': row[4],
+                        'roadName': row[5],
+                        'apartMentName': row[6],
+                        'squareFootage': row[7],
+                        'floorNumber': row[8]
                     }
                     for row in properties
                 ]
@@ -251,6 +254,49 @@ def get_favorite_properties():
     except Exception as e:
         logger.error(f"Error: {e}")
         return jsonify({'status': 'error', 'message': 'An error occurred'}), 500
+    
+
+@app.route('/top-liked-properties', methods=['GET'])
+def get_top_liked_properties():
+    try:
+        with get_db_connection() as connection:
+            with connection.cursor() as cursor:
+                query = """
+                SELECT *
+                FROM (
+                    SELECT p.property_num, p.transaction_Amount, p.year_Built, p.address, p.registration_Date, p.road_name, p.apartMent_Name, p.square_Footage, p.floor_Number,
+                           COUNT(*) AS favorite_count
+                    FROM PROPERTY_FAVORITE pf
+                    JOIN PROPERTY p ON pf.property_num = p.property_num
+                    GROUP BY p.property_num, p.transaction_Amount, p.year_Built, p.address, p.registration_Date, p.road_name, p.apartMent_Name, p.square_Footage, p.floor_Number
+                    ORDER BY favorite_count DESC
+                )
+                WHERE ROWNUM <= 5
+                """
+                cursor.execute(query)
+                properties = cursor.fetchall()
+                
+                properties_list = [
+                    {
+                        'property_num': row[0],
+                        'transactionAmount': row[1],
+                        'yearBuilt': row[2],
+                        'address': row[3],
+                        'registrationDate': row[4],
+                        'roadName': row[5],
+                        'apartMentName': row[6],
+                        'squareFootage': row[7],
+                        'floorNumber': row[8]
+                    }
+                    for row in properties
+                ]
+                
+                return jsonify({'status': 'success', 'topProperties': properties_list})
+    except Exception as e:
+        logger.error(f"Error: {e}")
+        return jsonify({'status': 'error', 'message': 'An error occurred'}), 500
+
+
 
 @app.route('/analyze', methods=['POST', 'GET'])
 def analyze_stock():

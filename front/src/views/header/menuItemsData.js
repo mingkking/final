@@ -1,20 +1,14 @@
 export const MenuItemsData = [
     
+    
     {
-      title: '관심종목',
-      submenu: [
-        {
-          title: '주식',
-          url: 'stock',
-        },
-        {
-          title: '부동산',
-          url: 'budongsan',
-        },
-      ],
-
+      title: '주식',
+      url: 'stock',
     },
-
+    {
+      title: '부동산',
+      url: 'budongsan',
+    },
     {
         title: '백테스트',
         url: 'back1',

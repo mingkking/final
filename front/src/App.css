@@ -52,18 +52,7 @@ header {
   align-items: center;
 }
 
-.menus {
-  display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
 
-.search-form {
-  display: flex;
-  align-items: center;
-  margin-left: 250px;
-}
 
 .desktop-nav .menu-items {
   position: relative;

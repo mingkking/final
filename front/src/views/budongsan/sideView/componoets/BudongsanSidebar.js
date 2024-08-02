@@ -33,13 +33,9 @@ const BudongsanSidebar = ({ onPropertySelect, schoolMarkerCount, storeMarkerCoun
     }
   }
 
-
   const handlePropertySelect = (property) => {
     setSelectedProperty(property);
-    console.log("Property selected in parent:", property);
     onPropertySelect(property); // 부모 컴포넌트에 선택된 속성 전달
-   
-  
     setSelectedMenu('아파트');  // 메뉴를 '아파트'로 설정하여 SideApartment 컴포넌트로 이동
   };
 
@@ -60,7 +56,7 @@ const BudongsanSidebar = ({ onPropertySelect, schoolMarkerCount, storeMarkerCoun
       case '매물':
         return <SideTransaction onPropertySelect={handlePropertySelect} />;
       case '마이':
-        return <SideMypage />;
+        return <SideMypage onPropertySelect={handlePropertySelect}/>;
       default:
         return null;
     }
@@ -68,6 +64,7 @@ const BudongsanSidebar = ({ onPropertySelect, schoolMarkerCount, storeMarkerCoun
 
   return (
     <div>
+      
       <header className="side-header">
         <div className="side-nav-area">
           <Navbar setSelectedMenu={setSelectedMenu} />

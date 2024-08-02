@@ -1,36 +1,55 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-
 .character-container {
-    display: flex;            /* Flexbox를 사용하여 자식 요소를 가로로 나란히 배치 */
-    align-items: flex-start;  /* 상단 정렬 */
-    margin-left: 20%;            /* 내부 여백 */
+    display: flex;            /* Flexbox to align child elements horizontally */
+    align-items: flex-start;  /* Align items to the top */
+    margin-left: 20%;            /* Margin for container */
     margin-top: 5%;
-  }
-  
-  .character-image {
-    width: 600px;             /* 이미지 너비를 동일하게 설정 */
-    height: auto;             /* 이미지 비율 유지를 위해 height는 auto로 설정 */
-    margin-right: 20px;       /* 이미지와 텍스트 사이의 간격 */
-    border-radius: 10px;      /* 이미지 모서리를 둥글게 처리 */
-  }
-  
-  .character-info {
-    max-width: 600px;         /* 텍스트 최대 너비 */
-    text-align: left;         /* 텍스트 왼쪽 정렬 */
-    font-family: 'Roboto', sans-serif; /* Roboto 폰트를 적용 */
-    font-size: 16px;          /* 폰트 크기 설정 */
-    line-height: 1.6;         /* 줄 높이 설정 */
-  }
-  
-  .character-info h1 {
-    margin-top: 0;            /* 제목 상단 여백 제거 */
-    font-size: 24px;          /* 제목 폰트 크기 설정 */
-    font-weight: 700;         /* 제목 폰트 두께 설정 */
-  }
-  
-  .character-info p {
-    white-space: pre-line;    /* 줄바꿈을 유지하기 위해 pre-line 사용 */
-    text-align: left;         /* 텍스트 왼쪽 정렬 */
-  }
+    flex-wrap: wrap;          /* Allow wrapping on smaller screens */
+}
+
+.character-image {
+    width: 600px;             /* Fixed width for image */
+    height: auto;             /* Maintain aspect ratio */
+    margin-right: 20px;       /* Space between image and text */
+    border-radius: 10px;      /* Rounded corners for the image */
+}
+
+.character-info {
+    max-width: 600px;         /* Limit width for text */
+    text-align: left;         /* Align text to the left */
+    font-family: 'Roboto', sans-serif; /* Font style */
+    font-size: 16px;          /* Font size */
+    line-height: 1.6;         /* Line height */
+}
+
+.character-info h1 {
+    margin-top: 0;            /* Remove top margin for the header */
+    font-size: 24px;          /* Font size for header */
+    font-weight: 700;         /* Font weight for header */
+}
+
+.character-info p {
+    white-space: pre-line;    /* Preserve line breaks */
+    text-align: left;         /* Align text to the left */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .character-container {
+        flex-direction: column; /* Stack image and text vertically */
+        align-items: center;    /* Center align items */
+        margin-left: 0;         /* Remove left margin on small screens */
+    }
+
+    .character-image {
+        width: 100%;            /* Image takes full width of its container */
+        margin-right: 0;       /* Remove right margin */
+        margin-bottom: 20px;   /* Add space below the image */
+    }
+
+    .character-info {
+        max-width: 100%;        /* Full width for text on small screens */
+        text-align: center;     /* Center align text */
+    }
+}

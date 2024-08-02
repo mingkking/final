@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, Paper, Typography, Box, Tabs, Tab } from '@mui/material';
+import Slider from 'react-slick';
+import { styled } from '@mui/material/styles';
+import axios from 'axios'; // Axios 추가
 import '../mainCss/Slick.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import Slider from 'react-slick';
-import { styled } from '@mui/material/styles';
-import '../mainCss/MainList.css'; // CSS 파일 import
+import '../mainCss/MainList.css';
 
 // CSS 스타일링된 슬라이드 컴포넌트
 const StyledSlide = styled(Paper)(({ theme }) => ({
@@ -25,8 +26,43 @@ const CustomSlider = styled(Slider)(({ theme }) => ({
     },
 }));
 
-function MainList() {
+// 숫자를 적절한 단위로 포맷팅하는 함수
+const formatNumber = (number) => {
+    if (number >= 100000000) { // 1억 이상
+        const billions = Math.floor(number / 100000000); // 억 단위
+        const millions = Math.floor((number % 100000000) / 10000000); // 천만 단위
+        let result = '';
+        
+        if (billions > 0) result += `${billions}억 `;
+        if (millions > 0) result += `${millions}천만`;
+
+        return result.trim(); // 공백 제거
+    } else if (number >= 10000) { // 1만 이상
+        return number.toLocaleString(); // 천 단위로 쉼표 추가
+    } else {
+        return number.toLocaleString(); // 천 단위로 쉼표 추가
+    }
+};
+
+
+function MainList({onPropertySelect}) {
     const [tabValue, setTabValue] = useState(0);
+    const [topProperties, setTopProperties] = useState([]);
+
+    useEffect(() => {
+        // 상위 5개의 부동산 정보를 가져오는 함수
+        const fetchTopProperties = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/top-liked-properties');
+                if (response.data.status === 'success') {
+                    setTopProperties(response.data.topProperties);
+                }
+            } catch (error) {
+                console.error('Error fetching top properties:', error);
+            }
+        };
+        fetchTopProperties();
+    }, []);
 
     const handleTabChange = (event, newValue) => {
         setTabValue(newValue);
@@ -43,15 +79,24 @@ function MainList() {
         centerMode: false, // 가운데 맞춤 모드 비활성화
     };
 
+    const handleSlideClick = (property) => {
+        if (typeof onPropertySelect === 'function') {
+            onPropertySelect(property);
+            console.log('Selected Property:', property);
+        } else {
+            console.error('onPropertySelect is not a function');
+        }
+    };
+
     const DashboardItem = ({ title, items }) => (
         <Paper elevation={3} sx={{ p: 2, bgcolor: 'background.paper', borderRadius: 2, width: '100%', maxHeight: '300px', overflow: 'hidden' }}>
             <Typography variant="h6" gutterBottom color="primary.dark">{title}</Typography>
             <CustomSlider {...sliderSettings} style={{ width: '100%', overflow: 'hidden' }}>
                 {items.map((item, index) => (
-                    <StyledSlide key={index} elevation={1}>
+                    <StyledSlide key={index} elevation={1} onClick={() => handleSlideClick(item)}>
                         <Typography variant="body1" color="text.secondary">{item.title}</Typography>
-                        <Typography variant="body2" color="text.secondary">{item.money}</Typography>
-                        <Typography variant="body2" color="text.secondary">{item.percent}</Typography>
+                        <Typography variant="body2" color="text.secondary">{item.money} {item.floorNumber}</Typography>
+                        <Typography variant="body2" color="text.secondary">{formatNumber(item.percent)}</Typography>
                     </StyledSlide>
                 ))}
             </CustomSlider>
@@ -76,12 +121,12 @@ function MainList() {
                     <Grid item xs={12}>
                         <DashboardItem
                             title="주요 부동산"
-                            items={[
-                                { title: '서울 아파트 이름', money: '해당 매물 주소', percent: '150,000,000' },
-                                { title: '경기도 아파트 이름', money: '해당 매물 주소', percent: '2,100,000,000' },
-                                { title: '대구 아파트 이름', money: '해당 매물 주소', percent: '2,400,000,000' },
-                                { title: '부산 아파트 이름', money: '해당 매물 주소', percent: '20,100,000,000' }
-                            ]}
+                            items={topProperties.map(property => ({
+                                title: property.address,
+                                money: property.apartMentName,
+                                floorNumber: property.floorNumber,
+                                percent: property.transactionAmount
+                            }))}
                         />
                     </Grid>
                 </Grid>

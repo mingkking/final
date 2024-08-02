@@ -4,7 +4,17 @@ import MainChart from './components/MainChart';
 import MainList from './components/MainList';
 import MainUnder from './components/MainUnder';
 
-function MainPage() {
+function MainPage({onPropertySelect}) {
+
+    const handlePropertySelect = (property) => {
+        console.log('Property Selected in MainPage:', property);
+        if (typeof onPropertySelect === 'function') {
+            onPropertySelect(property);
+        } else {
+            console.error('onPropertySelect is not a function');
+        }
+    };
+
     return (
         <div className="container">
             <div className="main-page">
@@ -14,7 +24,7 @@ function MainPage() {
                             <MainChart />
                         </div>
                         <div className="list-container">
-                            <MainList />
+                            <MainList onPropertySelect={handlePropertySelect}/>
                         </div>
                     </div>
                     <div className="under-container">

@@ -1,0 +1,87 @@
+/* Navbar.css */
+
+/* 네비게이션 바 스타일 */
+.desktop-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+/* 메뉴 리스트 스타일 */
+.menus {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* 메뉴 항목 스타일 */
+.menu-items a {
+    text-decoration: none;
+    color: #000; /* 기본 텍스트 색상 */
+    padding: 10px;
+    display: block;
+    font-weight: 700; /* 기본 텍스트 굵기 */
+    font-size: 18px; /* 기본 텍스트 크기 */
+}
+
+/* 활성화된 메뉴 항목 스타일 */
+.menu-items.active a {
+    font-weight: 900; /* 활성화된 항목을 더 굵게 */
+    color: #0056b3; /* 활성화된 항목의 텍스트 색상 */
+    background-color: #e0e0e0; /* 활성화된 항목의 배경 색상 */
+}
+
+/* 메뉴 항목 호버 스타일 */
+.menu-items a:hover {
+    background-color: #f0f0f0; /* 마우스 오버 시 배경색 */
+}
+
+/* 로그인 버튼 스타일 */
+.auth-buttons .btn:hover {
+    background-color: #0056b3; /* 마우스 오버 시 배경색 */
+}
+
+/* 로그인된 상태의 사용자 메뉴 스타일 */
+.user-menu {
+    display: flex;
+    align-items: center;
+}
+
+.auth-buttons {
+    margin-left: 378px; /* 로그인 버튼을 오른쪽으로 이동 */
+}
+
+/* 햄버거 메뉴 버튼 스타일 */
+.menu-toggle {
+    display: none; /* 기본적으로 숨김 */
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+    .menus {
+        display: none; /* 작은 화면에서는 메뉴를 숨김 */
+        flex-direction: column;
+        width: 100%;
+        background-color: #fff; /* 메뉴 배경색 */
+        position: absolute;
+        top: 60px; /* 헤더 아래에 위치 */
+        left: 0;
+        z-index: 1000; /* 메뉴가 다른 요소 위에 오도록 설정 */
+    }
+
+    .menus.show {
+        display: flex; /* 메뉴가 보이도록 설정 */
+    }
+
+    .menu-toggle {
+        display: block; /* 햄버거 버튼을 보이도록 설정 */
+    }
+    .auth-buttons {
+        display: none; /* 작은 화면에서는 로그인 버튼 숨김 */
+    }
+    
+}
