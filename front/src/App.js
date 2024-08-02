@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import Header from './views/header/components/Header';
 import Footer from './views/footer/Footer';
@@ -107,6 +107,12 @@ function AppContent() {
 
 function App() {
   const theme = baselightTheme;
+  useEffect(() => {
+    // 카카오 SDK 초기화
+    if (!window.Kakao.isInitialized()) {
+      window.Kakao.init('e4cf62999d49fde26a073766b0603910'); // 여기 YOUR_JAVASCRIPT_KEY를 카카오 디벨로퍼스에서 발급받은 JavaScript 키로 교체
+    }
+  }, []);
 
   return (
     <div className="App">

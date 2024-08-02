@@ -13,10 +13,11 @@ function InsertPost() {
   const [titleCheck, setTitleCheck] = useState(null);       // title data 유효성 검사
   const [contents, setContents] = useState("");             // form data 내용
   const [contentsCheck, setContentsCheck] = useState(null); // contents data 유효성 검사
+  const [file, setFile] = useState(null);                   // 파일 상태 추가
 
   const insertCommunity = (evt) => {                        // 등록 버튼 함수
     evt.preventDefault();                                   // 고유 이벤트 삭제
-    dataSubmit(title, contents);                            // 데이터 -> 컨트롤러 함수 실행
+    dataSubmit(title, contents, file);                            // 데이터 -> 컨트롤러 함수 실행
   }
 
   const insertTitle = (evt) => {                            // 제목  저장
@@ -27,35 +28,53 @@ function InsertPost() {
     setContents(evt.target.value);
   }
 
-  const dataSubmit = (title, contents) => {                 // 데이터 -> 컨트롤러
+  const handleFileSelect = (selectedFile) => {
+    setFile(selectedFile); // 파일 상태 업데이트
+  };
 
-    if (title === null || title === "") {                   // 커뮤니티 아이디 필드가 비어있을 경우
+  const dataSubmit = async (title, contents, file) => {              // 데이터 -> 컨트롤러
 
+    if (!title) {                                               // 커뮤니티 아이디 필드가 비어있을 경우
       setTitleCheck("제목을 입력해주세요.");
       return;
-
     } else {
       setTitleCheck(null);
     }
 
-    if (contents === null || contents === "") {             // 커뮤니티 내용 필드가 비어있을 경우
+    if (!contents) {                                            // 커뮤니티 내용 필드가 비어있을 경우
       setContentsCheck("내용을 입력해주세요.");
       return;
     } else {
       setContentsCheck(null);
     }
 
-    const community = {                                     // 폼 데이터 가공
-      user_num: { userNum: communityValue.state.userNum },  // 유저 프라이머리 키
-      title: title,                                         // 커뮤니티 제목
-      contents: contents,                                   // 커뮤니티 내용
+    const formData = new FormData();                           // 폼 데이터 가공
+    formData.append('user_num', communityValue.state.userNum); // 유저 프라이머리 키 
+    formData.append('title', title);                           // 커뮤니티 제목              
+    formData.append('contents', contents);                     // 커뮤니티 내용              
+    if (file) {
+      formData.append('file', file);                     // 커뮤니티 이미지 업로드
     }
 
-    axios.post("http://localhost:8080/insertCommunity", community) // 데이터 -> 컨트롤러 요청
+    await axios.post("http://localhost:8080/insertCommunity", formData) // 데이터 -> 컨트롤러 요청
 
-      .then((res) => {                                             // DB 입력 요청 후 응 답
-        console.log("insertCommunity res :", res.data);                        // 응답 데이터 확인
-        navigate("/Community");                                    // 글 등록 후 커뮤니티 화면으로 이동
+      .then((res) => {                                            // DB 입력 요청 후 응 답
+        console.log("insertCommunity res :", res.data);           // 응답 데이터 확인
+      });
+    await selectAllPosts();
+
+    setTimeout(() => {
+      navigate("/Community");
+    }, 1000);
+
+  }
+
+  const selectAllPosts = async () => {                                    // 커뮤니티 모든 글 검색 함수 생성
+
+    await axios.get("http://localhost:8080/selectCommunity")            // 검색 -> 컨트롤러 요청
+
+      .then((res) => {                                                // DB 검색 요청 후 응답
+        communityValue.actions.setSelectAllPosts(res.data);         // 커뮤니티 모든 글 검색 데이터 저장
       })
 
   }
@@ -79,7 +98,9 @@ function InsertPost() {
             {titleCheck && <div className='community-check'>{titleCheck}</div>}
           </li>
           <li className="post-item">
-            {/* <ImageUpload /> */}
+            <ImageUpload onFileSelect={handleFileSelect} />
+          </li>
+          <li className="post-item">
             <textarea className="form-control" placeholder="내용을 작성해주세요" rows="10" name="contents" onChange={insertContents} maxLength={500}></textarea>
             {contentsCheck && <div className='community-check'>{contentsCheck}</div>}
           </li>

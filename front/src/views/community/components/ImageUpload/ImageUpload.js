@@ -1,31 +1,34 @@
 import React, { useRef, useState } from 'react';
 
-const ImageUpload = () => {
+const ImageUpload = ({ onFileSelect }) => {
     const fileInputRef = useRef(null);
-    const [selectedFile, setSelectedFile] = useState(null); // 선택한 파일의 상태
     const [preview, setPreview] = useState(null); // 미리보기 이미지의 상태
-
-    const handleFileClick = () => {
-        if (fileInputRef.current) {
-            fileInputRef.current.click();
-        }
-    };
+    const [uploadImgUrl, setUploadImgUrl] = useState("");
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         if (file) {
-            setSelectedFile(file);
+            // 부모 컴포넌트로 파일 전달
+            onFileSelect(file);
 
             // 파일의 URL을 생성하고 미리보기 상태를 설정
             const objectUrl = URL.createObjectURL(file);
+            console.log(objectUrl);
             setPreview(objectUrl);
+
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onloadend = () => {
+                setUploadImgUrl(reader.result);
+            }
         }
+        console.log("readAsDataURL", uploadImgUrl);
     };
 
     const handleClearPreview = () => {
         // 미리보기와 파일 상태를 초기화
         setPreview(null);
-        setSelectedFile(null);
+        onFileSelect(null);
         if (fileInputRef.current) {
             fileInputRef.current.value = ''; // input의 value 초기화
         }
@@ -34,7 +37,7 @@ const ImageUpload = () => {
     return (
         <div className='community-image'>
             <input
-            className='form-control'
+                className='form-control'
                 type="file"
                 name="file"
                 onChange={handleFileChange}
@@ -46,12 +49,12 @@ const ImageUpload = () => {
                         alt="Preview"
                         style={{ width: '200px', height: 'auto', borderRadius: '8px' }}
                     />
-                    <button 
+                    <button
                         className='detailCommunity-menuBtn'
                         onClick={handleClearPreview}
                         style={{ marginTop: '10px', display: 'block', marginLeft: 'auto', marginRight: 'auto' }}
                     >
-                        취소
+                        취소{uploadImgUrl}
                     </button>
                 </div>
             )}

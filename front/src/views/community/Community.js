@@ -20,12 +20,12 @@ const Community = () => {
         selectAllPopularPosts();                                            // 커뮤니티 모든 인기 글 검색 함수 실행
 
         communityValue.actions.setRealTime(new Date().toLocaleString());
-        
+
         const intervalId = setInterval(() => {
             communityValue.actions.setRealTime(new Date().toLocaleString());
             selectAllPopularPosts();  // 커뮤니티 모든 인기 글 검색 함수 실행
         }, 5000);  // 5초마다 실행
-    
+
         // Cleanup function to clear the interval when the component is unmounted
         return () => clearInterval(intervalId);
 
@@ -61,7 +61,6 @@ const Community = () => {
         await axios.get("http://localhost:8080/selectAllUserLike")            // 검색 -> 컨트롤러 요청
 
             .then((res) => {                                                // DB 검색 요청 후 응답     
-                console.log(res);
                 communityValue.actions.setSelectAllUserLike(res.data);         // 커뮤니티 모든 글 좋아요 검색 데이터 저장
             })
     }

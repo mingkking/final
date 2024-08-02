@@ -11,9 +11,9 @@ import { useSearchParams } from "react-router-dom";
 const DetailCommunity = () => {
 
     const communityValue = useContext(CommunityContext);
-    const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const location = useLocation();
+    const [searchParams] = useSearchParams();
     const popularGetId = searchParams.get('id');
 
     useEffect(() => {                                                       // 처음 한번 실행하는 훅
@@ -22,6 +22,7 @@ const DetailCommunity = () => {
         const postId = location.state?.id;
         console.log("postId", postId);
         selectOnePost(postId);
+        selectAllPopularPosts();                                            // 커뮤니티 모든 인기 글 검색 함수 실행
 
     }, []);
 
@@ -53,6 +54,16 @@ const DetailCommunity = () => {
             .then((res) => {                                                // DB 입력 요청 후 응답
                 console.log(res.data);
                 communityValue.actions.setSelectOnePost(res.data);          // 커뮤니티 모든 글 검색 데이터 저장
+            })
+
+    }
+
+    const selectAllPopularPosts = async () => {                             // 커뮤니티 모든 인기 글 검색 함수 생성
+
+        await axios.get("http://localhost:8080/selectPopularCommunity")     // 검색 -> 컨트롤러 요청
+
+            .then((res) => {                                                // DB 검색 요청 후 응답
+                communityValue.actions.setSelectAllPopularPosts(res.data);  // 커뮤니티 모든 인기 글 검색 데이터 저장
             })
 
     }
