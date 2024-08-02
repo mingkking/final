@@ -216,9 +216,9 @@ def get_favorite_properties():
             with connection.cursor() as cursor:
                 # 사용자가 관심 등록한 매물 정보를 조회하는 쿼리
                 select_query = """
-                SELECT p.property_num, p.address, p.apartMent_Name, p.transaction_Amount, p.year_Built, p.floor_Number
+                SELECT p.property_num, p.address, p.apartMent_Name, p.transaction_Amount
                 FROM PROPERTY_FAVORITE pf
-                JOIN PROPERTY p ON pf.property_num = p.property_num
+                JOIN PROPERTY p ON pf.property_num = p.property_num, p.year_Built, p.floor_Number, p.year_Built, p.registration_Date
                 WHERE pf.user_num = :user_num
                 """
                 

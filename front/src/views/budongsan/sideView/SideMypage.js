@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import BudongsanContext from './componoets/BudongsanContext';
 import './sideCss/SideMypage.css';
 
-const SideMypage = ({setMySelectedProperty}) => {
+const SideMypage = () => {
     const [properties, setProperties] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -45,8 +45,11 @@ const SideMypage = ({setMySelectedProperty}) => {
     }
 
     const handlePropertyClick = (property) => {
-        setMySelectedProperty(property);
-        // 여기서 필요한 동작을 추가하면 됩니다.
+        if (onPropertySelect) {
+            onPropertySelect(property); // 부모 컴포넌트의 함수 호출
+        } else {
+            console.error("onPropertySelect is not defined.");
+        }
         console.log("Clicked property:", property);
     };
 
