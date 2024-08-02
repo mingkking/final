@@ -6,6 +6,7 @@ import CommunityContext from '../../contexts/CommunityContext';
 import axiosInstance from '../../../login/component/Token/axiosInstance';
 import Modal from 'react-modal';
 import UserLike from '../UserLike/UserLike';
+import Share from '../Share/Share';
 
 function DetailPost() {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ function DetailPost() {
   const [titleCheck, setTitleCheck] = useState(null);       // title data 유효성 검사
   const [contents, setContents] = useState("");             // form data 내용
   const [contentsCheck, setContentsCheck] = useState(null); // contents data 유효성 검사
+  console.log("detailPostValue",detailPostValue);
 
   const createAtCal = (created_at) => {
     const now = new Date();
@@ -100,9 +102,9 @@ function DetailPost() {
         closeModal();
         axios.get("http://localhost:8080/selectOneCommunity", { params: { id: res.data } })            // 검색 -> 컨트롤러 요청
 
-            .then((res) => {                                                // DB 입력 요청 후 응답
-                detailPostValue.actions.setSelectOnePost(res.data);          // 커뮤니티 모든 글 검색 데이터 저장
-            })
+          .then((res) => {                                                // DB 입력 요청 후 응답
+            detailPostValue.actions.setSelectOnePost(res.data);          // 커뮤니티 모든 글 검색 데이터 저장
+          })
       })
 
   }
@@ -245,13 +247,13 @@ function DetailPost() {
           </div>
 
           <div className="detailPost-item-bottom">
-            <div className='detailPost-item-uploadFile'>
-              사진 업로드 파일<br />
+            <div className='post-item-uploadFile'>
+              <img src={`http://localhost:8080/uploads/${detailPostValue.state.selectOnePost.image_path}`} alt={`업로드 이미지`}></img>
             </div>
           </div>
 
           <div className="detailPost-item-actions">
-            <UserLike/>
+            <UserLike />
             <div className='detailPost-item-replyBtn'>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -268,21 +270,7 @@ function DetailPost() {
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10z" />
               </svg>
             </div>
-            <div className='detailPost-item-share'>
-              <svg xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="bi bi-chat">
-                <path d="M18 16.08C17.24 16.08 16.56 16.38 16.05 16.88L8.91 12.7C8.96 12.47 9 12.24 9 12C9 11.76 8.96 11.53 8.91 11.3L15.96 7.19C16.5 7.69 17.21 8 18 8C19.66 8 21 6.66 21 5C21 3.34 19.66 2 18 2C16.34 2 15 3.34 15 5C15 5.24 15.04 5.47 15.09 5.7L8.04 9.81C7.5 9.31 6.79 9 6 9C4.34 9 3 10.34 3 12C3 13.66 4.34 15 6 15C6.79 15 7.5 14.69 8.04 14.19L15.16 18.36C15.11 18.58 15.08 18.79 15.08 19C15.08 20.66 16.42 22 18.08 22C19.74 22 21.08 20.66 21.08 19C21.08 17.34 19.74 16 18.08 16H18V16.08Z" />
-              </svg>
-
-            </div>
+            <Share post={detailPostValue.state.selectOnePost}/>
             <div className='detailPost-item-bookmark'>
               {false ?
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-bookmark">

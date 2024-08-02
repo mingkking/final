@@ -47,8 +47,8 @@ const PopularPosts = () => {
 
             {popularList.length > 0 ? (
                 popularList.map((popularPost, i) => (
-                    <Link className="no-underline-link" to={`/DetailCommunity?id=${popularPost.id}`} state={{ id: popularPost.id }}>
-                        <div key={i} className="popular-posts-card">
+                    <Link key={i} className="no-underline-link" to={`/DetailCommunity?id=${popularPost.id}`} state={{ id: popularPost.id }}>
+                        <div className="popular-posts-card">
 
                             <div className="popular-posts-content">
                                 {popularPost.contents.length > 15
@@ -62,7 +62,9 @@ const PopularPosts = () => {
                                 <div className="popular-posts-item-info">
                                     <div className="popular-posts-item-created_at">{popularPost.user_num.userNickname} &bull; {createAtCal(popularPost.created_at)}</div>
                                 </div>
-                                <img src='./123.jpeg' className='popular-posts-item-upload' />
+                                <div className="popular-posts-item-upload">
+                                    <img src={`http://localhost:8080/uploads/${popularPost.image_path}`} alt={`업로드`}></img>
+                                </div>
                             </div>
                         </div>
                     </Link>

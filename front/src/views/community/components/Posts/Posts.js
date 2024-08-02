@@ -11,7 +11,8 @@ import Bookmark from '../Bookmark/Bookmark';
 function Posts() {
   const navigate = useNavigate();
   const postsValue = useContext(CommunityContext);
-  
+  const allPostList = postsValue.state.selectAllPosts || [];
+
   const [keyword, setKeyword] = useState('');
 
   const createAtCal = (created_at) => {
@@ -45,6 +46,16 @@ function Posts() {
 
   }
 
+  const selectAllPosts = async () => {                                    // 커뮤니티 모든 글 검색 함수 생성
+
+    await axios.get("http://localhost:8080/selectCommunity")            // 검색 -> 컨트롤러 요청
+
+        .then((res) => {                                                // DB 검색 요청 후 응답
+          postsValue.actions.setSelectAllPosts(res.data);         // 커뮤니티 모든 글 검색 데이터 저장
+        })
+
+}
+
   const handleSearch = (event) => {
     // setKeyword(event.target.value);
     // axios.get(`/api/posts/search?keyword=${event.target.value}`)
@@ -77,7 +88,7 @@ function Posts() {
         </button>
       </div>
       <ul className="post-list">
-        {postsValue.state.selectAllPosts.map(post => (
+        {allPostList.map(post => (
           <li key={post.id} className="post-item">
             <div className="post-item-top">
               <div className='post-item-profile'><img src="profile.jpeg" className="profile-image"></img></div>
@@ -105,14 +116,14 @@ function Posts() {
 
             <div className="post-item-bottom">
               <div className='post-item-uploadFile'>
-                사진 업로드 파일<br />
+                <img src={`http://localhost:8080/uploads/${post.image_path}`} alt={`업로드 이미지`}></img>
               </div>
             </div>
 
             <div className="post-item-actions">
               <UserLike postId={post.id}/>
               <Reply/>
-              <Share/>
+              <Share post={post}/>
               <Bookmark/>
             </div>
           </li>

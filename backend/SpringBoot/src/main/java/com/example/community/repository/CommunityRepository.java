@@ -30,7 +30,7 @@ public interface CommunityRepository extends JpaRepository<CommunityVO, Integer>
                 ") u ON c.id = u.id\r\n" + //
                 "WHERE u.cnt IS NOT NULL\r\n" + //
                 "AND ROWNUM <= 7\r\n" + //
-                "ORDER BY u.cnt DESC, c.created_at ASC", nativeQuery = true)
+                "ORDER BY u.cnt DESC, c.created_at DESC", nativeQuery = true)
     public List<CommunityVO> selectAllPopularCommunity() throws Exception;
 
 }      

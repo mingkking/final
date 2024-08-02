@@ -84,7 +84,7 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  grid-template-rows: auto 1fr 1fr auto; /* 각 영역의 높이 설정 */
+  grid-template-rows: auto auto 1fr auto; /* 각 영역의 높이 설정 */
 }
 
 .post-item-top {
@@ -147,7 +147,9 @@
 }
 
 .post-item-uploadFile img {
-  max-width: 100%;
+  width: 100%;
+  max-width: 500px;
+  max-height: 500px;
   height: auto;
   border-radius: 8px;
 }
