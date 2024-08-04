@@ -5,6 +5,7 @@ import DashboardCard from '../../../components/shared/DashboardCard';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+
 const MemberDetail = () => {
   const { user_num } = useParams();
   const [memberDetail, setMemberDetail] = useState(null);
@@ -19,7 +20,6 @@ const MemberDetail = () => {
     const getMemberDetail = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/manager/memberDetail/${user_num}`);
-        console.log("디테일페이지 리스폰값", response)
         setMemberDetail(response.data.selectMemberList[0]);
         setCommPost(response.data.commPost);
         setFormData(response.data.selectMemberList[0]); // 기본값 설정
@@ -77,6 +77,7 @@ const MemberDetail = () => {
         user_email: formData.user_email
       };
 
+    // 회원 수정 값 springboot로 보내기
     const response = await axios.put(`http://localhost:8080/manager/memberDetail/${user_num}`, dataToSend);
 
     if (response.data === 1) {
@@ -157,7 +158,8 @@ const MemberDetail = () => {
                     </>
                   )}
                   <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.created_at}</Typography>
-                  <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.subscribe_date ? memberDetail.subscribe_date : '구독 X'}</Typography>
+                  <Typography variant='h5' style={{ marginBottom: '20px' }}>바꿔야함</Typography>
+                  {/* <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.subscribe_date ? memberDetail.subscribe_date : '구독 X'}</Typography> */}
                 </Grid>
               </Grid>
           </div>
