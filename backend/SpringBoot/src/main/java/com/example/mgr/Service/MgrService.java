@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import com.example.mgr.domain.MgrMemberVO;
 import com.example.mgr.domain.MgrSessionCountVO;
 import com.example.mgr.domain.MgrCommunityVO;
-   
+    
 public interface MgrService {
 	 
 	// session 값 저장
@@ -50,4 +50,7 @@ public interface MgrService {
 	
 	// 회원 수정
 	int updateMember(MgrMemberVO vo);
+	
+	// 커뮤니티 관리 목록
+	List<MgrCommunityVO> selectCommPostAll(MgrCommunityVO vo);
 }

@@ -195,6 +195,25 @@ public class MgrController {
 	    
 	    return jsonString;
 	}
-    
+	
+	// 커뮤니티 관리 화면  
+	@GetMapping("/manager/community")
+	public String selectCommPostAll(MgrCommunityVO vo) {
+		
+		List<MgrCommunityVO> commPostList = mgrservice.selectCommPostAll(vo);
+		
+		Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy년 M월 d일") // 날짜 포맷 문자열 직접 설정
+                .create();
+		
+		String commPostListSt = gson.toJson(commPostList);
+		
+		// JSON 생성 
+	    String jsonString = "{\"selectCommPostAll\":" + commPostListSt + "}";
+	    
+	    System.out.println("community로 보내는 값: " + jsonString);
+	    
+	    return jsonString;
+	}
 
 }
