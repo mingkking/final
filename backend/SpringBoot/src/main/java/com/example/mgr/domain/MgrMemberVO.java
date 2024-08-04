@@ -2,11 +2,12 @@ package com.example.mgr.domain;
  
 import java.util.Date;
 
+import com.example.subscribe.domain.SubscribeVO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
  
-@Data 
+@Data  
 public class MgrMemberVO {
 	private String user_num;
 	private Date   created_at;
@@ -18,4 +19,6 @@ public class MgrMemberVO {
 	private String user_pass;
 	private String user_tel;
 	private String user_birthdate;
+	
+	private SubscribeVO subscribeVO;
 }

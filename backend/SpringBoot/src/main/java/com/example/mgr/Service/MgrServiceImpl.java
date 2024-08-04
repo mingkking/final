@@ -18,7 +18,7 @@ public class MgrServiceImpl implements MgrService {
 	@Autowired
 	private MgrDAO mgrDAO; 
 
-	// 세션 값 저장
+	// 세션 값 저장 
 	public int saveSession(MgrSessionCountVO vo) {
 		int result = mgrDAO.saveSession(vo);
 		return result;
@@ -103,6 +103,11 @@ public class MgrServiceImpl implements MgrService {
 	public int updateMember(MgrMemberVO vo) {
 		mgrDAO.updateMember(vo);
 		return 1;
+	}
+
+	// 커뮤니티 관리 목록
+	public List<MgrCommunityVO> selectCommPostAll(MgrCommunityVO vo) {
+		return mgrDAO.selectCommPostAll(vo);
 	}
 
 }

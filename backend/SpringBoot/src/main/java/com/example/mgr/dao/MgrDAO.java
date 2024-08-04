@@ -9,7 +9,7 @@ import com.example.mgr.domain.MgrCommunityVO;
 import com.example.mgr.domain.MgrMemberVO;
 import com.example.mgr.domain.MgrSessionCountVO;
 
-@Mapper  
+@Mapper   
 public interface MgrDAO {
 	
 	// session 값 저장
@@ -48,4 +48,7 @@ public interface MgrDAO {
 	
 	// 회원 수정
 	public int updateMember(MgrMemberVO vo);
+	
+	// 커뮤니티 관리 목록
+	public List<MgrCommunityVO> selectCommPostAll(MgrCommunityVO vo);
 }

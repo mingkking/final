@@ -4,7 +4,7 @@ import java.util.Date;
 
 import lombok.Data;
  
-@Data  
+@Data   
 public class MgrCommunityVO {
 	private String id;
 	private String user_num;
@@ -12,4 +12,5 @@ public class MgrCommunityVO {
 	private String contents;
 	private int view_count;
 	private Date created_at;
+	private String image_path;
 } 
