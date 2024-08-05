@@ -147,7 +147,7 @@ const Stocklist = ({ onStockSelect }) => {
                   },
                 }}
               >
-                <TableCell component="th" scope="row" sx={{ fontWeight: 500 }}>{stock.name}</TableCell>
+                <TableCell component="th" scope="row" sx={{ fontWeight: 500 }}>{stock.stock_name}</TableCell>
                 <TableCell>{stock.stock_code}</TableCell>
                 <TableCell align="right">{stock.high_price?.toLocaleString()}</TableCell>
                 <TableCell align="right">{stock.low_price?.toLocaleString()}</TableCell>

@@ -103,7 +103,7 @@ const StockDetail = () => {
       <Card elevation={3} sx={{ maxWidth: 800, margin: 'auto' }}>
         <CardContent>
           <Typography variant="h5" component="h2" gutterBottom>
-            {latestData.name} ({latestData.stock_code})
+            {latestData.stock_name} ({latestData.stock_code})
           </Typography>
           <Grid container spacing={2} sx={{ mb: 2 }}>
             <Grid item xs={12} sm={6}>

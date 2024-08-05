@@ -14,8 +14,8 @@ def create_connection():
 def get_stock_data(connection, stock_name):
     cursor = connection.cursor()
     query = """
-        SELECT * FROM INVESTIGATE.STOCK 
-        WHERE name = :name
+        SELECT * FROM INVESTIGATE.STOCK_INFO
+        WHERE stock_name = :stock_name
         ORDER BY record_date
     """
     cursor.execute(query, name=stock_name)

@@ -8,17 +8,17 @@
             SELECT
                 TO_CHAR(s.record_date, 'YYYY-MM-DD') as record_date,
                 s.stock_code,
-                s.name,
+                s.stock_name,
                 s.stock_type,
                 s.closing_price,
                 s.opening_price,
                 s.high_price,
                 s.low_price,
                 ROW_NUMBER() OVER (ORDER BY s.stock_code) as rn
-            FROM STOCK s
+            FROM STOCK_INFO s
             INNER JOIN (
                 SELECT stock_code, MAX(record_date) as max_date
-                FROM STOCK
+                FROM STOCK_INFO
                 GROUP BY stock_code
             ) latest ON s.stock_code = latest.stock_code
             AND s.record_date = latest.max_date
@@ -28,7 +28,7 @@
                 AND s.stock_code > #{lastId}
             </if>
             <if test="search != null and search != ''">
-                AND (LOWER(s.name) LIKE LOWER('%' || #{search} || '%') 
+                AND (LOWER(s.stock_name) LIKE LOWER('%' || #{search} || '%') 
                 OR LOWER(s.stock_code) LIKE LOWER('%' || #{search} || '%'))
             </if>
         <![CDATA[
@@ -41,7 +41,7 @@
     <select id="getStockInfo" resultType="com.example.stock.domain.StockVO">
         <![CDATA[
         SELECT * FROM (
-            SELECT * FROM STOCK
+            SELECT * FROM STOCK_INFO
             WHERE stock_code = #{stock_code}
             ORDER BY record_date DESC
         ) WHERE ROWNUM = 1
@@ -50,7 +50,7 @@
 
     <select id="getYearlyStockPriceHistory" resultType="com.example.stock.domain.StockVO">
         <![CDATA[
-        SELECT * FROM STOCK
+        SELECT * FROM STOCK_INFO
         WHERE stock_code = #{stock_code}
         AND record_date >= ADD_MONTHS(SYSDATE, -12)
         ORDER BY record_date ASC

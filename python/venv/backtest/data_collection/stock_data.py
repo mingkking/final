@@ -35,7 +35,7 @@ def collect_one_year_data():
     if connection:
         try:
             cursor = connection.cursor()
-            cursor.execute("SELECT COUNT(*) FROM INVESTIGATE.STOCK WHERE record_date BETWEEN :start_date AND :end_date",
+            cursor.execute("SELECT COUNT(*) FROM INVESTIGATE.STOCK_INFO WHERE record_date BETWEEN :start_date AND :end_date",
                            start_date=start_date, end_date=end_date)
             count = cursor.fetchone()[0]
             logger.info(f"수집된 레코드 수: {count}")
