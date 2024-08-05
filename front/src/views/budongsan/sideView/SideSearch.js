@@ -10,7 +10,13 @@ const SideSearch = ({ onPropertySelect }) => {  // onPropertySelect를 props로 
             try {
                 const response = await fetch('http://localhost:5000/budongsanAllData');
                 const jsonData = await response.json();
-                setData(jsonData);
+                
+                // 데이터가 배열인지 확인 후 상태 설정
+                if (Array.isArray(jsonData)) {
+                    setData(jsonData);
+                } else {
+                    console.error('Expected an array but received:', jsonData);
+                }
             } catch (error) {
                 console.error('Error fetching data:', error);
             }

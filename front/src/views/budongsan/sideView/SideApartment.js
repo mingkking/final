@@ -1,12 +1,15 @@
 import React, { useContext, useState, useEffect } from 'react';
-import SideStarAuto from './componoets/SideStarAuto'; // 올바른 경로로 수정
+import SideStarAuto from './componoets/SideStarAuto';
 import Delete from '../../../imges/delete.png';
 import Insert from '../../../imges/insert.png';
 import BudongsanContext from './componoets/BudongsanContext';
 
+
 const SideApartment = ({ property, schoolMarkerCount, storeMarkerCount, busStationMarkerCount }) => {
   const [currentImage, setCurrentImage] = useState(Delete);
   const budongsanValue = useContext(BudongsanContext);
+
+
 
   useEffect(() => {
     if (property && budongsanValue.state.userNum) {
@@ -75,6 +78,7 @@ const SideApartment = ({ property, schoolMarkerCount, storeMarkerCount, busStati
 
   return (
     <div>
+
       {budongsanValue.state.userNum && (
         <div style={{ textAlign: 'left' }}>
           <img src={currentImage} alt="Placeholder" width="40" height="40" onClick={handleImageClick} />
