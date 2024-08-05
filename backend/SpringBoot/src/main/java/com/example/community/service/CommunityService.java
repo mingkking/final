@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import com.example.community.domain.BookmarkVO;
 import com.example.community.domain.CommunityVO;
 import com.example.community.domain.UserLikeVO;
 
@@ -31,6 +32,12 @@ public interface CommunityService {
     public void insertUserLike(UserLikeVO userLikeVO) throws Exception;
 
     public void deleteUserLike(Integer userNum, Integer id) throws Exception;
+
+    public List<BookmarkVO> selectAllBookmark() throws Exception;
+
+    public void insertBookmark(BookmarkVO bookmarkVO) throws Exception;
+
+    public void deleteBookmark(Integer userNum, Integer id) throws Exception;
 
 }
  

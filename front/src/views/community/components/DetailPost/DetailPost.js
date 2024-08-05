@@ -7,6 +7,8 @@ import axiosInstance from '../../../login/component/Token/axiosInstance';
 import Modal from 'react-modal';
 import UserLike from '../UserLike/UserLike';
 import Share from '../Share/Share';
+import ImageUpload from '../ImageUpload/ImageUpload';
+import Bookmark from '../Bookmark/Bookmark';
 
 function DetailPost() {
   const navigate = useNavigate();
@@ -17,7 +19,7 @@ function DetailPost() {
   const [titleCheck, setTitleCheck] = useState(null);       // title data 유효성 검사
   const [contents, setContents] = useState("");             // form data 내용
   const [contentsCheck, setContentsCheck] = useState(null); // contents data 유효성 검사
-  console.log("detailPostValue",detailPostValue);
+  const [file, setFile] = useState(null);                   // 파일 상태 추가
 
   const createAtCal = (created_at) => {
     const now = new Date();
@@ -58,6 +60,10 @@ function DetailPost() {
     setContents(evt.target.value);
   }
 
+  const handleFileSelect = (selectedFile) => {
+    setFile(selectedFile); // 파일 상태 업데이트
+  };
+
   const closeModal = () => {
     setIsUpdateModalOpen(!isUpdateModalOpen);
   }
@@ -87,24 +93,27 @@ function DetailPost() {
       setContentsCheck(null);
     }
 
-    const community = {                                     // 폼 데이터 가공
-
-      id: detailPostValue.state.selectOnePost.id,           // 커뮤니티 글 프라이머리 키
-      user_num: { userNum: detailPostValue.state.userNum }, // 유저 프라이머리 키
-      title: title,                                         // 커뮤니티 제목
-      contents: contents,                                   // 커뮤니티 내용
-
+    console.log(detailPostValue);
+    const formData = new FormData();                            // 폼 데이터 가공
+    formData.append("id", detailPostValue.state.selectOnePost.id); // 커뮤니티 프라이머리 키
+    formData.append('user_num', detailPostValue.state.userNum); // 유저 프라이머리 키 
+    formData.append('title', title);                            // 커뮤니티 제목              
+    formData.append('contents', contents);                      // 커뮤니티 내용              
+    if (file) {
+      formData.append('file', file);                            // 커뮤니티 이미지 업로드
     }
 
-    await axios.post("http://localhost:8080/updateCommunity", community) // 데이터 -> 컨트롤러 요청
+    await axios.post("http://localhost:8080/updateCommunity", formData) // 데이터 -> 컨트롤러 요청
 
       .then((res) => {                                             // DB 입력 요청 후 응 답
         closeModal();
-        axios.get("http://localhost:8080/selectOneCommunity", { params: { id: res.data } })            // 검색 -> 컨트롤러 요청
+        setTimeout(() => {
+          axios.get("http://localhost:8080/selectOneCommunity", { params: { id: res.data } })            // 검색 -> 컨트롤러 요청
 
           .then((res) => {                                                // DB 입력 요청 후 응답
             detailPostValue.actions.setSelectOnePost(res.data);          // 커뮤니티 모든 글 검색 데이터 저장
-          })
+          })  
+        }, 1000);
       })
 
   }
@@ -169,30 +178,33 @@ function DetailPost() {
                   <div className='detailPost-item-title'>
                     커뮤니티 글 수정<br />
                   </div>
-                  <form action='post'>
-                    <ul className="post-list">
-                      <li className="post-item">
-                        <input className='form-control' placeholder='제목' autoFocus type='text' name='title' onChange={insertTitle} maxLength={100}></input>
-                        {titleCheck && <div className='community-check'>{titleCheck}</div>}
-                      </li>
-                      <li className="post-item">
-                        <textarea className="form-control" placeholder="내용을 작성해주세요" rows="10" name="contents" onChange={insertContents} maxLength={500}></textarea>
-                        {contentsCheck && <div className='community-check'>{contentsCheck}</div>}
-                      </li>
-                    </ul>
-                  </form>
-                  <button className='detailCommunity-menuBtn' onClick={updatePostPro}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-edit">
-                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                      <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                    </svg>
-                  </button>
-                  <button className='detailCommunity-menuBtn' onClick={closeModal}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-edit">
-                      <line x1="18" y1="6" x2="6" y2="18"></line>
-                      <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                  </button>
+                    <form action='post'>
+                      <ul className="post-list">
+                        <li className="post-item">
+                          <input className='form-control' placeholder='제목' autoFocus type='text' name='title' onChange={insertTitle} maxLength={100}></input>
+                          {titleCheck && <div className='community-check'>{titleCheck}</div>}
+                        </li>
+                        <li className="post-item">
+                          <ImageUpload onFileSelect={handleFileSelect} />
+                        </li>
+                        <li className="post-item">
+                          <textarea className="form-control" placeholder="내용을 작성해주세요" rows="10" name="contents" onChange={insertContents} maxLength={500}></textarea>
+                          {contentsCheck && <div className='community-check'>{contentsCheck}</div>}
+                        </li>
+                      </ul>
+                      <button className='detailCommunity-menuBtn' onClick={updatePostPro}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-edit">
+                          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                          <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                        </svg>
+                      </button>
+                      <button className='detailCommunity-menuBtn' onClick={closeModal}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-edit">
+                          <line x1="18" y1="6" x2="6" y2="18"></line>
+                          <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                      </button>
+                    </form>
                 </Modal>
 
                 <button className='detailCommunity-insertBtn' onClick={deletePost}>
@@ -248,12 +260,12 @@ function DetailPost() {
 
           <div className="detailPost-item-bottom">
             <div className='post-item-uploadFile'>
-              <img src={`http://localhost:8080/uploads/${detailPostValue.state.selectOnePost.image_path}`} alt={`업로드 이미지`}></img>
+              {detailPostValue.state.selectOnePost.image_path && (<img src={`http://localhost:8080/uploads/${detailPostValue.state.selectOnePost.image_path}`} alt={`업로드 이미지`}></img>)}
             </div>
           </div>
 
           <div className="detailPost-item-actions">
-            <UserLike />
+            <UserLike postId={detailPostValue.state.selectOnePost.id}/>
             <div className='detailPost-item-replyBtn'>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -270,18 +282,8 @@ function DetailPost() {
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10z" />
               </svg>
             </div>
-            <Share post={detailPostValue.state.selectOnePost}/>
-            <div className='detailPost-item-bookmark'>
-              {false ?
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-bookmark">
-                  <path d="M19 3H5a2 2 0 0 0-2 2v18l7-5 7 5V5a2 2 0 0 0-2-2z" />
-                </svg>
-                :
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-bookmark">
-                  <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />
-                </svg>
-              }
-            </div>
+            <Share post={detailPostValue.state.selectOnePost} />
+            <Bookmark postId={detailPostValue.state.selectOnePost.id}/>
           </div>
         </li>
       </ul>

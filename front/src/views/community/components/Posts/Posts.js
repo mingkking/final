@@ -116,7 +116,7 @@ function Posts() {
 
             <div className="post-item-bottom">
               <div className='post-item-uploadFile'>
-                <img src={`http://localhost:8080/uploads/${post.image_path}`} alt={`업로드 이미지`}></img>
+                {post.image_path && (<img src={`http://localhost:8080/uploads/${post.image_path}`} alt={"업로드 이미지"}></img>)} 
               </div>
             </div>
 
@@ -124,7 +124,7 @@ function Posts() {
               <UserLike postId={post.id}/>
               <Reply/>
               <Share post={post}/>
-              <Bookmark/>
+              <Bookmark postId={post.id}/>
             </div>
           </li>
         ))}

@@ -10,17 +10,19 @@ const UserLike = (props) => {
     const userLikeList = communityValue.state.selectAllUserLike || [];
 
     useEffect(() => {
+        let liked = false;
 
-        if(userLikeList.length > 0){
-            let liked = false;
+        if (userLikeList.length > 0) {
+
             userLikeList.map(userLike => {
                 if (userLike.id.id === props.postId && userLike.user_num.userNum === communityValue.state.userNum) {
                     liked = true;
                 }
             });
-            setIsLike(liked);
+
         }
 
+        setIsLike(liked);
     }, [communityValue.state.selectAllUserLike, props.postId, communityValue.state.userNum]);
 
 

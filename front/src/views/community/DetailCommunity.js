@@ -20,9 +20,18 @@ const DetailCommunity = () => {
 
         loginCheck();                                                       // 로그인 판단 함수 실행
         const postId = location.state?.id;
-        console.log("postId", postId);
         selectOnePost(postId);
+        selectAllUserLike();                                                // 커뮤니티 모든 글 좋아요 검색 함수 실행
         selectAllPopularPosts();                                            // 커뮤니티 모든 인기 글 검색 함수 실행
+        selectAllBookmark();                                                // 커뮤니티 모든 글 북마크 검색 함수 실행
+
+        const intervalId = setInterval(() => {
+            communityValue.actions.setRealTime(new Date().toLocaleString());
+            selectAllPopularPosts();  // 커뮤니티 모든 인기 글 검색 함수 실행
+        }, 60000);  // 60초마다 실행
+
+        // Cleanup function to clear the interval when the component is unmounted
+        return () => clearInterval(intervalId);
 
     }, []);
 
@@ -52,10 +61,17 @@ const DetailCommunity = () => {
         await axios.get("http://localhost:8080/selectOneCommunity", { params: { id: postId } })            // 검색 -> 컨트롤러 요청
 
             .then((res) => {                                                // DB 입력 요청 후 응답
-                console.log(res.data);
                 communityValue.actions.setSelectOnePost(res.data);          // 커뮤니티 모든 글 검색 데이터 저장
             })
 
+    }
+
+    const selectAllUserLike = async () => {                                 // 커뮤니티 모든 글 좋아요 검색 함수 생성
+        await axios.get("http://localhost:8080/selectAllUserLike")            // 검색 -> 컨트롤러 요청
+
+            .then((res) => {                                                // DB 검색 요청 후 응답     
+                communityValue.actions.setSelectAllUserLike(res.data);         // 커뮤니티 모든 글 좋아요 검색 데이터 저장
+            })
     }
 
     const selectAllPopularPosts = async () => {                             // 커뮤니티 모든 인기 글 검색 함수 생성
@@ -66,6 +82,14 @@ const DetailCommunity = () => {
                 communityValue.actions.setSelectAllPopularPosts(res.data);  // 커뮤니티 모든 인기 글 검색 데이터 저장
             })
 
+    }
+
+    const selectAllBookmark = async () => {                                 // 커뮤니티 모든 글 북마크 검색 함수 생성
+        await axios.get("http://localhost:8080/selectAllBookmark")          // 검색 -> 컨트롤러 요청
+
+            .then((res) => {                                                // DB 검색 요청 후 응답     
+                communityValue.actions.setSelectAllBookmark(res.data);      // 커뮤니티 모든 글 북마크 검색 데이터 저장
+            })
     }
 
     return (

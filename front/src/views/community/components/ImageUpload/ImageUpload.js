@@ -13,7 +13,6 @@ const ImageUpload = ({ onFileSelect }) => {
 
             // 파일의 URL을 생성하고 미리보기 상태를 설정
             const objectUrl = URL.createObjectURL(file);
-            console.log(objectUrl);
             setPreview(objectUrl);
 
             const reader = new FileReader();
@@ -22,7 +21,6 @@ const ImageUpload = ({ onFileSelect }) => {
                 setUploadImgUrl(reader.result);
             }
         }
-        console.log("readAsDataURL", uploadImgUrl);
     };
 
     const handleClearPreview = () => {
@@ -54,7 +52,7 @@ const ImageUpload = ({ onFileSelect }) => {
                         onClick={handleClearPreview}
                         style={{ marginTop: '10px', display: 'block', marginLeft: 'auto', marginRight: 'auto' }}
                     >
-                        취소{uploadImgUrl}
+                        취소
                     </button>
                 </div>
             )}
