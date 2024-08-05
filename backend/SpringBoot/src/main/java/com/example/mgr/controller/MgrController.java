@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +21,7 @@ import com.example.mgr.Service.MgrService;
 import com.example.mgr.domain.MgrMemberVO;
 import com.example.mgr.domain.MgrSessionCountVO;
 import com.example.mgr.domain.MgrCommunityVO;
+import com.example.mgr.domain.MgrManagerVO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -39,60 +41,65 @@ public class MgrController {
 
 	@GetMapping("/")
 	public String count(HttpServletRequest request, Model model, MgrSessionCountVO sessionvo) {
+		
+		// session 값 가져오기
 	    HttpSession session = request.getSession();
 	    if (session == null) {
 	        return null;
 	    } else {
 	        model.addAttribute("sessionId", session.getId());
 	    }
-
+	    
+	    // session 값 저장
 	    sessionvo.setSessionId(session.getId());
 	    mgrservice.saveSession(sessionvo);
-	    
-	    
-	    // 최근 5일/5달간 가입자 수
-	    List<Map<String, Object>> last5DaysMember = mgrservice.selectLast5DaysMember();
-	    List<Map<String, Object>> last5MonthsMember = mgrservice.selectLast5MonthsMember();
-	    List<Map<String, Object>> last2YearsMember = mgrservice.selectLast2YearsMember();
-	    
-	    // 각 객체에 검색한 값 저장 
+
+	    return "";
+	} // count
+	
+	// 관리자 메인페이지 카운팅 값 보내기
+	@GetMapping("/manager")
+	public String getCounting() {
+		
 	    int selectTotalSession = mgrservice.selectTotalSession();
 	    int selectTodaySession = mgrservice.selectTodaySession();
 	    int selectMonthSession = mgrservice.selectMonthSession();
-	    int selcetTotalMembers = mgrservice.selectTotalMembers();
-	    int selectTodayMembers = mgrservice.selectTodayMembers();
-	    int selectTotalSubscribers = mgrservice.selectTotalSubscribers();
+	    int selcetTotalMembers = mgrservice.selectTotalMembers(); // 총 회원 수
+	    int selectTodayMembers = mgrservice.selectTodayMembers(); // 금일 가입자 수
+	    int selectTotalSubscribers = mgrservice.selectTotalSubscribers(); // 총 구독자 수 
 	    
-	    // last5MonthsMember의 JOIN_MONTH 값을 "M월" 형식으로 변환
-	    List<Map<String, Object>> transformedLast5MonthsMember = last5MonthsMember.stream().map(entry -> {
-	        String joinMonth = (String) entry.get("JOIN_MONTH");
-	        String[] parts = joinMonth.split("-");
-	        int month = Integer.parseInt(parts[1]); // "MM"을 int로 변환하여 앞의 '0' 제거
-	        String transformedMonth = month + "월"; // M월 형식으로 변환
-	        entry.put("JOIN_MONTH", transformedMonth);
-	        return entry;
-	    }).collect(Collectors.toList());
-
 	    // Gson 객체 생성
 	    Gson gson = new Gson();
-
+	    
 	    // JSON 문자열 생성
 	    String jsonString = gson.toJson(Map.of(
-	        "selectTotalSession", selectTotalSession,
-	        "selectTodaySession", selectTodaySession,
-	        "selectMonthSession", selectMonthSession,
 	        "selectTotalMembers", selcetTotalMembers,
 	        "selectTodayMembers", selectTodayMembers,
 	        "selectTotalSubscribers", selectTotalSubscribers,
-	        "selectLast5DaysMember", last5DaysMember,
-	        "selectLast5MonthsMember", last5MonthsMember,
-	        "selectLast2YearsMember", last2YearsMember
+	        "selectTotalSession", selectTotalSession,
+	        "selectTodaySession", selectTodaySession,
+	        "selectMonthSession", selectMonthSession
 	    ));
-
-	    System.out.println("main으로 보내는 값: " + jsonString); // 확인용
-
+	    
+	    System.out.println("manager/main으로 보내는 값: " + jsonString); // 확인용
+	    
 	    return jsonString;
-	} // count
+	}
+	
+	
+	// 관리자 여부 확인
+	@GetMapping("/manager/{user_num}")
+	public int checkMgr(@PathVariable int user_num, MgrManagerVO vo) {
+
+		String mgrCheckNum = String.valueOf(user_num);
+		
+		vo.setManager_num(mgrCheckNum);
+		int checkMgr = mgrservice.checkManager(vo);
+		
+		System.out.println("로그인 회원 번호----- " + mgrCheckNum + "매니저인지아닌지 -------" + checkMgr);
+		
+	    return checkMgr;
+	}
 	
 	// memberList 출력 
 	@GetMapping("/manager/memberList")
@@ -120,15 +127,20 @@ public class MgrController {
 	
 	// 회원 상세정보 보기
     @GetMapping("/manager/memberDetail/{user_num}")
-    public String getMemberDetail(@PathVariable String user_num, MgrMemberVO membervo, MgrCommunityVO commvo) {
+    public String getMemberDetail(@PathVariable String user_num, MgrMemberVO membervo, MgrCommunityVO commvo, MgrManagerVO mgrvo) {
         
         // 받은 번호 값 지정
     	membervo.setUser_num(user_num);
     	commvo.setUser_num(user_num);
+    	mgrvo.setManager_num(user_num);
+    	
         
         // 회원 상세 정보 조회
         List<MgrMemberVO> mgrMemberDetail = mgrservice.selectMemberDetail(membervo);
         List<MgrCommunityVO> mgrCommPost = mgrservice.selectCommPost(commvo);
+        int checkMgr = mgrservice.checkManager(mgrvo);
+        
+        System.out.println("매니저면 1 아니면 0------" + checkMgr);
       
         // Gson 객체 생성
         Gson gson = new GsonBuilder()
@@ -138,7 +150,8 @@ public class MgrController {
         // List인 mgrMemberDetail를 gson을 이용하여 JSON 문자열로 변환
         String jsonString = gson.toJson(Map.of(
                 "selectMemberList", mgrMemberDetail,
-                "commPost", mgrCommPost
+                "commPost", mgrCommPost,
+                "checkMgr", checkMgr
             ));
         
         System.out.println("memberDetail 페이지로 보내는 값:" + jsonString);
@@ -148,14 +161,26 @@ public class MgrController {
     
     // 회원 정보 수정
     @PutMapping("/manager/memberDetail/{user_num}")
-    public int updateMember(@PathVariable String user_num, @RequestBody MgrMemberVO vo) {
+    public int updateMember(@PathVariable String user_num, @RequestBody MgrMemberVO membervo, MgrManagerVO mgrvo) {
     	
     	// 번호 지정
-    	vo.setUser_num(user_num);
+    	membervo.setUser_num(user_num);
     	
-    	System.out.println("정보 수정 값: " + vo);
+    	// 값이 1이면 관리자로 수정 한 것
+    	int checkMgr = membervo.getIs_admin();
     	
-    	int updateCount = mgrservice.updateMember(vo);
+    	if (checkMgr == 1) {
+    		mgrvo.setManager_num(user_num);
+    		mgrservice.insertManager(mgrvo);
+    		System.out.println("관리자가되었느냐" + mgrvo);
+    	} else {
+    		int managerNumInt = Integer.parseInt(user_num);
+    		mgrservice.deleteManager(managerNumInt);
+    	}
+    	
+    	System.out.println("수정 한 내용 : " + membervo);
+    	
+    	int updateCount = mgrservice.updateMember(membervo);
     	
     	return updateCount;
     }
@@ -177,8 +202,24 @@ public class MgrController {
 	@GetMapping("/manager/graph")
 	public String getGraphCount() {
 		
-	    int selectTodaySubscribers = mgrservice.selectTodaySubscribers();
-	    List<Map<String, Object>> countByAgeMember = mgrservice.countByAgeMember();
+	    int selectTodaySubscribers = mgrservice.selectTodaySubscribers(); // 구독자 수
+	    int selectCommCount = mgrservice.selectCommCount(); // 커뮤니티 게시글 수
+	    int selectTotalSession = mgrservice.selectTotalSession(); // 총 방문자 수
+	    int selectTodaySession = mgrservice.selectTodaySession(); // 금일 방문자 수
+	    List<Map<String, Object>> countByAgeMember = mgrservice.countByAgeMember(); // 연령대
+	    List<Map<String, Object>> last5DaysMember = mgrservice.selectLast5DaysMember(); // 최근 5일 가입자 수
+	    List<Map<String, Object>> last5MonthsMember = mgrservice.selectLast5MonthsMember(); // 최근 5달 가입자 수
+	    List<Map<String, Object>> last2YearsMember = mgrservice.selectLast2YearsMember(); // 최근 2년 가입자 수
+	    
+	    // last5MonthsMember의 JOIN_MONTH 값을 "M월" 형식으로 변환
+	    List<Map<String, Object>> transformedLast5MonthsMember = last5MonthsMember.stream().map(entry -> {
+	        String joinMonth = (String) entry.get("JOIN_MONTH");
+	        String[] parts = joinMonth.split("-");
+	        int month = Integer.parseInt(parts[1]); // "MM"을 int로 변환하여 앞의 '0' 제거
+	        String transformedMonth = month + "월"; // M월 형식으로 변환
+	        entry.put("JOIN_MONTH", transformedMonth);
+	        return entry;
+	    }).collect(Collectors.toList());
 	    
 	    // Gson 객체 생성
 	    Gson gson = new GsonBuilder()
@@ -188,7 +229,13 @@ public class MgrController {
 	    // json 생성
 	    String jsonString = gson.toJson(Map.of(
 		        "selectTodaySubscribers", selectTodaySubscribers,
-		        "countByAgeMember", countByAgeMember
+		        "selectCommCount", selectCommCount,
+		        "countByAgeMember", countByAgeMember,
+		        "selectLast5DaysMember", last5DaysMember,
+		        "selectLast5MonthsMember", last5MonthsMember,
+		        "selectLast2YearsMember", last2YearsMember,
+		        "selectTotalSession", selectTotalSession,
+		        "selectTodaySession", selectTodaySession
 		    ));
 	    
 	    System.out.println("graph로 보내는 값: " + jsonString); // 확인용
