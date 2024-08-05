@@ -16,6 +16,7 @@ import { IconEdit, IconLeaf, IconListCheck, IconUser } from '@tabler/icons-react
 
 import LoginContext from '../../login/contexts/LoginContext';
 import axiosInstance from '../../login/component/Token/axiosInstance';
+import Cookies from 'js-cookie';
 
 
 
@@ -25,7 +26,7 @@ const Profile = ({ onLogout }) => {
   const { state, actions } = useContext(LoginContext);
   
 
-  useEffect(() => {
+  useEffect(() => { 
     
     // 로그인 상태를 확인할 때 프로필 사진 URL을 가져옵니다.
     if (state.userId && !state.profileImage) {
@@ -34,8 +35,8 @@ const Profile = ({ onLogout }) => {
           console.log('Profile image response:', response.data);
           const data = response.data;
           if (data.profileImageUrl) {
-            actions.setProfileImage(`http://localhost:8080${data.profileImageUrl}`);
-            console.log('Profile image URL set to:', data.profileImageUrl);
+            const profileImageUrl = `http://localhost:8080${data.profileImageUrl}`;
+            actions.setProfileImage(profileImageUrl);
           }
         })
         .catch(error => console.error('Error fetching profile image:', error));
