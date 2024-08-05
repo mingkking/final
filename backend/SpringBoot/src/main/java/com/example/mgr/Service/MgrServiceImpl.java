@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 
 import com.example.mgr.dao.MgrDAO;
 import com.example.mgr.domain.MgrCommunityVO;
+import com.example.mgr.domain.MgrManagerVO;
 import com.example.mgr.domain.MgrMemberVO;
 import com.example.mgr.domain.MgrSessionCountVO;
   
@@ -108,6 +109,29 @@ public class MgrServiceImpl implements MgrService {
 	// 커뮤니티 관리 목록
 	public List<MgrCommunityVO> selectCommPostAll(MgrCommunityVO vo) {
 		return mgrDAO.selectCommPostAll(vo);
+	}
+
+	// 커뮤니티 글 카운팅
+	public int selectCommCount() {
+		return mgrDAO.selectCommCount();
+	}
+
+	// 관리자 확인
+	public int checkManager(MgrManagerVO vo) {
+		int result = mgrDAO.checkManager(vo);
+		return result;
+	}
+
+	// 관리자 권한 부여
+	public void insertManager(MgrManagerVO vo) {
+		mgrDAO.insertManager(vo);
+		
+	}
+
+	// 관리자 권한 삭제
+	public void deleteManager(int manager_num) {
+		mgrDAO.deleteManager(manager_num);
+		
 	}
 
 }

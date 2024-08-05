@@ -166,5 +166,33 @@
     	ORDER BY id DESC
     </select>
     
+    <!-- 커뮤니티 글 카운팅 -->
+    <select id="selectCommCount" parameterType="MgrCommunityVO" resultType="int">
+    	SELECT count(*)
+    	FROM community
+    </select>
+    
+    <!-- 매니저 여부 확인 -->
+    <select id="checkManager" parameterType="MgrManagerVO" resultType="int">
+    	SELECT count(*)
+    	FROM manager
+    	WHERE manager_num = #{manager_num}
+    </select>
+    
+    <!-- 매니저로 체크 될 때 insert문 -->
+    <insert id="insertManager" parameterType="MgrManagerVO">
+    	INSERT INTO manager (manager_num, manager_name)
+    	SELECT #{manager_num}, user_name
+    	FROM users
+    	WHERE user_num = #{manager_num}
+    </insert>
+    
+    <!-- 관리자 체크박스 풀고 수정 했을 때 delete문 -->
+    <delete id="deleteManager" parameterType="int">
+    	DELETE FROM manager
+    	WHERE manager_num = #{manager_num}
+    </delete>
+    
+    
 </mapper>
 

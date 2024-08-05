@@ -20,5 +20,8 @@ public class MgrMemberVO {
 	private String user_tel;
 	private String user_birthdate;
 	
+	// 관리자 확인용
+	private int is_admin;
+	
 	private SubscribeVO subscribeVO;
 }
