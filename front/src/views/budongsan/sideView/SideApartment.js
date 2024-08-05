@@ -67,6 +67,15 @@ const SideApartment = ({ property, schoolMarkerCount, storeMarkerCount, busStati
       .then(response => response.json())
       .then(data => {
         console.log('Success:', data);
+
+         // 로컬 스토리지 업데이트
+      let properties = JSON.parse(localStorage.getItem('favoriteProperties')) || [];
+      if (isInserting) {
+        properties = properties.filter(p => p.property_num !== property.property_num);
+      } else {
+        properties.push(property);
+      }
+      localStorage.setItem('favoriteProperties', JSON.stringify(properties));
       })
       .catch((error) => {
         console.error('Error:', error);

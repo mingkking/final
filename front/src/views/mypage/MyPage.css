@@ -25,7 +25,7 @@
   .profile-section {
   flex: 1; 
   max-width: 800px; 
-  background-color: #f2f2f2;
+  background-color: #fff;
   padding: 20px;
   border-radius: 10px;
   
@@ -136,11 +136,18 @@
   }
 
   .my-interest{
-    position: sticky; /* 스크롤 시 특정 위치에 붙도록 설정 */
-  top: 20px; /* 스크롤이 시작된 후, 20px 떨어진 위치에 붙음 */
-  max-width: 200px; /* 최대 너비 설정 */
-  background-color: #f2f2f2; /* 배경 색상 */
-  padding: 20px; /* 내부 여백 */
+    position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+  align-items: center;
+  justify-content: center;
   }
 
   .my-interest h3 {
