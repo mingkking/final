@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect  } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import '../../Budongsan.css';
 import Navbar from './Navbar.js';
 import '../sideCss/SideView.css';
@@ -10,16 +10,32 @@ import SideMypage from "../SideMypage.js";
 import BudongsanContext from "./BudongsanContext.js";
 import axiosInstance from "../../../login/component/Token/axiosInstance.js";
 
+import { useSelector } from 'react-redux'; // useSelector 추가
+
 const BudongsanSidebar = ({ onPropertySelect, schoolMarkerCount, storeMarkerCount, busStationMarkerCount }) => {
   const [selectedMenu, setSelectedMenu] = useState('검색'); // 기본 메뉴 설정
   const [selectedProperty, setSelectedProperty] = useState(null); // 선택된 프로퍼티 상태
   const budongsanSidebarValue = useContext(BudongsanContext);
+ 
+
+
+  // 리덕스 상태를 가져오기
+  const selectedPropertyRedux = useSelector((state) => state.property.selectedProperty);
   
   useEffect(() => {
 
     loginCheck();
 
   }, []);
+
+  useEffect(() => {
+    if (selectedPropertyRedux) {
+      setSelectedProperty(selectedPropertyRedux);
+      onPropertySelect(selectedPropertyRedux);
+      setSelectedMenu('아파트'); // 메뉴를 '아파트'로 설정
+    }
+
+  }, [selectedPropertyRedux]);
 
   const loginCheck = async () => {
     const response = await axiosInstance.get('/check-login-status', {
@@ -33,11 +49,14 @@ const BudongsanSidebar = ({ onPropertySelect, schoolMarkerCount, storeMarkerCoun
     }
   }
 
+
   const handlePropertySelect = (property) => {
     setSelectedProperty(property);
     onPropertySelect(property); // 부모 컴포넌트에 선택된 속성 전달
     setSelectedMenu('아파트');  // 메뉴를 '아파트'로 설정하여 SideApartment 컴포넌트로 이동
   };
+
+  
 
 
   const renderComponent = () => {
@@ -51,6 +70,7 @@ const BudongsanSidebar = ({ onPropertySelect, schoolMarkerCount, storeMarkerCoun
             schoolMarkerCount={schoolMarkerCount}
             storeMarkerCount={storeMarkerCount}
             busStationMarkerCount={busStationMarkerCount}
+           
           />
         ); // 선택된 프로퍼티와 마커 수를 SideApartment로 전달
       case '매물':

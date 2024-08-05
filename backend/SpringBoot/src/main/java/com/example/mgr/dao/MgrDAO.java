@@ -6,10 +6,11 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.example.mgr.domain.MgrCommunityVO;
+import com.example.mgr.domain.MgrManagerVO;
 import com.example.mgr.domain.MgrMemberVO;
 import com.example.mgr.domain.MgrSessionCountVO;
 
-@Mapper  
+@Mapper   
 public interface MgrDAO {
 	
 	// session 값 저장
@@ -48,4 +49,19 @@ public interface MgrDAO {
 	
 	// 회원 수정
 	public int updateMember(MgrMemberVO vo);
+	
+	// 커뮤니티 관리 목록
+	public List<MgrCommunityVO> selectCommPostAll(MgrCommunityVO vo);
+	
+	// 커뮤니티 글 카운팅
+	public int selectCommCount();
+	
+	// 관리자 확인
+	public int checkManager(MgrManagerVO vo);
+	
+	// 관리자 권한 부여
+	public void insertManager(MgrManagerVO vo);
+	
+	// 관리자 권한 삭제
+	public void deleteManager(int manager_num);
 }

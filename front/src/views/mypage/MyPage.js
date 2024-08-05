@@ -13,6 +13,7 @@ import Reply from '../community/components/Reply/Reply';
 import Share from '../community/components/Share/Share';
 import Bookmark from '../community/components/Bookmark/Bookmark';
 import CommunityContext from '../community/contexts/CommunityContext';
+import SideMypage from '../budongsan/sideView/SideMypage';
 
 const MyPage = () => {
 
@@ -23,26 +24,25 @@ const MyPage = () => {
   const BASE_URL = 'http://localhost:8080';
   
 
-  useEffect(() => {
-    if (state.userId) {
-        axiosInstance.get(`/profile-image/${state.userId}`)
-            .then(response => {
-                const imageUrl = response.data.profileImageUrl || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
-                const fullImageUrl = imageUrl.startsWith('http') ? imageUrl : `${BASE_URL}${imageUrl}`;
-                setProfileImage(fullImageUrl);
-                actions.setProfileImage(fullImageUrl); // 상태 업데이트
-            })
-            .catch(error => console.error('Error fetching profile image:', error));
-            
-            
-    }
+ 
+useEffect(() => {
+  if (state.userId) {
+    axiosInstance.get(`/profile-image/${state.userId}`)
+      .then(response => {
+        const imageUrl = response.data.profileImageUrl || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+        const fullImageUrl = imageUrl.startsWith('http') ? imageUrl : `${BASE_URL}${imageUrl}`;
+        setProfileImage(fullImageUrl);
+        actions.setProfileImage(fullImageUrl);
+      })
+      .catch(error => console.error('Error fetching profile image:', error));
+  }
 }, [state.userId, actions]);
 
-  const handleImageUpload = (newProfileImageUrl) => {
-    console.log('Uploaded profile image URL:', newProfileImageUrl);
-    setProfileImage(`${BASE_URL}${newProfileImageUrl}`);
-    actions.setProfileImage(`${BASE_URL}${newProfileImageUrl}`); // 상태 업데이트
-  };
+const handleImageUpload = (newProfileImageUrl) => {
+  const fullImageUrl = `${BASE_URL}${newProfileImageUrl}`;
+  setProfileImage(fullImageUrl);
+  actions.setProfileImage(fullImageUrl);
+};
 
 //------------------------------------------------------
 const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode: 'onBlur' });
@@ -155,20 +155,38 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
 
   // 현재 사용자 ID에 해당하는 게시글만 필터링
   const [myPosts, setMyPosts] = useState([]);
+  const { state: communityState, actions: communityActions } = useContext(CommunityContext);
 
   useEffect(() => {
-    const userId = state.userId;
-    
+    const fetchCommunityData = async () => {
+        try {
+            const response = await fetch('http://localhost:8080/selectCommunity');
+            const data = await response.json();
+            communityActions.setSelectAllPosts(data);
+        } catch (error) {
+            console.error('Error fetching community data:', error);
+        }
+    };
+    fetchCommunityData();
+}, []);
 
-    // user_num의 userId 필드를 사용하여 필터링
-    const filteredPosts = communityContext.state.selectAllPosts.filter(post => {
-      
-      return post.user_num.userId === userId; // userId 필드로 필터링
-    });
 
-    
-    setMyPosts(filteredPosts);
-  }, [state.userId, communityContext.state.selectAllPosts]);
+
+  useEffect(() => {
+    const fetchMyPosts = async () => {
+        if (state.userId) {
+            const userPosts = communityState.selectAllPosts.filter(post => post.user_num.userId === state.userId);
+            setMyPosts(userPosts);
+        }
+    };
+    fetchMyPosts();
+}, [state.userId, communityState.selectAllPosts]);
+
+//---------------------------------------------------------
+
+const handlePropertySelect = (property) => {
+  navigate(`/budongsan`, { state: { property } });
+};
 
     return (
       <div className="mypage-container">
@@ -332,7 +350,7 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
            
           <div className="my-posts">
           
-          <h3>내가 쓴 글</h3>
+          <h3>작성한 글</h3>
           <ul className="post-list">
             {myPosts.length > 0 ? (
               myPosts.map(post => (
@@ -397,10 +415,7 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
 
           <h3>내 관심종목</h3>
           <div className='my-interest-item'>
-            <div>비트코인</div>
-            <div>도지코인</div>
-            <div>삼성전자</div>
-            <div>테슬라</div>
+            <SideMypage onPropertySelect={handlePropertySelect}   />
           </div>
         </div>
         

@@ -18,13 +18,14 @@ const Community = () => {
         selectAllPosts();                                                   // 커뮤니티 모든 글 검색 함수 실행
         selectAllUserLike();                                                // 커뮤니티 모든 글 좋아요 검색 함수 실행
         selectAllPopularPosts();                                            // 커뮤니티 모든 인기 글 검색 함수 실행
+        selectAllBookmark();                                                // 커뮤니티 모든 글 북마크 검색 함수 실행
 
         communityValue.actions.setRealTime(new Date().toLocaleString());
 
         const intervalId = setInterval(() => {
             communityValue.actions.setRealTime(new Date().toLocaleString());
             selectAllPopularPosts();  // 커뮤니티 모든 인기 글 검색 함수 실행
-        }, 5000);  // 5초마다 실행
+        }, 60000);  // 60초마다 실행
 
         // Cleanup function to clear the interval when the component is unmounted
         return () => clearInterval(intervalId);
@@ -73,6 +74,14 @@ const Community = () => {
                 communityValue.actions.setSelectAllPopularPosts(res.data);  // 커뮤니티 모든 인기 글 검색 데이터 저장
             })
 
+    }
+
+    const selectAllBookmark = async () => {                                 // 커뮤니티 모든 글 북마크 검색 함수 생성
+        await axios.get("http://localhost:8080/selectAllBookmark")            // 검색 -> 컨트롤러 요청
+
+            .then((res) => {                                                // DB 검색 요청 후 응답     
+                communityValue.actions.setSelectAllBookmark(res.data);         // 커뮤니티 모든 글 북마크 검색 데이터 저장
+            })
     }
 
     return (

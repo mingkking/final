@@ -232,9 +232,12 @@
   padding: 20px;
   border-radius: 4px;
   outline: none;
-  width: 500px;
-  height: auto;
+  width: 100%;
+  max-width: 500px;
+  height: 100%;
+  max-height: 800px;
   z-index: 1001; /* 오버레이 위에 표시되도록 높은 z-index 설정 */
+  overflow-y: auto;
 }
 
 .Overlay {

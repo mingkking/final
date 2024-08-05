@@ -120,12 +120,20 @@
     	ORDER BY user_num DESC
     </select>
     
-    <!-- memberDetail 출력(회원상세보기) -->
+    <!-- memberDetail 출력(회원상세보기) / 구독테이블도 같이 -->
     <select id="selectMemberDetail" resultType="MgrMemberVO">
     	SELECT *
     	FROM users
     	WHERE user_num = #{user_num}
     </select>
+    <!-- 
+    <select id="selectMemberDetail" resultType="MgrMemberVOMap">
+    	SELECT u.*, s.*
+    	FROM users u
+    	LEFT JOIN subscribe s ON u.user_num = s.user_num
+    	WHERE u.user_num = #{user_num}
+    </select>
+     -->
     
     <!-- 회원 삭제 -->
     <delete id="deleteMember" parameterType="int">
@@ -144,12 +152,47 @@
     	WHERE user_num = #{user_num}
     </update>
     
-    <!-- memberDetail 커뮤니티 글 출력 -->
+    <!-- memberDetail 커뮤니티 글 출력  -->
     <select id="selectCommPost" resultType="MgrCommunityVO">
     	SELECT *
     	FROM community
     	WHERE user_num = #{user_num}
     </select>
+    
+    <!-- 커뮤니티 관리 -->
+    <select id="selectCommPostAll" resultType="MgrCommunityVO">
+    	SELECT *
+    	FROM community
+    	ORDER BY id DESC
+    </select>
+    
+    <!-- 커뮤니티 글 카운팅 -->
+    <select id="selectCommCount" parameterType="MgrCommunityVO" resultType="int">
+    	SELECT count(*)
+    	FROM community
+    </select>
+    
+    <!-- 매니저 여부 확인 -->
+    <select id="checkManager" parameterType="MgrManagerVO" resultType="int">
+    	SELECT count(*)
+    	FROM manager
+    	WHERE manager_num = #{manager_num}
+    </select>
+    
+    <!-- 매니저로 체크 될 때 insert문 -->
+    <insert id="insertManager" parameterType="MgrManagerVO">
+    	INSERT INTO manager (manager_num, manager_name)
+    	SELECT #{manager_num}, user_name
+    	FROM users
+    	WHERE user_num = #{manager_num}
+    </insert>
+    
+    <!-- 관리자 체크박스 풀고 수정 했을 때 delete문 -->
+    <delete id="deleteManager" parameterType="int">
+    	DELETE FROM manager
+    	WHERE manager_num = #{manager_num}
+    </delete>
+    
     
 </mapper>
 

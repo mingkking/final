@@ -1,43 +1,81 @@
-/* Sidebar.css */
-.sidebar {
-    position: fixed;
-    top: 0;
-    left: -250px; /* 사이드바가 기본적으로 보이지 않게 설정 */
-    width: 250px;
-    height: 100%;
-    background: #333;
-    color: #fff;
-    transition: left 0.3s ease;
-    z-index: 1000;
-  }
-  
-  .sidebar.open {
-    left: 0; /* 사이드바가 열릴 때 화면에 보이도록 설정 */
-  }
-  
-  .sidebar-menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .sidebar-menu li {
-    padding: 15px;
-  }
-  
-  .sidebar-menu a {
-    color: #fff;
-    text-decoration: none;
-  }
-  
-  .close-btn {
-    background: #444;
-    color: #fff;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-  }
-  
+/* 전체 사이드바 스타일 */
+.app-sidebar {
+  position: fixed;
+  top: 0;
+  left: -250px; /* 사이드바가 기본적으로 보이지 않게 설정 */
+  width: 250px;
+  height: 100%;
+  background: #2c3e50; /* 어두운 색상 배경 */
+  color: #ecf0f1; /* 연한 색상 텍스트 */
+  transition: left 0.3s ease;
+  z-index: 1000;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3); /* 그림자 추가 */
+}
+
+/* 사이드바 열릴 때의 스타일 */
+.app-sidebar.open {
+  left: 0; /* 사이드바가 열릴 때 화면에 보이도록 설정 */
+}
+
+/* 사이드바 메뉴 스타일 */
+.app-sidebar-menu {
+  list-style: none;
+  padding: 20px 0; /* 상하 패딩 추가 */
+  margin: 0;
+}
+
+.app-sidebar-menu li {
+  padding: 15px 20px; /* 좌우 패딩 추가 */
+  border-bottom: 1px solid #34495e; /* 메뉴 항목 구분을 위한 하단 경계선 */
+}
+
+.app-sidebar-menu li:last-child {
+  border-bottom: none; /* 마지막 항목의 하단 경계선 제거 */
+}
+
+/* 메뉴 링크 스타일 */
+.app-sidebar-menu a {
+  color: #ecf0f1; /* 연한 색상 텍스트 */
+  text-decoration: none;
+  display: block; /* 블록으로 설정하여 클릭 영역 확장 */
+  font-size: 16px; /* 적당한 글씨 크기 */
+  transition: background 0.3s ease, color 0.3s ease; /* 배경색 및 텍스트 색상 전환 효과 */
+}
+
+/* 메뉴 링크에 마우스 오버 시 스타일 */
+.app-sidebar-menu a:hover {
+  background: #34495e; /* 어두운 배경색 */
+  color: #ffffff; /* 흰색 텍스트 */
+  border-radius: 4px; /* 둥근 모서리 */
+}
+
+/* 로고 영역 스타일 */
+.app-side-nav-area {
+  padding: 20px;
+  border-bottom: 1px solid #34495e; /* 로고와 메뉴 구분을 위한 하단 경계선 */
+}
+
+/* 로고 스타일 */
+.app-logo svg {
+  max-width: 100%; /* 로고의 최대 너비를 사이드바에 맞게 조정 */
+  height: auto;
+}
+
+/* 닫기 버튼 스타일 */
+.app-close-btn {
+  background: #e74c3c; /* 붉은 색상 배경 */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  border-radius: 4px; /* 둥근 모서리 */
+  transition: background 0.3s ease; /* 배경색 전환 효과 */
+}
+
+/* 닫기 버튼에 마우스 오버 시 스타일 */
+.app-close-btn:hover {
+  background: #c0392b; /* 어두운 붉은색 배경 */
+}

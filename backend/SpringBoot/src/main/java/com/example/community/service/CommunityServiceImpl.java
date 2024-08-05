@@ -6,8 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.community.domain.BookmarkVO;
 import com.example.community.domain.CommunityVO;
 import com.example.community.domain.UserLikeVO;
+import com.example.community.repository.BookmarkRepository;
 import com.example.community.repository.CommunityRepository;
 import com.example.community.repository.UserLikeRepository;
 
@@ -19,6 +21,9 @@ public class CommunityServiceImpl implements CommunityService{
 
     @Autowired
     private UserLikeRepository userLikeRepository;
+
+    @Autowired
+    private BookmarkRepository bookmarkRepository;
 
     @Override
     public List<CommunityVO> selectAllCommunity() throws Exception {
@@ -41,6 +46,7 @@ public class CommunityServiceImpl implements CommunityService{
         
         selectVO.getUser_num().setUserNum(communityVO.getUser_num().getUserNum());
         selectVO.setTitle(communityVO.getTitle());
+        selectVO.setImage_path(communityVO.getImage_path());
         selectVO.setContents(communityVO.getContents());
 
         communityRepository.save(selectVO);
@@ -69,6 +75,21 @@ public class CommunityServiceImpl implements CommunityService{
     @Override
     public void deleteUserLike(Integer userNum, Integer id) throws Exception {
         userLikeRepository.deleteUserLike(userNum, id);;
+    }
+
+    @Override
+    public List<BookmarkVO> selectAllBookmark() throws Exception {
+        return bookmarkRepository.findAll();
+    }
+
+    @Override
+    public void insertBookmark(BookmarkVO bookmarkVO) throws Exception {
+        bookmarkRepository.save(bookmarkVO);
+    }
+
+    @Override
+    public void deleteBookmark(Integer userNum, Integer id) throws Exception {
+        bookmarkRepository.deleteBookmark(userNum, id);
     }
 
     

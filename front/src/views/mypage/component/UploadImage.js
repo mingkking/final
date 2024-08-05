@@ -1,4 +1,4 @@
-import React, { useRef, useContext } from 'react';
+import React, { useRef, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import LoginContext from '../../login/contexts/LoginContext';
 import axiosInstance from '../../login/component/Token/axiosInstance';
@@ -61,3 +61,4 @@ UploadImage.propTypes = {
 };
 
 export default UploadImage;
+
