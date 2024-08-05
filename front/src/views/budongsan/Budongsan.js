@@ -14,9 +14,7 @@ const Budongsan = () => {
     setSelectedProperty(property);
   };
 
-  console.log('학교 마커 수:', schoolMarkerCount);
-  console.log('상점 마커 수:', storeMarkerCount);
-  console.log('버스 정류장 마커 수:', busStationMarkerCount);
+
 
   return(
     <section>

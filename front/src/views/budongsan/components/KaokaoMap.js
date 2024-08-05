@@ -5,17 +5,19 @@ import storeImg from '../../../imges/storeImg.png';             // 편의점 이
 import busStationImg from '../../../imges/busStationImg.png'    // 버스정류장 이미지 import
 import '../budongsanCss/kakaoMap.css';
 
+
 function KakaoMap({ selectedProperty, setSchoolMarkerCount, setStoreMarkerCount, setBusStationMarkerCount }) {
     const [data, setData] = useState(null);                         // 데이터 상태를 저장하는 훅
-    const [schoolData, setSchoolData] = useState(null);             // 학교 데이터 상태를 저장하는 훅
-    const [storeData, setStoreData] = useState(null);               // 편의점 데이터 상태를 저장하는 훅
-    const [busStationData, setBusStationData] = useState(null);     // 버스정류장 데이터 상태를 저장하는 훅
+    const [schoolData, setSchoolData] = useState([]);             // 학교 데이터 상태를 저장하는 훅
+    const [storeData, setStoreData] = useState([]);               // 편의점 데이터 상태를 저장하는 훅
+    const [busStationData, setBusStationData] = useState([]);     // 버스정류장 데이터 상태를 저장하는 훅
     const [selectedCategory, setSelectedCategory] = useState('전체'); // 카테고리 선택을 저장하는 훅
     const markersRef = useRef([]);                                  // 마커를 저장할 Ref
     const mapRef = useRef(null);                                    // 지도를 저장할 Ref
     const clustererRef = useRef(null);                              // 클러스터러를 저장할 Ref
     const circleRef = useRef(null);                                 // 원을 저장할 Ref
     const customOverlayRef = useRef(null);                          // CustomOverlay를 저장할 Ref
+
 
 
 

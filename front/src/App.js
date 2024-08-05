@@ -48,6 +48,11 @@ import { LoginProvider } from './views/login/contexts/LoginContext';
 import { SubscribeProvider } from './views/subscribe/context/SubscribeContext';
 
 
+import { Provider } from 'react-redux';
+import { store } from './redux/store'; 
+
+
+
 function AppContent() {
   const location = useLocation();
   const isAdminPage = Router.some(route => location.pathname.startsWith(route.path));
@@ -63,43 +68,45 @@ function AppContent() {
     <div className="App-content">
       {!isAdminPage && <Header />}
       <ScrollToTop /> {/* 페이지 이동시 스크롤 맨위로 이동 */ }
-      <Routes>
-        <Route path='/' element={<Main />} />
-        <Route path='/stock' element={<Stock />} />
-        <Route path="/stock/:stockCode" element={<StockDetail />} />
-        <Route path='/co1' element={<Co1 />} />
-        <Route path='/co2' element={<Co2 />} />
-        <Route path='/budongsan' element={<Budongsan />} />
-        <Route path='/bu2' element={<Bu2 />} />
-        <Route path='/back1' element={<Back1 />} />
-        <Route path='/Chatting' element={<Chatting />} />
-        <Route path='/Community' element={<Community />} />
-        <Route path='/InsertCommunity' element={<InsertCommunity />} />
-        <Route path='/DetailCommunity' element={<DetailCommunity />} />
-        <Route path='/login' element={<Login onLoginSuccess={handleLoginSuccess} />} />
-        <Route path='/Join' element={<Join />} />
-        <Route path='/IdFind' element={<IdFind />} />
-        <Route path='/IdConfirm' element={<IdConfirm />} />
-        <Route path='/PwFind' element={<PwFind />} />
-        <Route path='/PwChange/:userId' element={<PwChange />} />
-        <Route path='/Subscribe' element={<Subscribe />} />
-        <Route path='/Subscribe2' element={<Subscribe2 />} />
-        <Route path='/Subscribe3' element={<Subscribe3 />} />
-        <Route path='/MyPage' element={<MyPage />} />
-        <Route path='/DeleteMember' element={<DeleteMember />} />
-        <Route path='/news' element={<News />} />
-        <Route path="/character/:name" element={<Charachter />} />
-        <Route path="/serviceUse" element={<ServiceUse/>} />
-        <Route path="/privacy" element={<Privacy/>} />
+      <Provider store={store}>
+        <Routes>
+          <Route path='/' element={<Main />} />
+          <Route path='/stock' element={<Stock />} />
+          <Route path="/stock/:stockCode" element={<StockDetail />} />
+          <Route path='/co1' element={<Co1 />} />
+          <Route path='/co2' element={<Co2 />} />
+          <Route path='/budongsan' element={<Budongsan />} />
+          <Route path='/bu2' element={<Bu2 />} />
+          <Route path='/back1' element={<Back1 />} />
+          <Route path='/Chatting' element={<Chatting />} />
+          <Route path='/Community' element={<Community />} />
+          <Route path='/InsertCommunity' element={<InsertCommunity />} />
+          <Route path='/DetailCommunity' element={<DetailCommunity />} />
+          <Route path='/login' element={<Login onLoginSuccess={handleLoginSuccess} />} />
+          <Route path='/Join' element={<Join />} />
+          <Route path='/IdFind' element={<IdFind />} />
+          <Route path='/IdConfirm' element={<IdConfirm />} />
+          <Route path='/PwFind' element={<PwFind />} />
+          <Route path='/PwChange/:userId' element={<PwChange />} />
+          <Route path='/Subscribe' element={<Subscribe />} />
+          <Route path='/Subscribe2' element={<Subscribe2 />} />
+          <Route path='/Subscribe3' element={<Subscribe3 />} />
+          <Route path='/MyPage' element={<MyPage />} />
+          <Route path='/DeleteMember' element={<DeleteMember />} />
+          <Route path='/news' element={<News />} />
+          <Route path="/character/:name" element={<Charachter />} />
+          <Route path="/serviceUse" element={<ServiceUse/>} />
+          <Route path="/privacy" element={<Privacy/>} />
 
-        {Router.map((route, index) => (
-          <Route key={index} path={`${route.path}/*`} element={route.element}>
-            {route.children && route.children.map((child, idx) => (
-              <Route key={idx} path={`${child.path}`} element={child.element} />
-            ))}
-          </Route>
-        ))}
-      </Routes>
+          {Router.map((route, index) => (
+            <Route key={index} path={`${route.path}/*`} element={route.element}>
+              {route.children && route.children.map((child, idx) => (
+                <Route key={idx} path={`${child.path}`} element={child.element} />
+              ))}
+            </Route>
+          ))}
+        </Routes>
+        </Provider>
       {!isAdminPage && !isBudongsanPage && <Footer />}
     </div>
   );
