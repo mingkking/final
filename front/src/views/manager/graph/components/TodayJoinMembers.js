@@ -13,15 +13,6 @@ const SalesOverview = () => {
 
     // array.from 으로 간단하게 작성(최근 5일 회원가입수, 값이 없으면 0으로 설정)
     const data = Array.from({length: 5}, (_, i) => value.state.last5DaysMember[4-i]?.JOIN_COUNT ?? 0);
-
-
-    // SpringBoot 에서 selectLast5DaysMember 값 가져와서 context파일에 저장하기
-    useEffect(()=>{
-      axios.get('http://localhost:8080')
-      .then((result) => {
-        value.actions.setLast5DaysMember(result.data.selectLast5DaysMember);
-      })
-    },[]);
   
     // chart color
     const theme = useTheme();

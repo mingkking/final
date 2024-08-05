@@ -13,14 +13,8 @@ const YearJoinMembers = () => {
     // array.from 으로 간단하게 작성(최근 2년 회원가입수, 값이 없으면 0으로 설정)
     const data = Array.from({length: 2}, (_, i) => value.state.last2YearsMember[1-i]?.JOIN_COUNT ?? 0);
 
+    console.log("2년치 data 가져온 값------", data);
 
-    // SpringBoot 에서 selectLast2YearsMember 값 가져와서 context파일에 저장하기
-    useEffect(()=>{
-      axios.get('http://localhost:8080')
-      .then((result) => {
-        value.actions.setLast2YearsMember(result.data.selectLast2YearsMember);
-      });
-    },[]);
 
     // chart color
     const theme = useTheme();
