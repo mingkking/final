@@ -63,7 +63,7 @@ const PopularPosts = () => {
                                     <div className="popular-posts-item-created_at">{popularPost.user_num.userNickname} &bull; {createAtCal(popularPost.created_at)}</div>
                                 </div>
                                 <div className="popular-posts-item-upload">
-                                    <img src={`http://localhost:8080/uploads/${popularPost.image_path}`} alt={`업로드`}></img>
+                                {popularPost.image_path && (<img src={`http://localhost:8080/uploads/${popularPost.image_path}`} alt={`업로드`}></img>)}
                                 </div>
                             </div>
                         </div>

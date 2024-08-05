@@ -26,7 +26,6 @@
   color: #666; /* 콘텐츠 텍스트 색상 */
   margin-bottom: 8px; /* 콘텐츠와 다음 요소 간의 간격 줄이기 */
   font-weight: bold;
-  overflow: hidden; /* 내용이 카드 영역을 넘어가지 않도록 */
 }
 
 .popular-posts-item-top {
