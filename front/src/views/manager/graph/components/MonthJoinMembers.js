@@ -13,16 +13,8 @@ const MonthJoinMembers = () => {
 
     // array.from 으로 간단하게 작성(최근 5일 회원가입수, 값이 없으면 0으로 설정)
     const data = Array.from({length: 5}, (_, i) => value.state.last5MonthsMember[4-i]?.JOIN_COUNT ?? 0);
+    console.log("5달치 data 가져온 값------", data);
 
-
-    // SpringBoot 에서 selectLast5MonthsMember 값 가져와서 context파일에 저장하기
-    useEffect(()=>{
-      axios.get('http://localhost:8080')
-      .then((result) => {
-        value.actions.setLast5MonthsMember(result.data.selectLast5MonthsMember);
-        console.log("데이타값" , data);
-      });
-    },[]);
 
     // chart color
     const theme = useTheme();
@@ -100,7 +92,7 @@ const MonthJoinMembers = () => {
 
         {
             name: 'Month',
-            data: [data[0], data[1], data[2], data[3], data[4]],
+            data: [data[1], data[0], data[2], data[4], data[3]], // 수정해...
         },
     ];
 

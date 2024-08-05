@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Grid, Box } from '@mui/material';
 import PageContainer from '../../../components/container/PageContainer';
 import axios from 'axios';
@@ -24,7 +24,13 @@ const Dashboard = () => {
       .then((result) => {
         value.actions.setTodaySubscribersCount(result.data.selectTodaySubscribers);
         value.actions.setCountByAgeMember(result.data.countByAgeMember);
-        console.log(result.data.countByAgeMember);
+        value.actions.setCommCount(result.data.selectCommCount);
+        value.actions.setLast5DaysMember(result.data.selectLast5DaysMember);
+        value.actions.setLast5MonthsMember(result.data.selectLast5MonthsMember);
+        value.actions.setLast2YearsMember(result.data.selectLast2YearsMember);
+        value.actions.setTotalCount(result.data.selectTotalSession);
+        value.actions.setTodayCount(result.data.selectTodaySession);
+        console.log(result.data);
       })
     },[]);
 
@@ -71,7 +77,7 @@ const Dashboard = () => {
             <CountSomething title='채팅방 수'/>
           </Grid>
           <Grid item xs={12} lg={3}>
-            <CountSomething title='게시글 수'/>
+            <CountSomething title='게시글 수' count={value.state.commCount}/>
           </Grid>
           <Grid item xs={12} lg={3}>
             <CountSomething title='댓글 수'/>

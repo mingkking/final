@@ -1,14 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Grid, Box } from '@mui/material';
 import PageContainer from '../../../components/container/PageContainer';
-
+import axiosInstance from "../../login/component/Token/axiosInstance";
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 // components
 import SalesOverview from './components/SalesOverview';
 import MembersGraph from './components/MembersGraph';
 import MonthlyEarnings from './components/MonthlyEarnings';
 import MemberCount from './components/MembersCount';
-
 import mainContext from "../main/contexts/MainContext";
 
 
@@ -16,6 +17,45 @@ import mainContext from "../main/contexts/MainContext";
 const Dashboard = () => {
 
   const value = useContext(mainContext);
+  const navigate = useNavigate();
+
+  // 로그인 확인 함수
+  useEffect(() => {
+    loginCheck();
+  }, []);
+
+     // 로그인 / 관리자 여부 함수
+     const loginCheck = async () => {
+      const response = await axiosInstance.get('/check-login-status', { 
+          withCredentials: true, 
+      });
+  
+      if (response.data.isLoggedIn !== true) {
+          alert("로그인 후 접속 가능합니다!");   
+          navigate("/login");                         
+      }else {
+        // 로그인 했으면 userNum 설정
+        value.actions.setUserNum(response.data.userNum);
+
+        // checkManager 함수에 userNum 값 보내기
+        const mgrTF = await checkManager(response.data.userNum);
+
+        // 값이 False면 관리자가 아니니까 처리
+        if (!mgrTF) {
+          alert("관리자만 접속 가능합니다.");
+          navigate("/");
+        }
+    }
+  }
+
+  // 관리자 여부 확인
+  const checkManager = async (user_num) => {
+
+    // 로그인 한 유저의 user_num을 springBoot로 넘김
+    const result = await axios.get(`http://localhost:8080/manager/${user_num}`);
+
+    return result.data === 1;
+  }
 
 
   return (

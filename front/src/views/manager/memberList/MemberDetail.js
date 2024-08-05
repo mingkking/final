@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Grid, Button, TextField } from '@mui/material';
+import { Typography, Grid, Button, TextField, FormControlLabel, Checkbox } from '@mui/material';
 import PageContainer from '../../../components/container/PageContainer';
 import DashboardCard from '../../../components/shared/DashboardCard';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -13,7 +13,9 @@ const MemberDetail = () => {
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false); // 수정 모드 상태
   const [formData, setFormData] = useState({}); // 수정 가능한 필드의 값 저장
+  const [isAdmin, setIsAdmin] = useState(false); // 관리자 여부
   const navigate = useNavigate();
+
 
   // 상세 정보 가져오기
   useEffect(() => {
@@ -23,6 +25,8 @@ const MemberDetail = () => {
         setMemberDetail(response.data.selectMemberList[0]);
         setCommPost(response.data.commPost);
         setFormData(response.data.selectMemberList[0]); // 기본값 설정
+        setIsAdmin(response.data.checkMgr === 1);
+        console.log("매니저값이 false인가----", isAdmin)
       } catch (error) {
         console.error('회원 상세 정보 가져오기 실패:', error);
       } finally {
@@ -61,24 +65,28 @@ const MemberDetail = () => {
   };
 
   const handleChange = (e) => {
-    // console.log("handleChange함수 값---------", e.target.user_name)
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (e.target.name === 'is_admin') {
+      setIsAdmin(e.target.checked);
+    }
   };
 
   const handleSave = async () => {
-    alert("저장버튼눌러짐");
     try {
-
       const dataToSend = {
         user_name: formData.user_name,
         user_nickname: formData.user_nickname,
         user_id: formData.user_id,
         user_tel: formData.user_tel,
-        user_email: formData.user_email
+        user_email: formData.user_email,
+        is_admin: isAdmin ? 1 : 0 // 관리자 여부 추가
       };
 
     // 회원 수정 값 springboot로 보내기
     const response = await axios.put(`http://localhost:8080/manager/memberDetail/${user_num}`, dataToSend);
+
+    console.log("데이타투샌드값 -----------", dataToSend)
 
     if (response.data === 1) {
       alert('회원 정보가 성공적으로 수정되었습니다.');
@@ -103,8 +111,7 @@ const MemberDetail = () => {
 
   // 생년월일 설정
   const formatBirthDate = (birthDate) => {
-
-    // 구글 로그인이면 생년월일이 null 값이라 처리 -- 안돼
+    // 구글 로그인 하면 생년월일값이 입력이 안되는 부분 처리
     if (!birthDate) {
       return "구글 회원(생년월일 X)";
     }
@@ -135,6 +142,7 @@ const MemberDetail = () => {
                   <Typography variant='h5' style={{ marginBottom: '20px' }}>생년월일</Typography>
                   <Typography variant='h5' style={{ marginBottom: '20px' }}>가입일시</Typography>
                   <Typography variant='h5' style={{ marginBottom: '20px' }}>구독일시</Typography>
+                  <Typography variant='h5' style={{ marginBottom: '20px' }}>관리자여부</Typography>
                 </Grid>
                 <Grid item sm={6}>
                   <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.user_num}</Typography>
@@ -146,6 +154,18 @@ const MemberDetail = () => {
                       <TextField name="user_tel" value={formData.user_tel} onChange={handleChange} size='small' style={{ marginBottom: '9px' }} />
                       <TextField name="user_email" value={formData.user_email} onChange={handleChange} size='small' style={{ marginBottom: '9px' }} />
                       <Typography variant='h5' style={{ marginBottom: '20px' }}>{eightBirthdate}</Typography>
+                      <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.created_at}</Typography>
+                      <Typography variant='h5' style={{ marginBottom: '10px' }}>바꿔야함</Typography>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={isAdmin}
+                            onChange={handleChange}
+                            name="is_admin"
+                          />
+                        }
+                        label="관리자"
+                      />
                     </>
                   ) : (
                     <>
@@ -155,11 +175,14 @@ const MemberDetail = () => {
                       <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.user_tel}</Typography>
                       <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.user_email}</Typography>
                       <Typography variant='h5' style={{ marginBottom: '20px' }}>{eightBirthdate}</Typography>
+                      <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.created_at}</Typography>
+                      <Typography variant='h5' style={{ marginBottom: '20px' }}>바꿔야함</Typography>
+                      {/* <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.subscribe_date ? memberDetail.subscribe_date : '구독 X'}</Typography> */}
+                      <Typography variant='h5' style={{ marginBottom: '20px' }}>
+                        {isAdmin ? '관리자' : '일반 회원'}
+                      </Typography>
                     </>
                   )}
-                  <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.created_at}</Typography>
-                  <Typography variant='h5' style={{ marginBottom: '20px' }}>바꿔야함</Typography>
-                  {/* <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.subscribe_date ? memberDetail.subscribe_date : '구독 X'}</Typography> */}
                 </Grid>
               </Grid>
           </div>
