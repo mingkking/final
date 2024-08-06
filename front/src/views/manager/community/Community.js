@@ -1,7 +1,3 @@
-// 0805 오전 10시 7분
-// 제목 제외 필터 걸고 검색하면 에러남
-// 글쓴사람이랑 내용도 추가해야 할듯? -> 필터링이랑, 화면출력에
-
 import React, { useState, useEffect } from 'react';
 import { Typography, Grid, Pagination, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import PageContainer from '../../../components/container/PageContainer';
@@ -9,51 +5,66 @@ import DashboardCard from '../../../components/shared/DashboardCard';
 import PostGrid from './components/PostGrid';
 import axios from 'axios';
 
-const MemberList = () => {
+const CommunityList = () => {
   const [posts, setPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
-  const postsPerPage = 16; // 페이지당 포스트 수
-  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
-  const [searchPost, setSearchPost] = useState(''); // 검색어
-  const [searchField, setSearchField] = useState('title'); // 검색 필드
+  const postsPerPage = 16;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchPost, setSearchPost] = useState('');
+  const [searchField, setSearchField] = useState('title');
+  const [sortField, setSortField] = useState('created_at');
+  const [sortOrder, setSortOrder] = useState('asc');
 
-  // springboot에서 데이터 가져오기
   useEffect(() => {
     axios.get('http://localhost:8080/manager/community')
       .then((result) => {
-        setPosts(result.data.selectCommPostAll);
-        setFilteredPosts(result.data.selectCommPostAll);
+        const sortedPosts = result.data.selectCommPostAll.sort((a, b) => 
+          new Date(b.created_at) - new Date(a.created_at)
+        );
+        setPosts(sortedPosts);
+        console.log("커뮤니티 값: ", result.data)
+        setFilteredPosts(sortedPosts);
       })
   }, []);
 
-  // 페이지 변경 함수
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
   };
 
-  // 검색어 변경 함수
   const handleSearchChange = (event) => {
     setSearchPost(event.target.value);
   };
 
-  // 검색 드롭다운 변경 함수
   const handleSearchFieldChange = (event) => {
     setSearchField(event.target.value);
-    setSearchPost(''); // 드롭다운이 변경될 때 검색어 초기화
-    setFilteredPosts(posts); // 전체 리스트로 초기화
-    setCurrentPage(1); // 페이지가 1로 되도록 설정
+    setSearchPost('');
+    setFilteredPosts(posts);
+    setCurrentPage(1);
   };
 
-  // 검색 버튼 클릭 함수
   const handleSearchBtn = () => {
     const updateFilteredPosts = posts.filter((post) => 
       post[searchField].toString().toLowerCase().includes(searchPost.toLowerCase())
     );
-    setFilteredPosts(updateFilteredPosts); // 포스트 목록에 검색한 데이터 넣기
-    setCurrentPage(1); // 검색하면 페이지가 1로 되도록 설정
+    setFilteredPosts(updateFilteredPosts);
+    setCurrentPage(1);
   };
 
-  // 현재 페이지에 해당하는 포스트들을 계산
+  const handleSort = () => {
+    const sortedPosts = [...filteredPosts].sort((a, b) => {
+      if (a[sortField] < b[sortField]) return sortOrder === 'asc' ? -1 : 1;
+      if (a[sortField] > b[sortField]) return sortOrder === 'asc' ? 1 : -1;
+      return 0;
+    });
+    
+    setFilteredPosts(sortedPosts);
+    setCurrentPage(1);
+  };
+
+  useEffect(() => {
+    handleSort();
+  }, [sortField, sortOrder]);
+
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
@@ -64,41 +75,74 @@ const MemberList = () => {
         <Grid item sm={12}>
           <DashboardCard>
             <Typography variant='h3' color='primary' style={{ textAlign: 'center', marginTop: '30px', marginBottom: '30px' }}>커뮤니티 글 목록</Typography>
-            
-            {/* 검색 기능 */}
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '20px' }}>
-              <FormControl variant="outlined" style={{ minWidth: 120, marginRight: '10px' }}>
-                <InputLabel>필터</InputLabel>
-                <Select
-                  value={searchField}
-                  onChange={handleSearchFieldChange}
-                  label="필터"
-                  size='small'
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+              {/* 정렬 기능 */}
+              <div style={{ display: 'flex' }}>
+                <FormControl variant="outlined" style={{ minWidth: 120, marginRight: '10px' }}>
+                  <InputLabel>정렬 기준</InputLabel>
+                  <Select
+                    value={sortField}
+                    onChange={(e) => setSortField(e.target.value)}
+                    label="정렬 기준"
+                    size='small'
+                  >
+                    <MenuItem value="created_at">작성일</MenuItem>
+                    <MenuItem value="title">제목</MenuItem>
+                    <MenuItem value="user_name">작성자</MenuItem>
+                    <MenuItem value="id">글번호</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl variant="outlined" style={{ minWidth: 120, marginRight: '10px' }}>
+                  <InputLabel>정렬 순서</InputLabel>
+                  <Select
+                    value={sortOrder}
+                    onChange={(e) => setSortOrder(e.target.value)}
+                    label="정렬 순서"
+                    size='small'
+                  >
+                    <MenuItem value="asc">오름차순</MenuItem>
+                    <MenuItem value="desc">내림차순</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+              
+              {/* 검색 기능 */}
+              <div style={{ display: 'flex' }}>
+                <FormControl variant="outlined" style={{ minWidth: 120, marginRight: '10px' }}>
+                  <InputLabel>필터</InputLabel>
+                  <Select
+                    value={searchField}
+                    onChange={handleSearchFieldChange}
+                    label="필터"
+                    size='small'
+                  >
+                    <MenuItem value="title">제목</MenuItem>
+                    <MenuItem value="id">글번호</MenuItem>
+                    <MenuItem value="contents">내용</MenuItem>
+                    <MenuItem value="created_at">작성일</MenuItem>
+                    <MenuItem value="user_name">작성자</MenuItem>
+                  </Select>
+                </FormControl>
+                <TextField
+                  label="검색"
+                  variant="outlined"
+                  size="small"
+                  value={searchPost}
+                  onChange={handleSearchChange}
+                  style={{ marginRight: '10px' }}
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSearchBtn}
                 >
-                  <MenuItem value="title">제목</MenuItem>
-                  <MenuItem value="post_num">글번호</MenuItem>
-                  <MenuItem value="content">내용</MenuItem>
-                </Select>
-              </FormControl>
-              <TextField
-                label="검색"
-                variant="outlined"
-                size="small"
-                value={searchPost}
-                onChange={handleSearchChange}
-                style={{ marginRight: '10px' }}
-              />
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleSearchBtn}
-              >
-                검색
-              </Button>
+                  검색
+                </Button>
+              </div>
             </div>
 
             {/* 분류선 */}
-            <div style={{ borderBottom: '1px solid #c9c9c9', marginBottom: '20px' }} /> 
+            <div style={{ borderBottom: '1px solid #c9c9c9', marginTop: '20px', marginBottom: '20px' }} /> 
 
             <PostGrid posts={currentPosts} />
             
@@ -117,4 +161,4 @@ const MemberList = () => {
   );
 };
 
-export default MemberList;
+export default CommunityList;
