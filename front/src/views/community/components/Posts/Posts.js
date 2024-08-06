@@ -4,13 +4,16 @@ import './Posts.css';
 import { useNavigate, Link } from 'react-router-dom';
 import CommunityContext from '../../contexts/CommunityContext';
 import UserLike from '../UserLike/UserLike';
-import Reply from '../Reply/Reply';
+import Reply from '../ReplyBtn/ReplyBtn';
 import Share from '../Share/Share';
 import Bookmark from '../Bookmark/Bookmark';
+import LoginContext from '../../../login/contexts/LoginContext';
+import ReplyBtn from '../ReplyBtn/ReplyBtn';
 
 function Posts() {
   const navigate = useNavigate();
   const postsValue = useContext(CommunityContext);
+  const loginValue = useContext(LoginContext);
   const allPostList = postsValue.state.selectAllPosts || [];
 
   const [keyword, setKeyword] = useState('');
@@ -91,11 +94,9 @@ function Posts() {
         {allPostList.map(post => (
           <li key={post.id} className="post-item">
             <div className="post-item-top">
-              <div className='post-item-profile'><img src="profile.jpeg" className="profile-image"></img></div>
+              <div className='post-item-profile'><img src={loginValue.state.profileImage} className="profile-image"></img></div>
               <div className='post-item-info'>
-                <Link className="no-underline-link" to={`/MemberPage?id=${post.user_num.userId}`} state={{ id: post.user_num.userId }}>
                 <div className='post-item-userNickname'>{post.user_num.userNickname}</div>
-                </Link>
                 <div className='post-item-created_at'>{createAtCal(post.created_at)}</div>
               </div>
             </div>
@@ -124,7 +125,7 @@ function Posts() {
 
             <div className="post-item-actions">
               <UserLike postId={post.id}/>
-              <Reply/>
+              <ReplyBtn postId={post.id}/>
               <Share post={post}/>
               <Bookmark postId={post.id}/>
             </div>

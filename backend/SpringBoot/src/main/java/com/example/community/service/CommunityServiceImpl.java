@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.example.community.domain.BookmarkVO;
 import com.example.community.domain.CommunityVO;
+import com.example.community.domain.ReplyVO;
 import com.example.community.domain.UserLikeVO;
 import com.example.community.repository.BookmarkRepository;
 import com.example.community.repository.CommunityRepository;
+import com.example.community.repository.ReplyRepository;
 import com.example.community.repository.UserLikeRepository;
 
 @Service
@@ -24,6 +26,8 @@ public class CommunityServiceImpl implements CommunityService{
 
     @Autowired
     private BookmarkRepository bookmarkRepository;
+
+    @Autowired ReplyRepository replyRepository;
 
     @Override
     public List<CommunityVO> selectAllCommunity() throws Exception {
@@ -92,6 +96,14 @@ public class CommunityServiceImpl implements CommunityService{
         bookmarkRepository.deleteBookmark(userNum, id);
     }
 
-    
+    @Override
+    public List<ReplyVO> selectAllReply(Integer id) throws Exception {
+        return replyRepository.selectAllReply(id);
+    }
+
+    @Override
+    public void insertReply(ReplyVO replyVO) throws Exception {
+        replyRepository.save(replyVO);
+    }
 
 }

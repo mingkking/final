@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.community.domain.BookmarkVO;
 import com.example.community.domain.CommunityVO;
+import com.example.community.domain.ReplyVO;
 import com.example.community.domain.UserLikeVO;
 
 @Service
@@ -38,6 +39,12 @@ public interface CommunityService {
     public void insertBookmark(BookmarkVO bookmarkVO) throws Exception;
 
     public void deleteBookmark(Integer userNum, Integer id) throws Exception;
+
+    // 커뮤니티 댓글 조회
+    @Query(value = "SELECT * FROM REPLY WHERE id=?1 ORDER BY created_at ASC", nativeQuery = true)
+    public List<ReplyVO> selectAllReply(Integer id) throws Exception;
+
+    public void insertReply(ReplyVO replyVO) throws Exception;
 
 }
  
