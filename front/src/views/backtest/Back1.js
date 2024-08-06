@@ -41,7 +41,7 @@ const Back1 = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const theme = useTheme();
-
+  
   const handleAnalyze = async (options) => {
     setError('');
     setAnalysisResult(null);
@@ -87,37 +87,36 @@ const Back1 = () => {
   };
 
   return (
-    <Box sx={{ bgcolor: theme.palette.background.default, minHeight: '100vh', py: 3 }}>
-      <Container maxWidth="lg">
-        <Typography variant="h4" component="h1" gutterBottom align="center">
-          백테스트
-        </Typography>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
-            <Card elevation={3}>
-              <Options onAnalyze={handleAnalyze} />
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Card elevation={3}>
-              {isLoading ? (
-                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '300px' }}>
-                  <CircularProgress />
-                </Box>
-              ) : (
-                <ResultChart analysisResult={analysisResult} error={error} />
-              )}
-            </Card>
-          </Grid>
+    <Box sx={{ bgcolor: theme.palette.background.default, minHeight: '100vh', py: 4 }}>
+    <Container maxWidth="lg">
+      <Typography variant="h3" component="h1" gutterBottom align="center" sx={{ mb: 4, color: theme.palette.primary.main, fontWeight: 'bold' }}>
+        백테스트
+      </Typography>
+      <Grid container spacing={4}>
+        <Grid item xs={12} md={5}>
+          <Card elevation={3} sx={{ height: '100%' }}>
+            <Options onAnalyze={handleAnalyze} />
+          </Card>
         </Grid>
-      </Container>
-      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
-        <Alert onClose={handleCloseSnackbar} severity="error" sx={{ width: '100%' }}>
-          {error}
-        </Alert>
-      </Snackbar>
-    </Box>
-  );
+        <Grid item xs={12} md={7}>
+          <Card elevation={3} sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+            {isLoading ? (
+              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexGrow: 1 }}>
+                <CircularProgress size={60} />
+              </Box>
+            ) : (
+              <ResultChart analysisResult={analysisResult} error={error} />
+            )}
+          </Card>
+        </Grid>
+      </Grid>
+    </Container>
+    <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+      <Alert onClose={handleCloseSnackbar} severity="error" sx={{ width: '100%' }}>
+        {error}
+      </Alert>
+    </Snackbar>
+  </Box>
+);
 };
-
 export default Back1;

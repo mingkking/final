@@ -9,7 +9,6 @@ import {
   TableHead,
   TableRow,
   Paper,
-  CircularProgress,
   Typography,
   Box,
   useTheme,
