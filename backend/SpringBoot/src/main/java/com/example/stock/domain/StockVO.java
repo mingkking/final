@@ -16,7 +16,7 @@ public class StockVO {
 	private Integer high_price; // 고가
 	private Integer low_price; // 저가
 	private Integer compared_price; //대비
-	private Long trading_volue;  //거래량
+	private Long trading_volume;  //거래량
 	private Long trading_amount; //거래대금
 	private Long capitalization; //시가총액
 	private Long listed_stocks; // 상장주식수

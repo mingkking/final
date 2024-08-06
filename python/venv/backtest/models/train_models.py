@@ -1,13 +1,14 @@
 import oracledb
 import pandas as pd
 import numpy as np
+import logging
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential, save_model
 from tensorflow.keras.layers import LSTM, Dense, Dropout
 from tensorflow.keras.optimizers import Adam
 from technical_indicators.indicators import add_technical_indicators
 from data_processing.data_processor import preprocess_data
-
+logger = logging.getLogger()
 def create_connection():
     return oracledb.connect(user="investigate", password="team1", dsn="192.168.0.39:1521/XE")
 
@@ -21,6 +22,7 @@ def get_stock_data(connection, stock_name):
     cursor.execute(query, name=stock_name)
     columns = [col[0].lower() for col in cursor.description]
     data = cursor.fetchall()
+    logger.info(f"Query returned {len(data)} rows for stock {stock_name}")
     return pd.DataFrame(data, columns=columns)
 
 def prepare_data(df, sequence_length=10):

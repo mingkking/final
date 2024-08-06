@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import {ko} from "date-fns/locale"
-import { TextField, Button, Select, MenuItem, FormControl, Box, Typography, useTheme } from '@mui/material';
+import { TextField, Button, Select, MenuItem, FormControl, Box, Typography, useTheme, InputLabel } from '@mui/material';
 
-const BacktestOptions = ({ onAnalyze }) => {
+const Options = ({ onAnalyze }) => {
   const [stockName, setStockName] = useState('');
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -27,8 +27,10 @@ const BacktestOptions = ({ onAnalyze }) => {
   };
 
   return (
-    <Box sx={{ p: 3, bgcolor: theme.palette.background.paper }}>
-      <Typography variant="h5" gutterBottom>백테스트 설정</Typography>
+    <Box sx={{ p: 4, bgcolor: theme.palette.background.paper }}>
+      <Typography variant="h5" gutterBottom sx={{ mb: 3, fontWeight: 'bold', color: theme.palette.primary.main }}>
+        백테스트 설정
+      </Typography>
       <TextField
         fullWidth
         label="주식 종목명"
@@ -36,6 +38,7 @@ const BacktestOptions = ({ onAnalyze }) => {
         onChange={(e) => setStockName(e.target.value)}
         margin="normal"
         variant="outlined"
+        sx={{ mb: 2 }}
       />
       
       <DatePicker
@@ -45,7 +48,7 @@ const BacktestOptions = ({ onAnalyze }) => {
         selectsStart
         startDate={startDate}
         endDate={endDate}
-        customInput={<TextField fullWidth label="시작 날짜" margin="normal" variant="outlined" />}
+        customInput={<TextField fullWidth label="시작 날짜" margin="normal" variant="outlined" sx={{ mb: 2 }} />}
       />
       
       <DatePicker
@@ -56,7 +59,7 @@ const BacktestOptions = ({ onAnalyze }) => {
         startDate={startDate}
         endDate={endDate}
         minDate={startDate}
-        customInput={<TextField fullWidth label="종료 날짜" margin="normal" variant="outlined" />}
+        customInput={<TextField fullWidth label="종료 날짜" margin="normal" variant="outlined" sx={{ mb: 2 }} />}
       />
       
       <TextField
@@ -67,13 +70,15 @@ const BacktestOptions = ({ onAnalyze }) => {
         onChange={(e) => setInitialInvestment(Number(e.target.value))}
         margin="normal"
         variant="outlined"
+        sx={{ mb: 2 }}
       />
       
-      <FormControl fullWidth margin="normal" variant="outlined">
-        <Typography variant="body2" gutterBottom>리밸런싱 주기</Typography>
+      <FormControl fullWidth margin="normal" variant="outlined" sx={{ mb: 3 }}>
+        <InputLabel>리밸런싱 주기</InputLabel>
         <Select
           value={rebalancePeriod}
           onChange={(e) => setRebalancePeriod(e.target.value)}
+          label="리밸런싱 주기"
         >
           <MenuItem value="monthly">매월</MenuItem>
           <MenuItem value="quarterly">분기</MenuItem>
@@ -86,7 +91,7 @@ const BacktestOptions = ({ onAnalyze }) => {
         color="primary" 
         fullWidth 
         onClick={handleSubmit}
-        sx={{ mt: 2 }}
+        sx={{ mt: 2, py: 1.5, fontSize: '1.1rem' }}
       >
         분석 시작
       </Button>
@@ -94,4 +99,4 @@ const BacktestOptions = ({ onAnalyze }) => {
   );
 };
 
-export default BacktestOptions;
+export default Options;
