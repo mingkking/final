@@ -14,6 +14,8 @@ import Share from '../community/components/Share/Share';
 import Bookmark from '../community/components/Bookmark/Bookmark';
 import CommunityContext from '../community/contexts/CommunityContext';
 import SideMypage from '../budongsan/sideView/SideMypage';
+import { setSelectedProperty } from '../../redux/propertySlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const MyPage = () => {
 
@@ -184,9 +186,13 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
 
 //---------------------------------------------------------
 
-const handlePropertySelect = (property) => {
-  navigate(`/budongsan`, { state: { property } });
-};
+  const dispatch = useDispatch();
+  
+  
+  const handlePropertySelect = (property) => {
+    dispatch(setSelectedProperty(property)); // 선택한 매물을 리덕스에 설정
+    navigate(`/budongsan`, { state: { property } }); // 상세 페이지로 이동
+  };
 
     return (
       <div className="mypage-container">
@@ -220,7 +226,7 @@ const handlePropertySelect = (property) => {
                 <tbody>
                   <tr>
                     <td>0</td>
-                    <td>0</td>
+                    <td>{myPosts.length}</td>
                     <td>0</td>
                     <td>0</td>
                   </tr>
@@ -415,7 +421,7 @@ const handlePropertySelect = (property) => {
 
           <h3>내 관심종목</h3>
           <div className='my-interest-item'>
-            <SideMypage onPropertySelect={handlePropertySelect}   />
+            <SideMypage onPropertySelect={handlePropertySelect} />
           </div>
         </div>
         

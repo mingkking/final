@@ -1,0 +1,31 @@
+.follow-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+    width: 100%;
+    max-width: 1000px;
+  }
+  
+  .follow-button.not-following {
+    background-color: #1da1f2; /* Twitter blue */
+    color: white;
+  }
+  
+  .follow-button.not-following:hover {
+    background-color: #0d8bdf; /* Darker blue */
+    transform: scale(1.05);
+  }
+  
+  .follow-button.following {
+    background-color: #e1e8ed; /* Light grey */
+    color: #657786; /* Grey */
+  }
+  
+  .follow-button.following:hover {
+    background-color: #d0d7de; /* Darker grey */
+    transform: scale(1.05);
+  }
