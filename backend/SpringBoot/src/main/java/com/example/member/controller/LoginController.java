@@ -311,6 +311,16 @@ public class LoginController {
         }
     }
     
+    //userNum 보내기
+    @GetMapping("/userNum/{userId}")
+    public ResponseEntity<UserResponse> getUserNum(@PathVariable String userId) {
+        Integer userNum = loginService.findUserNumByUserId(userId);
+        if (userNum != null) {
+            return ResponseEntity.ok(new UserResponse(userNum));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
     
     
     @Data
@@ -355,7 +365,22 @@ public class LoginController {
  
     
 //------------------------------------------------
-    
+ // 사용자 정보를 반환할 DTO 클래스
+    public static class UserResponse {
+        private Integer userNum;
+
+        public UserResponse(Integer userNum) {
+            this.userNum = userNum;
+        }
+
+        public Integer getUserNum() {
+            return userNum;
+        }
+
+        public void setUserNum(Integer userNum) {
+            this.userNum = userNum;
+        }
+    }
     
     
     

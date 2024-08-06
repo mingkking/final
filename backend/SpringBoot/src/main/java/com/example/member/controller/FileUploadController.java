@@ -90,7 +90,7 @@ public class FileUploadController {
             repo.save(user);
 
             // ProfileDTO로 URL 반환
-            return ResponseEntity.ok(new ProfileDTO(fileUrl));
+            return ResponseEntity.ok(new ProfileDTO(fileUrl, user.getUserNickname()));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -107,7 +107,7 @@ public class FileUploadController {
             return ResponseEntity.badRequest().body("사용자를 찾을 수 없습니다!");
         }
         // 프로필 이미지 URL 반환
-        return ResponseEntity.ok().body(new ProfileDTO(user.getProfileImageUrl()));
+        return ResponseEntity.ok().body(new ProfileDTO(user.getProfileImageUrl(), user.getUserNickname()));
     }
     
     @GetMapping("/images/{fileName}")
