@@ -16,7 +16,7 @@ function NewsMainGrid({ news }) {
           </Grid>
       </Grid>
     );
-}
+} 
 
 export default NewsMainGrid;
 
