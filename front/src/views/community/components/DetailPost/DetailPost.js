@@ -9,10 +9,14 @@ import UserLike from '../UserLike/UserLike';
 import Share from '../Share/Share';
 import ImageUpload from '../ImageUpload/ImageUpload';
 import Bookmark from '../Bookmark/Bookmark';
+import LoginContext from '../../../login/contexts/LoginContext';
+import ReplyBtn from '../ReplyBtn/ReplyBtn';
+import Reply from '../Reply/Reply';
 
 function DetailPost() {
   const navigate = useNavigate();
   const detailPostValue = useContext(CommunityContext);
+  const loginValue = useContext(LoginContext);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [keyword, setKeyword] = useState('');
   const [title, setTitle] = useState(null);                 // form data 제목
@@ -93,7 +97,6 @@ function DetailPost() {
       setContentsCheck(null);
     }
 
-    console.log(detailPostValue);
     const formData = new FormData();                            // 폼 데이터 가공
     formData.append("id", detailPostValue.state.selectOnePost.id); // 커뮤니티 프라이머리 키
     formData.append('user_num', detailPostValue.state.userNum); // 유저 프라이머리 키 
@@ -110,9 +113,9 @@ function DetailPost() {
         setTimeout(() => {
           axios.get("http://localhost:8080/selectOneCommunity", { params: { id: res.data } })            // 검색 -> 컨트롤러 요청
 
-          .then((res) => {                                                // DB 입력 요청 후 응답
-            detailPostValue.actions.setSelectOnePost(res.data);          // 커뮤니티 모든 글 검색 데이터 저장
-          })  
+            .then((res) => {                                                // DB 입력 요청 후 응답
+              detailPostValue.actions.setSelectOnePost(res.data);          // 커뮤니티 모든 글 검색 데이터 저장
+            })
         }, 1000);
       })
 
@@ -178,33 +181,33 @@ function DetailPost() {
                   <div className='detailPost-item-title'>
                     커뮤니티 글 수정<br />
                   </div>
-                    <form action='post'>
-                      <ul className="post-list">
-                        <li className="post-item">
-                          <input className='form-control' placeholder='제목' autoFocus type='text' name='title' onChange={insertTitle} maxLength={100}></input>
-                          {titleCheck && <div className='community-check'>{titleCheck}</div>}
-                        </li>
-                        <li className="post-item">
-                          <ImageUpload onFileSelect={handleFileSelect} />
-                        </li>
-                        <li className="post-item">
-                          <textarea className="form-control" placeholder="내용을 작성해주세요" rows="10" name="contents" onChange={insertContents} maxLength={500}></textarea>
-                          {contentsCheck && <div className='community-check'>{contentsCheck}</div>}
-                        </li>
-                      </ul>
-                      <button className='detailCommunity-menuBtn' onClick={updatePostPro}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-edit">
-                          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                          <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                        </svg>
-                      </button>
-                      <button className='detailCommunity-menuBtn' onClick={closeModal}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-edit">
-                          <line x1="18" y1="6" x2="6" y2="18"></line>
-                          <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
-                      </button>
-                    </form>
+                  <form action='post'>
+                    <ul className="post-list">
+                      <li className="post-item">
+                        <input className='form-control' placeholder='제목' autoFocus type='text' name='title' onChange={insertTitle} maxLength={100}></input>
+                        {titleCheck && <div className='community-check'>{titleCheck}</div>}
+                      </li>
+                      <li className="post-item">
+                        <ImageUpload onFileSelect={handleFileSelect} />
+                      </li>
+                      <li className="post-item">
+                        <textarea className="form-control" placeholder="내용을 작성해주세요" rows="10" name="contents" onChange={insertContents} maxLength={500}></textarea>
+                        {contentsCheck && <div className='community-check'>{contentsCheck}</div>}
+                      </li>
+                    </ul>
+                    <button className='detailCommunity-menuBtn' onClick={updatePostPro}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-edit">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                      </svg>
+                    </button>
+                    <button className='detailCommunity-menuBtn' onClick={closeModal}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-edit">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                      </svg>
+                    </button>
+                  </form>
                 </Modal>
 
                 <button className='detailCommunity-insertBtn' onClick={deletePost}>
@@ -239,7 +242,7 @@ function DetailPost() {
         <li className="detailPost-item">
 
           <div className="detailPost-item-top">
-            <div className='detailPost-item-profile'><img src="profile.jpeg" className="profile-image"></img></div>
+            <div className='detailPost-item-profile'><img src={loginValue.state.profileImage} className="profile-image"></img></div>
             <div className='detailPost-item-info'>
               <div className='detailPost-item-userNickname'>{detailPostValue.state.selectOnePost.user_num.userNickname}</div>
               <div className='detailPost-item-created_at'>{createAtCal(detailPostValue.state.selectOnePost.created_at)}</div>
@@ -265,29 +268,17 @@ function DetailPost() {
           </div>
 
           <div className="detailPost-item-actions">
-            <UserLike postId={detailPostValue.state.selectOnePost.id}/>
-            <div className='detailPost-item-replyBtn'>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="bi bi-chat"
-              >
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10z" />
-              </svg>
-            </div>
+            <UserLike postId={detailPostValue.state.selectOnePost.id} />
+            <ReplyBtn postId={detailPostValue.state.selectOnePost.id} />
             <Share post={detailPostValue.state.selectOnePost} />
-            <Bookmark postId={detailPostValue.state.selectOnePost.id}/>
+            <Bookmark postId={detailPostValue.state.selectOnePost.id} />
           </div>
         </li>
       </ul>
-    </div >
+
+      <Reply />
+
+    </div>
   );
 }
 

@@ -9,11 +9,11 @@ import "./component/UploadImage.css";
 import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import UserLike from '../community/components/UserLike/UserLike';
-import Reply from '../community/components/Reply/Reply';
 import Share from '../community/components/Share/Share';
 import Bookmark from '../community/components/Bookmark/Bookmark';
 import CommunityContext from '../community/contexts/CommunityContext';
 import SideMypage from '../budongsan/sideView/SideMypage';
+import ReplyBtn from '../community/components/ReplyBtn/ReplyBtn';
 
 const MyPage = () => {
 
@@ -395,7 +395,7 @@ const handlePropertySelect = (property) => {
 
                   <div className="post-item-actions">
                     <UserLike postId={post.id} />
-                    <Reply />
+                    <ReplyBtn />
                     <Share />
                     <Bookmark />
                   </div>

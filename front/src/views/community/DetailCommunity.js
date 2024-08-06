@@ -20,10 +20,12 @@ const DetailCommunity = () => {
 
         loginCheck();                                                       // 로그인 판단 함수 실행
         const postId = location.state?.id;
+
         selectOnePost(postId);
         selectAllUserLike();                                                // 커뮤니티 모든 글 좋아요 검색 함수 실행
         selectAllPopularPosts();                                            // 커뮤니티 모든 인기 글 검색 함수 실행
         selectAllBookmark();                                                // 커뮤니티 모든 글 북마크 검색 함수 실행
+        selectAllReply(postId);                                             // 커뮤니티 모든 댓글 검색 함수 실행
 
         const intervalId = setInterval(() => {
             communityValue.actions.setRealTime(new Date().toLocaleString());
@@ -35,7 +37,7 @@ const DetailCommunity = () => {
 
     }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         selectOnePost(popularGetId);
     }, [popularGetId]);
 
@@ -89,6 +91,14 @@ const DetailCommunity = () => {
 
             .then((res) => {                                                // DB 검색 요청 후 응답     
                 communityValue.actions.setSelectAllBookmark(res.data);      // 커뮤니티 모든 글 북마크 검색 데이터 저장
+            })
+    }
+
+    const selectAllReply = async (postId) => {                                    // 커뮤니티 모든 댓글 검색 함수 생성
+        await axios.get("http://localhost:8080/selectAllReply", { params: { id: postId } }) // 검색 -> 컨트롤러 요청
+
+            .then((res) => {                                                // DB 검색 요청 후 응답
+                communityValue.actions.setSelectAllReply(res.data);         // 커뮤니티 모든 댓글 검색 데이터 저장
             })
     }
 

@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.community.domain.BookmarkVO;
 import com.example.community.domain.CommunityVO;
+import com.example.community.domain.ReplyVO;
 import com.example.community.domain.UserLikeVO;
 import com.example.community.service.CommunityService;
 
@@ -100,8 +102,9 @@ public class CommunityController {
         try {
             // 수정할 때 파일 존재 유무 판단
             if (imageFile != null && !imageFile.isEmpty()) {
-                communityVO = communityService.selectOneCommunity(communityVO.getId()); // 기존에 있던 파일 명을 가져오기 위해 상세 검색
-                File deletefile = new File(UPLOADED_FOLDER + communityVO.getImage_path()); // 기존에 있던 파일 삭제
+                CommunityVO fileCVO = communityService.selectOneCommunity(communityVO.getId()); // 기존에 있던 파일 명을 가져오기 위해
+                                                                                                // 상세 검색
+                File deletefile = new File(UPLOADED_FOLDER + fileCVO.getImage_path()); // 기존에 있던 파일 삭제
 
                 if (deletefile.exists()) { // 존재유무 판단 후 삭제
                     deletefile.delete(); // 파일 삭제 메소드
@@ -237,6 +240,32 @@ public class CommunityController {
                                                                                                                 // 실행
         } catch (Exception e) {
             System.out.println("커뮤니티 글 북마크 삭제 : " + e.getMessage()); // 커뮤니티 글 북마크 삭제 기능 에러 발생
+        }
+
+    }
+
+    @GetMapping("/selectAllReply")
+    public List<ReplyVO> selectAllReply(@RequestParam("id") Integer id) { // 커뮤니티 모든 댓글 검색
+        List<ReplyVO> selectAllReply = null;
+        try {
+            selectAllReply = communityService.selectAllReply(id); // 커뮤니티 서비스 객체로 커뮤니티 모든 댓글 검색 기능 실행
+        } catch (Exception e) {
+            System.out.println("커뮤니티 모든 댓글 검색 : " + e.getMessage()); // 커뮤니티 모든 댓글 검색 기능 에러 발생
+        }
+
+        return selectAllReply;
+
+    }
+
+    // 커뮤니티 글 등록 (InsertPost.js 에서 받는 폼 데이터)
+    @PostMapping("/insertReply")
+    public void insertReply(@ModelAttribute ReplyVO replyVO) { // 커뮤니티 댓글 등록 (Reply.js 에서 받는 폼 데이터)
+        System.out.println(replyVO.toString());
+
+        try {
+            communityService.insertReply(replyVO); // 커뮤니티 서비스 객체로 커뮤니티 댓글 등록 기능 실행
+        } catch (Exception e) {
+            System.out.println("커뮤니티 댓글 등록 : " + e.getMessage()); // 커뮤니티 댓글 등록 기능 에러 발생
         }
 
     }

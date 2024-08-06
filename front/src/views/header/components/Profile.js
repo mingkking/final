@@ -51,10 +51,6 @@ const Profile = ({ onLogout }) => {
     setAnchorEl2(null);
   };
 
-  
-
-  
-
   return (
     <Box>
       <IconButton
