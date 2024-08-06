@@ -9,104 +9,161 @@ import axios from 'axios';
 
 const MemberList = () => {
   const value = useContext(mainContext);
-  const member10List = 10; // 페이지당 멤버 수
-  const [pageTen, setPageTen] = useState(1); // 현재 페이지
-  const [searchMember, setSearchMember] = useState(''); // 검색어
-  const [filterField, setFilterField] = useState('user_name'); // 필터 기준
-  const [filteredMembers, setFilteredMembers] = useState(value.state.memberList); // 필터링된 멤버 목록
-  const navigate = useNavigate(); // Detail 페이지 이동
+  const member10List = 10;
+  const [pageTen, setPageTen] = useState(1);
+  const [searchMember, setSearchMember] = useState('');
+  const [searchField, setSearchField] = useState('user_name');
+  const [filteredMembers, setFilteredMembers] = useState([]);
+  const [sortField, setSortField] = useState('user_num');
+  const [sortOrder, setSortOrder] = useState('asc');
+  const navigate = useNavigate();
 
-  // Detail 페이지로 이동
   const handleClickDetail = (user_num) => {
     console.log("클릭한 번호--------", user_num);
     navigate(`/manager/memberDetail/${user_num}`);    
   }
 
-  // 페이지 변경 함수
   const handlePageChange = (event, page) => {
     setPageTen(page);
   };
 
-  // 검색어 변경 함수
   const handleSearchChange = (event) => {
     setSearchMember(event.target.value);
   };
 
-  // 검색 버튼 클릭 함수
   const handleSearchBtn = () => {
     const updateFilterMember = value.state.memberList.filter((member) => 
-      member[filterField].toLowerCase().includes(searchMember.toLowerCase())
+      member[searchField].toString().toLowerCase().includes(searchMember.toLowerCase())
     );
-    setFilteredMembers(updateFilterMember); // 멤버 목록에 검색한 데이터 넣기
-    setPageTen(1); // 검색하면 페이지가 1로 되도록 설정
+    setFilteredMembers(updateFilterMember);
+    setPageTen(1);
   };
 
-  // 검색 드롭다운 변경 함수
-  const handleFilterFieldChange = (event) => {
-    setFilterField(event.target.value);
-    setSearchMember(''); // 드롭다운이 변경될 때 검색어 초기화
-    setFilteredMembers(value.state.memberList); // 전체 리스트로 초기화
-    setPageTen(1); // 페이지가 1로 되도록 설정
+  const handleSearchFieldChange = (event) => {
+    setSearchField(event.target.value);
+    setSearchMember('');
+    setFilteredMembers(value.state.memberList);
+    setPageTen(1);
   };
 
-  // 현재 페이지에 표시할 멤버의 마지막 인덱스를 계산
-  const indexLastMember = pageTen * member10List;
-  // 현재 페이지에 표시할 멤버의 첫 번째 인덱스를 계산
-  const indexFirstMember = indexLastMember - member10List;
-  // 현재 페이지에 해당하는 멤버들을 잘라내기
-  const sliceMembers = filteredMembers.slice(indexFirstMember, indexLastMember);
+  const handleSort = () => {
+    const sortedMembers = [...filteredMembers].sort((a, b) => {
+      if (sortField === 'user_num') {
+        // user_num은 숫자로 비교
+        return sortOrder === 'asc' 
+          ? parseInt(a[sortField]) - parseInt(b[sortField])
+          : parseInt(b[sortField]) - parseInt(a[sortField]);
+      } else if (sortField === 'created_at') {
+        // created_at은 날짜로 비교
+        return sortOrder === 'asc'
+          ? new Date(a[sortField]) - new Date(b[sortField])
+          : new Date(b[sortField]) - new Date(a[sortField]);
+      } else {
+        // 나머지는 문자열로 비교
+        return sortOrder === 'asc'
+          ? a[sortField].localeCompare(b[sortField])
+          : b[sortField].localeCompare(a[sortField]);
+      }
+    });
+    
+    setFilteredMembers(sortedMembers);
+    setPageTen(1);
+  };
+
+  useEffect(() => {
+    handleSort();
+  }, [sortField, sortOrder]);
 
   useEffect(() => {
     axios.get('http://localhost:8080/manager/memberList')
       .then((result) => {
-        // manager/memberList 새로고침 할 때 마다 DB에서 값 받아서 데이터 넣기
-        value.actions.setMemberList(result.data.selectMemberList);
+        const initialSortedList = result.data.selectMemberList.sort((a, b) => 
+          parseInt(a.user_num) - parseInt(b.user_num)
+        );
+        value.actions.setMemberList(initialSortedList);
+        setFilteredMembers(initialSortedList);
       });
   }, []);
+
+  const indexLastMember = pageTen * member10List;
+  const indexFirstMember = indexLastMember - member10List;
+  const sliceMembers = filteredMembers.slice(indexFirstMember, indexLastMember);
 
   return (
     <PageContainer title="회원 목록" description="회원 목록을 확인합니다.">
       <Grid container spacing={3}>
         <Grid item sm={12}>
           <DashboardCard>
-            <Typography variant='h2' color='primary' style={{ textAlign: 'center', marginTop: '30px', marginBottom: '60px' }}>회원 목록</Typography>
-            
-            {/* 필터링 및 검색 */}
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '30px' }}>
-              <FormControl variant="outlined" style={{ marginRight: '10px', minWidth: '120px' }}>
-                <InputLabel>필터</InputLabel>
-                <Select
-                  value={filterField}
-                  onChange={handleFilterFieldChange}
-                  label="필터"
-                  size='small'
+            <Typography variant='h3' color='primary' style={{ textAlign: 'center', marginTop: '30px', marginBottom: '30px' }}>회원 목록</Typography>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+              {/* 정렬 기능 */}
+              <div style={{ display: 'flex' }}>
+                <FormControl variant="outlined" style={{ minWidth: 120, marginRight: '10px' }}>
+                  <InputLabel>정렬 기준</InputLabel>
+                  <Select
+                    value={sortField}
+                    onChange={(e) => setSortField(e.target.value)}
+                    label="정렬 기준"
+                    size='small'
+                  >
+                    <MenuItem value="user_num">회원번호</MenuItem>
+                    <MenuItem value="user_name">이름</MenuItem>
+                    <MenuItem value="user_nickname">닉네임</MenuItem>
+                    <MenuItem value="created_at">가입일자</MenuItem>
+                  </Select>
+                </FormControl>
+                <FormControl variant="outlined" style={{ minWidth: 120, marginRight: '10px' }}>
+                  <InputLabel>정렬 순서</InputLabel>
+                  <Select
+                    value={sortOrder}
+                    onChange={(e) => setSortOrder(e.target.value)}
+                    label="정렬 순서"
+                    size='small'
+                  >
+                    <MenuItem value="asc">오름차순</MenuItem>
+                    <MenuItem value="desc">내림차순</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+              
+              {/* 검색 기능 */}
+              <div style={{ display: 'flex' }}>
+                <FormControl variant="outlined" style={{ minWidth: 120, marginRight: '10px' }}>
+                  <InputLabel>필터</InputLabel>
+                  <Select
+                    value={searchField}
+                    onChange={handleSearchFieldChange}
+                    label="필터"
+                    size='small'
+                  >
+                    <MenuItem value="user_name">이름</MenuItem>
+                    <MenuItem value="user_nickname">닉네임</MenuItem>
+                    <MenuItem value="user_email">이메일</MenuItem>
+                    <MenuItem value="user_tel">전화번호</MenuItem>
+                    <MenuItem value="created_at">가입일자</MenuItem>
+                  </Select>
+                </FormControl>
+                <TextField
+                  label="검색"
+                  variant="outlined"
+                  size="small"
+                  value={searchMember}
+                  onChange={handleSearchChange}
+                  style={{ marginRight: '10px' }}
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSearchBtn}
                 >
-                  <MenuItem value="user_name">이름</MenuItem>
-                  <MenuItem value="user_nickname">닉네임</MenuItem>
-                  <MenuItem value="user_email">이메일</MenuItem>
-                  <MenuItem value="user_tel">전화번호</MenuItem>
-                  <MenuItem value="created_at">가입일자</MenuItem>
-                </Select>
-              </FormControl>
-              <TextField
-                label="검색"
-                variant="outlined"
-                size='small'
-                value={searchMember}
-                onChange={handleSearchChange}
-                style={{ marginRight: '10px', minWidth: '200px' }}
-              />
-              <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                style={{ height: '35px', padding: '6px 16px' }}
-                onClick={handleSearchBtn}
-              >
-                검색
-              </Button>
+                  검색
+                </Button>
+              </div>
             </div>
-            
+
+            {/* 분류선 */}
+            <div style={{ borderBottom: '1px solid #c9c9c9', marginTop: '20px', marginBottom: '20px' }} />
+
             {/* 멤버 리스트 헤더 */}
             <Grid container spacing={3} style={{ marginBottom: '20px' }}>
               <Grid item xs={2}>
@@ -128,10 +185,6 @@ const MemberList = () => {
                 <Typography variant='h5' align='center'>구독일자</Typography>
               </Grid>
             </Grid>
-
-            {/* 분류선 */}
-            <div style={{ borderBottom: '1px solid #c9c9c9', marginBottom: '20px' }} /> 
-
 
             {/* 멤버 리스트 */}
             <Grid container spacing={3}>
@@ -165,9 +218,9 @@ const MemberList = () => {
             
             {/* 페이지 네비게이션 */}
             <Pagination
-              count={Math.ceil(filteredMembers.length / member10List)} // 총 페이지 수 계산
-              page={pageTen} // 현재 페이지 설정
-              onChange={handlePageChange} // 페이지 변경 함수
+              count={Math.ceil(filteredMembers.length / member10List)}
+              page={pageTen}
+              onChange={handlePageChange}
               color="primary"
               style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}
             />
