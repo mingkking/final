@@ -25,6 +25,7 @@ import Subscribe3 from './views/subscribe/Subscribe3';
 import MyPage from './views/mypage/MyPage';
 import News from './views/news/News';
 import DeleteMember from './views/mypage/component/DeleteMember';
+import MemberPage from './views/mypage/MemberPage';
 
 import Charachter from './views/main/components/Character';
 import ServiceUse from './views/footer/components/ServiceUse';
@@ -92,6 +93,7 @@ function AppContent() {
           <Route path='/Subscribe2' element={<Subscribe2 />} />
           <Route path='/Subscribe3' element={<Subscribe3 />} />
           <Route path='/MyPage' element={<MyPage />} />
+          <Route path='/MemberPage' element={<MemberPage />} />
           <Route path='/DeleteMember' element={<DeleteMember />} />
           <Route path='/news' element={<News />} />
           <Route path="/character/:name" element={<Charachter />} />

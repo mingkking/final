@@ -30,15 +30,17 @@ json_file_path_school_data = os.path.join(os.path.dirname(__file__), 'budongsan'
 json_file_path_store_data = os.path.join(os.path.dirname(__file__), 'budongsan', 'storeId', 'storeIdData.txt')
 json_file_path_busStation_data = os.path.join(os.path.dirname(__file__), 'budongsan', 'busStation', 'busStationData.txt')
 
+# 데이터 베이스 연결 하는 함수
 def get_db_connection():
     try:
         connection = oracledb.connect(user="investigate", password="team1", dsn="192.168.0.39:1521/XE")
+        #connection = oracledb.connect(user="investigate", password="team1", dsn="13.125.176.132:1521/XE") # 아마존 데이터베이스 이용시 변경
         logger.info("Database connection established successfully.")
         return connection
     except oracledb.DatabaseError as e:
         logger.error(f"Database connection error: {e}")
         raise
-
+# 제이슨 파일 데이터에 필요한 함수
 def read_json_data(file_path):
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
@@ -50,7 +52,7 @@ def read_json_data(file_path):
     except json.JSONDecodeError as e:
         logger.error(f"Error decoding JSON from file {file_path}: {e}")
         return {}
-
+# 데이터 베이스에 있는 stock_info 에 있는 값들을 가져오는 함수 (1년치 데이터)
 def get_stock_data(connection, stock_name):
     cursor = connection.cursor()
     one_year_ago = datetime.now() - timedelta(days=365)
@@ -65,7 +67,7 @@ def get_stock_data(connection, stock_name):
     columns = ['record_date', 'stock_code', 'name', 'stock_type', 'closing_price', 'opening_price', 'high_price', 'low_price']
     data = cursor.fetchall()
     return pd.DataFrame(data, columns=columns)
-
+# LSTM 학습된 모델을 이용해서 값을 예측
 def predict_future(model, scaler, last_sequence, days):
     current_sequence = last_sequence
     predictions = []
@@ -297,20 +299,21 @@ def get_top_liked_properties():
         return jsonify({'status': 'error', 'message': 'An error occurred'}), 500
 
 
-
+# 백테스트 페이지에서 분석 시작 버튼을 눌렀을때 실행
 @app.route('/analyze', methods=['POST', 'GET'])
 def analyze_stock():
-    logger.info(f"Received request: {request.method} {request.url}")
-    logger.info(f"Request data: {request.json}")
+    #logger.info(f"Received request: {request.method} {request.url}")
+    #logger.info(f"Request data: {request.json}")
     
     if request.method == 'POST':
         try:
             data = request.json
-            logger.info(f"Received data: {data}")
+            #logger.info(f"Received data: {data}")
             name = data['stockName']
-            start_date = datetime.strptime(data['startDate'], '%Y-%m-%d')
+            #사용자의 설정 기간을 저장
+            start_date = datetime.strptime(data['startDate'], '%Y-%m-%d') 
             end_date = datetime.strptime(data['endDate'], '%Y-%m-%d')
-            
+            #데이터 베이스에 있는 사용자가 설정한 해당 주식의 데이터를 가져와 학습
             connection = get_db_connection()
             if connection is None:
                 return jsonify({'error': '데이터베이스 연결 실패'}), 500

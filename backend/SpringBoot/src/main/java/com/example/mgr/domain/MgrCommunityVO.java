@@ -13,4 +13,5 @@ public class MgrCommunityVO {
 	private int view_count;
 	private Date created_at;
 	private String image_path;
+	private String user_name;
 } 

@@ -16,6 +16,7 @@ import '../mainCss/MainList.css';
 function MainList() {
     const [tabValue, setTabValue] = useState(0);
     const [topProperties, setTopProperties] = useState([]);
+    const [stockList, setStockList] = useState([]);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -33,6 +34,18 @@ function MainList() {
         fetchTopProperties();
     }, []);
 
+     useEffect(() => {
+        const fetchStockList = async () => {
+            try {
+                const response = await axios.get("http://localhost:8080/MainstockList");
+                setStockList(response.data);
+            } catch (error) {
+                console.log("Error fetching stocks", error);
+            }
+        };
+        fetchStockList();
+    }, []);
+
     const handleTabChange = (event, newValue) => {
         setTabValue(newValue);
     };
@@ -48,14 +61,7 @@ function MainList() {
             <Box sx={{ p: 2, bgcolor: 'secondary.light', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Grid container spacing={3} sx={{ maxWidth: '650px', width: '100%' }}>
                     <Grid item xs={12}>
-                        <TopStocks
-                            stocks={[
-                                { title: '삼성전자', money: '$425.24', percent: '3.61%' },
-                                { title: 'SK하이닉스', money: '$169.11', percent: '2.30%' },
-                                { title: '스타벅스', money: '$69.15', percent: '4.50%' },
-                                { title: 'MSFT', money: '$342.81', percent: '2.64%' }
-                            ]}
-                        />
+                        <TopStocks stocks={stockList} />
                     </Grid>
                     <Grid item xs={12}>
                         <TopProperties

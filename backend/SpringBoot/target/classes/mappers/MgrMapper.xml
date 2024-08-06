@@ -161,9 +161,10 @@
     
     <!-- 커뮤니티 관리 -->
     <select id="selectCommPostAll" resultType="MgrCommunityVO">
-    	SELECT *
-    	FROM community
-    	ORDER BY id DESC
+    	SELECT c.*, u.user_name
+    	FROM community c
+    	JOIN users u ON c.user_num = u.user_num
+    	ORDER BY c.id DESC
     </select>
     
     <!-- 커뮤니티 글 카운팅 -->
