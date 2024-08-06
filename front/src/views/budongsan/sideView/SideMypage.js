@@ -1,13 +1,15 @@
 import React, { useContext, useState, useEffect } from 'react';
 import BudongsanContext from './componoets/BudongsanContext';
 import './sideCss/SideMypage.css';
-import Cookies from 'js-cookie';
+import { setSelectedProperty } from '../../../redux/propertySlice';
+import { useDispatch } from 'react-redux';
 
 const SideMypage = ({ onPropertySelect }) => {
     const [properties, setProperties] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const { state: { userNum } } = useContext(BudongsanContext);
+    const dispatch = useDispatch();
 
     // useEffect(() => { 
     //     const fetchProperties = async () => {
@@ -72,6 +74,8 @@ const SideMypage = ({ onPropertySelect }) => {
           fetchProperties();
         }
       }, [userNum]);
+
+      
 
     const handlePropertyClick = (property) => {
         if (onPropertySelect) {

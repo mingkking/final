@@ -93,7 +93,9 @@ function Posts() {
             <div className="post-item-top">
               <div className='post-item-profile'><img src="profile.jpeg" className="profile-image"></img></div>
               <div className='post-item-info'>
+                <Link className="no-underline-link" to={`/MemberPage?id=${post.user_num.userId}`} state={{ id: post.user_num.userId }}>
                 <div className='post-item-userNickname'>{post.user_num.userNickname}</div>
+                </Link>
                 <div className='post-item-created_at'>{createAtCal(post.created_at)}</div>
               </div>
             </div>
