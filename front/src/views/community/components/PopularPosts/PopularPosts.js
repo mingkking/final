@@ -2,9 +2,11 @@ import React, { useContext, useEffect } from 'react';
 import './PopularPosts.css';
 import CommunityContext from '../../contexts/CommunityContext';
 import { Link } from 'react-router-dom';
+import LoginContext from '../../../login/contexts/LoginContext';
 
 const PopularPosts = () => {
     const communityValue = useContext(CommunityContext);
+    const loginValue = useContext(LoginContext);
     const popularList = communityValue.state.selectAllPopularPosts || [];
 
     const createAtCal = (created_at) => {
@@ -57,7 +59,7 @@ const PopularPosts = () => {
                             </div>
                             <div className="popular-posts-item-top">
                                 <div className="popular-posts-item-profile">
-                                    <img src="profile.jpeg" alt="Profile" className="popular-posts-profile-image" />
+                                    <img src={loginValue.state.profileImage} alt="Profile" className="popular-posts-profile-image" />
                                 </div>
                                 <div className="popular-posts-item-info">
                                     <div className="popular-posts-item-created_at">{popularPost.user_num.userNickname} &bull; {createAtCal(popularPost.created_at)}</div>

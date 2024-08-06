@@ -15,7 +15,6 @@ const Bookmark = (props) => {
 
     if (bookmarkList.length > 0) {
       bookmarkList.map((bookmark, i) => {
-        console.log(i, bookmark);
         if (bookmark.id.id === props.postId && bookmark.user_num.userNum === communityValue.state.userNum) {
           liked = true;
         }
