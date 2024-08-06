@@ -48,6 +48,8 @@ public class LoginVO {
     private LocalDateTime createdAt;  // 생성일
     
     
+    
+    
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
