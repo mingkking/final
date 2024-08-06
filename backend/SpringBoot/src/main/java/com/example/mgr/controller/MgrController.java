@@ -139,8 +139,6 @@ public class MgrController {
         List<MgrMemberVO> mgrMemberDetail = mgrservice.selectMemberDetail(membervo);
         List<MgrCommunityVO> mgrCommPost = mgrservice.selectCommPost(commvo);
         int checkMgr = mgrservice.checkManager(mgrvo);
-        
-        System.out.println("매니저면 1 아니면 0------" + checkMgr);
       
         // Gson 객체 생성
         Gson gson = new GsonBuilder()
@@ -172,7 +170,6 @@ public class MgrController {
     	if (checkMgr == 1) {
     		mgrvo.setManager_num(user_num);
     		mgrservice.insertManager(mgrvo);
-    		System.out.println("관리자가되었느냐" + mgrvo);
     	} else {
     		int managerNumInt = Integer.parseInt(user_num);
     		mgrservice.deleteManager(managerNumInt);
