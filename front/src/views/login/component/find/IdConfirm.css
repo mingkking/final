@@ -1,33 +1,24 @@
-.id-find-container {
+.id-confirm-container {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 500px;
+    width: 100%;
+    max-width: 500px;
     margin: auto;
-    position: absolute;
-    top: 43%;
-    left: 50%;
-    transform: translate(-50%, -43%);
+    position: relative;
+    top: 30%;
+    
+    
+    margin-top: 15%;
+    margin-bottom: 25%;
 }
 
 .main-content {
     background-color: #ffffff;
     padding: 30px;
     border-radius: 8px;
-    
-    text-align: center;
-    width: auto;
-    max-width: 400px;
-}
-
-.id-find-container h2 {
-    margin-bottom: 20px;
-    color: #333;
-}
-
-.result {
-    margin-bottom: 30px;
+    margin-right: 20px;
 }
 
 .result p {
@@ -36,40 +27,45 @@
 }
 
 .buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
+    margin-top: 20px;
 }
 
-.button {
+.btn-primary {
     background-color: #007bff;
-    color: #fff;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
-    cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s, transform 0.3s;
-    width: 150px;
 }
 
-.button:hover {
+.btn-primary:hover {
     background-color: #0056b3;
     transform: scale(1.05);
 }
 
-.button:focus {
-    outline: none;
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    transform: scale(1.05);
 }
 
 /* 미디어 쿼리 */
 
 /* 화면 크기가 768px 이하일 때 */
 @media (max-width: 768px) {
-    .id-find-container {
+    .id-confirm-container {
         width: 90%;
         top: 30%;
-        transform: translate(-50%, -30%);
+        
         padding: 15px;
     }
 
@@ -86,24 +82,22 @@
         align-items: center;
     }
 
-    .button {
-        width: 50%;
-        padding: 12px;
-        font-size: 14px;
+    .btn-primary, .btn-secondary {
+        width: 100%;
         margin-bottom: 10px;
     }
 
-    .button:last-child {
+    .btn-secondary {
         margin-bottom: 0;
     }
 }
 
 /* 화면 크기가 480px 이하일 때 */
 @media (max-width: 480px) {
-    .id-find-container {
+    .id-confirm-container {
         width: 95%;
-        top: 20%;
-        transform: translate(-50%, -20%);
+        top: 30%;
+        
     }
 
     .main-content {
@@ -114,8 +108,8 @@
         font-size: 14px;
     }
 
-    .button {
-        padding: 10px;
-        font-size: 12px;
+    .btn-primary, .btn-secondary {
+        padding: 8px;
+        font-size: 14px;
     }
 }

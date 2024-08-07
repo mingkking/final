@@ -9,7 +9,7 @@ import "./component/UploadImage.css";
 import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import UserLike from '../community/components/UserLike/UserLike';
-import Reply from '../community/components/Reply/Reply';
+import ReplyBtn from '../community/components/ReplyBtn/ReplyBtn';
 import Share from '../community/components/Share/Share';
 import Bookmark from '../community/components/Bookmark/Bookmark';
 import CommunityContext from '../community/contexts/CommunityContext';
@@ -219,16 +219,14 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
                   <tr>
                     <th>댓글</th>
                     <th>게시글</th>
-                    <th>팔로워</th>
-                    <th>팔로잉</th>
+                    
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>0</td>
                     <td>{myPosts.length}</td>
-                    <td>0</td>
-                    <td>0</td>
+                    
                   </tr>
                 </tbody>
               </table>
@@ -401,9 +399,9 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
 
                   <div className="post-item-actions">
                     <UserLike postId={post.id} />
-                    <Reply />
-                    <Share />
-                    <Bookmark />
+                    <ReplyBtn postId={post.id}/>
+                    <Share post={post}/>
+                    <Bookmark postId={post.id}/>
                   </div>
                 </li>
               ))
@@ -411,7 +409,7 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
               <p>작성한 게시글이 없습니다.</p>
             )}
           </ul>
-      </div>
+      </div> 
 
 
 

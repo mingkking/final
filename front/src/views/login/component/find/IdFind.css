@@ -1,67 +1,37 @@
-
-
-.id_container {
+.id-find-container {
     width: 100%;
     max-width: 500px;
+    margin: auto;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: #fff;
     border-radius: 8px;
-    
-
-    margin:auto;
-    position:absolute;
-    top: 43%;
-    left: 50%;
-    transform: translate(-50%, -43%);
-            
-    
-   
+    position: relative;
+    top: 30%;
+    margin-top: 15%;
+    margin-bottom: 15%;
 }
 
-.find-id-form label {
-    text-align: left;
-}
-
-.id_container h1 {
-    text-align: center;
+.id-find-container h1 {
     color: #333;
-    margin-bottom: 20px;
 }
 
-.find-id-form {
-    display: flex;
-    flex-direction: column;
-}
-
-.find-id-form label {
-    margin-bottom: 5px;
+.id-find-form .id-find-form-label {
     color: #555;
+    text-align: left;
+    margin-bottom: 0.5rem;
+    display: block;
 }
 
-.find-id-form input {
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+.id-find-form .form-control {
     font-size: 16px;
 }
 
-.find-id-form button {
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
+.id-find-form .btn-primary {
     background-color: #007bff;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    border: none;
 }
 
-.find-id-form button:hover {
+.id-find-form .btn-primary:hover {
     background-color: #0056b3;
 }
-
-
-/* --------------------------------------------- */
-

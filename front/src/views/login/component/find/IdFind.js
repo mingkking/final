@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './IdFind.css';
 import axiosInstance from '../Token/axiosInstance'; 
 import { useNavigate } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const IdFind = () => {
     const [email, setEmail] = useState('');
@@ -11,7 +12,7 @@ const IdFind = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+ 
         try {
             const response = await axiosInstance.post('/IdFind', null, {
                 params: { email, name, phone }
@@ -31,47 +32,50 @@ const IdFind = () => {
     };  
 
     return (
-        <div className="login-container">
-            <h1>아이디 찾기</h1>
-            <form className="find-id-form" onSubmit={handleSubmit}>
+        <div className="id-find-container">
+            <h1 className="text-center mb-4">아이디 찾기</h1>
+            <form className="id-find-form" onSubmit={handleSubmit}>
                 
-                <label htmlFor="email">이메일</label>
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
+                <div className="mb-3">
+                    <label htmlFor="email" className="id-find-form-label">이메일</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        className="form-control"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+                </div>
                 
-
+                <div className="mb-3">
+                    <label htmlFor="name" className="id-find-form-label">이름</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        className="form-control"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        required
+                    />
+                </div>
                 
-                <label htmlFor="name">이름</label>
-                <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                />
+                <div className="mb-3">
+                    <label htmlFor="phone" className="id-find-form-label">전화번호</label>
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        className="form-control"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        required
+                    />
+                </div>
                 
-
-                
-                <label htmlFor="phone">전화번호</label>
-                <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    required
-                />
-                <br/><br/>
-                <button type="submit">인증하기</button>
-
-                
+                <button type="submit" className="btn btn-primary w-100">인증하기</button>
             </form>
         </div>
     );

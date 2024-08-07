@@ -1,9 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './PopularPosts.css';
 import CommunityContext from '../../contexts/CommunityContext';
 import { Link } from 'react-router-dom';
 import LoginContext from '../../../login/contexts/LoginContext';
 import { Tooltip } from '@mui/material';
+import axios from 'axios';
 
 const PopularPosts = () => {
     const communityValue = useContext(CommunityContext);
@@ -41,6 +42,39 @@ const PopularPosts = () => {
 
     }
 
+    const [userProfiles, setUserProfiles] = useState({}); // 사용자 프로필 저장
+
+    const fetchUserProfiles = async () => {
+        try {
+            const users = popularList.map(post => post.user_num.userId);
+            console.log("Fetching profiles for users:", users);
+            const response = await Promise.all(users.map(userId => axios.get(`http://localhost:8080/api/profile-image/${userId}`)));
+
+            response.forEach(({ data }) => {
+                console.log("Fetched profile data:", data); // 추가된 로그
+            });
+
+            const profiles = response.reduce((acc, { data }) => {
+                if (data.userId) {
+                    acc[data.userId] = data.profileImageUrl;
+                } else {
+                    console.warn('No userId found in response data:', data);
+                }
+                return acc;
+            }, {});
+            console.log("Profiles object:", profiles);
+            setUserProfiles(profiles);
+        } catch (error) {
+            console.error('사용자 프로필 조회 오류:', error);
+        }
+    };
+
+    useEffect(() => {
+        if (popularList.length) {
+            fetchUserProfiles();
+        }
+    }, [popularList]);
+
     return (
         <div className="popular-posts-container">
             <Tooltip title={"좋아요 수가 많은 인기 글 목록입니다."}>
@@ -63,7 +97,15 @@ const PopularPosts = () => {
                                 </div>
                                 <div className="popular-posts-item-top">
                                     <div className="popular-posts-item-profile">
-                                        <img src={loginValue.state.profileImage} alt="Profile" className="popular-posts-profile-image" />
+                                    <img 
+                                        src={userProfiles[popularPost.user_num.userId] ? 
+                                            (userProfiles[popularPost.user_num.userId].startsWith('http') ? 
+                                                userProfiles[popularPost.user_num.userId] : 
+                                                `http://localhost:8080${userProfiles[popularPost.user_num.userId]}`) 
+                                            : 
+                                            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"} 
+                                        alt="Profile" 
+                                        className="popular-posts-profile-image" />
                                     </div>
                                     <div className="popular-posts-item-info">
                                         <div className="popular-posts-item-created_at">{popularPost.user_num.userNickname} &bull; {createAtCal(popularPost.created_at)}</div>

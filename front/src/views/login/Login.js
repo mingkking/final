@@ -1,6 +1,7 @@
 import { useContext, useEffect,useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Login.css"
+import "./Login.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import axiosInstance from './component/Token/axiosInstance';
 
 import {GoogleLogin} from "@react-oauth/google";
@@ -97,43 +98,60 @@ function Login({ onLoginSuccess }) {
   
     return (
         <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-        <div className="login-container">
-            <div className="login-box">
-                <h2>로그인</h2>
-                <form onSubmit={handleLogin}>
-                <div className="input-container">                    
-                    <p>아이디</p>                    
-                    <input type="text" value={userId} onChange={(e) => setUserId(e.target.value)} required />                    
+            <div className="login-container mt-5">
+                <div className="row justify-content-center">
+                    <div className="col-md-8 col-lg-6">
+                        <div className="login-box p-4 border rounded bg-light">
+                            <h2 className="login-title text-center mb-4">로그인</h2>
+                            <form onSubmit={handleLogin}>
+                                <div className="login-form-group mb-3">
+                                    <label htmlFor="userId">아이디</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="userId"
+                                        value={userId}
+                                        onChange={(e) => setUserId(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                <div className="login-form-group mb-4">
+                                    <label htmlFor="userPass">비밀번호</label>
+                                    <input
+                                        type="password"
+                                        className="form-control"
+                                        id="userPass"
+                                        value={userPass}
+                                        onChange={(e) => setUserPass(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                <button type="submit" className="login-button btn-block mb-3">로그인</button>
+                                <hr className="login-hr" />
+                                <div className="login-google-container">
+                                    <GoogleLogin
+                                        onSuccess={handleGoogleLoginSuccess}
+                                        onFailure={handleGoogleLoginError}
+                                        prompt="select_account"
+                                    >
+                                        구글 로그인
+                                    </GoogleLogin>
+                                </div>
+                            </form>
+                        </div>
+                        <div className="login-link-container mb-4">
+                            <a href="/Join" className="btn btn-link">회원가입</a>
+                            |
+                            <a href="/IdFind" className="btn btn-link">아이디 찾기</a>
+                            |
+                            <a href="/PwFind" className="btn btn-link">비밀번호 재설정</a>
+                        </div>
+                    </div>
                 </div>
-                <div className="input-container">                    
-                    <p>비밀번호 </p>                   
-                    <input type="password" value={userPass} onChange={(e) => setUserPass(e.target.value)} required />
-                </div>  
-                <div className="link-container">
-                    <a href="/Join">회원가입</a>
-                    |
-                    <a href="/IdFind">아이디 찾기</a>
-                    |
-                    <a href="/PwFind">비밀번호 재설정</a>
-                </div>
-                    <button type="submit" className="login-button">로그인</button>
-                    <hr/>
-                    <hr/>
-                    <div className="google-login-button">               
-                    <GoogleLogin
-                            onSuccess={handleGoogleLoginSuccess}
-                            onFailure={handleGoogleLoginError}
-                            prompt="select_account"
-                            
-                            >
-                                구글 로그인
-                    </GoogleLogin>
-                    </div>            
-                </form>
             </div>
-        </div>
         </GoogleOAuthProvider>
     );
-  }
+}
+
   
   export default Login;

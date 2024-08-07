@@ -7,6 +7,7 @@ import axiosInstance from '../Token/axiosInstance';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { ko } from 'date-fns/locale';
 
 function Join() {
     const { register, handleSubmit, watch, formState: { errors }, setValue } = useForm({ mode: 'onBlur' });
@@ -225,9 +226,9 @@ function Join() {
                 </div>
                 
             </div>
-            <div className="form-section">
+            <div className="join-form-section">
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="form-group">
+                <div className="join-form-group">
                     <label>아이디</label>
                     <input 
                         type="text" 
@@ -242,7 +243,7 @@ function Join() {
                       })}
                      />
                      
-                    <button type="button" className="check-button" onClick={() => checkUsernameExists(watch('userId'))}>중복확인</button>                                           
+                    <button type="button" className="id-check-button" onClick={() => checkUsernameExists(watch('userId'))}>중복확인</button>                                           
                 </div>
                 
                 {errors.userId && <p className='err'>{errors.userId.message}</p>}
@@ -252,7 +253,7 @@ function Join() {
                             {!usernameExists && usernameLengthValid && <p className='suc'>사용 가능한 아이디입니다.</p>}
                         </>
                     )}
-                <div className="form-group">
+                <div className="join-form-group">
                     <label>이름</label>
                     <input 
                         type="text" 
@@ -271,7 +272,7 @@ function Join() {
                 
                     {errors.userName && <p className='err'>{errors.userName.message}</p>}
                    
-                <div className="form-group">
+                <div className="join-form-group">
                     <label>닉네임</label>
                     <input 
                         type="text" 
@@ -304,7 +305,7 @@ function Join() {
                         </>
                     )}
 
-                <div className="form-group">
+                <div className="join-form-group">
                     <label>비밀번호</label>
                     <input 
                         type="password" 
@@ -323,7 +324,7 @@ function Join() {
                 
                     {errors.userPass && <p className='err'>{errors.userPass.message}</p>}
                 
-                <div className="form-group">
+                <div className="join-form-group">
                     <label>비밀번호 확인</label>
                     <input 
                         type="password" 
@@ -340,7 +341,7 @@ function Join() {
                 
                     {errors.userPassConfirm && <p className='err'>{errors.userPassConfirm.message}</p>}
                 
-                <div className="form-group">
+                <div className="join-form-group">
                     <label>전화번호</label>
                     <input 
                     type="tel" 
@@ -369,7 +370,7 @@ function Join() {
                         </>
                     )}
                 
-                <div className="form-group">
+                <div className="join-form-group">
                     <label>이메일</label>
                     <input 
                         type="email" 
@@ -399,7 +400,7 @@ function Join() {
                         </>
                     )}
                 
-                    <div className="form-group">
+                    <div className="join-form-group">
                         <label>생년월일</label>
                         <DatePicker
                             selected={startDate}
@@ -407,6 +408,7 @@ function Join() {
                             dateFormat="yyyy-MM-dd"
                             placeholderText="생년월일을 선택하세요"
                             maxDate={new Date()}
+                            locale={ko} 
                             showYearDropdown
                             showMonthDropdown
                             dropdownMode="select"
@@ -432,4 +434,4 @@ function Join() {
     );
 }
 
-export default Join
+export default Join;
