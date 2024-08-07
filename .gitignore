@@ -23,4 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # dawit mac에서 maven 이그노어 추가
-/target/
+target/
+
+# Compiled class files
+*.class
