@@ -59,7 +59,6 @@ def safe_execute(func, *args, **kwargs):
 def save_to_oracle(connection, data, date):
     cursor = connection.cursor()
     
-    # MERGE statement for STOCK table (Oracle 11g compatible)
     merge_stock_sql = """
     MERGE INTO STOCK s
     USING (SELECT :1 as stock_code, :2 as stock_name FROM DUAL) d

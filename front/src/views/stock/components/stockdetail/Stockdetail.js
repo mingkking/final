@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState,useContext } from 'react';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from "react-router";
 import axios from 'axios';
 import { createChart, CrosshairMode } from 'lightweight-charts';
 import {
@@ -22,7 +23,8 @@ import {
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
 import Addchart from '@mui/icons-material/Addchart';
-
+import axiosInstance from "../../../login/component/Token/axiosInstance"
+import CommunityContext from "../../../community/contexts/CommunityContext"
 const StockDetail = () => {
   const { stockCode } = useParams();
   const [stockData, setStockData] = useState(null);
@@ -34,11 +36,13 @@ const StockDetail = () => {
   const volumeChartRef = useRef();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-
+  const communityValue = useContext(CommunityContext);
+  const navigate = useNavigate();
   const upColor = '#26A69A';
   const downColor = '#EF5350';
 
   useEffect(() => {
+    loginCheck();
     const fetchStockDetail = async () => {
       try {
         setLoading(true);
@@ -54,6 +58,41 @@ const StockDetail = () => {
 
     fetchStockDetail();
   }, [stockCode]);
+
+  const loginCheck = async () => {
+    try {
+      const response = await axiosInstance.get('/check-login-status', {
+        withCredentials: true,
+      });
+
+      if (response.data.isLoggedIn !== true) {
+        alert("로그인 및 구독 후 이용해주세요!");
+        navigate("/login");
+      } else {
+        communityValue.actions.setUserNick(response.data.userNickname);
+        communityValue.actions.setUserNum(response.data.userNum);
+        return true;  // 로그인 상태일 때 true 반환
+      }
+    } catch (error) {
+      console.error("로그인 상태 확인 중 오류 발생:", error);
+      alert("로그인 상태를 확인하는 중 오류가 발생했습니다.");
+      return false;
+    }
+  };
+  const handleAddToBacktest = async () => {
+    if (await loginCheck()) {
+      // 백테스트 추가 로직
+      console.log("백테스트에 추가");
+    }
+  };
+
+  const handleToggleFavorite = async () => {
+    if (await loginCheck()) {
+      setIsFavorite(!isFavorite);
+      // 관심종목 추가/제거 로직
+      console.log(isFavorite ? "관심종목에서 제거" : "관심종목에 추가");
+    }
+  };
 
   useEffect(() => {
     if (stockData && candleChartRef.current && volumeChartRef.current) {
@@ -287,17 +326,17 @@ const StockDetail = () => {
             </Typography>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Tooltip title="백테스트 하러 가기">
-              <IconButton size="small">
-                <Addchart />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={isFavorite ? "관심종목에서 제거" : "관심종목에 추가"}>
-              <IconButton size="small" onClick={() => setIsFavorite(!isFavorite)}>
-                {isFavorite ? <StarIcon color="primary" /> : <StarBorderIcon />}
-              </IconButton>
-            </Tooltip>
-          </Box>
+          <Tooltip title="백테스트 하러 가기">
+            <IconButton size="small" onClick={handleAddToBacktest}>
+              <Addchart />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={isFavorite ? "관심종목에서 제거" : "관심종목에 추가"}>
+            <IconButton size="small" onClick={handleToggleFavorite}>
+              {isFavorite ? <StarIcon color="primary" /> : <StarBorderIcon />}
+            </IconButton>
+          </Tooltip>
+        </Box>
         </Box>
 
         <Box sx={{ mb: 2 }}>

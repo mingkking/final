@@ -72,7 +72,7 @@ def predict_future(model, scaler, last_sequence, days):
     current_sequence = last_sequence
     predictions = []
     for _ in range(days):
-        current_sequence_scaled = scaler.transform(current_sequence)
+        current_sequence_scaled = scaler.transform(current_sequence) 
         current_sequence_reshaped = current_sequence_scaled.reshape((1, current_sequence_scaled.shape[0], current_sequence_scaled.shape[1]))
         prediction = model.predict(current_sequence_reshaped)
         
