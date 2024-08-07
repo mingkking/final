@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import CommunityContext from "../../contexts/CommunityContext";
 import axios from "axios";
+import { Tooltip } from "@mui/material";
 
 const Bookmark = (props) => {
   const communityValue = useContext(CommunityContext);
@@ -22,7 +23,7 @@ const Bookmark = (props) => {
     }
 
     setIsBookmark(liked);
-    
+
   }, [communityValue.state.selectAllBookmark, props.postId, communityValue.state.userNum]);
 
   const bookmarkBtn = () => {
@@ -32,33 +33,34 @@ const Bookmark = (props) => {
 
   const bookPro = async () => {
     const bookmark = {
-        user_num: { userNum: communityValue.state.userNum },
-        id: { id: props.postId },
+      user_num: { userNum: communityValue.state.userNum },
+      id: { id: props.postId },
     }
     if (!isBookmark) {
-        axios.post("http://localhost:8080/insertBookmark", bookmark) // 데이터 -> 컨트롤러 요청
+      axios.post("http://localhost:8080/insertBookmark", bookmark) // 데이터 -> 컨트롤러 요청
     } else {
-        axios.post("http://localhost:8080/deleteBookmark", bookmark) // 데이터 -> 컨트롤러 요청
+      axios.post("http://localhost:8080/deleteBookmark", bookmark) // 데이터 -> 컨트롤러 요청
     }
 
-}
+  }
 
   return (
     <div className='post-item-bookmark'>
-
-      {isBookmark ?
-        <button className='community-insertBtn' onClick={bookmarkBtn}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-bookmark">
-            <path d="M19 3H5a2 2 0 0 0-2 2v18l7-5 7 5V5a2 2 0 0 0-2-2z" />
-          </svg>
-        </button>
-        :
-        <button className='community-insertBtn' onClick={bookmarkBtn}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-bookmark">
-            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />
-          </svg>
-        </button>
-      }
+      <Tooltip title={isBookmark ? "북마크 해제" : "북마크"}>
+        {isBookmark ?
+          <button className='community-insertBtn' onClick={bookmarkBtn}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-bookmark">
+              <path d="M19 3H5a2 2 0 0 0-2 2v18l7-5 7 5V5a2 2 0 0 0-2-2z" />
+            </svg>
+          </button>
+          :
+          <button className='community-insertBtn' onClick={bookmarkBtn}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-bookmark">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />
+            </svg>
+          </button>
+        }
+      </Tooltip>
     </div>
 
   );

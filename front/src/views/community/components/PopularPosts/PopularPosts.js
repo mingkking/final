@@ -3,6 +3,7 @@ import './PopularPosts.css';
 import CommunityContext from '../../contexts/CommunityContext';
 import { Link } from 'react-router-dom';
 import LoginContext from '../../../login/contexts/LoginContext';
+import { Tooltip } from '@mui/material';
 
 const PopularPosts = () => {
     const communityValue = useContext(CommunityContext);
@@ -42,34 +43,38 @@ const PopularPosts = () => {
 
     return (
         <div className="popular-posts-container">
-            <div className="popular-posts-header">
-                <h4>실시간 인기글</h4>
-                <h6>{communityValue.state.realTime}</h6>
-            </div>
+            <Tooltip title={"좋아요 수가 많은 인기 글 목록입니다."}>
+                <div className="popular-posts-header">
+                    <h4>실시간 인기글</h4>
+                    <h6>{communityValue.state.realTime}</h6>
+                </div>
+            </Tooltip>
 
             {popularList.length > 0 ? (
                 popularList.map((popularPost, i) => (
-                    <Link key={i} className="no-underline-link" to={`/DetailCommunity?id=${popularPost.id}`} state={{ id: popularPost.id }}>
-                        <div className="popular-posts-card">
+                    <Tooltip key={i} title={"인기글 보러가기"}>
+                        <Link className="no-underline-link" to={`/DetailCommunity?id=${popularPost.id}`} state={{ id: popularPost.id }}>
+                            <div className="popular-posts-card">
 
-                            <div className="popular-posts-content">
-                                {popularPost.contents.length > 15
-                                    ? `${popularPost.contents.substring(0, 15)}...`
-                                    : popularPost.contents}
+                                <div className="popular-posts-content">
+                                    {popularPost.contents.length > 15
+                                        ? `${popularPost.contents.substring(0, 15)}...`
+                                        : popularPost.contents}
+                                </div>
+                                <div className="popular-posts-item-top">
+                                    <div className="popular-posts-item-profile">
+                                        <img src={loginValue.state.profileImage} alt="Profile" className="popular-posts-profile-image" />
+                                    </div>
+                                    <div className="popular-posts-item-info">
+                                        <div className="popular-posts-item-created_at">{popularPost.user_num.userNickname} &bull; {createAtCal(popularPost.created_at)}</div>
+                                    </div>
+                                    <div className="popular-posts-item-upload">
+                                        {popularPost.image_path && (<img src={`http://localhost:8080/uploads/${popularPost.image_path}`} alt={`업로드`}></img>)}
+                                    </div>
+                                </div>
                             </div>
-                            <div className="popular-posts-item-top">
-                                <div className="popular-posts-item-profile">
-                                    <img src={loginValue.state.profileImage} alt="Profile" className="popular-posts-profile-image" />
-                                </div>
-                                <div className="popular-posts-item-info">
-                                    <div className="popular-posts-item-created_at">{popularPost.user_num.userNickname} &bull; {createAtCal(popularPost.created_at)}</div>
-                                </div>
-                                <div className="popular-posts-item-upload">
-                                {popularPost.image_path && (<img src={`http://localhost:8080/uploads/${popularPost.image_path}`} alt={`업로드`}></img>)}
-                                </div>
-                            </div>
-                        </div>
-                    </Link>
+                        </Link>
+                    </Tooltip>
                 ))
             ) : (
                 <div className="no-popular-posts">

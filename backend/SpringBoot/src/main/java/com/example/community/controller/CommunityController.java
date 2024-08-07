@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.community.domain.BookmarkVO;
 import com.example.community.domain.CommunityVO;
+import com.example.community.domain.ReReplyVO;
 import com.example.community.domain.ReplyVO;
 import com.example.community.domain.UserLikeVO;
 import com.example.community.service.CommunityService;
@@ -266,6 +267,33 @@ public class CommunityController {
             communityService.insertReply(replyVO); // 커뮤니티 서비스 객체로 커뮤니티 댓글 등록 기능 실행
         } catch (Exception e) {
             System.out.println("커뮤니티 댓글 등록 : " + e.getMessage()); // 커뮤니티 댓글 등록 기능 에러 발생
+        }
+
+    }
+
+    // 커뮤니티 대댓글 전체 검색
+    @GetMapping("/selectAllReReply")
+    public List<ReReplyVO> selectAllReReply() { // 커뮤니티 모든 대댓글 검색
+        List<ReReplyVO> selectAllReReply = null;
+        try {
+            selectAllReReply = communityService.selectAllReReply(); // 커뮤니티 서비스 객체로 커뮤니티 모든 대댓글 검색 기능 실행
+        } catch (Exception e) {
+            System.out.println("커뮤니티 모든 대댓글 검색 : " + e.getMessage()); // 커뮤니티 모든 대댓글 검색 기능 에러 발생
+        }
+
+        return selectAllReReply;
+
+    }
+
+    // 커뮤니티 대댓글 등록
+    @PostMapping("/insertReReply")
+    public void insertReReply(@ModelAttribute ReReplyVO reReplyVO) { // 커뮤니티 대댓글 등록 (Rereply.js 에서 받는 폼 데이터)
+        System.out.println("reReplyVO.toString() reReplyVO.toString() reReplyVO.toString() " + reReplyVO.toString());
+
+        try {
+            communityService.insertReReply(reReplyVO); // 커뮤니티 서비스 객체로 커뮤니티 대댓글 등록 기능 실행
+        } catch (Exception e) {
+            System.out.println("커뮤니티 대댓글 등록 : " + e.getMessage()); // 커뮤니티 대댓글 등록 기능 에러 발생
         }
 
     }

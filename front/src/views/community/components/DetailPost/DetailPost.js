@@ -12,6 +12,7 @@ import Bookmark from '../Bookmark/Bookmark';
 import LoginContext from '../../../login/contexts/LoginContext';
 import ReplyBtn from '../ReplyBtn/ReplyBtn';
 import Reply from '../Reply/Reply';
+import { Tooltip } from '@mui/material';
 
 function DetailPost() {
   const navigate = useNavigate();
@@ -144,16 +145,16 @@ function DetailPost() {
     <div className="container">
 
       <div className='detailCommunity-navbar'>
-
-        <button className='detailPost-item-replyBtn' onClick={() => {
-          navigate("/Community");
-        }}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon-menu">
-            <path d="M13 17l-5-5 5-5" fill='none' />
-            <path d="M18 17l-5-5 5-5" fill='none' />
-          </svg>
-        </button>
-
+        <Tooltip title={"뒤로가기"}>
+          <button className='detailPost-item-replyBtn' onClick={() => {
+            navigate("/Community");
+          }}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon-menu">
+              <path d="M13 17l-5-5 5-5" fill='none' />
+              <path d="M18 17l-5-5 5-5" fill='none' />
+            </svg>
+          </button>
+        </Tooltip>
         <div className='detailPost-item-title'>
           {detailPostValue.state.selectOnePost.title}<br />
         </div>
@@ -162,14 +163,16 @@ function DetailPost() {
           {detailPostValue.state.userNick === detailPostValue.state.selectOnePost.user_num.userNickname ?
             (
               <div>
-                <button className='detailCommunity-insertBtn' onClick={() => {
-                  setIsUpdateModalOpen(!isUpdateModalOpen);
-                }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-edit">
-                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                    <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                  </svg>
-                </button>
+                <Tooltip title={"글 수정"}>
+                  <button className='detailCommunity-insertBtn' onClick={() => {
+                    setIsUpdateModalOpen(!isUpdateModalOpen);
+                  }}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-edit">
+                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                      <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                  </button>
+                </Tooltip>
 
                 <Modal
                   isOpen={isUpdateModalOpen}
@@ -195,30 +198,36 @@ function DetailPost() {
                         {contentsCheck && <div className='community-check'>{contentsCheck}</div>}
                       </li>
                     </ul>
+                    <Tooltip title={"수정 완료"}>
                     <button className='detailCommunity-menuBtn' onClick={updatePostPro}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-edit">
                         <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                         <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                       </svg>
                     </button>
+                    </Tooltip>
+                    <Tooltip title={"취소"}>
                     <button className='detailCommunity-menuBtn' onClick={closeModal}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-edit">
                         <line x1="18" y1="6" x2="6" y2="18"></line>
                         <line x1="6" y1="6" x2="18" y2="18"></line>
                       </svg>
                     </button>
+                    </Tooltip>
                   </form>
                 </Modal>
 
-                <button className='detailCommunity-insertBtn' onClick={deletePost}>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon-trash-simple">
-                    <path d="M3 6h18" />
-                    <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                    <path d="M5 6v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6" />
-                    <path d="M9 11v6" />
-                    <path d="M15 11v6" />
-                  </svg>
-                </button>
+                <Tooltip title={"글 삭제"}>
+                  <button className='detailCommunity-insertBtn' onClick={deletePost}>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon-trash-simple">
+                      <path d="M3 6h18" />
+                      <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                      <path d="M5 6v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6" />
+                      <path d="M9 11v6" />
+                      <path d="M15 11v6" />
+                    </svg>
+                  </button>
+                </Tooltip>
               </div>
             )
             :
@@ -241,13 +250,19 @@ function DetailPost() {
 
         <li className="detailPost-item">
 
-          <div className="detailPost-item-top">
-            <div className='detailPost-item-profile'><img src={loginValue.state.profileImage} className="profile-image"></img></div>
-            <div className='detailPost-item-info'>
-              <div className='detailPost-item-userNickname'>{detailPostValue.state.selectOnePost.user_num.userNickname}</div>
-              <div className='detailPost-item-created_at'>{createAtCal(detailPostValue.state.selectOnePost.created_at)}</div>
+          <Tooltip title={"마이페이지"} placement='top-start'>
+            <div className="detailPost-item-top">
+              <Link className="no-underline-link" to={`/MemberPage?id=${detailPostValue.state.selectOnePost.user_num.userId}`} state={{ id: detailPostValue.state.selectOnePost.user_num.userId }}>
+                <div className='detailPost-item-profile'><img src={loginValue.state.profileImage} className="profile-image"></img></div>
+              </Link>
+              <Link className="no-underline-link" to={`/MemberPage?id=${detailPostValue.state.selectOnePost.user_num.userId}`} state={{ id: detailPostValue.state.selectOnePost.user_num.userId }}>
+                <div className='detailPost-item-info'>
+                  <div className='detailPost-item-userNickname'>{detailPostValue.state.selectOnePost.user_num.userNickname}</div>
+                  <div className='detailPost-item-created_at'>{createAtCal(detailPostValue.state.selectOnePost.created_at)}</div>
+                </div>
+              </Link>
             </div>
-          </div>
+          </Tooltip>
 
           <div className="detailPost-item-middle">
 
@@ -269,7 +284,7 @@ function DetailPost() {
 
           <div className="detailPost-item-actions">
             <UserLike postId={detailPostValue.state.selectOnePost.id} />
-            <ReplyBtn postId={detailPostValue.state.selectOnePost.id} />
+            <ReplyBtn postId={detailPostValue.state.selectOnePost.id} off={1}/>
             <Share post={detailPostValue.state.selectOnePost} />
             <Bookmark postId={detailPostValue.state.selectOnePost.id} />
           </div>

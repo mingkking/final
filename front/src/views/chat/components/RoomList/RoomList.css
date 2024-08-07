@@ -12,10 +12,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #55667758;
     padding: 7px 20px;
     color: black;
     border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
 }
 
 /* room-nav-chat 스타일 */

@@ -11,10 +11,11 @@ const CommunityProvider = (props) => {
 	const [selectAllPopularPosts, setSelectAllPopularPosts] = useState(null);
 	const [selectAllBookmark, setSelectAllBookmark] = useState([]);
 	const [selectAllReply, setSelectAllReply] = useState([]);
+	const [selectAllReReply, setSelectAllReReply] = useState([]);
 
 	const values = {
-		state: { realTime, userNick, userNum, selectAllPosts, selectAllUserLike, selectOnePost, selectAllPopularPosts, selectAllBookmark, selectAllReply },
-		actions: { setRealTime, setUserNick, setUserNum, setSelectAllPosts, setSelectAllUserLike, setSelectOnePost, setSelectAllPopularPosts, setSelectAllBookmark, setSelectAllReply } 
+		state: { realTime, userNick, userNum, selectAllPosts, selectAllUserLike, selectOnePost, selectAllPopularPosts, selectAllBookmark, selectAllReply, selectAllReReply },
+		actions: { setRealTime, setUserNick, setUserNum, setSelectAllPosts, setSelectAllUserLike, setSelectOnePost, setSelectAllPopularPosts, setSelectAllBookmark, setSelectAllReply, setSelectAllReReply } 
 	}
 
 	return (

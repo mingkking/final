@@ -9,7 +9,6 @@ const MessageContainer = ({ messageList, user }) => {
 
     useEffect(() => {                               // 채팅 방 메세지가 변경될 때마다
         setPreDate(new Date());                     // 채팅 방 입장 시간
-        console.log("value.state.messageList", value.state.messageList);
     }, [value.state.messageList]);
 
     return (
