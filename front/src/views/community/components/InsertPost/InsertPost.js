@@ -4,6 +4,7 @@ import './InsertPost.css';
 import { useNavigate } from 'react-router';
 import CommunityContext from '../../contexts/CommunityContext';
 import ImageUpload from '../ImageUpload/ImageUpload';
+import { Tooltip } from '@mui/material';
 
 function InsertPost() {
 
@@ -57,10 +58,6 @@ function InsertPost() {
     }
 
     await axios.post("http://localhost:8080/insertCommunity", formData) // 데이터 -> 컨트롤러 요청
-
-      .then((res) => {                                            // DB 입력 요청 후 응 답
-        console.log("insertCommunity res :", res.data);           // 응답 데이터 확인
-      });
     await selectAllPosts();
 
     setTimeout(() => {
@@ -84,13 +81,15 @@ function InsertPost() {
       <form action='post' enctype="multipart/form-data">
         <div className='community-navbar'>
           <h2 className="community-header">글 쓰기</h2>
-          <button onClick={insertCommunity} className='community-insertBtn'>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 20h9" />
-              <path d="M15.9 5.1a2 2 0 0 1 2.8 2.8L8.2 19.6a2 2 0 0 1-1.2.4H3v-4.2a2 2 0 0 1 .4-1.2L15.9 5.1z" />
-              <path d="M18.6 7.4l-1.4-1.4" />
-            </svg>
-          </button>
+          <Tooltip title={"작성 완료"}>
+            <button onClick={insertCommunity} className='community-insertBtn'>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9" />
+                <path d="M15.9 5.1a2 2 0 0 1 2.8 2.8L8.2 19.6a2 2 0 0 1-1.2.4H3v-4.2a2 2 0 0 1 .4-1.2L15.9 5.1z" />
+                <path d="M18.6 7.4l-1.4-1.4" />
+              </svg>
+            </button>
+          </Tooltip>
         </div>
         <ul className="post-list">
           <li className="post-item">

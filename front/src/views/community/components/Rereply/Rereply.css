@@ -1,0 +1,75 @@
+.reply-item-rereplyBtn {
+    background: none;
+    border: none;
+    padding: 0px;
+    margin-left: 10px;
+    color: gray;
+}
+
+.rereply-container {
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+  }
+  
+  .rereply-list {
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+    text-align: left;
+  }
+  
+  .rereply-item {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    word-wrap: break-word; /* 긴 단어가 줄 바꿈되도록 함 */
+    margin-bottom: 10px;
+  }
+  
+  .rereply-item-top {
+    display: flex;
+    align-items: flex-start;
+  }
+  
+  .rereply-item-profile {
+    margin-right: 10px;
+  }
+  
+  .rereply-item-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1; /* 나머지 공간을 차지하도록 함 */
+  }
+  
+  .rereply-item-userNickname {
+    font-weight: bold;
+    font-size: 12px;
+  }
+  
+  .rereply-item-content {
+    font-weight: bold;
+    font-size: 15px;
+  }
+  
+  .rereply-item-created_at {
+    color: gray;
+    font-size: 12px;
+    align-self: flex-start; /* 작성 시간을 왼쪽에 배치 */
+  }
+  
+  .rereply-input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .rereply-check,
+  .rereply-btn {
+    display: flex;
+    align-items: center;
+  }
+  
+  .rereply-btn {
+    margin-left: auto;
+  }
+  

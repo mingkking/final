@@ -5,6 +5,7 @@ import "./RoomList.css";
 import RoomListContext from "../../contexts/RoomListContext";
 import LoginContext from "../../../login/contexts/LoginContext";
 import axios from "axios";
+import { Tooltip } from "@mui/material";
 
 
 const RoomList = () => {
@@ -20,7 +21,7 @@ const RoomList = () => {
     }, []);
 
     useEffect(() => {                                           // 방의 정보들이 바뀔때마다 실행하는 훅
-        
+
         socket.emit("rooms", (res) => {                         // 전체 방의 정보들을 요청
             value.actions.setRooms(res.data);                   // 전체 방의 정보들을 Context 변수에 저장
         });
@@ -28,17 +29,17 @@ const RoomList = () => {
     }, [value.state.rooms]);
 
     const moveToChat = (rid) => {                               // 채팅 방 입장 함수 rid = 방의 PK
-        
+
         if (!value.state.user) {                                // 채팅 유저 정보가 없을 경우
 
             const userName = loginValue.state.afterLoginNick;                 // test용 추후 아이디 또는 닉네임 값으로 변경 예정
-            
+
             socket.emit("joinRoom", rid, userName, (res) => {   // 서버에 방 참여 요청
 
                 if (res && res.ok) {                            // 요청 후 응답이 true일 때
 
                     value.actions.setUser(res.data);            // 유저 정보를 Context 변수에 저장
-                    
+
                     socket.emit("rooms", (res) => {             // 전체 방의 정보들을 요청
                         value.actions.setRooms(res.data);       // 전체 방의 정보들을 Context 변수에 저장
                     });
@@ -81,7 +82,7 @@ const RoomList = () => {
                 });
 
         }
-       
+
     }
 
     return (
@@ -91,7 +92,12 @@ const RoomList = () => {
             {/* 채팅 방 리스트 네비게이션 바 */}
             <div className="room-nav">
                 <div className="room-nav-chat">채팅 ▼</div>
-                <button className="room-nav-create" onClick={createRoom}>+</button>
+                <Tooltip title={"방 생성"}>
+                    <button className="room-nav-create" onClick={createRoom}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg></button>
+                </Tooltip>
             </div>
             {/* 채팅 방 리스트 네비게이션 바 */}
 
@@ -100,23 +106,25 @@ const RoomList = () => {
 
                 // 전체 방의 정보들이 있을 경우
                 ? value.state.rooms.map((room) => (
-                    <div
-                        className="room-list"
-                        key={room._id}
-                        onClick={() => moveToChat(room._id)}
-                    >
-                        <div className="room-title">
-                            <img src="/profile.jpeg" alt="Profile" />
-                            <p>{room.room}</p>
+                    <Tooltip title={"방 입장"}>
+                        <div
+                            className="room-list"
+                            key={room._id}
+                            onClick={() => moveToChat(room._id)}
+                        >
+                            <div className="room-title">
+                                <img src="/profile.jpeg" alt="Profile" />
+                                <p>{room.room}</p>
+                            </div>
+                            <div className="member-number">{room.members.length}</div>
                         </div>
-                        <div className="member-number">{room.members.length}</div>
-                    </div>
+                    </Tooltip>
                 ))
                 // 전체 방의 정보들이 있을 경우
 
                 // 전체 방의 정보가 없을 경우
                 : null}
-                {/* 전체 방의 정보가 없을 경우 */}
+            {/* 전체 방의 정보가 없을 경우 */}
 
             {/* 전체 방 리스트 목록 */}
 

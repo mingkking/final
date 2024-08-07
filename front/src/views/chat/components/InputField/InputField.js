@@ -13,7 +13,7 @@ const InputField = ({message, setMessage, sendMessage}) => {
 
                 {/* 입력 필드 태그 */}
                 <Input
-                    placeholder="Type in here.."
+                    placeholder="채팅 내용을 입력해주세요."
                     value={message}
                     onChange={(event)=> setMessage(event.target.value)}
                     multiline={false}

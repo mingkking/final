@@ -3,6 +3,9 @@ import "./Reply.css"
 import CommunityContext from "../../contexts/CommunityContext";
 import axios from "axios";
 import LoginContext from "../../../login/contexts/LoginContext";
+import { Link } from "react-router-dom";
+import { Tooltip } from '@mui/material';
+import Rereply from "../Rereply/Rereply";
 
 const Reply = () => {
     const communityValue = useContext(CommunityContext);
@@ -25,7 +28,7 @@ const Reply = () => {
     const handleReplyInputText = (e) => {
         setReplyContent(e.target.value);
     }
-    console.log(communityValue.state.selectAllReply);
+
     const handleOnSubmit = async (e) => {
         e.preventDefault();
         if (replyContent === null || replyContent === "") {             // 커뮤니티 내용 필드가 비어있을 경우
@@ -45,11 +48,12 @@ const Reply = () => {
         await axios.post("http://localhost:8080/insertReply", formData) // 데이터 -> 컨트롤러 요청
             .then((res) => {
                 // setTimeout(() => {
-                //     axios.get("http://localhost:8080/selectAllReply", { params: { id: communityValue.state.selectOnePost.id } })            // 검색 -> 컨트롤러 요청
+                setReplyContent("");                                    // 댓글 내용 초기화
+                axios.get("http://localhost:8080/selectAllReply", { params: { id: communityValue.state.selectOnePost.id } })            // 검색 -> 컨트롤러 요청
 
-                //         .then((res) => {                                                // DB 입력 요청 후 응답
-                //             communityValue.actions.setSelectAllReply(res.data);         // 커뮤니티 모든 댓글 검색 데이터 저장
-                //         })
+                    .then((res) => {                                                // DB 입력 요청 후 응답
+                        communityValue.actions.setSelectAllReply(res.data);         // 커뮤니티 모든 댓글 검색 데이터 저장
+                    })
                 // }, 1000);
             })
 
@@ -85,7 +89,7 @@ const Reply = () => {
         }
 
     }
-
+    
     return (
         <div className='reply-container'>
             <ul className="reply-list">
@@ -94,32 +98,45 @@ const Reply = () => {
                         <input className='form-control reply-input' type='text' name='' placeholder='게시글에 댓글을 남겨주세요.' onClick={handleReplyInputClick} onChange={handleReplyInputText} value={replyContent} />
                         {replyContentCheck && <div className='reply-check'>{replyContentCheck}</div>}
                         {isCreateReplyBtn && (<div className="reply-btn">
-                            <button className='community-insertBtn' onClick={handleOnSubmit}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-edit">
-                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                    <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                                </svg>
-                            </button>
-                            <button className='community-insertBtn' onClick={handleReplyCancelClick}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-x">
-                                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                                </svg>
-                            </button>
+                            <Tooltip title={"댓글 작성"}>
+                                <button className='community-insertBtn' onClick={handleOnSubmit}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-edit">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                        <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                    </svg>
+                                </button>
+                            </Tooltip>
+                            <Tooltip title={"취소"}>
+                                <button className='community-insertBtn' onClick={handleReplyCancelClick}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-x">
+                                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                    </svg>
+                                </button>
+                            </Tooltip>
                         </div>)}
                     </li>
                 </form>
                 {replyList.map((reply, i) => {
                     return (
-                        <div>
+                        <div key={i}>
                             <li className="reply-item">
                                 <div className="reply-item-top">
-                                    <div className='reply-item-profile'><img src={loginValue.state.profileImage} className="profile-image"></img></div>
+                                    <Link className="no-underline-link" to={`/MemberPage?id=${reply.user_num.userId}`} state={{ id: reply.user_num.userId }}>
+                                        <div className='reply-item-profile'><img src={loginValue.state.profileImage} className="profile-image"></img></div>
+                                    </Link>
                                     <div className='reply-item-info'>
-                                        <div className='reply-item-userNickname'>{reply.user_num.userNickname}</div>
+                                        <Link className="no-underline-link" to={`/MemberPage?id=${reply.user_num.userId}`} state={{ id: reply.user_num.userId }}>
+                                            <div className='reply-item-userNickname'>{reply.user_num.userNickname}</div>
+                                        </Link>
                                         <div className='reply-item-content'>{reply.content}</div>
-                                        <div className='reply-item-created_at'>{createAtCal(reply.created_at)}</div>
+
+                                        <div className='reply-item-created_at'>
+                                            {createAtCal(reply.created_at)}
+                                            <Rereply reply_num={reply.reply_num}/>
+                                        </div>
                                     </div>
+
                                 </div>
                             </li>
                         </div>

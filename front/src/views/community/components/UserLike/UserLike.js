@@ -2,6 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import CommunityContext from "../../contexts/CommunityContext";
 import { useNavigate } from "react-router";
+import { Tooltip } from '@mui/material';
 
 const UserLike = (props) => {
     const communityValue = useContext(CommunityContext);
@@ -47,6 +48,7 @@ const UserLike = (props) => {
 
     return (
         <div>
+            <Tooltip title={isLike ? "좋아요 해제" : "좋아요"}>
             {isLike ?
                 <button className='community-insertBtn' onClick={likeBtn}>
                     <svg
@@ -78,6 +80,7 @@ const UserLike = (props) => {
                     </svg>
                 </button>
             }
+            </Tooltip>
         </div>
     );
 }
