@@ -9,6 +9,7 @@ import Share from '../Share/Share';
 import Bookmark from '../Bookmark/Bookmark';
 import LoginContext from '../../../login/contexts/LoginContext';
 import ReplyBtn from '../ReplyBtn/ReplyBtn';
+import { Tooltip } from '@mui/material';
 
 function Posts() {
   const navigate = useNavigate();
@@ -53,11 +54,11 @@ function Posts() {
 
     await axios.get("http://localhost:8080/selectCommunity")            // 검색 -> 컨트롤러 요청
 
-        .then((res) => {                                                // DB 검색 요청 후 응답
-          postsValue.actions.setSelectAllPosts(res.data);         // 커뮤니티 모든 글 검색 데이터 저장
-        })
+      .then((res) => {                                                // DB 검색 요청 후 응답
+        postsValue.actions.setSelectAllPosts(res.data);         // 커뮤니티 모든 글 검색 데이터 저장
+      })
 
-}
+  }
 
   const handleSearch = (event) => {
     // setKeyword(event.target.value);
@@ -82,52 +83,60 @@ function Posts() {
           onChange={handleSearch}
           className="community-search-bar"
         />
-        <button onClick={insertCommunity} className='community-insertBtn'>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 20h9" />
-            <path d="M15.9 5.1a2 2 0 0 1 2.8 2.8L8.2 19.6a2 2 0 0 1-1.2.4H3v-4.2a2 2 0 0 1 .4-1.2L15.9 5.1z" />
-            <path d="M18.6 7.4l-1.4-1.4" />
-          </svg>
-        </button>
+        <Tooltip title={"글 작성"}>
+          <button onClick={insertCommunity} className='community-insertBtn'>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 20h9" />
+              <path d="M15.9 5.1a2 2 0 0 1 2.8 2.8L8.2 19.6a2 2 0 0 1-1.2.4H3v-4.2a2 2 0 0 1 .4-1.2L15.9 5.1z" />
+              <path d="M18.6 7.4l-1.4-1.4" />
+            </svg>
+          </button>
+        </Tooltip>
       </div>
       <ul className="post-list">
         {allPostList.map(post => (
           <li key={post.id} className="post-item">
-            <div className="post-item-top">
-              <div className='post-item-profile'><img src={loginValue.state.profileImage} className="profile-image"></img></div>
-              <div className='post-item-info'>
-                <div className='post-item-userNickname'>{post.user_num.userNickname}</div>
-                <div className='post-item-created_at'>{createAtCal(post.created_at)}</div>
+            <Tooltip title={"마이페이지"} placement='top-start'>
+              <div className="post-item-top">
+                <Link className="no-underline-link" to={`/MemberPage?id=${post.user_num.userId}`} state={{ id: post.user_num.userId }}>
+                  <div className='post-item-profile'><img src={loginValue.state.profileImage} className="profile-image"></img></div>
+                </Link>
+                <Link className="no-underline-link" to={`/MemberPage?id=${post.user_num.userId}`} state={{ id: post.user_num.userId }}>
+                  <div className='post-item-info'>
+                    <div className='post-item-userNickname'>{post.user_num.userNickname}</div>
+                    <div className='post-item-created_at'>{createAtCal(post.created_at)}</div>
+                  </div>
+                </Link>
               </div>
-            </div>
+            </Tooltip>
 
             <div className="post-item-middle">
+              <Tooltip title={"상세 보기"} placement='top-start'>
+                <div className='post-item-title'>
+                  <Link className="no-underline-link" to={`/DetailCommunity?id=${post.id}`} state={{ id: post.id }}>
+                    {post.title}<br />
+                  </Link>
+                </div>
 
-              <div className='post-item-title'>
-                <Link className="no-underline-link" to={`/DetailCommunity?id=${post.id}`} state={{ id: post.id }}>
-                  {post.title}<br />
-                </Link>
-              </div>
-
-              <div className='post-item-contents'>
-                <Link className="no-underline-link" to={`/DetailCommunity?id=${post.id}`} state={{ id: post.id }}>
-                  {post.contents}<br />
-                </Link>
-              </div>
-
+                <div className='post-item-contents'>
+                  <Link className="no-underline-link" to={`/DetailCommunity?id=${post.id}`} state={{ id: post.id }}>
+                    {post.contents}<br />
+                  </Link>
+                </div>
+              </Tooltip>
             </div>
 
             <div className="post-item-bottom">
               <div className='post-item-uploadFile'>
-                {post.image_path && (<img src={`http://localhost:8080/uploads/${post.image_path}`} alt={"업로드 이미지"}></img>)} 
+                {post.image_path && (<img src={`http://localhost:8080/uploads/${post.image_path}`} alt={"업로드 이미지"}></img>)}
               </div>
             </div>
 
             <div className="post-item-actions">
-              <UserLike postId={post.id}/>
-              <ReplyBtn postId={post.id}/>
-              <Share post={post}/>
-              <Bookmark postId={post.id}/>
+              <UserLike postId={post.id} />
+              <ReplyBtn postId={post.id} />
+              <Share post={post} />
+              <Bookmark postId={post.id} />
             </div>
           </li>
         ))}

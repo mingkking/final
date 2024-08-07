@@ -57,14 +57,14 @@ def get_stock_data(connection, stock_name):
     cursor = connection.cursor()
     one_year_ago = datetime.now() - timedelta(days=365)
     query = """
-        SELECT record_date, stock_code, name, stock_type, closing_price, opening_price, high_price, low_price
-        FROM STOCK 
-        WHERE name = :name
+        SELECT record_date, stock_code, stock_name, stock_type, closing_price, opening_price, high_price, low_price
+        FROM STOCK_INFO 
+        WHERE stock_name = :stock_name
         AND record_date >= :start_date
         ORDER BY record_date
     """
-    cursor.execute(query, name=stock_name, start_date=one_year_ago)
-    columns = ['record_date', 'stock_code', 'name', 'stock_type', 'closing_price', 'opening_price', 'high_price', 'low_price']
+    cursor.execute(query, stock_name=stock_name, start_date=one_year_ago)
+    columns = ['record_date', 'stock_code', 'stock_name', 'stock_type', 'closing_price', 'opening_price', 'high_price', 'low_price']
     data = cursor.fetchall()
     return pd.DataFrame(data, columns=columns)
 # LSTM 학습된 모델을 이용해서 값을 예측

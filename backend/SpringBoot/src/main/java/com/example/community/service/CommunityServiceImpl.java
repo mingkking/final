@@ -8,10 +8,12 @@ import org.springframework.stereotype.Service;
 
 import com.example.community.domain.BookmarkVO;
 import com.example.community.domain.CommunityVO;
+import com.example.community.domain.ReReplyVO;
 import com.example.community.domain.ReplyVO;
 import com.example.community.domain.UserLikeVO;
 import com.example.community.repository.BookmarkRepository;
 import com.example.community.repository.CommunityRepository;
+import com.example.community.repository.ReReplyRepository;
 import com.example.community.repository.ReplyRepository;
 import com.example.community.repository.UserLikeRepository;
 
@@ -27,7 +29,12 @@ public class CommunityServiceImpl implements CommunityService{
     @Autowired
     private BookmarkRepository bookmarkRepository;
 
-    @Autowired ReplyRepository replyRepository;
+    @Autowired 
+    private ReplyRepository replyRepository;
+
+    @Autowired
+    private ReReplyRepository reReplyRepository;
+
 
     @Override
     public List<CommunityVO> selectAllCommunity() throws Exception {
@@ -105,5 +112,18 @@ public class CommunityServiceImpl implements CommunityService{
     public void insertReply(ReplyVO replyVO) throws Exception {
         replyRepository.save(replyVO);
     }
+
+    @Override
+    public List<ReReplyVO> selectAllReReply() throws Exception {
+        return reReplyRepository.selectAllReReply();
+    }
+
+    @Override
+    public void insertReReply(ReReplyVO reReplyVO) throws Exception {
+        reReplyRepository.save(reReplyVO);
+    }
+
+
+    
 
 }

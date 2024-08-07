@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.community.domain.BookmarkVO;
 import com.example.community.domain.CommunityVO;
+import com.example.community.domain.ReReplyVO;
 import com.example.community.domain.ReplyVO;
 import com.example.community.domain.UserLikeVO;
 
@@ -45,6 +46,12 @@ public interface CommunityService {
     public List<ReplyVO> selectAllReply(Integer id) throws Exception;
 
     public void insertReply(ReplyVO replyVO) throws Exception;
+
+    // 커뮤니티 대댓글 조회
+    @Query(value = "SELECT * FROM REREPLY ORDER BY created_at ASC", nativeQuery = true)
+    public List<ReReplyVO> selectAllReReply() throws Exception;
+
+    public void insertReReply(ReReplyVO reReplyVO) throws Exception;
 
 }
  

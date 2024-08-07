@@ -1,92 +1,68 @@
+.reply-container {
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+}
+
 .reply-list {
-    margin: 0 auto;
-    padding: 0;
-    list-style: none;
-    margin-bottom: 10px;
-    text-align: left;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+  text-align: left;
 }
 
-li.reply-item {
-    height: auto;
-    border: none;
+.reply-item {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  word-wrap: break-word; /* 긴 단어가 줄 바꿈되도록 함 */
 }
 
-.reply-input {}
+.reply-item-top {
+  display: flex;
+  align-items: flex-start;
+}
 
-.reply-btn {
-    margin-left: auto;
+.reply-item-profile {
+  margin-right: 10px;
+}
+
+.reply-item-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* 나머지 공간을 차지하도록 함 */
+}
+
+.reply-item-userNickname {
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.reply-item-content {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.reply-item-created_at {
+  color: gray;
+  font-size: 12px;
+  align-self: flex-start; /* 작성 시간을 오른쪽에 배치 */
+  width: 100%;
+}
+
+.reply-input {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .reply-check,
 .reply-btn {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
-form > .reply-item {
-    padding: 0px;
-    border: none;
-    text-align: center;
+.reply-btn {
+  margin-left: auto;
 }
 
-.reply-item {
-    display: grid;
-    height: auto;  /* 내용에 따라 높이 자동 조정 */
-    align-items: center; /* 세로축 정렬 */
-    grid-template-rows: auto auto 1fr auto;
-    /* 변경된 높이 설정 */
-    grid-template-areas:
-      'top'
-      'middle'
-      'bottom'
-      'actions';
-    gap: 10px;
-    padding: 5px 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    grid-template-rows: auto auto 1fr auto;
-    /* 각 영역의 높이 설정 */
-  }
-
-.reply-item-top {
-    display: flex;
-    align-items: flex-start;
-    height: auto;
-    max-height: 70px;
-    /* 수평 정렬 */
-  }
-
-  .reply-item-profile {
-    /* 프로필 스타일 */
-    margin-right: 10px;
-    /* 프로필과 닉네임 사이의 간격 */
-  }
-
-  .reply-item-info {
-    display: flex;
-    flex-direction: column;
-    /* 수직 정렬 */
-  }
-
-  .reply-item-userNickname {
-    /* 닉네임 스타일 */
-    justify-self: left;
-    font-weight: bold;
-    font-size: 15px;
-  }
-
-  .reply-item-content {
-    /* 닉네임 스타일 */
-    justify-self: left;
-    font-weight: bold;
-    font-size: 17px;
-  }
-  
-  .reply-item-created_at {
-    /* 시간 스타일 */
-    color: gray;
-    margin-top: 4px;
-    /* 닉네임과 시간 사이의 간격 */
-    font-size: 12px;
-  }

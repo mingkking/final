@@ -4,16 +4,16 @@
     width: 100%;
     align-items: center;
     justify-content: space-between;
-    background-color: #55667758;
     padding: 10px 20px;
     color: white;
     position: relative;
     border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
   /* 버튼 스타일 */
   .back-button {
-    background-color: white;
+    background: none;
     border: none;
     color: black;
     padding: 10px 20px;
@@ -49,7 +49,7 @@
   
   /* 드롭다운 메뉴 스타일 */
   .nav-drop {
-    background-color: white;
+    background: none;
     border: none;
     color: black;
     padding: 10px 20px;
@@ -57,15 +57,14 @@
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    cursor: pointer;
     border-radius: 12px;
     margin-right: 10px;
     transition: background-color 0.3s ease;
   }
   
-  .nav-drop:hover {
+  /* .nav-drop:hover {
     background-color: whitesmoke;
-  }
+  } */
   
   /* 네비게이션 바 중앙 정렬을 위한 컨테이너 */
   .navbar-center {
