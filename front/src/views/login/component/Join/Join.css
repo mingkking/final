@@ -10,7 +10,7 @@
     transform: translate(-50%, -43%);
 }
 
-.agreement-section, .form-section {
+.agreement-section, .join-form-section {
     flex: 1;
     margin: 10px;
 }
@@ -55,24 +55,24 @@
     margin-left: 130px;
 }
 
-.form-section {
+.join-form-section {
     margin-top: 58px;
 }
 
-.form-group {
+.join-form-group {
     display: flex;
     align-items: center;
     margin: 10px 0;
     margin-bottom: 30px;
 }
 
-.form-group label {
+.join-form-group label {
     text-align: left;
     margin-right: 10px;
     min-width: 120px;
 }
 
-.form-group input {
+.join-form-group input {
     flex: 1;
     padding: 10px;
     font-size: 14px;
@@ -80,7 +80,7 @@
     border-radius: 4px;
 }
 
-.check-button, .send-button {
+.id-check-button, .send-button {
     color: black;
     margin-left: 10px;
     padding: 10px 20px;
@@ -220,15 +220,15 @@
         transform: translate(0, 0);
     }
     
-    .agreement-section, .form-section {
+    .agreement-section, .join-form-section {
         margin: 5px;
     }
 
-    .form-section {
+    .join-form-section {
         margin-top: 30px;
     }
 
-    .form-group label {
+    .join-form-group label {
         min-width: 100px;
     }
 
@@ -239,18 +239,32 @@
 }
 
 @media (max-width: 768px) {
-    .form-group {
-        flex-direction: column;
-        align-items: flex-start;
+    .join-form-group {
+        flex-direction: row; /* 가로 배치 유지 */
+        flex-wrap: wrap; /* 공간이 부족할 때 자동으로 줄바꿈 */
+        gap: 8px; /* 요소 사이 간격 조정 */
     }
 
-    .form-group label {
-        margin-right: 0;
-        margin-bottom: 5px;
+    
+    .join-form-group input {
+        flex: 1 1 70%; /* 입력 필드 너비 조정 */
+        margin-bottom: 0; /* 입력 필드 아래 여백 제거 */
     }
 
-    .signup-button {
-        font-size: 14px;
-        padding: 10px;
+    .id-check-button {
+      margin-left: 80%; /* 버튼 너비 조정 */
     }
+}
+
+@media (max-width: 600px) {
+    .id-check-button {
+        margin-left: 76%; /* 버튼 너비 조정 */
+        font-size: 15px;
+      }
+}
+
+@media (max-width: 400px) {
+    .id-check-button {
+        margin-left: 58%; /* 버튼 너비 조정 */
+      }
 }

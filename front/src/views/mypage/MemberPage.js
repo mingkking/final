@@ -7,11 +7,11 @@ import axiosInstance from '../login/component/Token/axiosInstance';
 import "./component/UploadImage.css";
 import {  Link, useParams, useLocation } from 'react-router-dom';
 import UserLike from '../community/components/UserLike/UserLike';
-import Reply from '../community/components/Reply/Reply';
+import ReplyBtn from '../community/components/ReplyBtn/ReplyBtn';
 import Share from '../community/components/Share/Share';
 import Bookmark from '../community/components/Bookmark/Bookmark';
 import CommunityContext from '../community/contexts/CommunityContext';
-import FollowBtn from './component/FollowBtn';
+
 
 
 const MemberPage = () => {
@@ -67,13 +67,9 @@ const MemberPage = () => {
     const fetchUserProfile = async () => {
       try {
         const response = await axiosInstance.get(`/profile-image/${userId}`);
-        console.log("data : ",response.data);
-        console.log('UserId:', userId);
         const userData = response.data;
-
-        console.log("Profile Image URL: ", userData.profileImageUrl);
-        console.log("Nickname: ", userData.userNickname);
-        setProfileImage(userData.profileImageUrl);
+        const absoluteProfileImageUrl = userData.profileImageUrl.startsWith('/images/') ? `http://localhost:8080${userData.profileImageUrl}` : userData.profileImageUrl;
+        setProfileImage(absoluteProfileImageUrl);
         setNickname(userData.userNickname || '닉네임 없음');
       } catch (error) {
         console.error('Error fetching user profile:', error);
@@ -113,47 +109,6 @@ const MemberPage = () => {
 
 //---------------------------------------------------------
 
-const [userNum, setUserNum] = useState(null);
-const [followersCount, setFollowersCount] = useState(0);
-const [followingCount, setFollowingCount] = useState(0);
-
-useEffect(() => {
-    // userId로 userNum을 가져옵니다.
-    const fetchUserNum = async () => {
-      try {
-        const response = await axiosInstance.get(`/userNum/${userId}`);
-        setUserNum(response.data.userNum);
-      } catch (error) {
-        console.error('Error fetching userNum:', error);
-      }
-    };
-
-    if (userId) {
-      fetchUserNum();
-    }
-  }, [userId]);
-
-  useEffect(() => {
-    // userNum이 있을 때만 팔로워와 팔로잉 카운트를 가져옵니다.
-    const fetchFollowersAndFollowing = async () => {
-      if (userNum) {
-        try {
-          const followersResponse = await axiosInstance.get(`/followersCount/${userNum}`);
-          const followingResponse = await axiosInstance.get(`/followingCount/${userNum}`);
-
-          setFollowersCount(followersResponse.data.count);
-          setFollowingCount(followingResponse.data.count);
-        } catch (error) {
-          console.error('Error fetching followers and following count:', error);
-        }
-      }
-    };
-
-    fetchFollowersAndFollowing();
-  }, [userNum]);
-
-
-
 return (
     <div className="mypage-container">
       <div className="profile-section">
@@ -176,22 +131,20 @@ return (
                 <tr>
                   <th>댓글</th>
                   <th>게시글</th>
-                  <th>팔로워</th>
-                  <th>팔로잉</th>
+                  
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>0</td>
                   <td>{myPosts.length}</td>
-                  <td>{followersCount}</td>
-                  <td>{followingCount}</td>
+                  
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
-        <FollowBtn userNum={userNum} />
+        
         <hr />
         <div className="my-posts">
           <h3>작성한 글</h3>
@@ -239,8 +192,8 @@ return (
 
                   <div className="post-item-actions">
                     <UserLike postId={post.id} />
-                    <Reply />
-                    <Share />
+                    <ReplyBtn postId={post.id} />
+                    <Share post={post}/>
                     <Bookmark postId={post.id} />
                   </div>
                 </li>
