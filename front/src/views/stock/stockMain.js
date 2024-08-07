@@ -40,7 +40,7 @@ const StockMain = () => {
             display: 'flex', 
             flexDirection: 'column', 
             overflow: 'hidden',
-            height: isMobile ? 'auto' : 'calc(100vh - 200px)' // 모바일에서는 auto, 데스크톱에서는 고정 높이
+            height: isMobile ? 'auto' : 'calc(100vh - 200px)' 
           }}
         >
           <Stocklist onStockSelect={handleStockSelect} />
