@@ -38,10 +38,11 @@ const Dashboard = () => {
         value.actions.setUserNum(response.data.userNum);
 
         // checkManager 함수에 userNum 값 보내기
-        const mgrTF = await checkManager(response.data.userNum);
+        value.actions.ifAdmin1 = await checkManager(response.data.userNum);
+        console.log("매니저면 True이겠지(main.js/value.actions.ifAdmin1값): ", value.actions.ifAdmin1);
 
         // 값이 False면 관리자가 아니니까 처리
-        if (!mgrTF) {
+        if (!value.actions.ifAdmin1) {
           alert("관리자만 접속 가능합니다.");
           navigate("/");
         }
