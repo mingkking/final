@@ -26,6 +26,34 @@ function DetailPost() {
   const [contentsCheck, setContentsCheck] = useState(null); // contents data 유효성 검사
   const [file, setFile] = useState(null);                   // 파일 상태 추가
 
+
+  const [userProfileImage, setUserProfileImage] = useState(""); // 프로필 이미지 상태 추가
+
+  useEffect(() => {
+    const fetchProfileImage = async () => {
+      try {
+        const userId = detailPostValue.state.selectOnePost.user_num.userId;
+        const response = await axios.get(`http://localhost:8080/api/profile-image/${userId}`);
+        const profileImageUrl = response.data.profileImageUrl;
+
+
+        // 프로필 이미지 URL을 조건에 맞게 처리
+        if (profileImageUrl.startsWith('http')) {
+          setUserProfileImage(profileImageUrl);
+        } else {
+          setUserProfileImage(`http://localhost:8080${profileImageUrl}`);
+        }
+      } catch (error) {
+        console.error('사용자 프로필 이미지 조회 오류:', error);
+      }
+    };
+
+    if (detailPostValue.state.selectOnePost) {
+      fetchProfileImage();
+    }
+  }, [detailPostValue.state.selectOnePost]);
+
+
   const createAtCal = (created_at) => {
     const now = new Date();
     const date = new Date(created_at);
@@ -253,7 +281,12 @@ function DetailPost() {
           <Tooltip title={"마이페이지"} placement='top-start'>
             <div className="detailPost-item-top">
               <Link className="no-underline-link" to={`/MemberPage?id=${detailPostValue.state.selectOnePost.user_num.userId}`} state={{ id: detailPostValue.state.selectOnePost.user_num.userId }}>
-                <div className='detailPost-item-profile'><img src={loginValue.state.profileImage} className="profile-image"></img></div>
+                <div className='detailPost-item-profile'>
+                <img 
+                    src={userProfileImage || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"} 
+                    className="profile-image"/>
+
+                </div>
               </Link>
               <Link className="no-underline-link" to={`/MemberPage?id=${detailPostValue.state.selectOnePost.user_num.userId}`} state={{ id: detailPostValue.state.selectOnePost.user_num.userId }}>
                 <div className='detailPost-item-info'>

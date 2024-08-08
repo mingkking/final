@@ -4,6 +4,7 @@
     padding: 0px;
     margin-left: 10px;
     color: gray;
+    margin-bottom: 10px;
 }
 
 .rereply-container {
@@ -44,10 +45,12 @@
   
   .rereply-item-userNickname {
     font-weight: bold;
+    color: black;
     font-size: 12px;
   }
   
   .rereply-item-content {
+    color: black;
     font-weight: bold;
     font-size: 15px;
   }
