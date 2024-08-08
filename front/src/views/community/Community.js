@@ -25,7 +25,7 @@ const Community = () => {
         const intervalId = setInterval(() => {
             communityValue.actions.setRealTime(new Date().toLocaleString());
             selectAllPopularPosts();  // 커뮤니티 모든 인기 글 검색 함수 실행
-        }, 60000);  // 60초마다 실행
+        }, 10000);  // 60초마다 실행
 
         // Cleanup function to clear the interval when the component is unmounted
         return () => clearInterval(intervalId);

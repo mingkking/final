@@ -1,9 +1,10 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import "./Rereply.css";
 import CommunityContext from "../../contexts/CommunityContext";
 import LoginContext from "../../../login/contexts/LoginContext";
 import { Tooltip } from "@mui/material";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Rereply = (props) => {
     const communityValue = useContext(CommunityContext);
@@ -48,16 +49,81 @@ const Rereply = (props) => {
 
         await axios.post("http://localhost:8080/insertReReply", formData) // 데이터 -> 컨트롤러 요청
             .then((res) => {
-                // setTimeout(() => {
-                setRereplyContent("");                                    // 댓글 내용 초기화
-                // axios.get("http://localhost:8080/selectAllRereply", { params: { id: communityValue.state.selectOnePost.id } })            // 검색 -> 컨트롤러 요청
+                setTimeout(() => {
+                    setRereplyContent("");                                    // 댓글 내용 초기화
+                    handleRereplyCancelClick(); // 대댓글 작성 후 입력창 닫기
+                    axios.get("http://localhost:8080/selectAllReReply", { params: { id: communityValue.state.selectOnePost.id } })            // 검색 -> 컨트롤러 요청
 
-                //     .then((res) => {                                                // DB 입력 요청 후 응답
-                //         communityValue.actions.setSelectAllRereply(res.data);         // 커뮤니티 모든 댓글 검색 데이터 저장
-                //     })
-                // }, 1000);
+                        .then((res) => {                                                // DB 입력 요청 후 응답
+                            communityValue.actions.setSelectAllReReply(res.data);         // 커뮤니티 모든 댓글 검색 데이터 저장
+                        })
+                }, 0);
             })
     }
+
+    const createAtCal = (created_at) => {
+        const now = new Date();
+        const date = new Date(created_at);
+
+        const diffInSeconds = Math.floor((now - date) / 1000);
+        if (diffInSeconds < 60) {
+            return `${diffInSeconds}초 전`;
+        }
+
+        const diffInMinutes = Math.floor(diffInSeconds / 60);
+        if (diffInMinutes < 60) {
+            return `${diffInMinutes}분 전`;
+        }
+
+        const diffInHours = Math.floor(diffInMinutes / 60);
+        if (diffInHours < 24) {
+            return `${diffInHours}시간 전`;
+        }
+
+        const diffInDays = Math.floor(diffInHours / 24);
+        if (diffInDays < 7) {
+            return `${diffInDays}일 전`;
+        }
+
+        const diffInWeeks = Math.floor(diffInDays / 7);
+        if (diffInWeeks < 4) {
+            return `${diffInWeeks}개월 전`;
+        }
+
+    }
+
+    const [userProfiles, setUserProfiles] = useState({}); // 사용자 프로필 저장
+
+
+    const fetchUserProfiles = async () => {
+        try {
+            const users = reReplyList.map(reReply => reReply.user_num.userId);
+
+            const response = await Promise.all(users.map(userId => axios.get(`http://localhost:8080/api/profile-image/${userId}`)));
+
+            const profiles = response.reduce((acc, { data }) => {
+                if (data.userId) {
+                    acc[data.userId] = data.profileImageUrl;
+                } else {
+                    console.warn('No userId found in response data:', data);
+                }
+                return acc;
+            }, {});
+
+            setUserProfiles(profiles);
+        } catch (error) {
+            console.error('사용자 프로필 조회 오류:', error);
+        }
+    };
+
+
+
+    useEffect(() => {
+        if (reReplyList.length) {
+            fetchUserProfiles();
+        }
+    }, [reReplyList]);
+
 
     return (
         <>
@@ -74,12 +140,13 @@ const Rereply = (props) => {
                                     className="form-control rereply-input"
                                     type="text"
                                     placeholder="답글을 남겨주세요."
+                                    autoFocus
                                     onChange={handleRereplyInputText}
                                     value={rereplyContent}
                                 />
                                 {rereplyContentCheck && <div className="rereply-check">{rereplyContentCheck}</div>}
                                 <div className="rereply-btn">
-                                    <Tooltip title="댓글 작성">
+                                    <Tooltip title="답글 작성">
                                         <button className="community-insertBtn" onClick={handleRereplyOnSubmit}>
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -125,9 +192,36 @@ const Rereply = (props) => {
                         reReplyList.map((reReply, i) => {
                             if (reReply.reply_num.reply_num === props.reply_num) {
                                 return (
-                                    <li key={reReply.rereply_num}>
-                                        111111111111
-                                    </li>
+                                    <div key={i}>
+                                        <li className="rereply-item">
+                                            <div className="rereply-item-top">
+                                                <Link className="no-underline-link" to={`/MemberPage?id=${reReply.user_num.userId}`} state={{ id: reReply.user_num.userId }}>
+                                                    <div className='rereply-item-profile'>
+                                                        <img src={userProfiles[reReply.user_num.userId] ?
+                                                            (userProfiles[reReply.user_num.userId].startsWith('http') ?
+                                                                userProfiles[reReply.user_num.userId] :
+                                                                `http://localhost:8080${userProfiles[reReply.user_num.userId]}`)
+                                                            :
+                                                            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"}
+                                                            className="profile-image"
+                                                            alt="프로필" />
+
+                                                    </div>
+                                                </Link>
+                                                <div className='rereply-item-info'>
+                                                    <Link className="no-underline-link" to={`/MemberPage?id=${reReply.user_num.userId}`} state={{ id: reReply.user_num.userId }}>
+                                                        <div className='rereply-item-userNickname'>{reReply.user_num.userNickname}</div>
+                                                    </Link>
+                                                    <div className='rereply-item-content'>{reReply.content}</div>
+
+                                                    <div className='rereply-item-created_at'>
+                                                        {createAtCal(reReply.created_at)}
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </li>
+                                    </div>
                                 )
                             }
                         })

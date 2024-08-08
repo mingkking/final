@@ -26,11 +26,12 @@ const DetailCommunity = () => {
         selectAllBookmark();                                                // 커뮤니티 모든 글 북마크 검색 함수 실행
         selectAllReply(postId);                                             // 커뮤니티 모든 댓글 검색 함수 실행
         selectAllReReply();                                                 // 커뮤니티 모든 대댓글 검색 함수 실행
+        console.log("1111111111111111111111111111111111111111111111111 ", popularGetId, postId);
 
         const intervalId = setInterval(() => {
             communityValue.actions.setRealTime(new Date().toLocaleString());
             selectAllPopularPosts();  // 커뮤니티 모든 인기 글 검색 함수 실행
-        }, 60000);  // 60초마다 실행
+        }, 10000);  // 60초마다 실행
 
         // Cleanup function to clear the interval when the component is unmounted
         return () => clearInterval(intervalId);
@@ -38,9 +39,20 @@ const DetailCommunity = () => {
     }, []);
 
     useEffect(() => {
-        selectOnePost(popularGetId);
-        selectAllReply(postId);
-    }, [popularGetId, postId]);
+        console.log("22222222222222222222222222222222222222222222222222", popularGetId, postId);
+        if (popularGetId !== null && popularGetId !== undefined) {
+            selectOnePost(popularGetId);
+            selectAllReply(popularGetId);
+        }
+    }, [popularGetId]);
+
+    useEffect(() => {
+        console.log("33333333333333333333333333333333333333333333333333", popularGetId, postId);
+        if (postId !== null && postId !== undefined) {
+            selectOnePost(postId);
+            selectAllReply(postId);
+        }
+    }, [postId]);
 
     const loginCheck = async () => {                                        // 로그인 판단 함수 생성
 

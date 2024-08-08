@@ -73,27 +73,26 @@ function Posts() {
   }
 
   const [userProfiles, setUserProfiles] = useState({}); // 사용자 프로필 저장
-  
-  
+
+
   const fetchUserProfiles = async () => {
     try {
       const users = allPostList.map(post => post.user_num.userId);
-      console.log("Fetching profiles for users:", users);
       const response = await Promise.all(users.map(userId => axios.get(`http://localhost:8080/api/profile-image/${userId}`)));
-      
-      response.forEach(({ data }) => {
-        console.log("Fetched profile data:", data); // 추가된 로그
-      });
-  
+
+      // response.forEach(({ data }) => {
+      //   console.log("Fetched profile data:", data); // 추가된 로그
+      // });
+
       const profiles = response.reduce((acc, { data }) => {
         if (data.userId) {
           acc[data.userId] = data.profileImageUrl;
-        } else {
-          console.warn('No userId found in response data:', data);
-        }
+        } 
+        // else {
+        //   console.warn('No userId found in response data:', data);
+        // }
         return acc;
       }, {});
-      console.log("Profiles object:", profiles);
       setUserProfiles(profiles);
     } catch (error) {
       console.error('사용자 프로필 조회 오류:', error);
@@ -138,17 +137,17 @@ function Posts() {
               <div className="post-item-top">
                 <Link className="no-underline-link" to={`/MemberPage?id=${post.user_num.userId}`} state={{ id: post.user_num.userId }}>
                   <div className='post-item-profile'>
-                  <img 
-                 src={userProfiles[post.user_num.userId] ? 
-                  (userProfiles[post.user_num.userId].startsWith('http') ? 
-                    userProfiles[post.user_num.userId] : 
-                    `http://localhost:8080${userProfiles[post.user_num.userId]}`) 
-                  : 
-                  "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"} 
-                className="profile-image">
-
-                </img>
-                    </div>
+                    <img
+                      src={userProfiles[post.user_num.userId] ?
+                        (userProfiles[post.user_num.userId].startsWith('http') ?
+                          userProfiles[post.user_num.userId] :
+                          `http://localhost:8080${userProfiles[post.user_num.userId]}`)
+                        :
+                        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"}
+                      className="profile-image"
+                      alt=''>
+                    </img>
+                  </div>
                 </Link>
                 <Link className="no-underline-link" to={`/MemberPage?id=${post.user_num.userId}`} state={{ id: post.user_num.userId }}>
                   <div className='post-item-info'>
