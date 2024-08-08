@@ -18,8 +18,7 @@ const IdFind = () => {
                 params: { email, name, phone }
             });
             if (response.data) {
-                // 인증 성공
-                alert("인증 성공!");
+                
                 // 화면 전환 로직 추가
                 navigate('/IdConfirm', { state: { userId: response.data } });
             } else {
@@ -32,6 +31,7 @@ const IdFind = () => {
     };  
 
     return (
+        <div className="center-container d-flex justify-content-center align-items-center min-vh-100">
         <div className="id-find-container">
             <h1 className="text-center mb-4">아이디 찾기</h1>
             <form className="id-find-form" onSubmit={handleSubmit}>
@@ -77,6 +77,7 @@ const IdFind = () => {
                 
                 <button type="submit" className="btn btn-primary w-100">인증하기</button>
             </form>
+        </div>
         </div>
     );
 };
