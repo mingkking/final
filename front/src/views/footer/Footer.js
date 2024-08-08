@@ -21,7 +21,9 @@ function Footer() {
 
             <div className="footer-section">
                 <p><strong>인재 영입</strong></p>
-                <p><a href="/recruiting">리크루팅 바로가기</a></p>
+                <p>저희와 함께 성장할 열정적인 인재를 기다립니다.</p> 
+                <p><a href="mailto:recruit@investGate.io">recruit@investGate.io</a>로 문의주세요.</p>
+                
             </div>
 
             <div className="footer-section">

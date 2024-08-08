@@ -509,21 +509,21 @@ function KakaoMap({ selectedProperty, setSchoolMarkerCount, setStoreMarkerCount,
                 
                 {selectedProperty && (
                     <>
-                        <ul id="category"  style={{ fontFamily: '돋움, sans-serif', fontSize: '12px' }}>
-                            <li id="" data-order="0" onClick={() => handleCategoryClick('전체')}> 
-                                <span class="category_bg bank"></span>
+                        <ul id="category" style={{ fontFamily: '돋움, sans-serif', fontSize: '12px' }}>
+                            <li id="" data-order="0" onClick={() => handleCategoryClick('전체')}>
+                                <span className="category_bg all"></span>
                                 전체
                             </li>
-                            <li id="BK9" data-order="1" onClick={() => handleCategoryClick('학교')}> 
-                                <span class="category_bg bank"></span>
+                            <li id="BK9" data-order="1" onClick={() => handleCategoryClick('학교')}>
+                                <span className="category_bg school"></span>
                                 학교
                             </li>
-                            <li id="MT1" data-order="2" onClick={() => handleCategoryClick('편의점')}> 
-                                <span class="category_bg store"></span>
+                            <li id="MT1" data-order="2" onClick={() => handleCategoryClick('편의점')}>
+                                <span className="category_bg store"></span>
                                 편의점
                             </li>  
-                            <li id="PM9" data-order="3" onClick={() => handleCategoryClick('정류장')}> 
-                                <span class="category_bg pharmacy"></span>
+                            <li id="PM9" data-order="3" onClick={() => handleCategoryClick('정류장')}>
+                                <span className="category_bg busStation"></span>
                                 정류장
                             </li>
                         </ul>

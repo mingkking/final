@@ -1,24 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Box, Tabs, Tab, Paper, Typography } from '@mui/material';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { setSelectedProperty } from '../../../redux/propertySlice';
-import { useNavigate } from 'react-router-dom';
 import TopStocks from './TopStocks';
 import TopProperties from './TopProperties';
+import PropertyModal from './PropertyModal';
 import '../mainCss/Slick.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../mainCss/MainList.css';
 
-
-
 function MainList() {
     const [tabValue, setTabValue] = useState(0);
     const [topProperties, setTopProperties] = useState([]);
     const [stockList, setStockList] = useState([]);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const [selectedProperty, setSelectedProperty] = useState(null);
+    const [modalOpen, setModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchTopProperties = async () => {
@@ -34,7 +30,7 @@ function MainList() {
         fetchTopProperties();
     }, []);
 
-     useEffect(() => {
+    useEffect(() => {
         const fetchStockList = async () => {
             try {
                 const response = await axios.get("http://localhost:8080/MainstockList");
@@ -51,9 +47,13 @@ function MainList() {
     };
 
     const handleSlideClick = (property) => {
-        console.log('Clicked property:', property);
-        dispatch(setSelectedProperty(property));
-        navigate('/budongsan');
+        setSelectedProperty(property);
+        setModalOpen(true);
+    };
+
+    const handleModalClose = () => {
+        setModalOpen(false);
+        setSelectedProperty(null);
     };
 
     return (
@@ -114,6 +114,14 @@ function MainList() {
                     </Grid>
                 </Grid>
             </Box>
+
+            {selectedProperty && (
+                <PropertyModal
+                    open={modalOpen}
+                    handleClose={handleModalClose}
+                    property={selectedProperty}
+                />
+            )}
         </div>
     );
 }

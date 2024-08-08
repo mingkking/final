@@ -36,7 +36,7 @@ const TopProperties = ({ properties, onSlideClick }) => {
 
     return (
         <Paper elevation={3} sx={{ p: 2, bgcolor: 'background.paper', borderRadius: 2, width: '100%', maxHeight: '300px', overflow: 'hidden' }}>
-            <Typography variant="h6" gutterBottom color="primary.dark">주요 부동산</Typography>
+            <Typography variant="h6" gutterBottom color="primary.dark">인기 매물</Typography>
             <CustomSlider {...sliderSettings} style={{ width: '100%' }}>
                 {properties.map((property, index) => (
                     <StyledSlide
@@ -46,7 +46,7 @@ const TopProperties = ({ properties, onSlideClick }) => {
                     >
                         <Typography variant="body1" color="text.secondary">{property.address}</Typography>
                         <Typography variant="body2" color="text.secondary">{property.apartMentName} {property.floorNumber}</Typography>
-                        <Typography variant="body2" color="text.secondary">{formatNumber(property.transactionAmount)}</Typography>
+                        <Typography sx={{ fontWeight: 'bold' }} variant="body2" color="text.primary">{formatNumber(property.transactionAmount)}</Typography>
                     </StyledSlide>
                 ))}
             </CustomSlider>
