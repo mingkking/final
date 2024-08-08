@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
+import { useNavigate } from "react-router";
 import Options from "./components/backtestoption/Option";
 import ResultChart from "./components/resultchart/Resultchart"
 import { Card, Container, Grid, Typography, Box, useTheme, CircularProgress, Snackbar, Alert } from "@mui/material";
 import axios from 'axios';
-
+import axiosInstance from "../login/component/Token/axiosInstance"
+import CommunityContext from "../community/contexts/CommunityContext"
 // axios 인스턴스 생성
 const api = axios.create({
   baseURL: 'http://localhost:5000',
@@ -41,7 +43,32 @@ const Back1 = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const theme = useTheme();
-  
+  const navigate = useNavigate();
+  const communityValue = useContext(CommunityContext);
+  useEffect(()=>{
+    loginCheck();
+  },[])
+  const loginCheck = async () => {
+    try {
+      const response = await axiosInstance.get('/check-login-status', {
+        withCredentials: true,
+      });
+
+      if (response.data.isLoggedIn !== true) {
+        alert("로그인 및 구독 후 이용해주세요!");
+        navigate("/login");
+      } else {
+        communityValue.actions.setUserNick(response.data.userNickname);
+        communityValue.actions.setUserNum(response.data.userNum);
+        return true;  // 로그인 상태일 때 true 반환
+      }
+    } catch (error) {
+      console.error("로그인 상태 확인 중 오류 발생:", error);
+      alert("로그인 상태를 확인하는 중 오류가 발생했습니다.");
+      return false;
+    }
+  };
+
   const handleAnalyze = async (options) => {
     setError('');
     setAnalysisResult(null);
