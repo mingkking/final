@@ -18,7 +18,8 @@ import {
   MenuItem,
   Container,
   Tooltip,
-  useMediaQuery
+  useMediaQuery,
+  Card
 } from '@mui/material';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
@@ -42,12 +43,12 @@ const StockDetail = () => {
   const downColor = '#EF5350';
 
   useEffect(() => {
-    loginCheck();
     const fetchStockDetail = async () => {
       try {
         setLoading(true);
         const response = await axios.get(`http://localhost:8080/stock/${stockCode}`);
         setStockData(response.data);
+        setIsFavorite(response.data.isFavorite); // 서버에서 관심 종목 여부를 받아옴
         setLoading(false);
       } catch (err) {
         console.error('주식 상세 데이터 불러오기 오류:', err);
@@ -58,6 +59,7 @@ const StockDetail = () => {
 
     fetchStockDetail();
   }, [stockCode]);
+
 
   const loginCheck = async () => {
     try {
@@ -81,16 +83,31 @@ const StockDetail = () => {
   };
   const handleAddToBacktest = async () => {
     if (await loginCheck()) {
-      // 백테스트 추가 로직
-      console.log("백테스트에 추가");
+      //console.log("백테스트에 추가");
     }
   };
 
   const handleToggleFavorite = async () => {
     if (await loginCheck()) {
-      setIsFavorite(!isFavorite);
-      // 관심종목 추가/제거 로직
-      console.log(isFavorite ? "관심종목에서 제거" : "관심종목에 추가");
+      try {
+        const response = await axiosInstance.post('/stock/favorite', {
+          user_num: communityValue.state.userNum,
+          stock_code: stockCode
+        }, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        if (response.data.success) {
+          setIsFavorite(!isFavorite);
+          console.log(response.data.message);
+        } else {
+          console.error('관심 종목 토글 실패:', response.data.message);
+        }
+      } catch (error) {
+        console.error('관심 종목 토글 중 오류 발생:', error);
+      }
     }
   };
 
@@ -210,7 +227,6 @@ const StockDetail = () => {
       candleChart.timeScale().fitContent();
       volumeChart.timeScale().fitContent();
 
-      // Sync the time scales of all charts
       candleChart.timeScale().subscribeVisibleTimeRangeChange(() => {
         const timeRange = candleChart.timeScale().getVisibleRange();
         volumeChart.timeScale().setVisibleRange(timeRange);
@@ -318,10 +334,10 @@ const StockDetail = () => {
       <Paper elevation={3} sx={{ p: { xs: 2, sm: 3 }, borderRadius: 2 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
           <Box>
-            <Typography variant={isMobile ? "h6" : "h5"} component="h1" sx={{ fontWeight: 'bold' }}>
+            <Typography variant={isMobile ? "h4" : "h3"} component="h1" align='left' sx={{ fontWeight: 'bold' }}>
               {latestData.stock_name} ({latestData.stock_code})
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body1" sx={{fontWeight:"bold"}} color="text.secondary">
               {latestData.record_date} 기준 | {latestData.stock_type}
             </Typography>
           </Box>
@@ -340,7 +356,7 @@ const StockDetail = () => {
         </Box>
 
         <Box sx={{ mb: 2 }}>
-          <Typography variant={isMobile ? "h5" : "h4"} component="p" color={latestData.compared_price >= 0 ? upColor : downColor} sx={{ fontWeight: 'bold' }}>
+          <Typography variant={isMobile ? "h3" : "h2"} component="p" color={latestData.compared_price >= 0 ? upColor : downColor} sx={{ fontWeight: 'bold' }}>
             {latestData.closing_price?.toLocaleString()} 원
           </Typography>
           <Typography variant="body1" component="span" color={latestData.compared_price >= 0 ? upColor : downColor}>
@@ -373,7 +389,7 @@ const StockDetail = () => {
 
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
-            <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 'bold' }}>주가 정보</Typography>
+            <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>주가 정보</Typography>
             <Grid container spacing={1}>
               {[
                 { label: '시가', value: latestData.opening_price },
@@ -382,14 +398,15 @@ const StockDetail = () => {
                 { label: '종가', value: latestData.closing_price }
               ].map((item, index) => (
                 <Grid item xs={6} key={index}>
-                  <Typography variant="body2" color="text.secondary">{item.label}</Typography>
-                  <Typography variant="body2">{item.value?.toLocaleString()} 원</Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{fontWeight:"bold"}}>{item.label}</Typography>
+                  <Typography variant="body2" sx={{fontWeight:"bold"}}>{item.value?.toLocaleString()} 원</Typography>
                 </Grid>
               ))}
             </Grid>
+
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 'bold' }}>거래 정보</Typography>
+            <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>거래 정보</Typography>
             <Grid container spacing={1}>
               {[
                 { label: '거래량', value: latestData.trading_volume, unit: '' },
@@ -398,8 +415,8 @@ const StockDetail = () => {
                 { label: '상장주식수', value: latestData.listed_stocks, unit: '' }
               ].map((item, index) => (
                 <Grid item xs={6} key={index}>
-                  <Typography variant="body2" color="text.secondary">{item.label}</Typography>
-                  <Typography variant="body2">{item.value?.toLocaleString()} {item.unit}</Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{fontWeight:"bold"}}>{item.label}</Typography>
+                  <Typography variant="body2" sx={{fontWeight:"bold"}}>{item.value?.toLocaleString()} {item.unit} </Typography>
                 </Grid>
               ))}
             </Grid>

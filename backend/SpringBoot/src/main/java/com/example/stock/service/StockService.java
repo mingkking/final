@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.PageRequest;
 
+import com.example.stock.domain.StockInterestVO;
 import com.example.stock.domain.StockVO;
 
 public interface StockService {
@@ -14,4 +15,6 @@ public interface StockService {
     StockVO getStockInfo(String stock_code);
     //종목 값 가져오기
     List<StockVO> getYearlyStockPriceHistory(String stock_code);
+    //주식 관심등록
+    boolean toggleFavorite(StockInterestVO stockInterest);
 }

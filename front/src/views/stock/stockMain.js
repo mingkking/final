@@ -28,7 +28,7 @@ const StockMain = () => {
       flexDirection: 'column' 
     }}>
       <Paper elevation={3} sx={{ mb: 2, p: 2, backgroundColor: theme.palette.primary.main }}>
-        <Typography variant="h4" component="h1" align="center" sx={{ color: theme.palette.primary.contrastText }}>
+        <Typography variant="h4" component="h1" align="center" sx={{ color: theme.palette.primary.contrastText ,fontWeight:"bold"}}>
           국내주식
         </Typography>
       </Paper>
@@ -40,7 +40,8 @@ const StockMain = () => {
             display: 'flex', 
             flexDirection: 'column', 
             overflow: 'hidden',
-            height: isMobile ? 'auto' : 'calc(100vh - 200px)' 
+            height: isMobile ? 'auto' : 'calc(100vh - 200px)' ,
+            fontWeight:"bold"
           }}
         >
           <Stocklist onStockSelect={handleStockSelect} />
