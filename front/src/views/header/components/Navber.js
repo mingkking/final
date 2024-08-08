@@ -15,6 +15,7 @@ const Navbar = ({ onLoginSuccess }) => {
   const { state, actions } = useContext(LoginContext);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userNickname, setUserNickname] = useState('');
+  const [profileImage, setProfileImage] = useState(''); // 프로필 이미지 상태 추가
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // 사이드바 열림 상태 추가
 
   useEffect(() => {
@@ -26,17 +27,20 @@ const Navbar = ({ onLoginSuccess }) => {
 
         if (response.data.isLoggedIn) {
           setIsLoggedIn(true);
+          setUserNickname(response.data.userNickname); // 사용자 닉네임 업데이트
+          setProfileImage(response.data.profileImageUrl || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'); // 프로필 이미지 업데이트
           actions.setAfterLoginNick(response.data.userNickname);
-          if (onLoginSuccess) {
-            onLoginSuccess(response.data.userNickname);
-          }
         } else {
           setIsLoggedIn(false);
+          setUserNickname('');
+          setProfileImage('');
           actions.setAfterLoginNick('');
         }
       } catch (error) {
         console.error('Error checking login status:', error.response?.data || error.message);
         setIsLoggedIn(false);
+        setUserNickname('');
+        setProfileImage('');
         actions.setAfterLoginNick('');
       }
     };
@@ -53,7 +57,7 @@ const Navbar = ({ onLoginSuccess }) => {
     return () => {
       document.removeEventListener('loginSuccess', handleLoginEvent);
     };
-  }, [actions, onLoginSuccess]);
+  }, [actions]);
 
   const handleLogoutClick = async () => {
     try {
@@ -62,14 +66,12 @@ const Navbar = ({ onLoginSuccess }) => {
       });
 
       setIsLoggedIn(false);
+      setUserNickname('');
+      setProfileImage('');
       actions.setAfterLoginNick('');
       actions.setProfileImage('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');
 
-      if (onLoginSuccess) {
-        onLoginSuccess('');
-      }
-
-      navigate('/');
+      navigate('/login');
     } catch (error) {
       console.error('Error during logout:', error.response?.data || error.message);
     }
@@ -105,7 +107,14 @@ const Navbar = ({ onLoginSuccess }) => {
             )}
         </div>
       </nav>
-      <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} /> {/* 사이드바 추가 */}
+      <Sidebar
+        isOpen={isSidebarOpen}
+        onClose={toggleSidebar}
+        isLoggedIn={isLoggedIn}
+        userNickname={userNickname}
+        profileImage={profileImage}
+        onLogout={handleLogoutClick}
+      /> {/* 사이드바 추가 */}
     </>
   );
 };

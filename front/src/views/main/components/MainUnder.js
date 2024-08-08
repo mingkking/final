@@ -1,6 +1,11 @@
 import React from "react";
+import Slider from "react-slick";
 import MainImg from "./MainImg";
 import '../mainCss/MainUnder.css'; // CSS 파일을 import 합니다
+
+// 슬라이더 스타일 import
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const MainUnder = () => {
   // 이미지 URL, 명언, 인물 이름 배열을 정의합니다
@@ -37,20 +42,51 @@ const MainUnder = () => {
     }
   ];
 
+  // 슬라이더 설정
+  const settings = {
+    dots: false,           // 하단 점 제거
+    infinite: true,
+    speed: 2000,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    autoplay: true,        // 자동 슬라이드
+    autoplaySpeed:4000,   // 1초 간격으로 이동
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: false
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          dots: false
+        }
+      }
+    ]
+  };
+
   return (
     <div className="main-under-container">
       <h5 className="title">억만장자들의 명언</h5>
-      <div className="main-img-container">
+      <Slider {...settings} className="slider">
         {images.map((img, index) => (
-          <MainImg 
-            key={index} 
-            src={img.src} 
-            alt={`Example ${index + 1}`} 
-            quote={img.quote} 
-            name={img.name}
-          />
+          <div key={index} className="slider-item">
+            <MainImg 
+              src={img.src} 
+              alt={`Example ${index + 1}`} 
+              quote={img.quote} 
+              name={img.name}
+            />
+          </div>
         ))}
-      </div>
+      </Slider>
     </div>
   );
 };

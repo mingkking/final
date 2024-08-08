@@ -228,7 +228,7 @@ def get_favorite_properties():
         with get_db_connection() as connection:
             with connection.cursor() as cursor:
                 select_query = """
-                SELECT p.property_num, p.transaction_Amount, p.year_Built, p.address, p.registration_Date, p.road_name, p.apartMent_Name, square_Footage,p.floor_Number
+                SELECT p.property_num, p.transaction_Amount, p.year_Built, p.address, TO_CHAR(p.registration_Date, 'YYYY-MM-DD') as registrationDate, p.road_name, p.apartMent_Name, square_Footage, p.floor_Number
                 FROM PROPERTY_FAVORITE pf
                 JOIN PROPERTY p ON pf.property_num = p.property_num
                 WHERE pf.user_num = :user_num
@@ -266,12 +266,15 @@ def get_top_liked_properties():
                 query = """
                 SELECT *
                 FROM (
-                    SELECT p.property_num, p.transaction_Amount, p.year_Built, p.address, p.registration_Date, p.road_name, p.apartMent_Name, p.square_Footage, p.floor_Number,
-                           COUNT(*) AS favorite_count
-                    FROM PROPERTY_FAVORITE pf
-                    JOIN PROPERTY p ON pf.property_num = p.property_num
-                    GROUP BY p.property_num, p.transaction_Amount, p.year_Built, p.address, p.registration_Date, p.road_name, p.apartMent_Name, p.square_Footage, p.floor_Number
-                    ORDER BY favorite_count DESC
+                    SELECT property_num, transaction_Amount, year_Built, address, TO_CHAR(registration_Date, 'YYYY-MM-DD') AS registrationDate, road_name, apartMent_Name, square_Footage, floor_Number
+                    FROM (
+                        SELECT p.property_num, p.transaction_Amount, p.year_Built, p.address, p.registration_Date, p.road_name, p.apartMent_Name, p.square_Footage, p.floor_Number,
+                               COUNT(*) AS favorite_count
+                        FROM PROPERTY_FAVORITE pf
+                        JOIN PROPERTY p ON pf.property_num = p.property_num
+                        GROUP BY p.property_num, p.transaction_Amount, p.year_Built, p.address, p.registration_Date, p.road_name, p.apartMent_Name, p.square_Footage, p.floor_Number
+                        ORDER BY favorite_count DESC
+                    )
                 )
                 WHERE ROWNUM <= 5
                 """
@@ -297,6 +300,7 @@ def get_top_liked_properties():
     except Exception as e:
         logger.error(f"Error: {e}")
         return jsonify({'status': 'error', 'message': 'An error occurred'}), 500
+
 
 
 # 백테스트 페이지에서 분석 시작 버튼을 눌렀을때 실행
