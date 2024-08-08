@@ -39,17 +39,17 @@ function Login({ onLoginSuccess }) {
                 onLoginSuccess(response.data.userNickname);
             }
 
-            console.log('Setting userId:', response.data.userId);
+            
             actions.setUserId(response.data.userId);
             actions.setAfterLoginNick(response.data.userNickname);
-            console.log('Login response data:', response.data);
+            
 
              // 프로필 이미지 URL 업데이트
              if (response.data.profileImageUrl) {
                 actions.setProfileImage(`http://localhost:8080${response.data.profileImageUrl}`);
             }
  
-            alert("로그인 성공")
+            
             // 메인 페이지로 이동
             navigate('/');  
         } catch (error) {
@@ -60,7 +60,7 @@ function Login({ onLoginSuccess }) {
     };
 
     useEffect(() => {
-        console.log('GOOGLE_CLIENT_ID:', GOOGLE_CLIENT_ID);
+        
       }, [GOOGLE_CLIENT_ID]);
 
     //구글 로그인
@@ -82,7 +82,7 @@ function Login({ onLoginSuccess }) {
                 actions.setProfileImage('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');
             }
 
-            alert("구글 로그인 성공");
+            
             navigate("/");
         } catch (error) {
             console.error("Google 로그인 실패:", error);
@@ -98,6 +98,7 @@ function Login({ onLoginSuccess }) {
   
     return (
         <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+            
             <div className="login-container mt-5">
                 <div className="row justify-content-center">
                     <div className="col-md-8 col-lg-6">
@@ -149,6 +150,7 @@ function Login({ onLoginSuccess }) {
                     </div>
                 </div>
             </div>
+            
         </GoogleOAuthProvider>
     );
 }

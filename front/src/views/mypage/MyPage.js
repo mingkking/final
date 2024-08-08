@@ -213,7 +213,7 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
               <UploadImage onImageUpload={handleImageUpload} />
             </div>
             <div className="profile-details">
-              <h2 className="nickname">{state.afterLoginNick}</h2>
+              <h2 className="mypage-nickname">{state.afterLoginNick}</h2>
               <table className="profile-stats">
                 <thead>
                   <tr>
@@ -235,9 +235,9 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
           
           
           {isEditing && (
-            <div className="form-section">
+            <div className="mypage-form-section">
               <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="form-group">
+                <div className="mypage-form-group">
                     <label htmlFor="userId">아이디</label>
                     <input
                       type="text"
@@ -250,9 +250,9 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
 
                 
 
-                    {errors.userName && <p className='err'>{errors.userName.message}</p>}
+                    {errors.userName && <p className='mypage-err'>{errors.userName.message}</p>}
 
-                    <div className="form-group">
+                    <div className="mypage-form-group">
                         <label htmlFor="userNickname">닉네임</label>
                         <input
                             type="text"
@@ -275,14 +275,14 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
                         />
                     </div>
 
-                    {errors.userNickname && <p className='err'>{errors.userNickname.message}</p>}
+                    {errors.userNickname && <p className='mypage-err'>{errors.userNickname.message}</p>}
                         {nicknameChecked && (
                             <>
-                                {nicknameExists && <p className="err">이미 존재하는 닉네임입니다.</p>}
+                                {nicknameExists && <p className="mypage-err">이미 존재하는 닉네임입니다.</p>}
                             </>
                         )}
 
-                  <div className="form-group">
+                  <div className="mypage-form-group">
                     <label>전화번호</label>
                     <input 
                     type="tel" 
@@ -303,15 +303,15 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
                     
                 </div>
                 
-                    {errors.userTel && <p className='err'>{errors.userTel.message}</p>}
+                    {errors.userTel && <p className='mypage-err'>{errors.userTel.message}</p>}
                     {usertelChecked && (
                         <>
                             
-                            {usertelExists && <p className="err">이미 존재하는 전화번호입니다.</p>}
+                            {usertelExists && <p className="mypage-err">이미 존재하는 전화번호입니다.</p>}
                         </>
                     )}
 
-                    <div className="form-group">
+                    <div className="mypage-form-group">
                     <label>이메일</label>
                     <input 
                         type="email" 
@@ -333,11 +333,11 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
                     
                 </div>
                 
-                    {errors.userEmail && <p className='err'>{errors.userEmail.message}</p>}
+                    {errors.userEmail && <p className='mypage-err'>{errors.userEmail.message}</p>}
                     {useremailChecked && (
                         <>
                             
-                            {useremailExists && <p className="err">이미 존재하는 이메일입니다.</p>}
+                            {useremailExists && <p className="mypage-err">이미 존재하는 이메일입니다.</p>}
                         </>
                     )}
 

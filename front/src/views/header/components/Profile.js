@@ -32,7 +32,7 @@ const Profile = ({ onLogout }) => {
     if (state.userId && !state.profileImage) {
       axiosInstance.get(`/profile-image/${state.userId}`)
         .then(response => {
-          console.log('Profile image response:', response.data);
+          
           const data = response.data;
           if (data.profileImageUrl) {
             const profileImageUrl = `http://localhost:8080${data.profileImageUrl}`;
@@ -41,7 +41,7 @@ const Profile = ({ onLogout }) => {
         })
         .catch(error => console.error('Error fetching profile image:', error));
     }
-    console.log('Profile image URL from context:', state.profileImage);
+    
   }, [state.userId, state.profileImage, actions]);
 
   const handleClick2 = (event) => {

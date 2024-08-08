@@ -3,7 +3,8 @@ import './PwChange.css';
 import axiosInstance from '../Token/axiosInstance';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+ 
 const PwChange = () => {
     const { userId } = useParams(); // URL에서 userId를 추출
     const navigate = useNavigate();
@@ -33,7 +34,8 @@ const PwChange = () => {
     };
 
     return (
-        <div className="login-container">
+        <div className="center-container d-flex justify-content-center align-items-center min-vh-100">
+        <div className="pwchange-container">
             <h1>비밀번호 변경</h1>
             <form className="pwchange-form" onSubmit={handleSubmit(onSubmit)}>
                 
@@ -89,6 +91,7 @@ const PwChange = () => {
 
                 <button type="submit">비밀번호 변경</button>
             </form>
+        </div>
         </div>
     );
 };

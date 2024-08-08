@@ -125,7 +125,7 @@ return (
             />
           </div>
           <div className="profile-details">
-            <h2 className="nickname">{nickname}</h2>
+            <h2 className="memberpage-nickname">{nickname}</h2>
             <table className="profile-stats">
               <thead>
                 <tr>

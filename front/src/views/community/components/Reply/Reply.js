@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import "./Reply.css"
 import CommunityContext from "../../contexts/CommunityContext";
 import axios from "axios";
@@ -89,6 +89,38 @@ const Reply = () => {
         }
 
     }
+
+    const [userProfiles, setUserProfiles] = useState({}); // 사용자 프로필 저장
+  
+  
+  const fetchUserProfiles = async () => {
+    try {
+      const users = replyList.map(reply => reply.user_num.userId);
+      
+      const response = await Promise.all(users.map(userId => axios.get(`http://localhost:8080/api/profile-image/${userId}`)));
+ 
+      const profiles = response.reduce((acc, { data }) => {
+        if (data.userId) {
+          acc[data.userId] = data.profileImageUrl;
+        } else {
+          console.warn('No userId found in response data:', data);
+        }
+        return acc;
+      }, {});
+      
+      setUserProfiles(profiles);
+    } catch (error) {
+      console.error('사용자 프로필 조회 오류:', error);
+    }
+  };
+
+  
+
+  useEffect(() => {
+    if (replyList.length) {
+      fetchUserProfiles();
+    }
+  }, [replyList]);
     
     return (
         <div className='reply-container'>
@@ -123,7 +155,17 @@ const Reply = () => {
                             <li className="reply-item">
                                 <div className="reply-item-top">
                                     <Link className="no-underline-link" to={`/MemberPage?id=${reply.user_num.userId}`} state={{ id: reply.user_num.userId }}>
-                                        <div className='reply-item-profile'><img src={loginValue.state.profileImage} className="profile-image"></img></div>
+                                        <div className='reply-item-profile'>
+                                            <img 
+                                                src={userProfiles[reply.user_num.userId] ? 
+                                                    (userProfiles[reply.user_num.userId].startsWith('http') ? 
+                                                      userProfiles[reply.user_num.userId] : 
+                                                      `http://localhost:8080${userProfiles[reply.user_num.userId]}`) 
+                                                    : 
+                                                    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"} 
+                                                  className="profile-image">
+                                            </img>
+                                        </div>
                                     </Link>
                                     <div className='reply-item-info'>
                                         <Link className="no-underline-link" to={`/MemberPage?id=${reply.user_num.userId}`} state={{ id: reply.user_num.userId }}>

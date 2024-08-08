@@ -89,11 +89,11 @@
       
     }
     
-    .nickname {
+    .memberpage-nickname {
       font-size: 30px;
       text-align: left;
       margin-top: 10px;
-      margin-left: 5px;
+      margin-left: 45px;
     }
     
     .profile-stats {
@@ -268,8 +268,9 @@
     }
     
     @media (max-width: 480px) {
-      .nickname {
-        font-size: 20px;
+      .memberpage-nickname {
+        
+        margin-left: 5px;
       }
     
       .edit-profile-button {
