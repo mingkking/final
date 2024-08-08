@@ -71,7 +71,10 @@ const Navbar = ({ onLoginSuccess }) => {
       actions.setAfterLoginNick('');
       actions.setProfileImage('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');
 
-      navigate('/login');
+      // 로컬 스토리지의 favoriteProperties 키 초기화 (빈 배열로 설정)
+      localStorage.setItem('favoriteProperties', JSON.stringify([]));
+
+      navigate('/');
     } catch (error) {
       console.error('Error during logout:', error.response?.data || error.message);
     }

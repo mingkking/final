@@ -27,9 +27,7 @@ function Join() {
 
      // 폼 제출 시 호출되는 함수
     const onSubmit = async (data) => {
-        console.log("Submit button clicked");
-        console.log("Agree1:", agree1);
-        console.log("Agree2:", agree2);
+        
         // 체크박스 상태 확인
         if (!agree1 || !agree2) {
             alert("모든 필수 약관에 동의해야 합니다.");
@@ -38,7 +36,7 @@ function Join() {
 
         try {
             const response = await axiosInstance.post('/join', data);
-            alert(response.data);
+            alert("회원가입이 완료되었습니다.");
             navigate('/Login');
         } catch (error) {
             alert("정보를 정확히 입력해주세요. \n가입실패: "+error.response.data);
