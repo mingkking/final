@@ -1,3 +1,4 @@
+import os
 import requests
 from bs4 import BeautifulSoup
 import oracledb
@@ -11,9 +12,16 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
+# 현재 작업 디렉토리 설정 (예: python 파일이 있는 디렉토리)
+current_dir = os.path.dirname(__file__)
+
+# 모델과 벡터라이저 파일 경로 설정
+model_path = os.path.join(current_dir, 'news', 'ml_Model', 'rf_model.joblib')
+vectorizer_path = os.path.join(current_dir, 'news', 'ml_Model', 'tfidf_vectorizer.joblib')
+
 # ML 모델 가져오기
-loaded_model = joblib.load('rf_model.joblib')
-loaded_vectorizer = joblib.load('tfidf_vectorizer.joblib')
+loaded_model = joblib.load(model_path)
+loaded_vectorizer = joblib.load(vectorizer_path)
 
 # 텍스트 전처리 함수
 okt = Okt()
