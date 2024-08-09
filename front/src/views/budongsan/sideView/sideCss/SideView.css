@@ -87,18 +87,7 @@
   top: -7px;
 }
 
-/* 미디어 쿼리: 화면 너비가 768px 이하일 때 */
-@media (max-width: 768px) {
-  .side-desktop-nav {
-    display: none; /* 사이드바 숨기기 */
-  }
-}
 
-@media (max-width: 768px) {
-  .side-conponents {
-    display: none; /* 사이드바 숨기기 */
-  }
-}
 
 /* 사이드 네비게이션 영역 스타일 */
 .side-nav-area {

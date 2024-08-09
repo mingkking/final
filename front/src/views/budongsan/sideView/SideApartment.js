@@ -103,10 +103,7 @@ const SideApartment = ({ property, schoolMarkerCount, storeMarkerCount, busStati
           <h5 className="card-title">{property.apartMentName}</h5>
           <h6 className="card-subtitle text-muted">{property.floorNumber}층</h6>
         </div>
-        <svg xmlns="http://www.w3.org/2000/svg" className="d-block user-select-none" width="100%" height="200" aria-label="Placeholder: Image cap" focusable="false" role="img" preserveAspectRatio="xMidYMid slice" viewBox="0 0 318 180" style={{ fontSize: '1.125rem', textAnchor: 'middle' }}>
-          <rect width="100%" height="100%" fill="#868e96"></rect>
-          <text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
-        </svg>
+        <hr/>
         <div className="card-body">
           <p className="card-text">실거래가: {formatNumber(property.transactionAmount)} 원</p>
         </div>
@@ -115,9 +112,6 @@ const SideApartment = ({ property, schoolMarkerCount, storeMarkerCount, busStati
           <li className="list-group-item">등록일: {property.registrationDate}</li>
           <li className="list-group-item">전용면적: {property.squareFootage}</li>
         </ul>
-        <div className="card-body">
-          <li className="list-group-item">도로명: {property.road_name}</li>
-        </div>
       </div>
       {(busStationMarkerCount !== 0 || storeMarkerCount !== 0 || schoolMarkerCount !== 0) && (
         <div className="card mb-3">

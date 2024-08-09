@@ -184,10 +184,7 @@ function KakaoMap({ selectedProperty, setSchoolMarkerCount, setStoreMarkerCount,
                                 `
                                 <div class="card text-white bg-info mb-0" style="max-width: 15rem;">
                                     <div class="card-header">${selectedProperty.address}</div>
-                                    <div class="card-body">
-                                        <p class="card-text">${selectedProperty.apartMentName} ${selectedProperty.floorNumber}층</p>
-                                        
-                                    </div>
+                                    <div class="card-header">${selectedProperty.apartMentName} ${selectedProperty.floorNumber}층</div>
                                 </div>
                                 `
                     });
@@ -295,9 +292,7 @@ function KakaoMap({ selectedProperty, setSchoolMarkerCount, setStoreMarkerCount,
                                             `
                                             <div class="card text-white bg-info mb-0" style="max-width: 15rem;">
                                                 <div class="card-header">${school.소재지지번주소}</div>
-                                                <div class="card-body">
-                                                    <p class="card-text">${school.학교명}</p>
-                                                </div>
+                                                <div class="card-header">${school.학교명}</div>
                                             </div>
                                             `
                                 });
@@ -332,9 +327,7 @@ function KakaoMap({ selectedProperty, setSchoolMarkerCount, setStoreMarkerCount,
                                             `
                                             <div class="card text-white bg-info mb-0" style="max-width: 15rem;">
                                                 <div class="card-header">${store.지번주소}</div>
-                                                <div class="card-body">
-                                                    <p class="card-text">${store.상호명}</p>
-                                                </div>
+                                                <div class="card-header">${store.상호명}</div>
                                             </div>
                                             `
                                 });
@@ -417,7 +410,7 @@ function KakaoMap({ selectedProperty, setSchoolMarkerCount, setStoreMarkerCount,
                         });
                     }
 
-                    // storeData를 선택된 매물과의 거리 기준으로 정렬하여 가장 가까운 5개를 선택
+                    
                     if (selectedCategory  === '편의점' && storeData) {
                         storeData.forEach(store => {
                             const storeCoords = new window.kakao.maps.LatLng(store.위도, store.경도);
@@ -531,6 +524,7 @@ function KakaoMap({ selectedProperty, setSchoolMarkerCount, setStoreMarkerCount,
                 )}
 
             </div>
+            
         </div>
     );
 }

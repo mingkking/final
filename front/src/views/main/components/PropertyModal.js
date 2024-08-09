@@ -19,7 +19,6 @@ function PropertyModal({ open, handleClose, property }) {
                 <DialogContentText>건축 연도: {property.yearBuilt}</DialogContentText>
                 <DialogContentText>등록 날짜: {property.registrationDate}</DialogContentText>
                 <DialogContentText>면적: {property.squareFootage}</DialogContentText>
-                <DialogContentText>도로명: {property.road_name}</DialogContentText>
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleMoreInfo} color="primary">지도 이동</Button>
