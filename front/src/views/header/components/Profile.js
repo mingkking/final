@@ -41,7 +41,7 @@ const Profile = ({ onLogout }) => {
         })
         .catch(error => console.error('Error fetching profile image:', error));
     }
-    console.log('Profile image URL from context:', state.profileImage);
+    
   }, [state.userId, state.profileImage, actions]);
 
   const handleClick2 = (event) => {
@@ -105,12 +105,7 @@ const Profile = ({ onLogout }) => {
           </ListItemIcon>
           <ListItemText>마이페이지</ListItemText>
         </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <IconListCheck width={20} />
-          </ListItemIcon>
-          <ListItemText>프로필수정</ListItemText>
-        </MenuItem>
+        
         <MenuItem component={Link} to="/PwFind" onClick={handleClose2}>
           <ListItemIcon>
             <IconEdit width={20} />

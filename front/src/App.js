@@ -60,7 +60,7 @@ function AppContent() {
   const isBudongsanPage = location.pathname === '/budongsan';
 
   const handleLoginSuccess = (userNickname) => {
-    console.log('Logged in as:', userNickname);
+    
     document.dispatchEvent(new CustomEvent('loginSuccess', { detail: userNickname }));
   };
 

@@ -41,7 +41,7 @@ const Sidebar = ({ isOpen, onClose, isLoggedIn, userNickname, onLogout }) => {
         })
         .catch(error => console.error('Error fetching profile image:', error));
     }
-    console.log('Profile image URL from context:', state.profileImage);
+    
   }, [state.userId, state.profileImage, actions]);
 
   const handleMenuClick = () => {
