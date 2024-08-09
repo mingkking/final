@@ -22,6 +22,4 @@ public class MgrMemberVO {
 	
 	// 관리자 확인용
 	private int is_admin;
-	
-	private SubscribeVO subscribeVO;
 }

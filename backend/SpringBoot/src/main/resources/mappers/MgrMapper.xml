@@ -120,20 +120,20 @@
     	ORDER BY user_num DESC
     </select>
     
-    <!-- memberDetail 출력(회원상세보기) / 구독테이블도 같이 -->
+    <!-- memberDetail 출력(회원상세보기) -->
     <select id="selectMemberDetail" resultType="MgrMemberVO">
     	SELECT *
     	FROM users
     	WHERE user_num = #{user_num}
     </select>
-    <!-- 
-    <select id="selectMemberDetail" resultType="MgrMemberVOMap">
-    	SELECT u.*, s.*
-    	FROM users u
-    	LEFT JOIN subscribe s ON u.user_num = s.user_num
-    	WHERE u.user_num = #{user_num}
+    
+    <!-- 구독 여부 확인 -->
+    <select id="checkSubscribe" resultType="MgrSubscriberCountVO">
+    	SELECT *
+    	FROM subscribe
+    	WHERE user_num =#{user_num}
     </select>
-     -->
+
     
     <!-- 회원 삭제 -->
     <delete id="deleteMember" parameterType="int">
@@ -193,6 +193,13 @@
     	DELETE FROM manager
     	WHERE manager_num = #{manager_num}
     </delete>
+    
+    <!-- 북마크 -->
+    <select id="selectBookmark" resultType="MgrBookMarkVO">
+    	SELECT *
+    	FROM bookmark
+    	WHERE user_num = #{user_num}
+    </select>
     
     
 </mapper>

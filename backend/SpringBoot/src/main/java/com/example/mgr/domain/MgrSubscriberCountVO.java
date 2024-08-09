@@ -7,8 +7,8 @@ import lombok.Data;
  
 @Data 
 public class MgrSubscriberCountVO {
-	private String id;
-	private String user_id; 
+	private String subscribe_num;
+	private String user_num; 
 	private String amount;
 	private Timestamp payment_date;
 }

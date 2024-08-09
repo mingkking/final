@@ -1,6 +1,7 @@
 package com.example.news.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,17 +28,23 @@ public class NewsController {
 	@GetMapping("/news")
 	public String selectRecent20News(NewsVO vo) {
 		
-		List<NewsVO> newsList = newsservice.selectRecent20News(vo);
+		List<NewsVO> selectRandom10News = newsservice.selectRecent20News(vo);
+		List<NewsVO> selectFinanceNews = newsservice.selectFinanceNews(vo);
+		List<NewsVO> selectRENews = newsservice.selectRENews(vo);
+		List<NewsVO> selectEconomyNews = newsservice.selectEconomyNews(vo);
 		
 		// Gson 생성
 		Gson gson = new Gson();
 		
-		String newsListJson = gson.toJson(newsList);
-		
 		// Json 생성
-		String jsonString = "{\"selectRecent20News\":" + newsListJson + "}";
+		String jsonString = gson.toJson(Map.of(
+		        "selectRandom10News", selectRandom10News,
+		        "selectFinanceNews", selectFinanceNews,
+		        "selectRENews", selectRENews,
+		        "selectEconomyNews", selectEconomyNews
+		    ));
 		
-		System.out.println("news페이지로 보내는 news20개 값---"+jsonString);
+		System.out.println("news페이지로 보내는 데이터" + jsonString);
 		
 		return jsonString;
 		
