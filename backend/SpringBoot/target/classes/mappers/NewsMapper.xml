@@ -4,17 +4,40 @@
  
 <mapper namespace="com.example.news.dao.NewsDAO">
 
-	<!-- 뉴스 데이터 전체 중 상위 20개만 가져오기 -->
+	<!-- 뉴스 데이터 중 오늘 데이터 랜덤 10개 가져오기 -->
 	<select id="selectRecent20News" resultType="NewsVO">
 	<![CDATA[
-		SELECT *
-		FROM (
-		    SELECT *
-		    FROM news
-		    ORDER BY id DESC
-		)
-		WHERE ROWNUM <= 20
+    	SELECT *
+    	FROM (
+	        SELECT *
+	        FROM news
+	        WHERE TO_DATE(published_at, 'YYYY.MM.DD HH24:MI') >= TRUNC(SYSDATE)
+	          AND TO_DATE(published_at, 'YYYY.MM.DD HH24:MI') < TRUNC(SYSDATE) + 1
+	        ORDER BY DBMS_RANDOM.VALUE
+	    )
+	    WHERE ROWNUM <= 10
 	]]>
+	</select>
+	
+	<!-- 증권 뉴스 데이터 -->
+	<select id="selectFinanceNews" resultType="NewsVo">
+		SELECT *
+		FROM news
+		WHERE category = '증권'
+	</select>
+	
+	<!-- 부동산 뉴스 데이터 -->
+	<select id="selectRENews" resultType="NewsVo">
+		SELECT *
+		FROM news
+		WHERE category = '부동산'
+	</select>
+	
+	<!-- 경제 뉴스 데이터 -->
+	<select id="selectEconomyNews" resultType="NewsVO">
+		SELECT *
+		FROM news
+		WHERE category = '경제'
 	</select>
     
     

@@ -7,11 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.example.community.domain.BookmarkVO;
 import com.example.mgr.dao.MgrDAO;
+import com.example.mgr.domain.MgrBookMarkVO;
 import com.example.mgr.domain.MgrCommunityVO;
 import com.example.mgr.domain.MgrManagerVO;
 import com.example.mgr.domain.MgrMemberVO;
 import com.example.mgr.domain.MgrSessionCountVO;
+import com.example.mgr.domain.MgrSubscriberCountVO;
   
 @Service 
 public class MgrServiceImpl implements MgrService {
@@ -132,6 +135,16 @@ public class MgrServiceImpl implements MgrService {
 	public void deleteManager(int manager_num) {
 		mgrDAO.deleteManager(manager_num);
 		
+	}
+
+	// 구독 여부 확인
+	public List<MgrSubscriberCountVO> checkSubscribe(MgrSubscriberCountVO vo) {
+		return mgrDAO.checkSubscribe(vo);
+	}
+
+	// 북마크
+	public List<MgrBookMarkVO> selectBookmark(MgrBookMarkVO vo) {
+		return mgrDAO.selectBookmark(vo);
 	}
 
 }

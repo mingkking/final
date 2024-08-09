@@ -17,9 +17,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.community.domain.BookmarkVO;
 import com.example.mgr.Service.MgrService;
 import com.example.mgr.domain.MgrMemberVO;
 import com.example.mgr.domain.MgrSessionCountVO;
+import com.example.mgr.domain.MgrSubscriberCountVO;
+import com.example.mgr.domain.MgrBookMarkVO;
 import com.example.mgr.domain.MgrCommunityVO;
 import com.example.mgr.domain.MgrManagerVO;
 import com.google.gson.Gson;
@@ -127,18 +130,24 @@ public class MgrController {
 	
 	// 회원 상세정보 보기
     @GetMapping("/manager/memberDetail/{user_num}")
-    public String getMemberDetail(@PathVariable String user_num, MgrMemberVO membervo, MgrCommunityVO commvo, MgrManagerVO mgrvo) {
+    public String getMemberDetail(@PathVariable String user_num, MgrMemberVO membervo, MgrCommunityVO commvo, MgrManagerVO mgrvo, MgrSubscriberCountVO subvo, MgrBookMarkVO bmvo) {
         
         // 받은 번호 값 지정
     	membervo.setUser_num(user_num);
     	commvo.setUser_num(user_num);
     	mgrvo.setManager_num(user_num);
+    	subvo.setUser_num(user_num);
+    	bmvo.setUser_num(user_num);
     	
-        
         // 회원 상세 정보 조회
         List<MgrMemberVO> mgrMemberDetail = mgrservice.selectMemberDetail(membervo);
         List<MgrCommunityVO> mgrCommPost = mgrservice.selectCommPost(commvo);
         int checkMgr = mgrservice.checkManager(mgrvo);
+        List<MgrSubscriberCountVO> checksubscribe = mgrservice.checkSubscribe(subvo);
+        List<MgrBookMarkVO> getBookMarkList = mgrservice.selectBookmark(bmvo);
+        
+        System.out.println("북마크리스트: " + getBookMarkList);
+        
       
         // Gson 객체 생성
         Gson gson = new GsonBuilder()
@@ -149,7 +158,8 @@ public class MgrController {
         String jsonString = gson.toJson(Map.of(
                 "selectMemberList", mgrMemberDetail,
                 "commPost", mgrCommPost,
-                "checkMgr", checkMgr
+                "checkMgr", checkMgr,
+                "checkSubscribe", checksubscribe
             ));
         
         System.out.println("memberDetail 페이지로 보내는 값:" + jsonString);
