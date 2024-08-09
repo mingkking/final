@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from "react";
-import '../../Budongsan.css';
 import Navbar from './Navbar.js';
 import '../sideCss/SideView.css';
 

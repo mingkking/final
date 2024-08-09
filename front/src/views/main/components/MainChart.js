@@ -29,8 +29,8 @@ function MainChart() {
     useEffect(() => {
         if (stockData && priceChartRef.current) {
             const priceChart = createChart(priceChartRef.current, {
-                width: priceChartRef.current.clientWidth,
-                height: 500, // 높이를 400에서 500으로 증가
+                width: 510,
+                height: 450, // 높이를 400에서 500으로 증가
                 layout: {
                     backgroundColor: '#ffffff',
                     textColor: '#333',
