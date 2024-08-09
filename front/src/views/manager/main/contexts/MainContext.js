@@ -64,6 +64,8 @@ const MainProvider = (props) => {
       // 커뮤니티 게시글 카운팅
       const [commCount, setCommCount] = useState("");
 
+      const [news, setNews] = useState([]);
+
   useEffect(() => {
     localStorage.setItem("membersCount", JSON.stringify(membersCount));
   },[membersCount]);
@@ -88,10 +90,10 @@ const MainProvider = (props) => {
   const values = {
     state: { totalCount, todayCount, monthCount, membersCount, totalSubscribersCount, 
       todaySubscribersCount, todayMembersCount, last5DaysMember, last5MonthsMember, last2YearsMember,
-      memberList, countByAgeMember, commCount, userNum, ifAdmin1 },
+      memberList, countByAgeMember, commCount, userNum, ifAdmin1, news },
     actions: { setTotalCount, setTodayCount, setMonthCount, setMembersCount, setTotalSubscribersCount, 
       setTodaySubscribersCount, setTodayMembersCount, setLast5DaysMember, setLast5MonthsMember, setLast2YearsMember, 
-      setMemberList, setCountByAgeMember, setCommCount, setUserNum, setIfAdmin1 }
+      setMemberList, setCountByAgeMember, setCommCount, setUserNum, setIfAdmin1, setNews }
   }
 
   return (
