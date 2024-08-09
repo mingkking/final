@@ -125,7 +125,7 @@ return (
             />
           </div>
           <div className="profile-details">
-            <h2 className="nickname">{nickname}</h2>
+            <h2 className="memberpage-nickname">{nickname}</h2>
             <table className="profile-stats">
               <thead>
                 <tr>
@@ -145,7 +145,7 @@ return (
           </div>
         </div>
         
-        <hr />
+        <hr className='member-hr'/>
         <div className="my-posts">
           <h3>작성한 글</h3>
           <ul className="post-list">

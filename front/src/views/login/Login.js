@@ -54,7 +54,7 @@ function Login({ onLoginSuccess }) {
             navigate('/');  
         } catch (error) {
             console.error('Error during login:', error);
-            alert('로그인 실패 ' + error.response?.data || '아이디 및 비밀번호가 일치하지 않습니다.');
+            alert('아이디 및 비밀번호가 일치하지 않습니다.');
             
         }
     };
@@ -77,7 +77,7 @@ function Login({ onLoginSuccess }) {
              if (profileImageUrl) {
                 const fullProfileImageUrl =  profileImageUrl.startsWith('http') ? profileImageUrl : `http://localhost:8080${profileImageUrl}`;
                 actions.setProfileImage(fullProfileImageUrl);
-                console.log('Profile image URL set to:', fullProfileImageUrl);
+                
             }else {
                 actions.setProfileImage('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');
             }
