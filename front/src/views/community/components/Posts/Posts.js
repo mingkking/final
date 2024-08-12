@@ -87,7 +87,7 @@ function Posts() {
       const profiles = response.reduce((acc, { data }) => {
         if (data.userId) {
           acc[data.userId] = data.profileImageUrl;
-        } 
+        }
         // else {
         //   console.warn('No userId found in response data:', data);
         // }
@@ -138,15 +138,23 @@ function Posts() {
                 <Link className="no-underline-link" to={`/MemberPage?id=${post.user_num.userId}`} state={{ id: post.user_num.userId }}>
                   <div className='post-item-profile'>
                     <img
-                      src={userProfiles[post.user_num.userId] ?
-                        (userProfiles[post.user_num.userId].startsWith('http') ?
-                          userProfiles[post.user_num.userId] :
-                          `http://localhost:8080${userProfiles[post.user_num.userId]}`)
-                        :
-                        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"}
+                      src={
+                        userProfiles[post.user_num.userId]
+                          ? // 사용자의 프로필 URL이 http로 시작하면 그대로 사용
+                          userProfiles[post.user_num.userId].startsWith('http')
+                            ? userProfiles[post.user_num.userId]
+                            : // 그렇지 않으면 로컬 서버 경로로 보정
+                            `http://localhost:8080${userProfiles[post.user_num.userId]}`
+                          : // 프로필 이미지가 없을 경우 기본 이미지 사용
+                          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                      }
                       className="profile-image"
-                      alt=''>
-                    </img>
+                      alt=""
+                      onError={(e) => {
+                        // 이미지 로드 실패 시 기본 이미지로 대체
+                        e.target.src = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
+                      }}
+                    />
                   </div>
                 </Link>
                 <Link className="no-underline-link" to={`/MemberPage?id=${post.user_num.userId}`} state={{ id: post.user_num.userId }}>
@@ -176,7 +184,13 @@ function Posts() {
 
             <div className="post-item-bottom">
               <div className='post-item-uploadFile'>
-                {post.image_path && (<img src={`http://localhost:8080/uploads/${post.image_path}`} alt={"업로드 이미지"}></img>)}
+                {post.image_path &&
+                  (<img src={`http://localhost:8080/uploads/${post.image_path}`}
+                    alt={"업로드 이미지"}
+                    onError={(e) => {
+                      // 이미지 로드 실패 시 기본 이미지로 대체
+                      e.target.src = "uploadFailDefault.png";
+                    }} />)}
               </div>
             </div>
 
