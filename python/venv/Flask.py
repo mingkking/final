@@ -11,7 +11,7 @@ from backtest.data_processing.data_processor import preprocess_data
 from backtest.models.lstm_model import prepare_data_for_lstm, train_lstm_model, evaluate_lstm_model, build_lstm_model
 import logging
 from datetime import datetime, timedelta
-
+# from stock.stock_interest import check_stock,delete_stock,add_stock
 app = Flask(__name__)
 CORS(app)
 
@@ -319,8 +319,15 @@ def check_stock():
         with get_db_connection() as connection:
             with connection.cursor() as cursor:
                 check_query = """
-                SELECT COUNT(*) FROM STOCK_INTEREST
-                WHERE user_num = :user_num AND stock_code = :stock_code
+                SELECT CASE 
+                    WHEN EXISTS (
+                        SELECT 1
+                        FROM INVESTIGATE.STOCK_INTEREST S
+                        WHERE S.USER_NUM = :user_num AND S.STOCK_CODE = :stock_code
+                    ) THEN 1
+                    ELSE 0
+                END AS is_favorite
+                FROM DUAL
                 """
                 cursor.execute(check_query, user_num=user_num, stock_code=stock_code)
                 count = cursor.fetchone()[0]
@@ -329,6 +336,7 @@ def check_stock():
     except Exception as e:
         logger.error(f"Error: {e}")
         return jsonify({'status': 'error', 'message': 'An error occurred'}), 500
+    
     
 #해당 종목 관심등록
 @app.route('/add_stock', methods=['POST', 'GET'])
@@ -367,6 +375,7 @@ def add_stock():
         logger.error(f"Error: {str(e)}")
         return jsonify({'status': 'error', 'message': '서버 오류가 발생했습니다.'}), 500
     
+#관심 등록 취소    
 @app.route('/delete_stock', methods=['POST','GET'])
 def delete_stock():
     try:
@@ -394,6 +403,7 @@ def delete_stock():
     except Exception as e:
         logger.error(f"Error: {e}")
         return jsonify({'status': 'error', 'message': 'An error occurred'}), 500
+    
 
 
 # 백테스트 페이지에서 분석 시작 버튼을 눌렀을때 실행
