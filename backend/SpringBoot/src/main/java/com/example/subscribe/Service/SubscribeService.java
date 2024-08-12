@@ -9,4 +9,7 @@ public interface SubscribeService {
 	
 	// 구독 중복 체크
 	int selectSubscriber(SubscribeVO vo);
+	
+	// 구독 날짜 체크
+	String selectSubscribeDate(SubscribeVO vo);
 }

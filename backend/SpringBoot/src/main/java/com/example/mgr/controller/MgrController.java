@@ -146,7 +146,6 @@ public class MgrController {
         List<MgrSubscriberCountVO> checksubscribe = mgrservice.checkSubscribe(subvo);
         List<MgrBookMarkVO> getBookMarkList = mgrservice.selectBookmark(bmvo);
         
-        System.out.println("북마크리스트: " + getBookMarkList);
         
       
         // Gson 객체 생성
@@ -159,7 +158,8 @@ public class MgrController {
                 "selectMemberList", mgrMemberDetail,
                 "commPost", mgrCommPost,
                 "checkMgr", checkMgr,
-                "checkSubscribe", checksubscribe
+                "checkSubscribe", checksubscribe,
+                "selectBookMark", getBookMarkList
             ));
         
         System.out.println("memberDetail 페이지로 보내는 값:" + jsonString);
