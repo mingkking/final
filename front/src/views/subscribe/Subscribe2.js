@@ -141,8 +141,9 @@ const Subscribe2 = () => {
           />
         </RadioGroup>
       </FormControl>
+      <div>
       <Button
-        className="subscribe-nextBtn mgTop"
+        className="subscribe-nextBtn"
         variant="contained"
         color="success"
         onClick={handleNextButtonClick}
@@ -150,6 +151,7 @@ const Subscribe2 = () => {
       >
         결제하기
       </Button>
+      </div>
     </div>
   );
 };
