@@ -1,6 +1,6 @@
 from flask import request,jsonify
 import logging
-from ..App import get_db_connection
+from ..Flask import get_db_connection
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)

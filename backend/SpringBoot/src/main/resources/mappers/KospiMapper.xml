@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.stock.dao.KospiDAO">
+    <select id="getMonthlyKospiData" resultType="com.example.stock.domain.KospiVO">
+    <![CDATA[
+        SELECT 
+            TO_CHAR(record_date, 'YYYY-MM-DD') as record_date, 
+            closing_price,
+            kospi_code,
+            stock_name,
+            kospi_name,
+            opening_price,
+            high_price,
+            low_price,
+            compared_price,
+            trading_volume
+        FROM KOSPI_INFO
+        WHERE record_date >= TRUNC(SYSDATE) - 30
+        ORDER BY record_date
+    ]]>
+    </select>
+</mapper>
