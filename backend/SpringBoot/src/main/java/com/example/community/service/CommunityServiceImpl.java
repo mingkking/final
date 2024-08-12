@@ -18,7 +18,7 @@ import com.example.community.repository.ReplyRepository;
 import com.example.community.repository.UserLikeRepository;
 
 @Service
-public class CommunityServiceImpl implements CommunityService{
+public class CommunityServiceImpl implements CommunityService {
 
     @Autowired
     private CommunityRepository communityRepository;
@@ -29,12 +29,11 @@ public class CommunityServiceImpl implements CommunityService{
     @Autowired
     private BookmarkRepository bookmarkRepository;
 
-    @Autowired 
+    @Autowired
     private ReplyRepository replyRepository;
 
     @Autowired
     private ReReplyRepository reReplyRepository;
-
 
     @Override
     public List<CommunityVO> selectAllCommunity() throws Exception {
@@ -54,7 +53,7 @@ public class CommunityServiceImpl implements CommunityService{
     @Override
     public void updateCommunity(CommunityVO communityVO) throws Exception {
         CommunityVO selectVO = communityRepository.selectOneCommunity(communityVO.getId());
-        
+
         selectVO.getUser_num().setUserNum(communityVO.getUser_num().getUserNum());
         selectVO.setTitle(communityVO.getTitle());
         selectVO.setImage_path(communityVO.getImage_path());
@@ -85,7 +84,8 @@ public class CommunityServiceImpl implements CommunityService{
 
     @Override
     public void deleteUserLike(Integer userNum, Integer id) throws Exception {
-        userLikeRepository.deleteUserLike(userNum, id);;
+        userLikeRepository.deleteUserLike(userNum, id);
+        ;
     }
 
     @Override
@@ -109,8 +109,25 @@ public class CommunityServiceImpl implements CommunityService{
     }
 
     @Override
+    public ReplyVO selectOneReply(Integer reply_num) throws Exception {
+        return replyRepository.selectOneReply(reply_num);
+    }
+
+    @Override
     public void insertReply(ReplyVO replyVO) throws Exception {
         replyRepository.save(replyVO);
+    }
+
+    @Override
+    public void updateReply(ReplyVO replyVO) throws Exception {
+        ReplyVO selectVO = replyRepository.selectOneReply(replyVO.getReply_num());
+        selectVO.setContent(replyVO.getContent());
+        replyRepository.save(selectVO);
+    }
+
+    @Override
+    public void deleteReply(Integer reply_num) throws Exception {
+        replyRepository.deleteById(reply_num);
     }
 
     @Override
@@ -119,10 +136,26 @@ public class CommunityServiceImpl implements CommunityService{
     }
 
     @Override
+    public ReReplyVO selectOneReReply(Integer rereply_num) throws Exception {
+        return reReplyRepository.selectOneReReply(rereply_num);
+    }
+
+    @Override
     public void insertReReply(ReReplyVO reReplyVO) throws Exception {
         reReplyRepository.save(reReplyVO);
     }
 
+    @Override
+    public void updateReReply(ReReplyVO reReplyVO) throws Exception {
+        ReReplyVO selectVO = reReplyRepository.selectOneReReply(reReplyVO.getRereply_num());
+        selectVO.setContent(reReplyVO.getContent());
+        reReplyRepository.save(selectVO);
+    }
+
+    @Override
+    public void deleteReReply(Integer rereply_num) throws Exception {
+        reReplyRepository.deleteById(rereply_num);
+    }
 
     
 

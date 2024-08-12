@@ -45,13 +45,29 @@ public interface CommunityService {
     @Query(value = "SELECT * FROM REPLY WHERE id=?1 ORDER BY created_at ASC", nativeQuery = true)
     public List<ReplyVO> selectAllReply(Integer id) throws Exception;
 
+    // 커뮤니티 댓글 1개 검색
+    @Query(value = "SELECT * FROM REPLY WHERE reply_num = ?1", nativeQuery = true)
+    public ReplyVO selectOneReply(Integer reply_num) throws Exception;
+
     public void insertReply(ReplyVO replyVO) throws Exception;
+
+    public void updateReply(ReplyVO replyVO) throws Exception;
+
+    public void deleteReply(Integer reply_num) throws Exception;
 
     // 커뮤니티 대댓글 조회
     @Query(value = "SELECT * FROM REREPLY ORDER BY created_at ASC", nativeQuery = true)
     public List<ReReplyVO> selectAllReReply() throws Exception;
 
+    // 커뮤니티 대댓글 1개 검색
+    @Query(value = "SELECT * FROM REREPLY WHERE rereply_num = ?1", nativeQuery = true)
+    public ReReplyVO selectOneReReply(Integer rereply_num) throws Exception;
+
     public void insertReReply(ReReplyVO reReplyVO) throws Exception;
+
+    public void updateReReply(ReReplyVO reReplyVO) throws Exception;
+
+    public void deleteReReply(Integer rereply_num) throws Exception;
 
 }
  
