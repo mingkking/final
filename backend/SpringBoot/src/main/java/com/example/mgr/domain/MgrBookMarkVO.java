@@ -6,7 +6,9 @@ import lombok.Data;
  
 @Data   
 public class MgrBookMarkVO {
-	private int book_num;
-	private String user_num;
-	private int id;
+    private String user_num;
+    private String title;
+    private String contents;
+    private int view_count;
+    private String id;
 } 
