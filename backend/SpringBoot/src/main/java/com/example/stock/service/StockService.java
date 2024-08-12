@@ -16,5 +16,5 @@ public interface StockService {
     //종목 값 가져오기
     List<StockVO> getYearlyStockPriceHistory(String stock_code);
     //주식 관심등록
-    boolean toggleFavorite(StockInterestVO stockInterest);
+    // boolean toggleFavorite(StockInterestVO stockInterest);
 }

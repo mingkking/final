@@ -31,19 +31,19 @@ public class StockServiceImpl implements StockService {
         return stockDAO.getYearlyStockPriceHistory(stock_code);
     }
 
-    @Override
-    @Transactional
-    public boolean toggleFavorite(StockInterestVO stockInterest) {
-        if (stockInterest.getUser_num() == null || stockInterest.getStock_code() == null) {
-            throw new IllegalArgumentException("user_num and stock_code cannot be null");
-        }
-        boolean exists = stockDAO.isStockInterestExists(stockInterest);
-        if (exists) {
-            stockDAO.deleteStockInterest(stockInterest);
-            return false;
-        } else {
-            stockDAO.insertStockInterest(stockInterest);
-            return true;
-        }
-    }
+    // @Override
+    // @Transactional
+    // public boolean toggleFavorite(StockInterestVO stockInterest) {
+    //     if (stockInterest.getUser_num() == null || stockInterest.getStock_code() == null) {
+    //         throw new IllegalArgumentException("user_num and stock_code cannot be null");
+    //     }
+    //     boolean exists = stockDAO.isStockInterestExists(stockInterest);
+    //     if (exists) {
+    //         stockDAO.deleteStockInterest(stockInterest);
+    //         return false;
+    //     } else {
+    //         stockDAO.insertStockInterest(stockInterest);
+    //         return true;
+    //     }
+    // }
 }

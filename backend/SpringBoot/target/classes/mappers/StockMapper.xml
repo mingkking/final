@@ -56,21 +56,5 @@
         ORDER BY record_date ASC
         ]]>
     </select>
-<select id="isStockInterestExists" resultType="boolean">
-    SELECT CASE WHEN COUNT(*) <![CDATA[>]]> 0 THEN 1 ELSE 0 END
-    FROM STOCK_INTEREST
-    WHERE USER_NUM = #{user_num,jdbcType=INTEGER}
-    AND STOCK_CODE = #{stock_code,jdbcType=VARCHAR}
-</select>
 
-<insert id="insertStockInterest">
-    INSERT INTO STOCK_INTEREST (USER_NUM, STOCK_CODE)
-    VALUES (#{user_num,jdbcType=INTEGER}, #{stock_code,jdbcType=VARCHAR})
-</insert>
-
-<delete id="deleteStockInterest">
-    DELETE FROM STOCK_INTEREST
-    WHERE USER_NUM = #{user_num,jdbcType=INTEGER}
-    AND STOCK_CODE = #{stock_code,jdbcType=VARCHAR}
-</delete>
 </mapper>

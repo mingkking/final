@@ -17,8 +17,8 @@ public interface StockDAO {
 	List<StockVO> selectStockList(@Param("lastId") String lastId, @Param("search") String search, @Param("limit") int limit);
     StockVO getStockInfo(@Param("stock_code") String stockCode);
     List<StockVO> getYearlyStockPriceHistory(@Param("stock_code") String stockCode);
-    boolean isStockInterestExists(StockInterestVO stockInterest);
-    void insertStockInterest(StockInterestVO stockInterest);
-    void deleteStockInterest(StockInterestVO stockInterest);
+    // boolean isStockInterestExists(StockInterestVO stockInterest);
+    // void insertStockInterest(StockInterestVO stockInterest);
+    // void deleteStockInterest(StockInterestVO stockInterest);
 
 }
