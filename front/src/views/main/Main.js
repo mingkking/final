@@ -4,8 +4,10 @@ import MainChart from './components/MainChart';
 import MainList from './components/MainList';
 import MainUnder from './components/MainUnder';
 import GetVisitCount from './components/Main'
+import InvestmentInside from './components/InvestmentInside';
+import TodayNews from './components/TodayNews';
 
-function MainPage({onPropertySelect}) {
+function MainPage() {
 
     
 
@@ -20,6 +22,12 @@ function MainPage({onPropertySelect}) {
                         <div className="list-container">
                             <MainList/>
                         </div>
+                    </div>
+                    <div>
+                        <TodayNews/>
+                    </div>
+                    <div>
+                        <InvestmentInside/>
                     </div>
                     <div className="under-container">
                         <MainUnder />

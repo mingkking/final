@@ -1,0 +1,83 @@
+/* EconomicNewsFeed.css */
+
+.economics-container {
+    padding: 20px;
+}
+
+.economics-header {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.economics-newsList {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+}
+
+.economics-newsItem {
+    flex: 0 0 auto;
+    width: 200px; /* 고정 너비를 설정하여 제목이 넘치지 않게 함 */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: left;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.economics-title {
+    font-size: 0.9rem;
+    margin: 5px 0;
+    white-space: nowrap; /* 줄 바꿈 방지 */
+    overflow: hidden; /* 넘치는 부분 숨기기 */
+    text-overflow: ellipsis; /* 넘치는 부분에 ... 표시 */
+    display: block; /* 블록 요소로 설정하여 width 적용 */
+}
+
+.economics-date {
+    font-size: 0.75rem;
+    color: #555;
+}
+
+.economics-category {
+    font-size: 0.75rem;
+    color: #777;
+}
+
+.economics-image {
+    width: 100%;
+    max-width: 180px;
+    height: auto;
+    margin-bottom: 10px;
+    cursor: pointer;
+    
+}
+
+.economics-link {
+    display: inline-block;
+    margin-top: 10px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.economics-loading {
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.economics-error {
+    text-align: center;
+    font-size: 1.2rem;
+    color: red;
+}
+
+.economics-noNews {
+    text-align: center;
+    font-size: 1.2rem;
+}

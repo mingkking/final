@@ -30,7 +30,7 @@ function MainChart() {
         if (stockData && priceChartRef.current) {
             const priceChart = createChart(priceChartRef.current, {
                 width: 510,
-                height: 450, // 높이를 400에서 500으로 증가
+                height: 235, // 높이를 400에서 500으로 증가
                 layout: {
                     backgroundColor: '#ffffff',
                     textColor: '#333',
@@ -115,7 +115,7 @@ function MainChart() {
     return (
             <Box sx={{ width: '100%', p: 3, backgroundColor: '#f5f5f5', borderRadius: 2 }}>
                 <Typography variant="h5" gutterBottom sx={{ mb: 2, fontWeight: 'bold' }}>삼성전자 주식 차트</Typography>
-                <Box ref={priceChartRef} sx={{ width: '100%', height: 500, backgroundColor: 'white', borderRadius: 1, boxShadow: 1 }} />
+                <Box ref={priceChartRef} sx={{ width: '100%', height: 235, backgroundColor: 'white', borderRadius: 1, boxShadow: 1 }} />
             </Box>
     );
 }

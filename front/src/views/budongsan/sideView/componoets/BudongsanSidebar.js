@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import Navbar from './Navbar.js';
 import '../sideCss/SideView.css';
 
+import SideLike from "../SideLike.js";
 import SideSearch from "../SideSearch.js";
 import SideApartment from "../SideApartment.js";
 import SideTransaction from "../SideTransaction.js";
@@ -11,7 +12,7 @@ import axiosInstance from "../../../login/component/Token/axiosInstance.js";
 
 
 const BudongsanSidebar = ({ onPropertySelect, schoolMarkerCount, storeMarkerCount, busStationMarkerCount }) => {
-  const [selectedMenu, setSelectedMenu] = useState('검색'); // 기본 메뉴 설정
+  const [selectedMenu, setSelectedMenu] = useState('인기'); // 기본 메뉴 설정
   const [selectedProperty, setSelectedProperty] = useState(null); // 선택된 프로퍼티 상태
   const budongsanSidebarValue = useContext(BudongsanContext);
  
@@ -46,6 +47,8 @@ const BudongsanSidebar = ({ onPropertySelect, schoolMarkerCount, storeMarkerCoun
 
   const renderComponent = () => {
     switch (selectedMenu) {
+      case '인기':
+        return <SideLike onPropertySelect={handlePropertySelect} />
       case '검색':
         return <SideSearch onPropertySelect={handlePropertySelect} />;
       case '아파트':

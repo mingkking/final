@@ -6,12 +6,12 @@ export const MenuItemsData = [
       url: 'stock',
     },
     {
-      title: '부동산',
-      url: 'budongsan',
+      title: '백테스트',
+      url: 'back1',
     },
     {
-        title: '백테스트',
-        url: 'back1',
+        title: '부동산',
+        url: 'budongsan',
     },
     {
         title: '채팅',

@@ -1,3 +1,4 @@
+
 import os
 import requests
 from bs4 import BeautifulSoup
@@ -7,17 +8,39 @@ from konlpy.tag import Okt
 import datetime
 from flask import Flask, jsonify
 from flask_cors import CORS
+import logging
 
 app = Flask(__name__)
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 CORS(app)
 
-# ML 모델 가져오기
-loaded_model = joblib.load('rf_model1.joblib')
-loaded_vectorizer = joblib.load('tfidf_vectorizer1.joblib')
+# Oracle 클라이언트 초기화
+oracledb.init_oracle_client()
 
+# 현재 파일이 있는 디렉토리에서 상대 경로로 모델 파일을 로드합니다
+current_directory = os.path.dirname(__file__)
+loaded_model_path = os.path.join(current_directory, 'news', 'ML_Model', 'rf_model.joblib')
+loaded_vectorizer_path = os.path.join(current_directory, 'news', 'ML_Model', 'tfidf_vectorizer.joblib')
+
+# ML 모델 가져오기
+loaded_model = joblib.load(loaded_model_path)
+loaded_vectorizer = joblib.load(loaded_vectorizer_path)
 okt = Okt()
 
+
+# 데이터 베이스 연결 하는 함수
+def get_db_connection():
+    try:
+        connection = oracledb.connect(user="investigate", password="team1", dsn="192.168.0.39:1521/XE")
+        #connection = oracledb.connect(user="investigate", password="team1", dsn="13.125.176.132:1521/XE") # 아마존 데이터베이스 이용시 변경
+        logger.info("Database connection established successfully.")
+        return connection
+    except oracledb.DatabaseError as e:
+        logger.error(f"Database connection error: {e}")
+        raise
 def preprocess_text(text):
+
     tokens = okt.morphs(text, stem=True)
     return ' '.join(tokens)
 
@@ -101,10 +124,7 @@ def insert_data(cursor, titles, urls, dates, categories, imgs):
 @app.route('/news/update_news', methods=['POST'])
 def update_news():
     try:
-        oracledb.init_oracle_client(lib_dir=r"C:\Users\ict03_020\Oracle\instantclient_19.24\instantclient_19_24")
-        dsn = oracledb.makedsn("192.168.0.39", "1521", service_name="XE")
-        conn = oracledb.connect(user="investigate", password="team1", dsn=dsn)
-        print("데이터베이스 연결 성공")
+        conn = get_db_connection()
         cursor = conn.cursor()
 
         urls = [
@@ -129,6 +149,61 @@ def update_news():
         return jsonify({"message": "뉴스 업데이트 완료"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+def convert_lob(value):
+    if value is None:
+        return ""
+    try:
+        # CLOB 데이터를 문자열로 변환
+        if isinstance(value, oracledb.LOB):
+            return value.read().decode('utf-8')
+        return str(value)
+    except Exception as e:
+        logger.warning(f"Error converting LOB data: {e}")
+        return ""
 
+@app.route('/news/economicNewsFeed', methods=['POST'])
+def get_economic_news_feed():
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # 최신 뉴스 4개만 가져오는 쿼리, URL과 이미지가 NULL이 아닌 경우만 포함
+        query = """
+        SELECT title, url, published_at, category, imgs
+        FROM (
+            SELECT title, url, published_at, category, imgs
+            FROM news
+            WHERE category = '증권'
+              AND url IS NOT NULL
+              AND imgs IS NOT NULL
+            ORDER BY published_at DESC
+        )
+        WHERE ROWNUM <= 4
+        """
+        cursor.execute(query)
+        rows = cursor.fetchall()
+
+        news_items = []
+        for row in rows:
+            news_item = {
+                "title": convert_lob(row[0]),
+                "url": convert_lob(row[1]),
+                "date": convert_lob(row[2]),
+                "category": convert_lob(row[3]),
+                "img": convert_lob(row[4])  # 필요 시 이미지 데이터 처리
+            }
+            news_items.append(news_item)
+
+        cursor.close()
+        conn.close()
+
+        logger.info(f"News items: {news_items}")  # 디버깅을 위한 로깅
+        return jsonify({"news": news_items}), 200
+    except Exception as e:
+        logger.exception("An error occurred while fetching news")
+        return jsonify({"error": str(e)}), 500
+
+    
 if __name__ == '__main__':
     app.run(debug=True)

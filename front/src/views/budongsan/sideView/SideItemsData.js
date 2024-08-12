@@ -1,5 +1,7 @@
 export const SideItemsData = [
-    
+    {
+        title: '인기',
+    },
     {
         title: '검색',
     },
