@@ -258,15 +258,38 @@ public class CommunityController {
 
     }
 
-    // 커뮤니티 글 등록 (InsertPost.js 에서 받는 폼 데이터)
+    // 커뮤니티 댓글 등록 
     @PostMapping("/insertReply")
     public void insertReply(@ModelAttribute ReplyVO replyVO) { // 커뮤니티 댓글 등록 (Reply.js 에서 받는 폼 데이터)
-        System.out.println(replyVO.toString());
 
         try {
             communityService.insertReply(replyVO); // 커뮤니티 서비스 객체로 커뮤니티 댓글 등록 기능 실행
         } catch (Exception e) {
             System.out.println("커뮤니티 댓글 등록 : " + e.getMessage()); // 커뮤니티 댓글 등록 기능 에러 발생
+        }
+
+    }
+
+    // 커뮤니티 댓글 수정 
+    @PostMapping("/updateReply")
+    public void updateReply(@ModelAttribute ReplyVO replyVO) { 
+
+        try {
+            communityService.updateReply(replyVO); // 커뮤니티 서비스 객체로 커뮤니티 댓글 수정 기능 실행
+        } catch (Exception e) {
+            System.out.println("커뮤니티 댓글 수정 : " + e.getMessage()); // 커뮤니티 댓글 수정 기능 에러 발생
+        }
+
+    }
+
+    // 커뮤니티 댓글 삭제
+    @DeleteMapping("/deleteReply/{id}")
+    public void deleteReply(@PathVariable Integer id) { // 커뮤니티 댓글 삭제 (DetailPost.js 에서 받는 폼 데이터)
+
+        try {
+            communityService.deleteReply(id); // 커뮤니티 서비스 객체로 커뮤니티 댓글 삭제 기능 실행
+        } catch (Exception e) {
+            System.out.println("커뮤니티 댓글 삭제 : " + e.getMessage()); // 커뮤니티 댓글 삭제 기능 에러 발생
         }
 
     }
@@ -294,6 +317,31 @@ public class CommunityController {
             communityService.insertReReply(reReplyVO); // 커뮤니티 서비스 객체로 커뮤니티 대댓글 등록 기능 실행
         } catch (Exception e) {
             System.out.println("커뮤니티 대댓글 등록 : " + e.getMessage()); // 커뮤니티 대댓글 등록 기능 에러 발생
+        }
+
+    }
+
+    // 커뮤니티 대댓글 수정
+    @PostMapping("/updateReReply")
+    public void updateReReply(@ModelAttribute ReReplyVO reReplyVO) { 
+        System.out.println("reReplyVO.toString() reReplyVO.toString() reReplyVO.toString() " + reReplyVO.toString());
+
+        try {
+            communityService.updateReReply(reReplyVO); // 커뮤니티 서비스 객체로 커뮤니티 대댓글 수정 기능 실행
+        } catch (Exception e) {
+            System.out.println("커뮤니티 대댓글 수정 : " + e.getMessage()); // 커뮤니티 대댓글 수정 기능 에러 발생
+        }
+
+    }
+
+    // 커뮤니티 대댓글 삭제
+    @DeleteMapping("/deleteReReply/{id}")
+    public void deleteReReply(@PathVariable Integer id) { // 커뮤니티 대댓글 삭제 (DetailPost.js 에서 받는 폼 데이터)
+
+        try {
+            communityService.deleteReReply(id); // 커뮤니티 서비스 객체로 커뮤니티 대댓글 삭제 기능 실행
+        } catch (Exception e) {
+            System.out.println("커뮤니티 대댓글 삭제 : " + e.getMessage()); // 커뮤니티 대댓글 삭제 기능 에러 발생
         }
 
     }

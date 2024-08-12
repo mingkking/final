@@ -56,7 +56,7 @@ const PopularPosts = () => {
             const profiles = response.reduce((acc, { data }) => {
                 if (data.userId) {
                     acc[data.userId] = data.profileImageUrl;
-                } 
+                }
                 // else {
                 //     console.warn('No userId found in response data:', data);
                 // }
@@ -104,13 +104,23 @@ const PopularPosts = () => {
                                                 :
                                                 "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"}
                                             alt="Profile"
-                                            className="popular-posts-profile-image" />
+                                            className="popular-posts-profile-image"
+                                            onError={(e) => {
+                                                // 이미지 로드 실패 시 기본 이미지로 대체
+                                                e.target.src = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
+                                            }} />
                                     </div>
                                     <div className="popular-posts-item-info">
                                         <div className="popular-posts-item-created_at">{popularPost.user_num.userNickname} &bull; {createAtCal(popularPost.created_at)}</div>
                                     </div>
                                     <div className="popular-posts-item-upload">
-                                        {popularPost.image_path && (<img src={`http://localhost:8080/uploads/${popularPost.image_path}`} alt={`업로드`}></img>)}
+                                        {popularPost.image_path &&
+                                            (<img src={`http://localhost:8080/uploads/${popularPost.image_path}`}
+                                                alt={`업로드`}
+                                                onError={(e) => {
+                                                    // 이미지 로드 실패 시 기본 이미지로 대체
+                                                    e.target.src = "uploadFailDefault.png";
+                                                }} />)}
                                     </div>
                                 </div>
                             </div>

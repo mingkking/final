@@ -14,6 +14,10 @@ const Rereply = (props) => {
     const [rereplyContentCheck, setRereplyContentCheck] = useState(null);
     const reReplyList = communityValue.state.selectAllReReply || [];
 
+    const [isUpdateReReplyBtn, setIsUpdateReReplyBtn] = useState(false);
+    const [reReplyUpdateContent, setReReplyUpdateContent] = useState("");
+    const [reReplyUpdateContentCheck, setReReplyUpdateContentCheck] = useState(null);
+
     const handleRereplyInputText = (e) => {
         setRereplyContent(e.target.value);
     }
@@ -94,7 +98,6 @@ const Rereply = (props) => {
 
     const [userProfiles, setUserProfiles] = useState({}); // 사용자 프로필 저장
 
-
     const fetchUserProfiles = async () => {
         try {
             const users = reReplyList.map(reReply => reReply.user_num.userId);
@@ -116,14 +119,54 @@ const Rereply = (props) => {
         }
     };
 
-
-
     useEffect(() => {
         if (reReplyList.length) {
             fetchUserProfiles();
         }
     }, [reReplyList]);
 
+    const handleReReplyUpdateClick = (rereply_num) => {
+        setIsUpdateReReplyBtn(rereply_num);
+    }
+
+    const handleOnReReplyUpdateSubmit = async (rereply_num) => {
+        if (!reReplyUpdateContent.trim()) {
+            setReReplyUpdateContentCheck("수정 내용을 입력해주세요.");
+            return;
+        }
+
+        setReReplyUpdateContentCheck(null);
+
+        const formData = new FormData();
+        formData.append("rereply_num", rereply_num); // 커뮤니티 대댓글 프라이머리 키
+        formData.append("reply_num", props.reply_num); // 커뮤니티 댓글 프라이머리 키
+        formData.append("user_num", communityValue.state.userNum); // 유저 프라이머리 키
+        formData.append("content", reReplyUpdateContent); // 답글 내용
+
+        await axios.post("http://localhost:8080/updateReReply", formData) // 데이터 -> 컨트롤러 요청
+            .then((res) => {
+                setReReplyUpdateContent("");                                    // 댓글 내용 초기화
+                handleReReplyUpdateClick(); // 대댓글 작성 후 입력창 닫기
+                axios.get("http://localhost:8080/selectAllReReply", { params: { id: communityValue.state.selectOnePost.id } })            // 검색 -> 컨트롤러 요청
+                    .then((res) => {                                                // DB 입력 요청 후 응답
+                        communityValue.actions.setSelectAllReReply(res.data);         // 커뮤니티 모든 댓글 검색 데이터 저장
+                    })
+            })
+    }
+
+    const handleReReplyDeleteClick = async (rereply_num) => {
+        const check = window.confirm("삭제하시겠습니까?");
+        if (!check) {
+            return;
+        }
+        await axios.delete(`http://localhost:8080/deleteReReply/${rereply_num}`) // 데이터 -> 컨트롤러 요청
+            .then((res) => {
+                axios.get("http://localhost:8080/selectAllReReply", { params: { id: communityValue.state.selectOnePost.id } })            // 검색 -> 컨트롤러 요청
+                    .then((res) => {                                                // DB 입력 요청 후 응답
+                        communityValue.actions.setSelectAllReReply(res.data);         // 커뮤니티 모든 댓글 검색 데이터 저장
+                    })
+            })
+    }
 
     return (
         <>
@@ -204,14 +247,115 @@ const Rereply = (props) => {
                                                             :
                                                             "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"}
                                                             className="profile-image"
-                                                            alt="프로필" />
+                                                            alt="프로필"
+                                                            onError={(e) => {
+                                                                // 이미지 로드 실패 시 기본 이미지로 대체
+                                                                e.target.src = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
+                                                            }} />
 
                                                     </div>
                                                 </Link>
                                                 <div className='rereply-item-info'>
-                                                    <Link className="no-underline-link" to={`/MemberPage?id=${reReply.user_num.userId}`} state={{ id: reReply.user_num.userId }}>
-                                                        <div className='rereply-item-userNickname'>{reReply.user_num.userNickname}</div>
-                                                    </Link>
+
+                                                    <div className='rereply-item-userNickname'>
+                                                        <Link className="no-underline-link" to={`/MemberPage?id=${reReply.user_num.userId}`} state={{ id: reReply.user_num.userId }}>
+                                                            {reReply.user_num.userNickname}
+                                                        </Link>
+                                                        {reReply.user_num.userNum === communityValue.state.userNum ? (
+                                                            <Tooltip title="나의 대댓글 수정 삭제">
+                                                                <button className='rereply-item-menu community-insertBtn' onClick={() => {
+                                                                    handleReReplyUpdateClick(reReply.rereply_num);
+                                                                }}>
+                                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                        <circle cx="6" cy="12" r="2" fill="currentColor" />
+                                                                        <circle cx="12" cy="12" r="2" fill="currentColor" />
+                                                                        <circle cx="18" cy="12" r="2" fill="currentColor" />
+                                                                    </svg>
+                                                                </button>
+                                                            </Tooltip>
+                                                        ) : null}
+                                                    </div>
+                                                    {isUpdateReReplyBtn === reReply.rereply_num && (
+                                                        <form method="post">
+                                                            <li className="rereply-item">
+                                                                <input
+                                                                    className="form-control rereply-input"
+                                                                    type="text"
+                                                                    placeholder="대댓글 수정"
+                                                                    autoFocus
+                                                                    value={reReplyUpdateContent}
+                                                                    onChange={(e) => {
+                                                                        setReReplyUpdateContent(e.target.value);
+                                                                    }}
+                                                                />
+                                                                {reReplyUpdateContentCheck && <div className="rereply-check">{reReplyUpdateContentCheck}</div>}
+                                                                <div className="rereply-btn">
+                                                                    <Tooltip title="수정 완료">
+                                                                        <button className="community-insertBtn"
+                                                                            onClick={(e) => {
+                                                                                e.preventDefault();
+                                                                                handleOnReReplyUpdateSubmit(reReply.rereply_num);
+                                                                            }}>
+                                                                            <svg
+                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                width="42"
+                                                                                height="42"
+                                                                                viewBox="0 0 24 24"
+                                                                                fill="none"
+                                                                                stroke="currentColor"
+                                                                                strokeWidth="2"
+                                                                                strokeLinecap="round"
+                                                                                strokeLinejoin="round"
+                                                                                className="feather feather-edit"
+                                                                            >
+                                                                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                                                                <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                                                            </svg>
+                                                                        </button>
+                                                                    </Tooltip>
+                                                                    <Tooltip title="취소">
+                                                                        <button className="community-insertBtn" onClick={(e) => {
+                                                                            e.preventDefault();
+                                                                            setIsUpdateReReplyBtn(false);
+                                                                            setReReplyUpdateContent("");
+                                                                            setReReplyUpdateContentCheck("");
+                                                                        }}>
+                                                                            <svg
+                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                width="24"
+                                                                                height="24"
+                                                                                viewBox="0 0 24 24"
+                                                                                fill="none"
+                                                                                stroke="currentColor"
+                                                                                strokeWidth="2"
+                                                                                strokeLinecap="round"
+                                                                                strokeLinejoin="round"
+                                                                                className="feather feather-x"
+                                                                            >
+                                                                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                                                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                                                                            </svg>
+                                                                        </button>
+                                                                    </Tooltip>
+                                                                    <Tooltip title="대댓글 삭제">
+                                                                        <button className="community-insertBtn" onClick={(e) => {
+                                                                            e.preventDefault();
+                                                                            handleReReplyDeleteClick(reReply.rereply_num);
+                                                                        }}>
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon-trash-simple">
+                                                                                <path d="M3 6h18" />
+                                                                                <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                                                                                <path d="M5 6v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6" />
+                                                                                <path d="M9 11v6" />
+                                                                                <path d="M15 11v6" />
+                                                                            </svg>
+                                                                        </button>
+                                                                    </Tooltip>
+                                                                </div>
+                                                            </li>
+                                                        </form>
+                                                    )}
+
                                                     <div className='rereply-item-content'>{reReply.content}</div>
 
                                                     <div className='rereply-item-created_at'>
