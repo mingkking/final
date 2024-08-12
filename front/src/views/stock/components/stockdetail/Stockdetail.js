@@ -59,7 +59,7 @@ const StockDetail = () => {
     };
 
     fetchStockDetail();
-  }, [stockCode,setStockInfo]);
+  }, [stockCode, setStockInfo]);
 
   // 백테스트 페이지로 이동
   const handleAddToBacktest = () => {
@@ -86,23 +86,44 @@ const StockDetail = () => {
     }
   };
   
+  useEffect(() => {
+    const checkFavoriteStatus = async () => {
+      if (communityValue.state.userNum) {
+        try {
+          const response = await axios.post('http://localhost:5000/check_stock', {
+            user_num: communityValue.state.userNum,
+            stock_code: stockCode
+          });
+          setIsFavorite(response.data.isFavorite);
+        } catch (error) {
+          console.error('관심 종목 상태 확인 중 오류 발생:', error);
+        }
+      }
+    };
+
+    checkFavoriteStatus();
+  }, [stockCode, communityValue.state.userNum]);
   //해당 종목에 관심 등록
   const handleToggleFavorite = async () => {
     if (await loginCheck()) {
-     try {
-      const endpoint = isFavorite ? 'delete_stock' : 'add_stock';
-      const response = await axios.post(`http://localhost:5000/${endpoint}`,{
-        user_num:communityValue.state.userNum,
-        stock_code:stockCode,
-      });
-      if(response.data.status === 'success'){
-        setIsFavorite(!isFavorite);
-      }else{
-        console.log("실패: ",response.data.message);
+      try {
+        const endpoint = isFavorite ? 'delete_stock' : 'add_stock';
+        const response = await axios.post(`http://localhost:5000/${endpoint}`, {
+          user_num: communityValue.state.userNum,
+          stock_code: stockCode,
+        });
+        if (response.data.status === 'success') {
+          setIsFavorite(!isFavorite);
+          console.log(response.data.message);
+        } else {
+          console.error("실패: ", response.data.message);
+        }
+      } catch (error) {
+        console.error("에러 발생", error);
+        if (error.response) {
+          console.error("서버 응답:", error.response.data);
+        }
       }
-     } catch (error) {
-      console.log("에러 발생",error);
-     }
     }
   };
   //차트를 출력을 할때 해당 되는 데이터들을 출력 및 주식 지표들을 출력하기 위한 계산

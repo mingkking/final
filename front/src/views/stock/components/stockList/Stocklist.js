@@ -72,7 +72,7 @@ const Stocklist = ({ onStockSelect }) => {
               ? { ...s, isFavorite: !s.isFavorite }
               : s
           ));
-          console.log(response.data.message);
+          // console.log(response.data.message);
         } else {
           console.error('관심 종목 토글 실패:', response.data.message);
         }
@@ -130,6 +130,39 @@ useEffect(() => {
   setHasMore(true);
   fetchStocks(`http://localhost:8080/stock/search?query=${searchTerm}&page=0&size=15`, true);
 }, [searchTerm, communityValue.state.userNum]);
+
+useEffect(()=>{
+  const fetchStocks = async (url, isInitialLoad = false) => {
+    try {
+      setLoading(true);
+      const response = await axios.get(url);
+      if (communityValue.state.userNum) {
+        const stocksWithFavorites = await Promise.all(response.data.stocks.map(async (stock) => {
+          try {
+            const favoriteResponse = await axios.post('http://localhost:5000/check_stock', {
+              user_num: communityValue.state.userNum,
+              stock_code: stock.stock_code
+            });
+            return { ...stock, isFavorite: favoriteResponse.data.isFavorite };
+          } catch (error) {
+            console.error('관심 종목 확인 중 오류:', error);
+            return { ...stock, isFavorite: false };
+          }
+        }));
+        setStocks(prevStocks => isInitialLoad ? stocksWithFavorites : [...prevStocks, ...stocksWithFavorites]);
+      } else {
+        setStocks(prevStocks => isInitialLoad ? response.data.stocks : [...prevStocks, ...response.data.stocks]);
+      }
+      setHasMore(response.data.hasMore);
+      setLastLoadedId(response.data.lastLoadedId);
+      setLoading(false);
+    } catch (err) {
+      console.error('주식 데이터 불러오기 오류:', err);
+      setError('주식 데이터를 불러오는 데 실패했습니다. 잠시 후 다시 시도해 주세요.');
+      setLoading(false);
+    }
+  };
+})
 
   const loadMoreStocks = () => {
     if (hasMore && !loading) {
