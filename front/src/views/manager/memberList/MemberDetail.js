@@ -4,13 +4,16 @@ import PageContainer from '../../../components/container/PageContainer';
 import DashboardCard from '../../../components/shared/DashboardCard';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import BookMark from './components/BookMark';
+import Interest from './components/Interest';
+import CommPost from './components/CommPost';
 
 
 const MemberDetail = () => {
   const { user_num } = useParams();
   const [memberDetail, setMemberDetail] = useState(null);
-  const [commPost, setCommPost] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [subDate, setSubDate] = useState("");
   const [isEditing, setIsEditing] = useState(false); // 수정 모드 상태
   const [formData, setFormData] = useState({}); // 수정 가능한 필드의 값 저장
   const [isAdmin, setIsAdmin] = useState(false); // 관리자 여부
@@ -23,10 +26,9 @@ const MemberDetail = () => {
       try {
         const response = await axios.get(`http://localhost:8080/manager/memberDetail/${user_num}`);
         setMemberDetail(response.data.selectMemberList[0]);
-        setCommPost(response.data.commPost);
         setFormData(response.data.selectMemberList[0]); // 기본값 설정
         setIsAdmin(response.data.checkMgr === 1);
-        console.log("매니저값이 false인가----", isAdmin)
+        setSubDate(response.data.checkSubscribe[0].payment_date);
       } catch (error) {
         console.error('회원 상세 정보 가져오기 실패:', error);
       } finally {
@@ -176,8 +178,7 @@ const MemberDetail = () => {
                       <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.user_email}</Typography>
                       <Typography variant='h5' style={{ marginBottom: '20px' }}>{eightBirthdate}</Typography>
                       <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.created_at}</Typography>
-                      <Typography variant='h5' style={{ marginBottom: '20px' }}>바꿔야함</Typography>
-                      {/* <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.subscribe_date ? memberDetail.subscribe_date : '구독 X'}</Typography> */}
+                      <Typography variant='h5' style={{ marginBottom: '20px' }}>{subDate ? subDate : '구독 안함'}</Typography>
                       <Typography variant='h5' style={{ marginBottom: '20px' }}>
                         {isAdmin ? '관리자' : '일반 회원'}
                       </Typography>
@@ -232,7 +233,7 @@ const MemberDetail = () => {
         </Grid>
         <Grid item sm={6}>
           <Grid container spacing={3}>
-            <Grid item sm={12} style={{ marginTop: '40px', marginBottom: '40px' }}>
+            {/* <Grid item sm={12} style={{ marginTop: '40px', marginBottom: '40px' }}>
               <Typography variant='h4' align='left' color="primary" style={{ marginBottom: '20px' }}>관심 목록</Typography>
               <DashboardCard>
                 <Grid container spacing={2}>
@@ -257,8 +258,11 @@ const MemberDetail = () => {
                   </Grid>
                 </Grid>
               </DashboardCard>
-            </Grid>
-            <Grid item sm={12}>
+            </Grid> */}
+            <Interest />
+            <BookMark />
+            <CommPost />
+            {/* <Grid item sm={12}>
               <Typography variant='h4' align='left' color="primary" style={{ marginBottom: '20px' }}>글 작성 목록</Typography>
               <DashboardCard>
                 <Grid container spacing={4}>
@@ -308,7 +312,7 @@ const MemberDetail = () => {
                 )}
                 </Grid>
               </DashboardCard>
-            </Grid>
+            </Grid> */}
           </Grid>
         </Grid>
       </Grid>

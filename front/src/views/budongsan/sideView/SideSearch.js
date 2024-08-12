@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './sideCss/SideSearch.css'; // CSS 파일을 import 합니다.
 
-const SideSearch = ({ onPropertySelect }) => {  // onPropertySelect를 props로 추가합니다.
+const SideSearch = ({ onPropertySelect }) => {
     const [data, setData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -25,11 +25,12 @@ const SideSearch = ({ onPropertySelect }) => {  // onPropertySelect를 props로 
         fetchData();
     }, []);
 
-    const filteredData = data.filter(property =>
-        property.address.includes(searchTerm) ||
-        property.apartMentName.includes(searchTerm) ||
-        property.floorNumber.toString().includes(searchTerm)
-    );
+    const filteredData = data.filter(property => {
+        const address = property.address.toLowerCase();
+        const apartMentName = property.apartMentName.toLowerCase();
+        const search = searchTerm.toLowerCase();
+        return address.includes(search) || apartMentName.includes(search);
+    });
 
     const handlePropertyClick = (property) => {
         onPropertySelect(property);  // 선택된 프로퍼티를 상위 컴포넌트로 전달합니다.

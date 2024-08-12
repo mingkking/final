@@ -26,6 +26,7 @@ import MyPage from './views/mypage/MyPage';
 import News from './views/news/News';
 import DeleteMember from './views/mypage/component/DeleteMember';
 import MemberPage from './views/mypage/MemberPage';
+import SubscribeSuccess from './views/subscribe/SubscribeSuccess';
 
 import Charachter from './views/main/components/Character';
 import ServiceUse from './views/footer/components/ServiceUse';
@@ -61,7 +62,7 @@ function AppContent() {
   const isBudongsanPage = location.pathname === '/budongsan';
 
   const handleLoginSuccess = (userNickname) => {
-    console.log('Logged in as:', userNickname);
+    
     document.dispatchEvent(new CustomEvent('loginSuccess', { detail: userNickname }));
   };
 
@@ -93,6 +94,7 @@ function AppContent() {
           <Route path='/Subscribe' element={<Subscribe />} />
           <Route path='/Subscribe2' element={<Subscribe2 />} />
           <Route path='/Subscribe3' element={<Subscribe3 />} />
+          <Route path='/SubscribeSuccess' element={<SubscribeSuccess />}/>
           <Route path='/MyPage' element={<MyPage />} />
           <Route path='/MemberPage' element={<MemberPage />} />
           <Route path='/DeleteMember' element={<DeleteMember />} />

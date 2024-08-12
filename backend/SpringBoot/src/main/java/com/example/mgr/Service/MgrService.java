@@ -8,8 +8,11 @@ import org.springframework.ui.Model;
 
 import com.example.mgr.domain.MgrMemberVO;
 import com.example.mgr.domain.MgrSessionCountVO;
+import com.example.mgr.domain.MgrBookMarkVO;
 import com.example.mgr.domain.MgrCommunityVO;
 import com.example.mgr.domain.MgrManagerVO;
+import com.example.mgr.domain.MgrSubscriberCountVO;
+import com.example.community.domain.BookmarkVO;
     
 public interface MgrService {
 	 
@@ -46,6 +49,9 @@ public interface MgrService {
 	// 회원 상세 목록 페이지의 커뮤니티 정보
 	List<MgrCommunityVO> selectCommPost(MgrCommunityVO vo);
 	
+	// 구독 여부
+	List<MgrSubscriberCountVO> checkSubscribe(MgrSubscriberCountVO vo);
+	
 	// 회원 삭제
 	void deleteMember(int user_num);
 	
@@ -66,4 +72,7 @@ public interface MgrService {
 	
 	// 관리자 권한 삭제
 	void deleteManager(int manager_num);
+	
+	// 북마크
+	List<MgrBookMarkVO> selectBookmark(MgrBookMarkVO vo);
 }

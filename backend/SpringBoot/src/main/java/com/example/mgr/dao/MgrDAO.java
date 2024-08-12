@@ -5,10 +5,13 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.example.community.domain.BookmarkVO;
+import com.example.mgr.domain.MgrBookMarkVO;
 import com.example.mgr.domain.MgrCommunityVO;
 import com.example.mgr.domain.MgrManagerVO;
 import com.example.mgr.domain.MgrMemberVO;
 import com.example.mgr.domain.MgrSessionCountVO;
+import com.example.mgr.domain.MgrSubscriberCountVO;
 
 @Mapper   
 public interface MgrDAO {
@@ -64,4 +67,10 @@ public interface MgrDAO {
 	
 	// 관리자 권한 삭제
 	public void deleteManager(int manager_num);
+	
+	// 구독 여부 확인
+	public List<MgrSubscriberCountVO> checkSubscribe(MgrSubscriberCountVO vo);
+	
+	// 북마크
+	public List<MgrBookMarkVO> selectBookmark(MgrBookMarkVO vo);
 }

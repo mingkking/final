@@ -3,6 +3,7 @@ import './mainCss/MainCss.css'; // CSS 파일을 import 합니다.
 import MainChart from './components/MainChart';
 import MainList from './components/MainList';
 import MainUnder from './components/MainUnder';
+import GetVisitCount from './components/Main'
 
 function MainPage({onPropertySelect}) {
 
@@ -22,6 +23,9 @@ function MainPage({onPropertySelect}) {
                     </div>
                     <div className="under-container">
                         <MainUnder />
+                    </div>
+                    <div style={{ display: 'hide' }}>
+                        <GetVisitCount />
                     </div>
                 </div>
             </div>

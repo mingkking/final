@@ -2,9 +2,10 @@ import React from 'react';
 import './MyPage.css';
 import { useContext, useRef, useState, useEffect } from 'react';
 import LoginContext from '../login/contexts/LoginContext';
-import { Avatar } from '@mui/material';
+import { Avatar, Tabs, Tab, Box } from '@mui/material';
 import UploadImage from './component/UploadImage';
 import axiosInstance from '../login/component/Token/axiosInstance';
+import axios from 'axios';
 import "./component/UploadImage.css";
 import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -184,6 +185,139 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
     fetchMyPosts();
 }, [state.userId, communityState.selectAllPosts]);
 
+const [myReplies, setMyReplies] = useState([]);
+const [myReReplies, setMyReReplies] = useState([]);
+
+useEffect(() => {
+//   const fetchReplyData = async () => {
+//     try {
+      
+//         const res1 = await fetch(`http://localhost:8080/selectAllReply?`);
+//         const data1 = await res1.json();
+//         console.log('Fetched replies:', data1); // 데이터 구조 확인
+//         if (Array.isArray(data1)) {
+//             communityActions.setSelectAllReply(data1);
+//         } else {
+//             console.error('Received data1 is not an array:', data1);
+//         }
+//     } catch (error) {
+//         console.error('Error fetching replies:', error);
+//     }
+// };
+//   fetchReplyData();
+
+  const fetchRereplyData = async () => {
+    try {
+        const res2 = await fetch('http://localhost:8080/selectAllReReply');
+        const data2 = await res2.json();
+        
+        if (Array.isArray(data2)) {
+            communityActions.setSelectAllReReply(data2);
+        } else {
+            console.error('Received data2 is not an array:', data2);
+        }
+    } catch (error) {
+        console.error('Error fetching re-replies:', error);
+    }
+};
+  fetchRereplyData();
+}, []);
+
+useEffect(() => {
+    const fetchMyReplies = () => {
+        if (state.userId) {
+    
+            // 사용자의 댓글 필터링
+            //const userReplies = communityState.selectAllReply.filter(reply => reply.user_num.userId === state.userId);
+            // 사용자의 대댓글 필터링
+            const userReReplies = communityState.selectAllReReply.filter(reReply => reReply.user_num.userId === state.userId);
+  
+            //setMyReplies(userReplies);
+            setMyReReplies(userReReplies);
+           }
+    };
+    fetchMyReplies();
+}, [state.userId, communityState.selectAllReReply]);
+
+
+const [bookmarkedPosts, setBookmarkedPosts] = useState("");
+const [communityId, setCommunityId] = useState(null);
+
+const fetchUserNum = async () => {
+  try {
+    const response = await axiosInstance.get(`/userNum/${state.userId}`);
+    
+    return response.data.userNum; // 사용자 userNum 반환
+  } catch (error) {
+    console.error('사용자 번호 조회 오류:', error);
+    return null;
+  }
+};
+
+const fetchBookmarkedPosts = async () => {
+  try {
+    const userNum = await fetchUserNum(); // 사용자 userNum 가져오기
+    if (userNum) {
+      
+      // API 요청을 통해 북마크된 게시글 데이터 가져오기
+      const response = await axios.get(`http://localhost:8080/selectAllBookmark?userNum=${userNum}`);
+      
+      // 응답 데이터에서 게시글 ID만 추출하기
+      const bookmarkedIds = response.data
+        .filter(bookmark => bookmark.user_num.userNum === userNum) // 현재 사용자가 북마크한 것만 필터링
+        .map(bookmark => bookmark.id); // CommunityVO의 ID 추출
+      
+      if (bookmarkedIds.length > 0) {
+        setCommunityId(bookmarkedIds);
+        console.log('Bookmarked IDs set to communityId:', bookmarkedIds);
+      } else {
+        console.log('No bookmarked IDs found.');
+      }
+
+      // ID를 사용하여 게시글 정보를 가져옵니다
+      fetchPostsByIds(bookmarkedIds, userNum);
+    } else {
+      console.error('사용자 번호를 가져오는 데 실패했습니다.');
+    }
+  } catch (error) {
+    console.error('북마크된 게시글 조회 오류:', error);
+  }
+};
+
+const fetchPostsByIds = async (ids) => {
+  try {
+    const promises = ids.map(item => {
+      const id = item.id; // 객체의 id 속성을 사용
+      return axios.get(`http://localhost:8080/selectOneCommunity?id=${id}`);
+    });
+    const responses = await Promise.all(promises);
+
+    
+
+    const posts = responses.map(response => ({
+      userNum: response.data.user_num ? response.data.user_num.userNum : null,
+      contents: response.data.contents,
+      title: response.data.title, // 게시글 제목
+      id: response.data.id, // 게시글 ID
+    }));
+    
+    console.log('Retrieved Posts:', posts);
+
+    setBookmarkedPosts(posts); // 상태 업데이트
+    
+  } catch (error) {
+    console.error('게시글 조회 오류:', error);
+  }
+};
+
+useEffect(() => {
+  if (state.userId) {
+    fetchBookmarkedPosts(); // userId가 변경되면 북마크된 게시글을 가져옵니다
+  }
+}, [state.userId]);
+
+
+
 //---------------------------------------------------------
 
   const dispatch = useDispatch();
@@ -191,7 +325,16 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
   
   const handlePropertySelect = (property) => {
     dispatch(setSelectedProperty(property)); // 선택한 매물을 리덕스에 설정
-    navigate(`/budongsan`, { state: { property } }); // 상세 페이지로 이동
+    navigate(`/budongsan`); // 상세 페이지로 이동
+  };
+
+  //---------------------------------------------------
+
+  const [value, setValue] = useState(0); // 탭 상태
+
+   // 탭 변경 핸들러
+   const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
 
     return (
@@ -213,7 +356,7 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
               <UploadImage onImageUpload={handleImageUpload} />
             </div>
             <div className="profile-details">
-              <h2 className="nickname">{state.afterLoginNick}</h2>
+              <h2 className="mypage-nickname">{state.afterLoginNick}</h2>
               <table className="profile-stats">
                 <thead>
                   <tr>
@@ -224,7 +367,7 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
                 </thead>
                 <tbody>
                   <tr>
-                    <td>0</td>
+                    <td>{myReReplies.length || 0}</td>
                     <td>{myPosts.length}</td>
                     
                   </tr>
@@ -235,9 +378,9 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
           
           
           {isEditing && (
-            <div className="form-section">
+            <div className="mypage-form-section">
               <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="form-group">
+                <div className="mypage-form-group">
                     <label htmlFor="userId">아이디</label>
                     <input
                       type="text"
@@ -250,9 +393,9 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
 
                 
 
-                    {errors.userName && <p className='err'>{errors.userName.message}</p>}
+                    {errors.userName && <p className='mypage-err'>{errors.userName.message}</p>}
 
-                    <div className="form-group">
+                    <div className="mypage-form-group">
                         <label htmlFor="userNickname">닉네임</label>
                         <input
                             type="text"
@@ -275,14 +418,14 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
                         />
                     </div>
 
-                    {errors.userNickname && <p className='err'>{errors.userNickname.message}</p>}
+                    {errors.userNickname && <p className='mypage-err'>{errors.userNickname.message}</p>}
                         {nicknameChecked && (
                             <>
-                                {nicknameExists && <p className="err">이미 존재하는 닉네임입니다.</p>}
+                                {nicknameExists && <p className="mypage-err">이미 존재하는 닉네임입니다.</p>}
                             </>
                         )}
 
-                  <div className="form-group">
+                  <div className="mypage-form-group">
                     <label>전화번호</label>
                     <input 
                     type="tel" 
@@ -303,15 +446,15 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
                     
                 </div>
                 
-                    {errors.userTel && <p className='err'>{errors.userTel.message}</p>}
+                    {errors.userTel && <p className='mypage-err'>{errors.userTel.message}</p>}
                     {usertelChecked && (
                         <>
                             
-                            {usertelExists && <p className="err">이미 존재하는 전화번호입니다.</p>}
+                            {usertelExists && <p className="mypage-err">이미 존재하는 전화번호입니다.</p>}
                         </>
                     )}
 
-                    <div className="form-group">
+                    <div className="mypage-form-group">
                     <label>이메일</label>
                     <input 
                         type="email" 
@@ -333,11 +476,11 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
                     
                 </div>
                 
-                    {errors.userEmail && <p className='err'>{errors.userEmail.message}</p>}
+                    {errors.userEmail && <p className='mypage-err'>{errors.userEmail.message}</p>}
                     {useremailChecked && (
                         <>
                             
-                            {useremailExists && <p className="err">이미 존재하는 이메일입니다.</p>}
+                            {useremailExists && <p className="mypage-err">이미 존재하는 이메일입니다.</p>}
                         </>
                     )}
 
@@ -350,81 +493,123 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
              <button onClick={() => setIsEditing(!isEditing)} className="edit-profile-toggle-button">
           {isEditing ? '취소' : '프로필 편집'}
         </button>
-          <hr/>
-           
-          <div className="my-posts">
-          
-          <h3>작성한 글</h3>
-          <ul className="post-list">
-            {myPosts.length > 0 ? (
-              myPosts.map(post => (
-                <li key={post.id} className="post-item">
-                  <div className="post-item-top">
-                    <div className='post-item-profile'>
-                      <Avatar
-                        src={profileImage || state.profileImage}
-                        alt="Profile"
-                        sx={{ width: 35, height: 35 }}
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
-                        }}
-                      />
-                    </div>
-                    <div className='post-item-info'>
-                      <div className='post-item-userNickname'>{state.afterLoginNick}</div>
-                      <div className='post-item-created_at'>{createAtCal(post.created_at)}</div>
-                    </div>
-                  </div>
+         
 
-                  <div className="post-item-middle">
-                    <div className='post-item-title'>
-                      <Link className="no-underline-link" to={"/DetailCommunity"} state={{ id: post.id }}>
-                        {post.title}<br />
-                      </Link>
-                    </div>
+  <hr/>
 
-                    <div className='post-item-contents'>
-                      <Link className="no-underline-link" to={"/DetailCommunity"} state={{ id: post.id }}>
-                        {post.contents}<br />
-                      </Link>
-                    </div>
-                  </div>
+  <Box sx={{ width: '100%' }}>
+          <Tabs value={value} onChange={handleChange} aria-label="tabs">
+            <Tab label="작성한 글" />
+            <Tab label="북마크 목록" />
+          </Tabs>
+          <TabPanel value={value} index={0}>
+            <div className="my-posts">
+              
+              <ul className="post-list">
+                {myPosts.length > 0 ? (
+                  myPosts.map(post => (
+                    <li key={post.id} className="post-item">
+                      <div className="post-item-top">
+                        <div className='post-item-profile'>
+                          <Avatar
+                            src={profileImage || state.profileImage}
+                            alt="Profile"
+                            sx={{ width: 35, height: 35 }}
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+                            }}
+                          />
+                        </div>
+                        <div className='post-item-info'>
+                          <div className='post-item-userNickname'>{state.afterLoginNick}</div>
+                          <div className='post-item-created_at'>{createAtCal(post.created_at)}</div>
+                        </div>
+                      </div>
+                      <div className="post-item-middle">
+                        <div className='post-item-title'>
+                          <Link className="no-underline-link" to={"/DetailCommunity"} state={{ id: post.id }}>
+                            {post.title}<br />
+                          </Link>
+                        </div>
+                        <div className='post-item-contents'>
+                          <Link className="no-underline-link" to={"/DetailCommunity"} state={{ id: post.id }}>
+                            {post.contents}<br />
+                          </Link>
+                        </div>
+                      </div>
+                      <div className="post-item-bottom">
+                        <div className='post-item-uploadFile'>
+                          사진 업로드 파일<br />
+                        </div>
+                      </div>
+                      <div className="post-item-actions">
+                        <UserLike postId={post.id} />
+                        <ReplyBtn postId={post.id} />
+                        <Share post={post} />
+                        
+                      </div>
+                    </li>
+                  ))
+                ) : (
+                  <p>작성한 게시글이 없습니다.</p>
+                )}
+              </ul>
+            </div>
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <div className="bookmarked-posts">
+              
+              {bookmarkedPosts.length === 0 ? (
+                <p>북마크된 게시글이 없습니다.</p>
+              ) : (
+                <div className="bookmarked-posts-container">
+                  {bookmarkedPosts.map(post => (
+                    <Link key={post.id} className="no-underline-link" to={"/DetailCommunity"} state={{ id: post.id }}>
+                      <div className="bookmarked-post">
+                        <p className="bookmarked-post-title">{post.title}</p>
+                        <p className="bookmarked-post-contents">{post.contents}</p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          </TabPanel>
+        </Box>
+        
+        
+      </div>  
 
-                  <div className="post-item-bottom">
-                    <div className='post-item-uploadFile'>
-                      사진 업로드 파일<br />
-                    </div>
-                  </div>
-
-                  <div className="post-item-actions">
-                    <UserLike postId={post.id} />
-                    <ReplyBtn postId={post.id}/>
-                    <Share post={post}/>
-                    <Bookmark postId={post.id}/>
-                  </div>
-                </li>
-              ))
-            ) : (
-              <p>작성한 게시글이 없습니다.</p>
-            )}
-          </ul>
-      </div> 
-
-
-
-        </div>
-
-        <div className='my-interest'>
-
+      <div className='my-interest'>
           <h3>내 관심종목</h3>
           <div className='my-interest-item'>
             <SideMypage onPropertySelect={handlePropertySelect} />
           </div>
-        </div>
-        
+        </div> 
     </div>
-      
-    );
-  };
+  );
+};
+
+// TabPanel 컴포넌트 정의
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          {children}
+        </Box>
+      )}
+    </div>
+  );
+}
+
 export default MyPage;

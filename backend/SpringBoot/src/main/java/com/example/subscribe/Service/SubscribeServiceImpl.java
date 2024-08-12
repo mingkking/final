@@ -21,6 +21,12 @@ public class SubscribeServiceImpl implements SubscribeService {
 	public int selectSubscriber(SubscribeVO vo) {
 		int result = subscribeDAO.selectSubscriber(vo);
 		return result;
+	}
+
+	// 구독 날짜 체크
+	public String selectSubscribeDate(SubscribeVO vo) {
+		String date = subscribeDAO.selectSubscribeDate(vo);
+		return date;
 	} 
 
 

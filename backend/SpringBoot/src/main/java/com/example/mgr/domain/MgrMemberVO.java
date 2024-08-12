@@ -23,5 +23,6 @@ public class MgrMemberVO {
 	// 관리자 확인용
 	private int is_admin;
 	
-	private SubscribeVO subscribeVO;
+	// 구독 확인
+	private Date payment_date;
 }

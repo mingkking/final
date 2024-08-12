@@ -24,7 +24,6 @@ const MainProvider = (props) => {
 
       // 총 구독자 수
       const [totalSubscribersCount, setTotalSubscribersCount] = useState(() => {
-        console.log("localstorage-----------", localStorage);
         const saved = localStorage.getItem("totalSubscribersCount");
         return saved ? JSON.parse(saved) : 0;
       });
@@ -35,8 +34,11 @@ const MainProvider = (props) => {
         return saved ? JSON.parse(saved) : [];
       });
 
-      // 관리자 여부 확인용 번호
+      // 관리자 여부 확인용 유저 번호
       const [userNum, setUserNum] = useState("");
+
+      // 관리자면 ifAdmin1 값이 True임
+      const [ifAdmin1, setIfAdmin1] = useState("");
 
       // 총 방문자 수
       const [totalCount, setTotalCount] = useState("");
@@ -62,6 +64,8 @@ const MainProvider = (props) => {
       // 커뮤니티 게시글 카운팅
       const [commCount, setCommCount] = useState("");
 
+      const [news, setNews] = useState([]);
+
   useEffect(() => {
     localStorage.setItem("membersCount", JSON.stringify(membersCount));
   },[membersCount]);
@@ -86,10 +90,10 @@ const MainProvider = (props) => {
   const values = {
     state: { totalCount, todayCount, monthCount, membersCount, totalSubscribersCount, 
       todaySubscribersCount, todayMembersCount, last5DaysMember, last5MonthsMember, last2YearsMember,
-      memberList, countByAgeMember, commCount, userNum },
+      memberList, countByAgeMember, commCount, userNum, ifAdmin1, news },
     actions: { setTotalCount, setTodayCount, setMonthCount, setMembersCount, setTotalSubscribersCount, 
       setTodaySubscribersCount, setTodayMembersCount, setLast5DaysMember, setLast5MonthsMember, setLast2YearsMember, 
-      setMemberList, setCountByAgeMember, setCommCount, setUserNum }
+      setMemberList, setCountByAgeMember, setCommCount, setUserNum, setIfAdmin1, setNews }
   }
 
   return (

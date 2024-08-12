@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography } from '@mui/material';
 import BlankCard from '../../../../components/shared/BlankCard';
-import nullImg from '../../../../imges/sample.png';
+import nullImg from '../../../../imges/nullimg.png';
 import { useNavigate } from 'react-router-dom';
 
 const PostCard = ({ post }) => {
@@ -19,7 +19,7 @@ const PostCard = ({ post }) => {
     <BlankCard>
       <div style={{ position: 'relative', paddingTop: '100%', overflow: 'hidden', cursor: 'pointer' }} onClick={handleClickPost}>
         <img 
-          src={post.image_path || nullImg} 
+          src={post.image_path ? `http://localhost:8080/uploads/${post.image_path}` : nullImg} 
           alt={post.id} 
           style={{
             position: 'absolute',
