@@ -47,10 +47,11 @@ import { CommunityProvider } from './views/community/contexts/CommunityContext';
 import { BudongsanProvider } from './views/budongsan/sideView/componoets/BudongsanContext';
 import { LoginProvider } from './views/login/contexts/LoginContext';
 import { SubscribeProvider } from './views/subscribe/context/SubscribeContext';
+import { StockProvider } from './views/stock/components/context/StockContext';
 
 
 import { Provider } from 'react-redux';
-import { store } from './redux/store'; 
+import { store } from './redux/store';
 
 
 
@@ -68,7 +69,7 @@ function AppContent() {
   return (
     <div className="App-content">
       {!isAdminPage && <Header />}
-      <ScrollToTop /> {/* 페이지 이동시 스크롤 맨위로 이동 */ }
+      <ScrollToTop /> {/* 페이지 이동시 스크롤 맨위로 이동 */}
       <Provider store={store}>
         <Routes>
           <Route path='/' element={<Main />} />
@@ -97,8 +98,8 @@ function AppContent() {
           <Route path='/DeleteMember' element={<DeleteMember />} />
           <Route path='/news' element={<News />} />
           <Route path="/character/:name" element={<Charachter />} />
-          <Route path="/serviceUse" element={<ServiceUse/>} />
-          <Route path="/privacy" element={<Privacy/>} />
+          <Route path="/serviceUse" element={<ServiceUse />} />
+          <Route path="/privacy" element={<Privacy />} />
 
           {Router.map((route, index) => (
             <Route key={index} path={`${route.path}/*`} element={route.element}>
@@ -108,7 +109,7 @@ function AppContent() {
             </Route>
           ))}
         </Routes>
-        </Provider>
+      </Provider>
       {!isAdminPage && !isBudongsanPage && <Footer />}
     </div>
   );
@@ -130,13 +131,15 @@ function App() {
           <RoomListProvider>
             <CommunityProvider>
               <BudongsanProvider>
-                <MainProvider>
-                  <SubscribeProvider>
-                    <ThemeProvider theme={theme}>
-                      <AppContent />
-                    </ThemeProvider>
-                  </SubscribeProvider>
-                </MainProvider>
+                <StockProvider>
+                  <MainProvider>
+                    <SubscribeProvider>
+                      <ThemeProvider theme={theme}>
+                        <AppContent />
+                      </ThemeProvider>
+                    </SubscribeProvider>
+                  </MainProvider>
+                </StockProvider>
               </BudongsanProvider>
             </CommunityProvider>
           </RoomListProvider>

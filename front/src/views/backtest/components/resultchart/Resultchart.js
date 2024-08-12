@@ -23,7 +23,7 @@ const ResultChart = ({ analysisResult, error }) => {
   
   const formatDate = (date) => {
     const d = new Date(date);
-    return `${d.getFullYear()}년 ${koreaMonths[d.getMonth()]}`;
+    return `${d.getFullYear()}년 ${koreaMonths[d.getMonth()]} ${d.getDay()}일`;
   }
 
   const chartData = analysisResult.processedData.map(d => ({
