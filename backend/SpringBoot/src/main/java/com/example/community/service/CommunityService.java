@@ -69,5 +69,6 @@ public interface CommunityService {
 
     public void deleteReReply(Integer rereply_num) throws Exception;
 
+    List<ReplyVO> selectAllReply() throws Exception;
 }
  
