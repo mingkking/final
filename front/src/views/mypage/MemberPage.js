@@ -109,6 +109,73 @@ const MemberPage = () => {
 
 //---------------------------------------------------------
 
+// 모든 댓글을 저장할 상태
+const [allReplies, setAllReplies] = useState([]);
+const [myReplies, setMyReplies] = useState([]);
+const [myReReplies, setMyReReplies] = useState([]);
+
+
+
+// 컴포넌트가 마운트될 때 모든 댓글을 가져오기
+useEffect(() => {
+  const fetchReplies = async () => {
+    
+      try {
+        const response = await fetch(`http://localhost:8080/selectAllReply`);
+        const data = await response.json();
+        
+        if (Array.isArray(data)) {
+          setAllReplies(data);
+          communityContext.actions.setSelectAllReply(data);
+        } else {
+          console.error('받아온 데이터가 배열이 아닙니다:', data);
+        }
+      } catch (error) {
+        console.error('댓글을 가져오는 중 오류 발생:', error);
+      }
+    
+  };
+
+  fetchReplies();
+}, []);
+
+useEffect(() => {
+  const fetchRereplyData = async () => {
+    try {
+      const res2 = await fetch('http://localhost:8080/selectAllReReply');
+      const data2 = await res2.json();
+      
+      if (Array.isArray(data2)) {
+        communityContext.actions.setSelectAllReReply(data2);
+      } else {
+        console.error('Received data2 is not an array:', data2);
+      }
+    } catch (error) {
+      console.error('Error fetching re-replies:', error);
+    }
+  };
+  fetchRereplyData();
+}, []);
+
+
+// 사용자의 ID를 기준으로 댓글 필터링
+useEffect(() => {
+  if (userId && allReplies.length > 0) {
+    const userReplies = allReplies.filter(reply => reply.user_num.userId === userId);
+    setMyReplies(userReplies);
+  }
+}, [userId, allReplies]);
+
+// 사용자의 대댓글을 필터링하는 useEffect 추가
+useEffect(() => {
+  if (userId && communityContext.state.selectAllReReply.length > 0) {
+    const userReReplies = communityContext.state.selectAllReReply.filter(reReply => reReply.user_num.userId === userId);
+    setMyReReplies(userReReplies);
+    
+  }
+}, [userId, communityContext.state.selectAllReReply]);
+
+
 return (
     <div className="mypage-container">
       <div className="profile-section">
@@ -136,7 +203,7 @@ return (
               </thead>
               <tbody>
                 <tr>
-                  <td>0</td>
+                  <td>{myReReplies.length+myReplies.length || 0}</td>
                   <td>{myPosts.length}</td>
                   
                 </tr>
