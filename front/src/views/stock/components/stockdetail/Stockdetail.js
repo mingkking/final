@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState,useContext } from 'react';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from "react-router";
+import { useParams,useNavigate } from 'react-router-dom';
+import { useStock  } from "../context/StockContext";
 import axios from 'axios';
 import { createChart, CrosshairMode } from 'lightweight-charts';
 import {
@@ -41,14 +41,15 @@ const StockDetail = () => {
   const navigate = useNavigate();
   const upColor = '#26A69A';
   const downColor = '#EF5350';
-
+  const { setStockInfo } = useStock();
+  //주식상세 정보
   useEffect(() => {
     const fetchStockDetail = async () => {
       try {
         setLoading(true);
         const response = await axios.get(`http://localhost:8080/stock/${stockCode}`);
         setStockData(response.data);
-        setIsFavorite(response.data.isFavorite); // 서버에서 관심 종목 여부를 받아옴
+        setStockInfo(response.data.stockInfo);
         setLoading(false);
       } catch (err) {
         console.error('주식 상세 데이터 불러오기 오류:', err);
@@ -58,9 +59,12 @@ const StockDetail = () => {
     };
 
     fetchStockDetail();
-  }, [stockCode]);
+  }, [stockCode,setStockInfo]);
 
-
+  // 백테스트 페이지로 이동
+  const handleAddToBacktest = () => {
+    navigate('/back1');
+  };
   const loginCheck = async () => {
     try {
       const response = await axiosInstance.get('/check-login-status', {
@@ -81,36 +85,27 @@ const StockDetail = () => {
       return false;
     }
   };
-  const handleAddToBacktest = async () => {
-    if (await loginCheck()) {
-      //console.log("백테스트에 추가");
-    }
-  };
-
+  
+  //해당 종목에 관심 등록
   const handleToggleFavorite = async () => {
     if (await loginCheck()) {
-      try {
-        const response = await axiosInstance.post('/stock/favorite', {
-          user_num: communityValue.state.userNum,
-          stock_code: stockCode
-        }, {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        
-        if (response.data.success) {
-          setIsFavorite(!isFavorite);
-          console.log(response.data.message);
-        } else {
-          console.error('관심 종목 토글 실패:', response.data.message);
-        }
-      } catch (error) {
-        console.error('관심 종목 토글 중 오류 발생:', error);
+     try {
+      const endpoint = isFavorite ? 'delete_stock' : 'add_stock';
+      const response = await axios.post(`http://localhost:5000/${endpoint}`,{
+        user_num:communityValue.state.userNum,
+        stock_code:stockCode,
+      });
+      if(response.data.status === 'success'){
+        setIsFavorite(!isFavorite);
+      }else{
+        console.log("실패: ",response.data.message);
       }
+     } catch (error) {
+      console.log("에러 발생",error);
+     }
     }
   };
-
+  //차트를 출력을 할때 해당 되는 데이터들을 출력 및 주식 지표들을 출력하기 위한 계산
   useEffect(() => {
     if (stockData && candleChartRef.current && volumeChartRef.current) {
       const chartWidth = candleChartRef.current.clientWidth;
@@ -174,7 +169,9 @@ const StockDetail = () => {
           volume: item.trading_volume,
         }));
 
+      //해당 종목에 캔들 차트 형식으로 출력
       candleSeries.setData(mappedData);
+      // 해당 종목에 거래량 차트 출력
       volumeSeries.setData(mappedData.map(item => ({
         time: item.time,
         value: item.volume,
@@ -244,6 +241,8 @@ const StockDetail = () => {
     }
   }, [stockData, theme, upColor, downColor, indicators, isMobile]);
 
+  // 해당 종목에 여러가지 주식 지표들을 계산 하는 함수들
+  // MA 이동 평균 계산
   const calculateMA = (data, period) => {
     const result = [];
     for (let i = period - 1; i < data.length; i++) {
@@ -255,7 +254,7 @@ const StockDetail = () => {
     }
     return result;
   };
-
+  // RSI 상대적 강도 지수 계산
   const calculateRSI = (data, period = 14) => {
     const rsiData = [];
     let gains = 0;
@@ -287,7 +286,7 @@ const StockDetail = () => {
 
     return rsiData;
   };
-
+  // MACD 계산 이동 편균선
   const calculateMACD = (data, shortPeriod = 12, longPeriod = 26, signalPeriod = 9) => {
     const macdData = [];
     let shortEMA = 0;

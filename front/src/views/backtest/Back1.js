@@ -6,6 +6,8 @@ import { Card, Container, Grid, Typography, Box, useTheme, CircularProgress, Sna
 import axios from 'axios';
 import axiosInstance from "../login/component/Token/axiosInstance"
 import CommunityContext from "../community/contexts/CommunityContext"
+import StockContext from "../stock/components/context/StockContext"
+
 // axios 인스턴스 생성
 const api = axios.create({
   baseURL: 'http://localhost:5000',
