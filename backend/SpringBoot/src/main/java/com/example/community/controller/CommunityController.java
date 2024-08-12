@@ -246,11 +246,17 @@ public class CommunityController {
     }
 
     @GetMapping("/selectAllReply")
-    public List<ReplyVO> selectAllReply(@RequestParam("id") Integer id) { // 커뮤니티 모든 댓글 검색
+    public List<ReplyVO> selectAllReply(@RequestParam(value ="id", required = false) Integer id) { // 커뮤니티 모든 댓글 검색
         List<ReplyVO> selectAllReply = null;
         try {
-            selectAllReply = communityService.selectAllReply(id); // 커뮤니티 서비스 객체로 커뮤니티 모든 댓글 검색 기능 실행
-        } catch (Exception e) {
+        	if (id != null) {
+        		selectAllReply = communityService.selectAllReply(id); // 커뮤니티 서비스 객체로 커뮤니티 모든 댓글 검색 기능 실행
+        
+        	}else {                
+                selectAllReply = communityService.selectAllReply(); // 모든 댓글을 조회
+            }
+        	
+        }catch (Exception e) {
             System.out.println("커뮤니티 모든 댓글 검색 : " + e.getMessage()); // 커뮤니티 모든 댓글 검색 기능 에러 발생
         }
 

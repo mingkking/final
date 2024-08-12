@@ -157,6 +157,9 @@ public class CommunityServiceImpl implements CommunityService {
         reReplyRepository.deleteById(rereply_num);
     }
 
-    
+    @Override
+    public List<ReplyVO> selectAllReply() throws Exception {
+        return replyRepository.findAll(); 
+    }
 
 }
