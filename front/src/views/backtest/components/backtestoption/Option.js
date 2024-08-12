@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect  } from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import {ko} from "date-fns/locale"
 import { TextField, Button, Select, MenuItem, FormControl, Box, Typography, useTheme, InputLabel } from '@mui/material';
-
+import { useStock } from '../../../stock/components/context/StockContext';
 const Options = ({ onAnalyze }) => {
   const [stockName, setStockName] = useState('');
   const [startDate, setStartDate] = useState(null);
@@ -11,6 +11,13 @@ const Options = ({ onAnalyze }) => {
   const [initialInvestment, setInitialInvestment] = useState(1000000000);
   const [rebalancePeriod, setRebalancePeriod] = useState('monthly');
   const theme = useTheme();
+  const {stockInfo} =useStock();
+
+  useEffect(()=>{
+    if(stockInfo){
+      setStockName(stockInfo.stock_name);
+    }
+  },[stockInfo]);
 
   const handleSubmit = () => {
     if (stockName && startDate && endDate) {
@@ -31,7 +38,7 @@ const Options = ({ onAnalyze }) => {
       <Typography variant="h5" gutterBottom sx={{ mb: 3, fontWeight: 'bold', color: theme.palette.primary.main }}>
         백테스트 설정
       </Typography>
-      <TextField
+       <TextField
         fullWidth
         label="주식 종목명"
         value={stockName}

@@ -189,22 +189,24 @@ const [myReplies, setMyReplies] = useState([]);
 const [myReReplies, setMyReReplies] = useState([]);
 
 useEffect(() => {
-//   const fetchReplyData = async () => {
-//     try {
+
+
+  const fetchReplies = async () => {
+    
+    try {
+      const response = await fetch(`http://localhost:8080/selectAllReply`);
+      const data = await response.json();
       
-//         const res1 = await fetch(`http://localhost:8080/selectAllReply?`);
-//         const data1 = await res1.json();
-//         console.log('Fetched replies:', data1); // 데이터 구조 확인
-//         if (Array.isArray(data1)) {
-//             communityActions.setSelectAllReply(data1);
-//         } else {
-//             console.error('Received data1 is not an array:', data1);
-//         }
-//     } catch (error) {
-//         console.error('Error fetching replies:', error);
-//     }
-// };
-//   fetchReplyData();
+      if (Array.isArray(data)) {
+        communityContext.actions.setSelectAllReply(data);
+      } else {
+        console.error('받아온 데이터가 배열이 아닙니다:', data);
+      }
+    } catch (error) {
+      console.error('댓글을 가져오는 중 오류 발생:', error);
+    }
+  
+};
 
   const fetchRereplyData = async () => {
     try {
@@ -220,24 +222,24 @@ useEffect(() => {
         console.error('Error fetching re-replies:', error);
     }
 };
+
+  fetchReplies();
   fetchRereplyData();
 }, []);
 
 useEffect(() => {
     const fetchMyReplies = () => {
         if (state.userId) {
-    
             // 사용자의 댓글 필터링
-            //const userReplies = communityState.selectAllReply.filter(reply => reply.user_num.userId === state.userId);
+            const userReplies = communityState.selectAllReply.filter(reply => reply.user_num.userId === state.userId);
             // 사용자의 대댓글 필터링
             const userReReplies = communityState.selectAllReReply.filter(reReply => reReply.user_num.userId === state.userId);
-  
-            //setMyReplies(userReplies);
+            setMyReplies(userReplies);
             setMyReReplies(userReReplies);
            }
     };
     fetchMyReplies();
-}, [state.userId, communityState.selectAllReReply]);
+}, [state.userId, communityState.selectAllReply, communityState.selectAllReReply]);
 
 
 const [bookmarkedPosts, setBookmarkedPosts] = useState("");
@@ -247,7 +249,7 @@ const fetchUserNum = async () => {
   try {
     const response = await axiosInstance.get(`/userNum/${state.userId}`);
     
-    return response.data.userNum; // 사용자 userNum 반환
+    return response.data;
   } catch (error) {
     console.error('사용자 번호 조회 오류:', error);
     return null;
@@ -256,8 +258,10 @@ const fetchUserNum = async () => {
 
 const fetchBookmarkedPosts = async () => {
   try {
-    const userNum = await fetchUserNum(); // 사용자 userNum 가져오기
-    if (userNum) {
+    const userData = await fetchUserNum(); // 사용자 userNum 가져오기
+    if (userData) {
+      const userNum = userData.userNum;
+      const nickname = userData.nickname;
       
       // API 요청을 통해 북마크된 게시글 데이터 가져오기
       const response = await axios.get(`http://localhost:8080/selectAllBookmark?userNum=${userNum}`);
@@ -269,7 +273,7 @@ const fetchBookmarkedPosts = async () => {
       
       if (bookmarkedIds.length > 0) {
         setCommunityId(bookmarkedIds);
-        console.log('Bookmarked IDs set to communityId:', bookmarkedIds);
+        fetchPostsByIds(bookmarkedIds, nickname);
       } else {
         console.log('No bookmarked IDs found.');
       }
@@ -297,11 +301,12 @@ const fetchPostsByIds = async (ids) => {
     const posts = responses.map(response => ({
       userNum: response.data.user_num ? response.data.user_num.userNum : null,
       contents: response.data.contents,
-      title: response.data.title, // 게시글 제목
-      id: response.data.id, // 게시글 ID
+      title: response.data.title, 
+      id: response.data.id, 
+      nickname: response.data.user_num.userNickname,
     }));
     
-    console.log('Retrieved Posts:', posts);
+    
 
     setBookmarkedPosts(posts); // 상태 업데이트
     
@@ -316,6 +321,33 @@ useEffect(() => {
   }
 }, [state.userId]);
 
+const [userprofileImage, setUserprofileImage] = useState('');
+
+
+// 절대 경로로 변환하는 함수
+const convertToAbsoluteUrl = (relativeUrl) => {
+  return relativeUrl.startsWith('/images/') 
+    ? `http://localhost:8080${relativeUrl}` 
+    : relativeUrl;
+};
+
+useEffect(() => {
+  const fetchUserProfile = async (userId) => {
+    try {
+      const response = await axiosInstance.get(`/profile-image/${userId}`);
+      const userData = response.data;
+      const absoluteProfileImageUrl = convertToAbsoluteUrl(userData.profileImageUrl);
+      setUserprofileImage(absoluteProfileImageUrl);
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+      // 추가적인 에러 처리 로직
+    }
+  };
+
+  
+    fetchUserProfile();
+  
+}, []);
 
 
 //---------------------------------------------------------
@@ -328,13 +360,19 @@ useEffect(() => {
     navigate(`/budongsan`); // 상세 페이지로 이동
   };
 
+  
   //---------------------------------------------------
 
   const [value, setValue] = useState(0); // 탭 상태
+  const [value2, setValue2] = useState(0);
 
    // 탭 변경 핸들러
    const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const handleChange2 = (event, newValue2) => {
+    setValue2(newValue2);
   };
 
     return (
@@ -367,7 +405,7 @@ useEffect(() => {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>{myReReplies.length || 0}</td>
+                    <td>{myReReplies.length+myReplies.length || 0}</td>
                     <td>{myPosts.length}</td>
                     
                   </tr>
@@ -540,7 +578,7 @@ useEffect(() => {
                       </div>
                       <div className="post-item-bottom">
                         <div className='post-item-uploadFile'>
-                          사진 업로드 파일<br />
+                          {post.image_path && (<img src={`http://localhost:8080/uploads/${post.image_path}`} alt={"업로드 이미지"}></img>)}
                         </div>
                       </div>
                       <div className="post-item-actions">
@@ -558,35 +596,80 @@ useEffect(() => {
             </div>
           </TabPanel>
           <TabPanel value={value} index={1}>
-            <div className="bookmarked-posts">
-              
-              {bookmarkedPosts.length === 0 ? (
-                <p>북마크된 게시글이 없습니다.</p>
-              ) : (
-                <div className="bookmarked-posts-container">
-                  {bookmarkedPosts.map(post => (
-                    <Link key={post.id} className="no-underline-link" to={"/DetailCommunity"} state={{ id: post.id }}>
-                      <div className="bookmarked-post">
-                        <p className="bookmarked-post-title">{post.title}</p>
-                        <p className="bookmarked-post-contents">{post.contents}</p>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              )}
+          <div className="bookmarked-posts">
+  {bookmarkedPosts.length === 0 ? (
+    <p>북마크된 게시글이 없습니다.</p>
+  ) : (
+    <div className="bookmarked-posts-container">
+      {bookmarkedPosts.map(post => (
+        <div key={post.id} className="bookmarked-post">
+          <div className="bookmarked-post-header">
+            <div className="bookmarked-post-profile">
+              <Avatar
+                src={userprofileImage || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'}
+                alt="Profile"
+                sx={{ width: 40, height: 40 }}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';
+                }}
+              />
             </div>
+            <div className="bookmarked-post-info">
+              <p className="bookmarked-post-nickname">{post.nickname}</p>
+              <p className="bookmarked-post-created_at">{createAtCal(post.created_at)}</p>
+            </div>
+          </div>
+          <div className="bookmarked-post-body">
+            <Link className="no-underline-link" to={"/DetailCommunity"} state={{ id: post.id }}>
+              <h3 className="bookmarked-post-title">{post.title}</h3>
+              <p className="bookmarked-post-contents">{post.contents}</p>
+            </Link>
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
+</div>
           </TabPanel>
         </Box>
         
         
       </div>  
 
+      <Box sx={{
+      width: '40%',
+      margin: '0 auto',
+      borderRadius: '8px',
+      
+      backgroundColor: '#fff',
+      padding: '10px',
+      boxSizing: 'border-box'
+    }}>
       <div className='my-interest'>
-          <h3>내 관심종목</h3>
+        <h2>관심목록</h2>
+        
+        <Tabs value={value2} onChange={handleChange2} aria-label="tabs">
+          <Tab label="부동산" />
+          <Tab label="주식" />
+        </Tabs>
+        
+        <TabPanel value={value2} index={0}>
           <div className='my-interest-item'>
+            
             <SideMypage onPropertySelect={handlePropertySelect} />
           </div>
-        </div> 
+        </TabPanel>
+        
+        <TabPanel value={value2} index={1}>
+          <div className='my-interest-item'>
+            
+            
+          </div>
+        </TabPanel>
+        
+      </div>
+    </Box>
     </div>
   );
 };

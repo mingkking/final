@@ -5,12 +5,13 @@ import DashboardCard from '../../../components/shared/DashboardCard';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import BookMark from './components/BookMark';
+import Interest from './components/Interest';
+import CommPost from './components/CommPost';
 
 
 const MemberDetail = () => {
   const { user_num } = useParams();
   const [memberDetail, setMemberDetail] = useState(null);
-  const [commPost, setCommPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [subDate, setSubDate] = useState("");
   const [isEditing, setIsEditing] = useState(false); // 수정 모드 상태
@@ -25,7 +26,6 @@ const MemberDetail = () => {
       try {
         const response = await axios.get(`http://localhost:8080/manager/memberDetail/${user_num}`);
         setMemberDetail(response.data.selectMemberList[0]);
-        setCommPost(response.data.commPost);
         setFormData(response.data.selectMemberList[0]); // 기본값 설정
         setIsAdmin(response.data.checkMgr === 1);
         setSubDate(response.data.checkSubscribe[0].payment_date);
@@ -233,7 +233,7 @@ const MemberDetail = () => {
         </Grid>
         <Grid item sm={6}>
           <Grid container spacing={3}>
-            <Grid item sm={12} style={{ marginTop: '40px', marginBottom: '40px' }}>
+            {/* <Grid item sm={12} style={{ marginTop: '40px', marginBottom: '40px' }}>
               <Typography variant='h4' align='left' color="primary" style={{ marginBottom: '20px' }}>관심 목록</Typography>
               <DashboardCard>
                 <Grid container spacing={2}>
@@ -258,9 +258,11 @@ const MemberDetail = () => {
                   </Grid>
                 </Grid>
               </DashboardCard>
-            </Grid>
+            </Grid> */}
+            <Interest />
             <BookMark />
-            <Grid item sm={12}>
+            <CommPost />
+            {/* <Grid item sm={12}>
               <Typography variant='h4' align='left' color="primary" style={{ marginBottom: '20px' }}>글 작성 목록</Typography>
               <DashboardCard>
                 <Grid container spacing={4}>
@@ -310,7 +312,7 @@ const MemberDetail = () => {
                 )}
                 </Grid>
               </DashboardCard>
-            </Grid>
+            </Grid> */}
           </Grid>
         </Grid>
       </Grid>

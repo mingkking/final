@@ -108,5 +108,9 @@ public class LoginServiceImpl {
         return loginVO != null ? loginVO.getUserNum() : null;
     }
     
+    public String findNicknameByUserId(String userId) {
+        LoginVO loginVO = repo.findByUserId(userId);
+        return loginVO != null ? loginVO.getUserNickname() : null;
+    }
    
 }

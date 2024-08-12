@@ -17,5 +17,12 @@
 		WHERE user_num = #{user_num}
 	</select>
 	
+	<!-- 구독 날짜 체크 -->
+	<select id="selectSubscribeDate" parameterType="com.example.subscribe.domain.SubscribeVO" resultType="String">
+		SELECT payment_date
+		FROM subscribe
+		WHERE user_num = #{user_num}
+	</select>
+	
 </mapper>
 

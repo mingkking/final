@@ -315,8 +315,9 @@ public class LoginController {
     @GetMapping("/userNum/{userId}")
     public ResponseEntity<UserResponse> getUserNum(@PathVariable String userId) {
         Integer userNum = loginService.findUserNumByUserId(userId);
+        String nickname = loginService.findNicknameByUserId(userId);
         if (userNum != null) {
-            return ResponseEntity.ok(new UserResponse(userNum));
+            return ResponseEntity.ok(new UserResponse(userNum, nickname));
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -368,9 +369,11 @@ public class LoginController {
  // 사용자 정보를 반환할 DTO 클래스
     public static class UserResponse {
         private Integer userNum;
+        private String nickname;
 
-        public UserResponse(Integer userNum) {
+        public UserResponse(Integer userNum, String nickname) {
             this.userNum = userNum;
+            this.nickname = nickname;
         }
 
         public Integer getUserNum() {
@@ -379,6 +382,14 @@ public class LoginController {
 
         public void setUserNum(Integer userNum) {
             this.userNum = userNum;
+        }
+        
+        public String getNickname() {
+            return nickname;
+        }
+
+        public void setNickname(String nickname) {
+            this.nickname = nickname;
         }
     }
     

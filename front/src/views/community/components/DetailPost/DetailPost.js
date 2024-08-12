@@ -227,20 +227,20 @@ function DetailPost() {
                       </li>
                     </ul>
                     <Tooltip title={"수정 완료"}>
-                    <button className='detailCommunity-menuBtn' onClick={updatePostPro}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-edit">
-                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                        <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                      </svg>
-                    </button>
+                      <button className='detailCommunity-menuBtn' onClick={updatePostPro}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-edit">
+                          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                          <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                        </svg>
+                      </button>
                     </Tooltip>
                     <Tooltip title={"취소"}>
-                    <button className='detailCommunity-menuBtn' onClick={closeModal}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-edit">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                      </svg>
-                    </button>
+                      <button className='detailCommunity-menuBtn' onClick={closeModal}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-edit">
+                          <line x1="18" y1="6" x2="6" y2="18"></line>
+                          <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                      </button>
                     </Tooltip>
                   </form>
                 </Modal>
@@ -282,9 +282,14 @@ function DetailPost() {
             <div className="detailPost-item-top">
               <Link className="no-underline-link" to={`/MemberPage?id=${detailPostValue.state.selectOnePost.user_num.userId}`} state={{ id: detailPostValue.state.selectOnePost.user_num.userId }}>
                 <div className='detailPost-item-profile'>
-                <img 
-                    src={userProfileImage || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"} 
-                    className="profile-image"/>
+                  <img
+                    src={userProfileImage || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"}
+                    className="profile-image"
+                    alt=''
+                    onError={(e) => {
+                      // 이미지 로드 실패 시 기본 이미지로 대체
+                      e.target.src = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
+                    }} />
 
                 </div>
               </Link>
@@ -311,13 +316,20 @@ function DetailPost() {
 
           <div className="detailPost-item-bottom">
             <div className='post-item-uploadFile'>
-              {detailPostValue.state.selectOnePost.image_path && (<img src={`http://localhost:8080/uploads/${detailPostValue.state.selectOnePost.image_path}`} alt={`업로드 이미지`}></img>)}
+              {detailPostValue.state.selectOnePost.image_path &&
+                (<img src={`http://localhost:8080/uploads/${detailPostValue.state.selectOnePost.image_path}`}
+                  alt={`업로드 이미지`}
+                  onError={(e)=>{
+                    e.target.src = "uploadFailDefault.png";
+                  }}
+                />
+                )}
             </div>
           </div>
 
           <div className="detailPost-item-actions">
             <UserLike postId={detailPostValue.state.selectOnePost.id} />
-            <ReplyBtn postId={detailPostValue.state.selectOnePost.id} off={1}/>
+            <ReplyBtn postId={detailPostValue.state.selectOnePost.id} off={1} />
             <Share post={detailPostValue.state.selectOnePost} />
             <Bookmark postId={detailPostValue.state.selectOnePost.id} />
           </div>

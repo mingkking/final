@@ -115,9 +115,10 @@
     
     <!-- 회원 목록 리스트 출력 -->
     <select id="selectMembers" resultType="MgrMemberVO">
-    	SELECT *
-    	FROM users
-    	ORDER BY user_num DESC
+		SELECT s.payment_date, u.*
+		FROM users u
+		LEFT JOIN subscribe s ON u.USER_NUM = s.USER_NUM
+		ORDER BY u.user_num DESC
     </select>
     
     <!-- memberDetail 출력(회원상세보기) -->
@@ -196,9 +197,10 @@
     
     <!-- 북마크 -->
     <select id="selectBookmark" resultType="MgrBookMarkVO">
-    	SELECT *
-    	FROM bookmark
-    	WHERE user_num = #{user_num}
+		SELECT b.user_num, c.title, c.contents, c.view_count, c.id
+		FROM bookmark b
+		JOIN community c ON b.id = c.id
+		WHERE b.user_num = #{user_num}
     </select>
     
     
