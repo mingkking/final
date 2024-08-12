@@ -67,7 +67,7 @@ function KakaoMap({ selectedProperty, setSchoolMarkerCount, setStoreMarkerCount,
         const initMap = () => {
             const mapContainer = document.getElementById('map'); // 지도를 표시할 HTML 요소
             const mapOption = {
-                center: new window.kakao.maps.LatLng(37.5528112179, 126.93794821), // 초기 중심 좌표
+                center: new window.kakao.maps.LatLng(37.514575, 127.0495556), // 초기 중심 좌표
                 level: 7 // 초기 확대 레벨
             };
 
@@ -140,7 +140,56 @@ function KakaoMap({ selectedProperty, setSchoolMarkerCount, setStoreMarkerCount,
             // 지도 경계가 변경될 때와 확대 레벨이 변경될 때 마커를 업데이트
             window.kakao.maps.event.addListener(map, 'bounds_changed', updateMarkers);
             window.kakao.maps.event.addListener(map, 'zoom_changed', updateMarkers);
+
+            // Geolocation을 사용하여 현재 위치를 찾고 마커를 표시합니다
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        const locPosition = new window.kakao.maps.LatLng(lat, lon);
+                        const geocoder = new window.kakao.maps.services.Geocoder();
+
+                        // 현재 위치의 좌표를 주소로 변환
+                        geocoder.coord2Address(lon, lat, (result, status) => {
+                            if (status === window.kakao.maps.services.Status.OK) {
+                                const address = result[0].address.address_name;
+                                const message = `<span class="badge bg-warning">내 위치: ${address}</span>`;
+                                
+                                displayMarker(locPosition, message);
+                                map.setCenter(locPosition); // 현재 위치로 지도 중심 이동
+                            }
+                        });
+                    },
+                    (error) => {
+                        console.error('Error getting location:', error);
+                        const locPosition = new window.kakao.maps.LatLng(37.514575, 127.0495556);
+                        const message = `<span class="badge bg-warning">서울특별시 강남구</span>`;
+                        displayMarker(locPosition, message);
+                    }
+                );
+            } else {
+                const locPosition = new window.kakao.maps.LatLng(37.514575, 127.0495556);
+                const message = `<span class="badge bg-warning">서울특별시 강남구</span>`;
+                displayMarker(locPosition, message);
+            }
+
+            function displayMarker(locPosition, message) {
+                const marker = new window.kakao.maps.Marker({
+                    map: map,
+                    position: locPosition
+                });
+
+                const infowindow = new window.kakao.maps.InfoWindow({
+                    content: message,
+                    removable: false
+                });
+
+                infowindow.open(map, marker);
+            }
         };
+
+        
 
         initMap(); // 지도를 초기화하는 함수 호출
     }, [data]); // data가 변경될 때마다 실행

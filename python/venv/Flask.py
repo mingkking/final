@@ -276,7 +276,7 @@ def get_top_liked_properties():
                         ORDER BY favorite_count DESC
                     )
                 )
-                WHERE ROWNUM <= 5
+                WHERE ROWNUM <= 10
                 """
                 cursor.execute(query)
                 properties = cursor.fetchall()
