@@ -55,8 +55,8 @@ const News = () => {
             await axios.post("http://localhost:5000/news/update_news");
             alert("새로고침 성공");
         } catch (error) {
-            alert(`에러 발생: ${error.message}`);
-            console.error("새로고침 에러:", error);
+            alert("새로고침에 실패했습니다.");
+            console.error("News.js 52행 에러:", error);
         } finally {
             setLoading(false);
         }

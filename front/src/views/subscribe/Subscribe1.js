@@ -43,8 +43,8 @@ function Subscribe1() {
 
             // subscribeTF 값이 true 이면
             if (subscribeTF) {
-                alert("이미 구독이 완료되었습니다!");
-                navigate("/");
+                // alert("이미 구독이 완료되었습니다!");
+                navigate("/subscribeSuccess");
             }
         }
     }
