@@ -8,4 +8,4 @@ import lombok.Data;
 public class MgrInterestEstateVO {
 	private String apartment_name;
 	private String user_num;
-}  
+}   
