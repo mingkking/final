@@ -10,7 +10,7 @@ const formatNumber = (number) => {
     }
 };
 
-const TopStocks = ({ stocks }) => {
+const TopStocks = ({ stocks,onSlideClick }) => {
     const sliderSettings = {
         dots: true,
         infinite: true,
@@ -30,6 +30,7 @@ const TopStocks = ({ stocks }) => {
                     <StyledSlide
                         key={index}
                         elevation={1}
+                        onClick={()=> onSlideClick(stock)}
                     >
                         <Typography variant="body1" color="text.primary">{stock.stockName}</Typography>
                         <Typography 

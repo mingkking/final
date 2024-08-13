@@ -56,5 +56,18 @@
         ORDER BY record_date ASC
         ]]>
     </select>
-
+    <select id="autocompleteStocks" resultType="com.example.stock.domain.StockVO">
+        <![CDATA[
+        SELECT DISTINCT stock_code, stock_name
+        FROM (
+            SELECT stock_code, stock_name,
+                   ROW_NUMBER() OVER (ORDER BY stock_code) as rn
+            FROM STOCK_INFO
+            WHERE LOWER(stock_name) LIKE LOWER('%' || #{query} || '%')
+               OR LOWER(stock_code) LIKE LOWER('%' || #{query} || '%')
+        )
+        WHERE rn <= 10
+        ORDER BY stock_code
+        ]]>
+    </select>
 </mapper>

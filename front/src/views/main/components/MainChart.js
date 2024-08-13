@@ -43,13 +43,13 @@ function MainChart() {
 
     return (
         <Paper elevation={3} sx={{ p: isMobile ? 2 : 3, borderRadius: 2, bgcolor: 'background.paper' }}>
-            <Box sx={{ mb: isMobile ? 2 : 4 }}>
-                <Typography variant={isMobile ? "h5" : "h4"} component="h1" align="center" sx={{ fontWeight: "bold", mb: 1 }}>
-                    코스피지수
+            <Box sx={{ mb: isMobile ? 1 : 3 }}>
+                <Typography variant={isMobile ? "h5" : "h4"} component="h3" align="center" sx={{ fontWeight: "bold", mb: 1 }}>
+                코스피지수
                 </Typography>
                 {latestKospi && (
                     <Typography 
-                        variant={isMobile ? "h4" : "h3"}
+                        variant={isMobile ? "h5" : "h4"}
                         align="center" 
                         sx={{ 
                             fontWeight: "bold",
@@ -64,14 +64,15 @@ function MainChart() {
                     align="center" 
                     sx={{ 
                         color: 'text.secondary',
-                        fontWeight: "normal",
+                        fontWeight: "bold",
                         fontSize: isMobile ? '0.8rem' : '0.9rem',
+                        
                     }}
                 >
                     {latestDate} 기준
                 </Typography>
             </Box>
-            <Box sx={{ height: isMobile ? 300 : 400, width: '100%' }}>
+            <Box sx={{ height: isMobile ? 250 : 340, width: '100%' }}>
                 <ResponsiveContainer width="100%" height="100%">
                     <AreaChart
                         data={kospiData}
@@ -85,13 +86,16 @@ function MainChart() {
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis 
                             dataKey="recordDate" 
+                            tickFormatter={(tick) => new Date(tick).toLocaleDateString('ko-KR', { month: '2-digit', day: '2-digit' })}
+                            interval={2} 
+                            height={70} 
                             angle={-45} 
                             textAnchor="end" 
-                            height={70} 
-                            tick={{fontSize: isMobile ? 8 : 10}}
-                            interval={isMobile ? 'preserveStartEnd' : 0}
+                            tick={{fontSize: isMobile ? 10 : 12}}
                         />
-                        <YAxis />
+                        <YAxis 
+                         textAnchor="end" 
+                         tick={{fontSize: isMobile ? 10 : 12}}/>
                         <Tooltip />
                         <Area 
                             type="monotone" 
