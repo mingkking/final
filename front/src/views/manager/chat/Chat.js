@@ -6,7 +6,7 @@ import { Typography } from '@mui/material';
 
 const subscribe_list_page = () => {
   return (
-    <PageContainer title="Chat" description="this is Sample page">
+    <PageContainer title="채팅 관리" description="채팅 관리">
 
       <DashboardCard title="Chat">
         <Typography>채팅페이지여</Typography>

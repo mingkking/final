@@ -16,20 +16,64 @@ const News = () => {
     const newsPerPage = 20;
     const [currentPage, setCurrentPage] = useState(1);
 
+
+    // 뉴스 데이터를 불러오는 함수
+    const getNewsData = async () => {
+        setLoading(true);
+        try {
+            const result = await axios.get(`http://localhost:8080/news`);
+            setMainNews(result.data.selectRandom10News);
+            setFinanceNews(result.data.selectFinanceNews);
+            setRealEstateNews(result.data.selectRENews);
+            setEconomyNews(result.data.selectEconomyNews);
+            console.log("뉴스 데이터 가져온 값: ", result.data);
+        } catch (error) {
+            console.error("뉴스 데이터 가져오기 실패:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        axios.get(`http://localhost:8080/news`)
-            .then((result) => {
-                setMainNews(result.data.selectRandom10News); // 메인 뉴스 데이터
-                setFinanceNews(result.data.selectFinanceNews);
-                setRealEstateNews(result.data.selectRENews);
-                setEconomyNews(result.data.selectEconomyNews);
-                console.log("메인 js 가져온 뉴스 값: ", result.data);
-            })
-            .catch((error) => {
-                console.error("뉴스 데이터 가져오기 실패:", error);
-            });
+        getNewsData();
     }, []);
 
+    // Flask랑 연결 된 함수 (새로고침 버튼 클릭 시)
+    const handleClickRefresh = async () => {
+        setLoading(true);
+        try {
+            await axios.post("http://localhost:5000/news/update_news");
+            alert("새로고침 성공");
+            getNewsData();
+        } catch (error) {
+            alert("새로고침에 실패했습니다.");
+            console.error("News.js 52행 에러:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // 자동으로 될 때는 alert 없애고 버튼 event도 없앰
+    const autoRefresh = async () => {
+        try {
+            await axios.post("http://localhost:5000/news/update_news");
+            getNewsData();
+        } catch (error) {
+            console.error("News.js 47행 에러:", error);
+        }
+    };
+
+    // 5분마다 자동으로 뉴스 새로고침
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            autoRefresh();
+        }, 60000); // 300000ms = 5분
+
+        // 컴포넌트 언마운트 시 interval 클리어
+        return () => clearInterval(intervalId);
+    }, []);
+
+    // 페이징
     const handlePageChange = (event, page) => {
         setCurrentPage(page);
     };
@@ -46,19 +90,6 @@ const News = () => {
                 return <NewsGrid news={economyNews.slice((currentPage - 1) * newsPerPage, currentPage * newsPerPage)} category="economy" />;
             default:
                 return <NewsMainGrid news={mainNews.slice((currentPage - 1) * newsPerPage, currentPage * newsPerPage)} />;
-        }
-    };
-
-    const handleClickRefresh = async () => {
-        setLoading(true);
-        try {
-            await axios.post("http://localhost:5000/news/update_news");
-            alert("새로고침 성공");
-        } catch (error) {
-            alert("새로고침에 실패했습니다.");
-            console.error("News.js 52행 에러:", error);
-        } finally {
-            setLoading(false);
         }
     };
 
@@ -106,6 +137,7 @@ const News = () => {
                 {getComponent()}
             </div>
             {/* 페이지 네비게이션 */}
+            {activeComponent !== "main" && (
             <Pagination
               count={Math.ceil((activeComponent === 'main' ? mainNews : activeComponent === 'finance' ? financeNews : activeComponent === 'realEstate' ? realEstateNews : economyNews).length / newsPerPage)}
               page={currentPage}
@@ -113,6 +145,7 @@ const News = () => {
               color="primary"
               style={{ display: 'flex', justifyContent: 'center', marginTop: '20px', marginBottom: '20px'}}
             />
+        )}
         </div>
     );
 }

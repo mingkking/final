@@ -7,8 +7,6 @@ import mainContext from "../../main/contexts/MainContext";
 const MemberAgeDonut = () => {
     // 차트 색상
     const theme = useTheme();
-    const primary = "#91a9ff";
-    const secondary = "#f3c2fc";
 
     const value = useContext(mainContext);
 
