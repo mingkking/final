@@ -9,7 +9,6 @@ public class KospiVO {
     @JsonFormat(pattern = "yyyy-MM-dd")
 	private String record_date; //날짜
 	private String kospi_code; //종목 코드
-	private String stock_name; //종목이름
 	private String kospi_name; //종목 유형
 	private Integer closing_price; //종가
 	private Integer opening_price; //시작가
