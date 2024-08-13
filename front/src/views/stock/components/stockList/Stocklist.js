@@ -15,7 +15,8 @@ import {
   TextField,
   InputAdornment,
   IconButton,
-  useMediaQuery
+  useMediaQuery,
+  Tooltip
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
@@ -138,16 +139,6 @@ useEffect(()=>{
       const response = await axios.get(url);
       if (communityValue.state.userNum) {
         const stocksWithFavorites = await Promise.all(response.data.stocks.map(async (stock) => {
-          try {
-            const favoriteResponse = await axios.post('http://localhost:5000/check_stock', {
-              user_num: communityValue.state.userNum,
-              stock_code: stock.stock_code
-            });
-            return { ...stock, isFavorite: favoriteResponse.data.isFavorite };
-          } catch (error) {
-            console.error('관심 종목 확인 중 오류:', error);
-            return { ...stock, isFavorite: false };
-          }
         }));
         setStocks(prevStocks => isInitialLoad ? stocksWithFavorites : [...prevStocks, ...stocksWithFavorites]);
       } else {
@@ -245,7 +236,7 @@ useEffect(()=>{
         <Table stickyHeader>
           <TableHead>
             <TableRow>
-              {['종목명', '종목코드', '고가', '저가', '종가', '날짜', '유형', ''].map((header, index) => (
+              {['종목명', '종목코드', '고가', '저가', '종가', '날짜', '유형'].map((header, index) => (
                 <TableCell
                   key={index}
                   align={index > 1 ? "right" : "left"}
@@ -286,11 +277,6 @@ useEffect(()=>{
                 <TableCell align="right" sx={{ fontWeight: "bold" }}>{stock.closing_price?.toLocaleString()}</TableCell>
                 <TableCell align="right" sx={{ fontWeight: "bold", display: isMobile ? 'none' : 'table-cell' }}>{stock.record_date}</TableCell>
                 <TableCell align="right" sx={{ fontWeight: "bold", display: isMobile ? 'none' : 'table-cell' }}>{stock.stock_type}</TableCell>
-                <TableCell padding="checkbox">
-                  <IconButton onClick={(e) => handleToggleFavorite(e, stock)} size="small">
-                    {stock.isFavorite ? <StarIcon color="primary" /> : <StarBorderIcon />}
-                  </IconButton>
-                </TableCell>
               </TableRow>
             ))}
           </TableBody>

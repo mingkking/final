@@ -1,5 +1,9 @@
 import React from 'react';
-import { Box, Typography, useTheme, Paper } from '@mui/material';
+import { Box, Typography, useTheme, Paper, Grid, Divider } from '@mui/material';
+import AutoGraphIcon from '@mui/icons-material/AutoGraph';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import DateRangeIcon from '@mui/icons-material/DateRange';
+import ShowChartIcon from '@mui/icons-material/ShowChart';
 import { LineChart, axisClasses } from '@mui/x-charts';
 
 const ResultChart = ({ analysisResult, error }) => {
@@ -11,19 +15,64 @@ const ResultChart = ({ analysisResult, error }) => {
 
   if (!analysisResult || !analysisResult.processedData || analysisResult.processedData.length === 0) {
     return (
-      <Box sx={{ p: 4, display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-        <Typography align="center" variant="h6" color="text.secondary">
+      <Box sx={{ p: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
+        <Paper elevation={3} sx={{ p: 4, maxWidth: 600, width: '100%' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+            <AutoGraphIcon sx={{ fontSize: 48, color: theme.palette.primary.main, mr: 2 }} />
+            <Typography variant="h4" color="primary" fontWeight="bold">
+              주식 분석 인공지능
+            </Typography>
+          </Box>
+          
+          <Typography variant="h6" color="textSecondary" paragraph>
+            과거 주식 데이터를 학습하여 미래 주가 움직임을 예측합니다.
+          </Typography>
+          
+          <Divider sx={{ my: 3 }} />
+          
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="h6" color="primary" gutterBottom>
+                작동 방식:
+              </Typography>
+              <Typography variant="body1" component="ol" sx={{ pl: 2 }}>
+                <li>선택한 주식의 과거 데이터 수집</li>
+                <li>전문가들이 사용하는 지표 계산</li>
+                <li>인공지능의 패턴 학습</li>
+                <li>미래 주가 움직임 예측</li>
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="h6" color="primary" gutterBottom>
+                제공 정보:
+              </Typography>
+              <Typography variant="body1" component="ul" sx={{ pl: 2 }}>
+                <li>날짜별 예상 수익률 (%)</li>
+                <li>주가 상승/하락 예측</li>
+                <li>예측 신뢰도 지표</li>
+              </Typography>
+            </Grid>
+          </Grid>
+          
+          <Box sx={{ mt: 3, p: 2, bgcolor: theme.palette.grey[100], borderRadius: 1 }}>
+            <Typography variant="body2" fontWeight="bold">
+              주의: 이 도구는 참고용입니다. 실제 투자 결정은 신중하게 내려야 합니다.
+            </Typography>
+          </Box>
+        </Paper>
+        
+        <Typography variant="h6" color="text.secondary" sx={{ mt: 4 }}>
           분석을 시작하려면 옵션을 선택하고 '분석 시작' 버튼을 클릭하세요.
         </Typography>
       </Box>
     );
   }
 
-  const koreaMonths = ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"]
+  const koreaMonths = ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"];
   
   const formatDate = (date) => {
     const d = new Date(date);
-    return `${d.getFullYear()}년 ${koreaMonths[d.getMonth()]} ${d.getDay()}일`;
+    return `${d.getFullYear()}년 ${koreaMonths[d.getMonth()]} ${d.getDate()}일`;
   }
 
   const chartData = analysisResult.processedData.map(d => ({
@@ -36,7 +85,7 @@ const ResultChart = ({ analysisResult, error }) => {
       <Typography variant="h4" gutterBottom sx={{ mb: 3, fontWeight: 'bold', color: theme.palette.primary.main }}>
         분석 결과
       </Typography>
-      <Paper elevation={3} sx={{ p: 3, mb: 3, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+      <Paper elevation={3} sx={{ p: 4, mb: 4, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
         <LineChart
           width={550}
           height={300}
@@ -70,20 +119,40 @@ const ResultChart = ({ analysisResult, error }) => {
           }}
         />
       </Paper>
-      <Box sx={{ mt: 2 }}>
-        <Typography variant="h6" gutterBottom color="primary">
-          주식명: {analysisResult.stockName}
-        </Typography>
-        <Typography variant="subtitle1" gutterBottom>
-          분석 기간: {formatDate(analysisResult.startDate)} ~ {formatDate(analysisResult.endDate)}
-        </Typography>
-        <Typography variant="subtitle1" gutterBottom>
-          최종 예측 수익: {analysisResult.processedData[analysisResult.processedData.length - 1].predicted_return.toFixed(2)}
-        </Typography>
-        <Typography variant="subtitle1" gutterBottom>
-          최종 예측 움직임: {analysisResult.processedData[analysisResult.processedData.length - 1].predicted_movement}
-        </Typography>
-      </Box>
+      <Grid container spacing={3}>
+        <Grid item xs={12} sm={6}>
+          <Paper elevation={2} sx={{ p: 3 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <ShowChartIcon sx={{ fontSize: 30, color: theme.palette.primary.main, mr: 2 }} />
+              <Typography variant="h6" color="primary">
+                주식명: {analysisResult.stockName}
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <DateRangeIcon sx={{ fontSize: 24, color: theme.palette.text.secondary, mr: 2 }} />
+              <Typography variant="body1">
+                분석 기간: {formatDate(analysisResult.startDate)} ~ {formatDate(analysisResult.endDate)}
+              </Typography>
+            </Box>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Paper elevation={2} sx={{ p: 3 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <TrendingUpIcon sx={{ fontSize: 30, color: theme.palette.primary.main, mr: 2 }} />
+              <Typography variant="h6" color="primary">
+                예측 결과
+              </Typography>
+            </Box>
+            <Typography variant="body1" gutterBottom>
+              최종 예측 수익: {analysisResult.processedData[analysisResult.processedData.length - 1].predicted_return.toFixed(2)}%
+            </Typography>
+            <Typography variant="body1">
+              최종 예측 움직임: {analysisResult.processedData[analysisResult.processedData.length - 1].predicted_movement}
+            </Typography>
+          </Paper>
+        </Grid>
+      </Grid>
     </Box>
   );
 };
