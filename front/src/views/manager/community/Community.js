@@ -70,7 +70,7 @@ const CommunityList = () => {
   const currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
 
   return (
-    <PageContainer title="회원 목록" description="회원 목록을 확인합니다.">
+    <PageContainer title="커뮤니티 관리" description="커뮤니티 관리 페이지">
       <Grid container spacing={3}>
         <Grid item sm={12}>
           <DashboardCard>

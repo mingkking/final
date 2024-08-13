@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography } from '@mui/material';
+import { Typography, Box } from '@mui/material';
 import BlankCard from '../../../components/shared/BlankCard';
 import nullImg from '../../../imges/nullimg.png';
 

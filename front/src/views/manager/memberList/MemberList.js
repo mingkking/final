@@ -6,6 +6,7 @@ import DashboardCard from '../../../components/shared/DashboardCard';
 import BlankCard from '../../../components/shared/BlankCard';
 import mainContext from "../main/contexts/MainContext";
 import axios from 'axios';
+import Header from './components/MemberListHeader'
 
 const MemberList = () => {
   const value = useContext(mainContext);
@@ -98,7 +99,7 @@ const MemberList = () => {
   const sliceMembers = filteredMembers.slice(indexFirstMember, indexLastMember);
 
   return (
-    <PageContainer title="회원 목록" description="회원 목록을 확인합니다.">
+    <PageContainer title="회원" description="회원">
       <Grid container spacing={3}>
         <Grid item sm={12}>
           <DashboardCard>
@@ -137,7 +138,7 @@ const MemberList = () => {
 
               
               {/* 구독 체크박스 추가 */}
-              <div style={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', marginRight: '20px'}}>
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -149,7 +150,6 @@ const MemberList = () => {
                   label="구독 회원"
                 />
               </div>
-            </div>
               
               {/* 검색 기능 */}
               <div style={{ display: 'flex' }}>
@@ -185,32 +185,12 @@ const MemberList = () => {
                   검색
                 </Button>
               </div>
-
+            </div>
 
             {/* 분류선 */}
             <div style={{ borderBottom: '1px solid #c9c9c9', marginTop: '20px', marginBottom: '20px' }} />
-
-            {/* 멤버 리스트 헤더 */}
-            <Grid container spacing={3} style={{ marginBottom: '20px' }}>
-              <Grid item xs={2}>
-                <Typography variant='h5' align='center'>회원번호</Typography>
-              </Grid>
-              <Grid item xs={2}>
-                <Typography variant='h5' align='center'>이름</Typography>
-              </Grid>
-              <Grid item xs={2}>
-                <Typography variant='h5' align='center'>닉네임</Typography>
-              </Grid>
-              <Grid item xs={2}>
-                <Typography variant='h5' align='center'>전화번호</Typography>
-              </Grid>
-              <Grid item xs={2}>
-                <Typography variant='h5' align='center'>가입일자</Typography>                  
-              </Grid>
-              <Grid item xs={2}>
-                <Typography variant='h5' align='center'>구독일자</Typography>
-              </Grid>
-            </Grid>
+            
+            <Header />
 
             {/* 멤버 리스트 */}
             <Grid container spacing={3}>

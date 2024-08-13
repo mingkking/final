@@ -18,6 +18,7 @@ const Dashboard = () => {
 
   const value = useContext(mainContext);
 
+
     // SpringBoot 에서 값 가져와서 context파일에 저장하기
     useEffect(()=>{
       axios.get('http://localhost:8080/manager/graph')
@@ -30,14 +31,14 @@ const Dashboard = () => {
         value.actions.setLast2YearsMember(result.data.selectLast2YearsMember);
         value.actions.setTotalCount(result.data.selectTotalSession);
         value.actions.setTodayCount(result.data.selectTodaySession);
-        console.log(result.data);
-      })
-    },[]);
+        value.actions.setCountReply(result.data.countReply);
+      });
+    }, []);
 
 
 
   return (
-    <PageContainer title="Dashboard" description="this is Dashboard">
+    <PageContainer title="통계" description="통계 그래프 화면">
       <Box>
         <Grid container spacing={1}>
           <Grid item xs={12} lg={4}>
@@ -80,7 +81,7 @@ const Dashboard = () => {
             <CountSomething title='게시글 수' count={value.state.commCount}/>
           </Grid>
           <Grid item xs={12} lg={3}>
-            <CountSomething title='댓글 수'/>
+            <CountSomething title='댓글 수' count={value.state.countReply}/>
           </Grid>
           <Grid item xs={12} lg={3}>
             <CountSomething title='게시글 신고 수'/>
