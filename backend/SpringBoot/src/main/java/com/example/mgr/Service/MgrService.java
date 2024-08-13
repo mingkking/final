@@ -3,16 +3,16 @@ package com.example.mgr.Service;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 import com.example.mgr.domain.MgrMemberVO;
 import com.example.mgr.domain.MgrSessionCountVO;
 import com.example.mgr.domain.MgrBookMarkVO;
 import com.example.mgr.domain.MgrCommunityVO;
+import com.example.mgr.domain.MgrInterestEstateVO;
 import com.example.mgr.domain.MgrManagerVO;
 import com.example.mgr.domain.MgrSubscriberCountVO;
-import com.example.community.domain.BookmarkVO;
     
 public interface MgrService {
 	 
@@ -75,4 +75,10 @@ public interface MgrService {
 	
 	// 북마크
 	List<MgrBookMarkVO> selectBookmark(MgrBookMarkVO vo);
+	
+	// 댓글 수
+	int countReply();
+	
+	// 부동산 관심
+	List<MgrInterestEstateVO> interestEstate(MgrInterestEstateVO vo);
 }
