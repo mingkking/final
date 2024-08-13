@@ -1,6 +1,8 @@
 package com.example.community.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +10,13 @@ import org.springframework.stereotype.Service;
 
 import com.example.community.domain.BookmarkVO;
 import com.example.community.domain.CommunityVO;
+import com.example.community.domain.DeclarationVO;
 import com.example.community.domain.ReReplyVO;
 import com.example.community.domain.ReplyVO;
 import com.example.community.domain.UserLikeVO;
 import com.example.community.repository.BookmarkRepository;
 import com.example.community.repository.CommunityRepository;
+import com.example.community.repository.DeclarationRepository;
 import com.example.community.repository.ReReplyRepository;
 import com.example.community.repository.ReplyRepository;
 import com.example.community.repository.UserLikeRepository;
@@ -20,20 +24,29 @@ import com.example.community.repository.UserLikeRepository;
 @Service
 public class CommunityServiceImpl implements CommunityService {
 
+    // 커뮤니티
     @Autowired
     private CommunityRepository communityRepository;
 
+    // 좋아요
     @Autowired
     private UserLikeRepository userLikeRepository;
 
+    // 북마크
     @Autowired
     private BookmarkRepository bookmarkRepository;
 
+    // 댓글
     @Autowired
     private ReplyRepository replyRepository;
 
+    // 대댓글
     @Autowired
     private ReReplyRepository reReplyRepository;
+
+    // 신고
+    @Autowired
+    private DeclarationRepository declarationRepository;
 
     @Override
     public List<CommunityVO> selectAllCommunity() throws Exception {
@@ -75,6 +88,12 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public List<UserLikeVO> selectAllUserLike() throws Exception {
         return userLikeRepository.findAll();
+    }
+
+    // 좋아요 id, 개수
+    @Override
+    public Map<String, Integer> selectAllUserLikeCnt() throws Exception {
+        return userLikeRepository.selectAllUserLikeCnt();
     }
 
     @Override
@@ -160,6 +179,18 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public List<ReplyVO> selectAllReply() throws Exception {
         return replyRepository.findAll(); 
+    }
+
+    // 모든 신고 리스트
+    @Override
+    public List<DeclarationVO> selectAllDeclaration() throws Exception {
+        return declarationRepository.selectAllDeclaration();
+    }
+
+    // 커뮤니티 신고 등록
+    @Override
+    public void insertDeclaration(DeclarationVO declarationVO) throws Exception {
+        declarationRepository.save(declarationVO);
     }
 
 }

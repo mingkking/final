@@ -11,9 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.stock.domain.StockInterestVO;
 import com.example.stock.domain.StockVO;
 import com.example.stock.service.StockService;
+
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -24,7 +24,7 @@ public class StockController {
     @Autowired
     private StockService stockService;
 
-    // 주요 주식 게시판에 데이터를 보내는 컨트롤러
+    // 메인 페이지 주요 주식 게시판에 데이터를 보내는 컨트롤러
     @GetMapping("/MainstockList")
     public ResponseEntity<List<Map<String, Object>>> MainstockList() {
         try {
@@ -49,36 +49,7 @@ public class StockController {
         }
     }
 
-    // 첫 메인 페이지에 있는 차트데이터 보내는 컨트롤러
-    // @GetMapping("/MainStock")
-    // public ResponseEntity getMethodName() {
-    //     String stock_code = "005930";
-    //     logger.info("Fetching yearly stock detail for code: {}", stock_code);
 
-    //     try {
-    //         StockVO stockInfo = stockService.getStockInfo(stock_code);
-    //         if (stockInfo == null) {
-    //             logger.warn("No stock info found for code: {}", stock_code);
-    //             return ResponseEntity.notFound().build();
-    //         }
-
-    //         List<StockVO> priceHistory = stockService.getYearlyStockPriceHistory(stock_code);
-    //         if (priceHistory.isEmpty()) {
-    //             logger.warn("No yearly price history found for code: {}", stock_code);
-    //         } else {
-    //             logger.info("Found {} yearly price history records for code: {}", priceHistory.size(), stock_code);
-    //         }
-
-    //         Map<String, Object> response = new HashMap<>();
-    //         response.put("stockInfo", stockInfo);
-    //         response.put("priceHistory", priceHistory);
-
-    //         return ResponseEntity.ok(response);
-    //     } catch (Exception e) {
-    //         logger.error("Error fetching yearly stock detail for code: " + stock_code, e);
-    //         return ResponseEntity.internalServerError().body("Error fetching yearly stock detail");
-    //     }
-    // }
 
     // 주식 리스트에서 검색기능
     @GetMapping("/stock/search")
@@ -132,23 +103,14 @@ public class StockController {
             return ResponseEntity.internalServerError().body("Error fetching yearly stock detail");
         }
     }
-
-    // // 주식 관심등록
-    // @PostMapping("/api/stock/favorite")// api나중에 없애기
-    // public ResponseEntity<?> toggleFavorite(@RequestBody StockInterestVO stockInterest) {
-    //     logger.info("Received request to toggle favorite: {}", stockInterest);
-    //     if (stockInterest.getUser_num() == null || stockInterest.getStock_code() == null) {
-    //         return ResponseEntity.badRequest().body("user_num and stock_code are required");
-    //     }
-    //     try {
-    //         boolean result = stockService.toggleFavorite(stockInterest);
-    //         Map<String, Object> response = new HashMap<>();
-    //         response.put("success", true);
-    //         response.put("message", result ? "관심 종목에 추가되었습니다." : "관심 종목에서 제거되었습니다.");
-    //         return ResponseEntity.ok(response);
-    //     } catch (Exception e) {
-    //         logger.error("Error toggling favorite for stock code: " + stockInterest.getStock_code(), e);
-    //         return ResponseEntity.internalServerError().body("관심 종목 처리 중 오류가 발생했습니다.");
-    //     }
-    // }
+    @GetMapping("/stocks/autocomplete")
+    public ResponseEntity<?> autocompleteStocks(@RequestParam String query) {
+        try {
+            List<StockVO> stocks = stockService.autocompleteStocks(query);
+            return ResponseEntity.ok(stocks);
+        } catch (Exception e) {
+            logger.error("Error in stock autocomplete", e);
+            return ResponseEntity.internalServerError().body("Error in stock autocomplete");
+        }
+    }
 }

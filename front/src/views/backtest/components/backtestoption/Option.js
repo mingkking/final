@@ -1,27 +1,37 @@
-import React, { useState,useEffect  } from 'react';
+import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import {ko} from "date-fns/locale"
+import { ko } from "date-fns/locale"
 import { TextField, Button, Select, MenuItem, FormControl, Box, Typography, useTheme, InputLabel } from '@mui/material';
 import { useStock } from '../../../stock/components/context/StockContext';
+import StockAutoSearch from '../../stocksearch/StockAutoSearch';
+
 const Options = ({ onAnalyze }) => {
   const [stockName, setStockName] = useState('');
+  const [stockCode, setStockCode] = useState('');
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [initialInvestment, setInitialInvestment] = useState(1000000000);
   const [rebalancePeriod, setRebalancePeriod] = useState('monthly');
   const theme = useTheme();
-  const {stockInfo} =useStock();
+  const { stockInfo } = useStock();
 
-  useEffect(()=>{
-    if(stockInfo){
+  useEffect(() => {
+    if (stockInfo) {
       setStockName(stockInfo.stock_name);
+      setStockCode(stockInfo.stock_code);
     }
-  },[stockInfo]);
+  }, [stockInfo]);
+
+  const handleStockSelect = (name, code) => {
+    setStockName(name);
+    setStockCode(code);
+  };
 
   const handleSubmit = () => {
-    if (stockName && startDate && endDate) {
+    if (stockCode && startDate && endDate) {
       onAnalyze({
+        stockCode,
         stockName,
         startDate: startDate.toISOString().split('T')[0],
         endDate: endDate.toISOString().split('T')[0],
@@ -38,11 +48,12 @@ const Options = ({ onAnalyze }) => {
       <Typography variant="h5" gutterBottom sx={{ mb: 3, fontWeight: 'bold', color: theme.palette.primary.main }}>
         백테스트 설정
       </Typography>
-       <TextField
+      <StockAutoSearch onStockSelect={handleStockSelect} />
+      <TextField
         fullWidth
-        label="주식 종목명"
-        value={stockName}
-        onChange={(e) => setStockName(e.target.value)}
+        label="선택된 주식 종목"
+        value={stockName ? `${stockName} (${stockCode})` : ''}
+        disabled
         margin="normal"
         variant="outlined"
         sx={{ mb: 2 }}

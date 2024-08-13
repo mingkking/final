@@ -44,7 +44,6 @@ const EconomicNewsFeed = () => {
                                 <div>
                                     <h2 className="economics-title">{item.title}</h2>
                                     <p className="economics-date">{item.date}</p>
-                                    {item.url && <p className="economics-url"><a href={item.url} target="_blank" rel="noopener noreferrer">{item.url}</a></p>}
                                 </div>
                             </a>
                         </li>
