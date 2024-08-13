@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 import com.example.community.domain.BookmarkVO;
 import com.example.mgr.domain.MgrBookMarkVO;
 import com.example.mgr.domain.MgrCommunityVO;
+import com.example.mgr.domain.MgrInterestEstateVO;
 import com.example.mgr.domain.MgrManagerVO;
 import com.example.mgr.domain.MgrMemberVO;
 import com.example.mgr.domain.MgrSessionCountVO;
@@ -73,4 +76,10 @@ public interface MgrDAO {
 	
 	// 북마크
 	public List<MgrBookMarkVO> selectBookmark(MgrBookMarkVO vo);
+	
+	// 댓글 수
+	public int countReply();
+	
+	// 부동산 관심
+	public List<MgrInterestEstateVO> interestEstate(MgrInterestEstateVO vo);
 }

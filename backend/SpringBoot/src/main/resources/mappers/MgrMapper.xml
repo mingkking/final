@@ -203,6 +203,22 @@
 		WHERE b.user_num = #{user_num}
     </select>
     
+    <!-- 댓글 수 -->
+    <select id="countReply" resultType="int">
+    	SELECT count(*)
+    	FROM (
+    		SELECT * FROM reply
+    		UNION ALL
+    		SELECT * FROM rereply
+    	)
+    </select>
     
+    <!-- 부동산 관심 등록 -->
+    <select id="interestEstate" parameterType="MgrInterestEstateVO">
+	    SELECT a.apartment_name, b.user_num
+		FROM PROPERTY_FAVORITE b
+		JOIN property a ON b.property_num = a.property_num
+		WHERE b.USER_NUM = #{user_num}
+	</select>
 </mapper>
 

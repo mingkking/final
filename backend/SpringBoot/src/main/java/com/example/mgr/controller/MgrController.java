@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +25,7 @@ import com.example.mgr.domain.MgrSessionCountVO;
 import com.example.mgr.domain.MgrSubscriberCountVO;
 import com.example.mgr.domain.MgrBookMarkVO;
 import com.example.mgr.domain.MgrCommunityVO;
+import com.example.mgr.domain.MgrInterestEstateVO;
 import com.example.mgr.domain.MgrManagerVO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -34,6 +36,11 @@ import java.text.DateFormat;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController  
@@ -130,7 +137,8 @@ public class MgrController {
 	
 	// 회원 상세정보 보기
     @GetMapping("/manager/memberDetail/{user_num}")
-    public String getMemberDetail(@PathVariable String user_num, MgrMemberVO membervo, MgrCommunityVO commvo, MgrManagerVO mgrvo, MgrSubscriberCountVO subvo, MgrBookMarkVO bmvo) {
+    public String getMemberDetail(@PathVariable String user_num, MgrMemberVO membervo, MgrCommunityVO commvo, 
+    		                      MgrManagerVO mgrvo, MgrSubscriberCountVO subvo, MgrBookMarkVO bmvo, MgrInterestEstateVO esvo) {
         
         // 받은 번호 값 지정
     	membervo.setUser_num(user_num);
@@ -138,6 +146,8 @@ public class MgrController {
     	mgrvo.setManager_num(user_num);
     	subvo.setUser_num(user_num);
     	bmvo.setUser_num(user_num);
+    	esvo.setUser_num(user_num);
+    	
     	
         // 회원 상세 정보 조회
         List<MgrMemberVO> mgrMemberDetail = mgrservice.selectMemberDetail(membervo);
@@ -145,9 +155,9 @@ public class MgrController {
         int checkMgr = mgrservice.checkManager(mgrvo);
         List<MgrSubscriberCountVO> checksubscribe = mgrservice.checkSubscribe(subvo);
         List<MgrBookMarkVO> getBookMarkList = mgrservice.selectBookmark(bmvo);
+        List<MgrInterestEstateVO> interestEstate = mgrservice.interestEstate(esvo);
+              
         
-        
-      
         // Gson 객체 생성
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy년 M월 d일") // 날짜 포맷 문자열 직접 설정
@@ -159,7 +169,8 @@ public class MgrController {
                 "commPost", mgrCommPost,
                 "checkMgr", checkMgr,
                 "checkSubscribe", checksubscribe,
-                "selectBookMark", getBookMarkList
+                "selectBookMark", getBookMarkList,
+                "interestEstate", interestEstate
             ));
         
         System.out.println("memberDetail 페이지로 보내는 값:" + jsonString);
@@ -217,6 +228,8 @@ public class MgrController {
 	    List<Map<String, Object>> last5DaysMember = mgrservice.selectLast5DaysMember(); // 최근 5일 가입자 수
 	    List<Map<String, Object>> last5MonthsMember = mgrservice.selectLast5MonthsMember(); // 최근 5달 가입자 수
 	    List<Map<String, Object>> last2YearsMember = mgrservice.selectLast2YearsMember(); // 최근 2년 가입자 수
+	    int countReply = mgrservice.countReply();
+	   
 	    
 	    // last5MonthsMember의 JOIN_MONTH 값을 "M월" 형식으로 변환
 	    List<Map<String, Object>> transformedLast5MonthsMember = last5MonthsMember.stream().map(entry -> {
@@ -242,7 +255,8 @@ public class MgrController {
 		        "selectLast5MonthsMember", last5MonthsMember,
 		        "selectLast2YearsMember", last2YearsMember,
 		        "selectTotalSession", selectTotalSession,
-		        "selectTodaySession", selectTodaySession
+		        "selectTodaySession", selectTodaySession,
+		        "countReply", countReply
 		    ));
 	    
 	    System.out.println("graph로 보내는 값: " + jsonString); // 확인용
