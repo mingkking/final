@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { Tooltip } from '@mui/material';
 import Rereply from "../Rereply/Rereply";
 import ReactModal from "react-modal";
+import Declaration from "../Declaration/Declaration";
 
 const Reply = () => {
     const communityValue = useContext(CommunityContext);
@@ -19,8 +20,6 @@ const Reply = () => {
     const [isUpdateReplyBtn, setIsUpdateReplyBtn] = useState(false);
     const [replyUpdateContent, setReplyUpdateContent] = useState("");
     const [replyUpdateContentCheck, setReplyUpdateContentCheck] = useState(null);
-
-    const [isDeclarationModalOpen, setIsDeclarationModalOpen] = useState(false);
 
     const handleReplyInputClick = () => {
         setIsCreateReplyBtn(true);
@@ -180,6 +179,8 @@ const Reply = () => {
             })
     }
 
+    
+
     return (
         <div className='reply-container'>
             <ul className="reply-list">
@@ -237,7 +238,7 @@ const Reply = () => {
                                             </Link>
                                             {reply.user_num.userNum === communityValue.state.userNum ?
                                                 (
-                                                    <Tooltip title="나의 댓글 수정 삭제">
+                                                    <Tooltip title="댓글">
                                                         <button className='reply-item-menu community-insertBtn' onClick={() => {
                                                             handleReplyUpdateClick(reply.reply_num);
                                                         }}>
@@ -249,37 +250,11 @@ const Reply = () => {
                                                         </button>
                                                     </Tooltip>
                                                 ) : (
-                                                    <Tooltip title="신고">
-                                                        <button className='reply-item-menu community-insertBtn' onClick={() => {
-                                                            setIsDeclarationModalOpen(true);
-                                                        }}>
-                                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                <circle cx="6" cy="12" r="2" fill="currentColor" />
-                                                                <circle cx="12" cy="12" r="2" fill="currentColor" />
-                                                                <circle cx="18" cy="12" r="2" fill="currentColor" />
-                                                            </svg>
-                                                        </button>
-                                                    </Tooltip>
+                                                    <Declaration type={"reply"} type_num={reply.reply_num}/>
                                                 )}
                                         </div>
-                                        <ReactModal
-                                            isOpen={isDeclarationModalOpen}
-                                            onRequestClose={()=>{
-                                                setIsDeclarationModalOpen(false);
-                                            }}
-                                            contentLabel="신고 모달"
-                                            className="ModalDeclaration"
-                                            overlayClassName="OverlayDeclaration"
-                                        >
-                                            <div className='modal-content-declaration'>
-                                                <h2>신고하기</h2>
-                                                <p>이 사용자를 신고하시겠습니까?</p>
-                                                <button onClick={()=>{
-                                                    setIsDeclarationModalOpen(false);
-                                                }}>취소</button>
-                                                <button>신고</button>
-                                            </div>
-                                        </ReactModal>
+                                        
+
                                         {isUpdateReplyBtn === reply.reply_num && (
                                             <form method="post">
                                                 <li className="rereply-item">
