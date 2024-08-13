@@ -368,59 +368,30 @@
     border-radius: 8px;
   }
 
-  @media (max-width: 768px) {
-    .profile-section {
-      flex-direction: column;
-      align-items: center;
-    }
-  
-    .profile-avatar-container {
-      margin-right: 0;
-      margin-bottom: 20px;
-    }
-  
-    .my-interest {
-      position: static; 
-      width: 100%;
-      max-width: none;
-      top: 10px;
-      bottom: 10px;
-      padding: 10px;
-    }
+/* 모바일 화면에서 전체 컨테이너를 오른쪽으로 이동시킵니다. */
+@media (max-width: 768px) {
+  .mypage-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    transform: translateX(80px); /* 오른쪽으로 20px 이동합니다. */
+    box-sizing: border-box;
   }
-  
-  @media (max-width: 480px) {
-    .nickname {
-      font-size: 20px;
-    }
-  
-    .edit-profile-button {
-      padding: 8px 16px;
-      font-size: 14px;
-    }
 
-    .profile-details {
-      
-      margin-left: 12px;
-    }
-
-    .mypage-nickname {
-      
-      margin-left: 1px;
-    }
-  
-    .my-interest h3 {
-      font-size: 16px;
-    }
-  
-    .my-interest-item {
-      padding: 5px;
-      font-size: 12px;
-    }
+  .profile-section, .interest-list-section {
+    flex: 1;
+    margin: 10px;
   }
-  
-  @media (max-width: 344px) {
-    
-  }    
 
-  
+  .profile-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .interest-list-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
