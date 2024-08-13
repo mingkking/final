@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../todayNewsCss/EconomicNewsFeed.css';  // 전통적인 CSS 파일 임포트
+import '../todayNewsCss/MoneyNews.css';  // 전통적인 CSS 파일 임포트
 
-const EconomicNewsFeed = () => {
+const MoneyNews = () => {
     const [news, setNews] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        axios.post('http://localhost:5000/news/economicNewsFeed')
+        axios.post('http://localhost:5000/news/moneyNews')
             .then(response => {
                 if (response.data && response.data.news) {
                     setNews(response.data.news);
@@ -22,28 +22,28 @@ const EconomicNewsFeed = () => {
     }, []);
 
     if (loading) {
-        return <p className="economics-loading">로딩 중...</p>;
+        return <p className="money-loading">로딩 중...</p>;
     }
 
     if (error) {
-        return <p className="economics-error">오류: {error.message}</p>;
+        return <p className="money-error">오류: {error.message}</p>;
     }
 
     return (
-        <div className="economics-container">
-            <ul className="economics-newsList">
+        <div className="money-container">
+            <ul className="money-newsList">
                 {news.length === 0 ? (
-                    <p className="economics-noNews">뉴스가 없습니다.</p>
+                    <p className="money-noNews">뉴스가 없습니다.</p>
                 ) : (
                     news.map((item, index) => (
-                        <li key={index} className="economics-newsItem">
-                            <a href={item.url} target="_blank" rel="noopener noreferrer" className="economics-link">
+                        <li key={index} className="money-newsItem">
+                            <a href={item.url} target="_blank" rel="noopener noreferrer" className="money-link">
                                 {item.img && (
-                                    <img src={item.img} alt={item.title} className="economics-image" />
+                                    <img src={item.img} alt={item.title} className="money-image" />
                                 )}
                                 <div>
-                                    <h2 className="economics-title">{item.title}</h2>
-                                    <p className="economics-date">{item.date}</p>
+                                    <h2 className="money-title">{item.title}</h2>
+                                    <p className="money-date">{item.date}</p>
                                 </div>
                             </a>
                         </li>
@@ -54,4 +54,4 @@ const EconomicNewsFeed = () => {
     );
 };
 
-export default EconomicNewsFeed;
+export default MoneyNews;

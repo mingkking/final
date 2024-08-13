@@ -1,15 +1,15 @@
 /* EconomicNewsFeed.css */
 
-.economics-container {
+.budongsan-container {
     padding: 5px;
 }
 
-.economics-header {
+.budongsan-header {
     font-size: 1.5rem;
     margin-bottom: 20px;
 }
 
-.economics-newsList {
+.budongsan-newsList {
     list-style-type: none;
     padding: 0;
     margin: 0;
@@ -18,7 +18,7 @@
     gap: 10px;
 }
 
-.economics-newsItem {
+.budongsan-newsItem {
     flex: 0 0 auto;
     width: 200px; /* 고정 너비를 설정하여 제목이 넘치지 않게 함 */
     padding: 1px;
@@ -31,7 +31,7 @@
     flex-direction: column;
 }
 
-.economics-title {
+.budongsan-title {
     font-size: 0.9rem;
     margin: 5px 0;
     white-space: nowrap; /* 줄 바꿈 방지 */
@@ -40,17 +40,17 @@
     display: block; /* 블록 요소로 설정하여 width 적용 */
 }
 
-.economics-date {
+.budongsan-date {
     font-size: 0.75rem;
     color: #555;
 }
 
-.economics-category {
+.budongsan-category {
     font-size: 0.75rem;
     color: #777;
 }
 
-.economics-image {
+.budongsan-image {
     width: 100%;
     max-width: 180px;
     height: 180px; /* 높이도 고정하여 일정하게 만듭니다. */
@@ -61,25 +61,25 @@
 }
 
 
-.economics-link {
+.budongsan-link {
     display: inline-block;
     margin-top: 10px;
     color: #007bff;
     text-decoration: none;
 }
 
-.economics-loading {
+.budongsan-loading {
     text-align: center;
     font-size: 1.2rem;
 }
 
-.economics-error {
+.budongsan-error {
     text-align: center;
     font-size: 1.2rem;
     color: red;
 }
 
-.economics-noNews {
+.budongsan-noNews {
     text-align: center;
     font-size: 1.2rem;
 }

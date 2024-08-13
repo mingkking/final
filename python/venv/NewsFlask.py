@@ -104,6 +104,8 @@ def check_existing_titles(cursor, titles):
     return existing_titles
 
 def insert_data(cursor, titles, urls, dates, categories, imgs):
+    conn = get_db_connection()
+    cursor = conn.cursor()
     if not titles:
         print("삽입할 데이터가 없습니다.")
         return
@@ -115,10 +117,11 @@ def insert_data(cursor, titles, urls, dates, categories, imgs):
         print("새로 삽입할 데이터가 없습니다.")
         return
     sql = """
-    INSERT INTO news (title, url, published_at, category, imgs)
-    VALUES (:1, :2, :3, :4, :5)
+    INSERT INTO news (id,title, url, published_at, category, imgs)
+    VALUES (:news_seq.NEXTVAL,:1, :2, :3, :4, :5)
     """
-    cursor.executemany(sql, new_data)
+    # cursor.executemany(sql, new_data)
+    conn.commit()
     print(f"{len(new_data)}개의 새로운 기사가 삽입되었습니다.")
 
 @app.route('/news/update_news', methods=['POST'])
@@ -126,7 +129,8 @@ def update_news():
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
-
+        logger.info("Connected to database.")
+        
         urls = [
             "https://www.hankyung.com/all-news-finance?page=",
             "https://www.hankyung.com/all-news-economy?page=",
@@ -134,21 +138,26 @@ def update_news():
         ]
 
         for url in urls:
+            logger.info(f"Crawling URL: {url}")
             titles, article_urls, dates, imgs = crawl_url(url)
+            logger.info(f"Titles: {titles}")
             if titles:
                 predicted_categories = predict_categories(titles)
+                logger.info(f"Predicted categories: {predicted_categories}")
                 insert_data(cursor, titles, article_urls, dates, predicted_categories, imgs)
-                print(f"{url} 크롤링 및 데이터 처리 완료")
+                logger.info(f"{url} 크롤링 및 데이터 처리 완료")
             else:
-                print(f"{url}에서 오늘 날짜의 기사를 찾지 못했습니다.")
+                logger.info(f"{url}에서 오늘 날짜의 기사를 찾지 못했습니다.")
 
         conn.commit()
-        print("크롤링 및 ML 후 데이터 입력 완료")
+        logger.info("크롤링 및 ML 후 데이터 입력 완료")
         cursor.close()
         conn.close()
         return jsonify({"message": "뉴스 업데이트 완료"}), 200
     except Exception as e:
+        logger.exception("An error occurred while updating news")
         return jsonify({"error": str(e)}), 500
+
     
 def convert_lob(value):
     if value is None:
@@ -179,7 +188,92 @@ def get_economic_news_feed():
               AND imgs IS NOT NULL
             ORDER BY published_at DESC
         )
-        WHERE ROWNUM <= 4
+        WHERE ROWNUM <= 6
+        """
+        cursor.execute(query)
+        rows = cursor.fetchall()
+
+        news_items = []
+        for row in rows:
+            news_item = {
+                "title": convert_lob(row[0]),
+                "url": convert_lob(row[1]),
+                "date": convert_lob(row[2]),
+                "category": convert_lob(row[3]),
+                "img": convert_lob(row[4])  # 필요 시 이미지 데이터 처리
+            }
+            news_items.append(news_item)
+
+        cursor.close()
+        conn.close()
+
+        logger.info(f"News items: {news_items}")  # 디버깅을 위한 로깅
+        return jsonify({"news": news_items}), 200
+    except Exception as e:
+        logger.exception("An error occurred while fetching news")
+        return jsonify({"error": str(e)}), 500
+    
+
+@app.route('/news/budongsanNews', methods=['POST'])
+def get_budongsan_news_feed():
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # 최신 뉴스 4개만 가져오는 쿼리, URL과 이미지가 NULL이 아닌 경우만 포함
+        query = """
+        SELECT title, url, published_at, category, imgs
+        FROM (
+            SELECT title, url, published_at, category, imgs
+            FROM news
+            WHERE category = '부동산'
+              AND url IS NOT NULL
+              AND imgs IS NOT NULL
+            ORDER BY published_at DESC
+        )
+        WHERE ROWNUM <= 6
+        """
+        cursor.execute(query)
+        rows = cursor.fetchall()
+
+        news_items = []
+        for row in rows:
+            news_item = {
+                "title": convert_lob(row[0]),
+                "url": convert_lob(row[1]),
+                "date": convert_lob(row[2]),
+                "category": convert_lob(row[3]),
+                "img": convert_lob(row[4])  # 필요 시 이미지 데이터 처리
+            }
+            news_items.append(news_item)
+
+        cursor.close()
+        conn.close()
+
+        logger.info(f"News items: {news_items}")  # 디버깅을 위한 로깅
+        return jsonify({"news": news_items}), 200
+    except Exception as e:
+        logger.exception("An error occurred while fetching news")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/news/moneyNews', methods=['POST'])
+def get_money_news_feed():
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # 최신 뉴스 4개만 가져오는 쿼리, URL과 이미지가 NULL이 아닌 경우만 포함
+        query = """
+        SELECT title, url, published_at, category, imgs
+        FROM (
+            SELECT title, url, published_at, category, imgs
+            FROM news
+            WHERE category = '경제'
+              AND url IS NOT NULL
+              AND imgs IS NOT NULL
+            ORDER BY published_at DESC
+        )
+        WHERE ROWNUM <= 6
         """
         cursor.execute(query)
         rows = cursor.fetchall()
