@@ -17,6 +17,31 @@ import CommunityContext from '../community/contexts/CommunityContext';
 import SideMypage from '../budongsan/sideView/SideMypage';
 import { setSelectedProperty } from '../../redux/propertySlice';
 import { useDispatch, useSelector } from 'react-redux';
+import StockContext from '../stock/components/context/StockContext';
+import BudongsanContext from '../budongsan/sideView/componoets/BudongsanContext';
+
+
+const getUserInterest = async (userNum) => {
+  try {
+    const response = await axiosInstance.get(`/user/${userNum}/interest`);
+    
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching user interest:', error);
+    throw new Error('Failed to fetch interests.');
+  }
+};
+
+const getUserProperty = async (userNum) => {
+  try {
+    const response = await axiosInstance.get(`/user/${userNum}/property`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching user property:', error);
+    throw new Error('Failed to fetch property.');
+  }
+};
+
 
 const MyPage = () => {
 
@@ -325,44 +350,111 @@ const [userprofileImage, setUserprofileImage] = useState('');
 
 
 // 절대 경로로 변환하는 함수
-const convertToAbsoluteUrl = (relativeUrl) => {
-  return relativeUrl.startsWith('/images/') 
-    ? `http://localhost:8080${relativeUrl}` 
-    : relativeUrl;
-};
+// const convertToAbsoluteUrl = (relativeUrl) => {
+//   return relativeUrl.startsWith('/images/') 
+//     ? `http://localhost:8080${relativeUrl}` 
+//     : relativeUrl;
+// };
 
-useEffect(() => {
-  const fetchUserProfile = async (userId) => {
-    try {
-      const response = await axiosInstance.get(`/profile-image/${userId}`);
-      const userData = response.data;
-      const absoluteProfileImageUrl = convertToAbsoluteUrl(userData.profileImageUrl);
-      setUserprofileImage(absoluteProfileImageUrl);
-    } catch (error) {
-      console.error('Error fetching user profile:', error);
-      // 추가적인 에러 처리 로직
-    }
-  };
+// useEffect(() => {
+//   const fetchUserProfile = async (userId) => {
+//     console.log('userId :>> ', userId);
+//     try {
+//       const response = await axiosInstance.get(`/profile-image/${userId}`);
+//       const userData = response.data;
+//       const absoluteProfileImageUrl = convertToAbsoluteUrl(userData.profileImageUrl);
+//       setUserprofileImage(absoluteProfileImageUrl);
+//     } catch (error) {
+//       if (error.response && error.response.status === 400) {
+//         console.error('사용자를 찾을 수 없습니다!');
+//       } else {
+//         console.error('에러 발생:', error);
+//       }
+//     }
+//   };
 
   
-    fetchUserProfile();
+//     fetchUserProfile();
   
-}, []);
+// }, []);
 
 
 //---------------------------------------------------------
 
-  const dispatch = useDispatch();
+
+
   
-  
-  const handlePropertySelect = (property) => {
-    dispatch(setSelectedProperty(property)); // 선택한 매물을 리덕스에 설정
-    navigate(`/budongsan`); // 상세 페이지로 이동
+
+
+const stockInfo = useContext(StockContext)
+
+const [userInterests, setUserInterests] = useState([]);
+const [loadingInterests, setLoadingInterests] = useState(true);
+const [errorInterests, setErrorInterests] = useState(null);
+
+useEffect(() => {
+  const loadUserInterests = async () => {
+    try {
+      setLoadingInterests(true);
+      const userNumObj = await fetchUserNum();
+      const userNum = userNumObj.userNum;
+      
+
+      if (userNum) {
+        const allInterests = await getUserInterest(userNum);
+        const uniqueStockCodes = Array.from(new Set(allInterests.map(interest => interest.stock_code)));
+        const filteredInterests = uniqueStockCodes.map(stockCode => {
+          return allInterests.find(interest => interest.stock_code === stockCode);
+        });
+        setUserInterests(filteredInterests);
+      }
+    } catch (error) {
+      setErrorInterests(error.message);
+    } finally {
+      setLoadingInterests(false);
+    }
   };
 
-  
-  //---------------------------------------------------
+  loadUserInterests();
+}, [state.userId]);
 
+const handleStockSelect = (stockCode) => {
+  
+  navigate(`/stock/${stockCode}`);
+}
+
+//---------------------------------------------------
+
+const { state:budongsanState } = useContext(BudongsanContext)
+
+const [ userProperty,setUserProperty ] = useState([]);
+
+useEffect(() => {
+  const loadUserProperty = async () => {
+    try {
+      
+      const userNumObj = await fetchUserNum();
+      const userNum = userNumObj.userNum;
+      
+
+      if (userNum) {
+        const interests = await getUserProperty(userNum);
+        setUserProperty(interests);
+        
+      }
+    } catch (error) {
+      console.log('loadUserProperty error :>> ', error);
+    } 
+  };
+
+  loadUserProperty();
+}, [state.userId]);
+
+const handlePropertySelect = () => {
+  
+  navigate(`/budongsan`);
+}
+//----------------------------------------------------
   const [value, setValue] = useState(0); // 탭 상태
   const [value2, setValue2] = useState(0);
 
@@ -637,14 +729,10 @@ useEffect(() => {
         
       </div>  
 
-      <Box sx={{
-      width: '40%',
-      margin: '0 auto',
-      borderRadius: '8px',
-      
-      backgroundColor: '#fff',
-      padding: '10px',
-      boxSizing: 'border-box'
+      <Box sx={{ 
+      width: { xs: '200%', sm: '45%', md: '50%', lg: '40%' }, // 반응형 너비 설정
+      margin: '0 auto', // 중앙 정렬
+      padding: 2,
     }}>
       <div className='my-interest'>
         <h2>관심목록</h2>
@@ -655,18 +743,45 @@ useEffect(() => {
         </Tabs>
         
         <TabPanel value={value2} index={0}>
-          <div className='my-interest-item'>
-            
-            <SideMypage onPropertySelect={handlePropertySelect} />
-          </div>
-        </TabPanel>
-        
-        <TabPanel value={value2} index={1}>
-          <div className='my-interest-item'>
-            
-            
-          </div>
-        </TabPanel>
+  <div className='my-interest-item'>
+    <ul className='property-list'>
+      {userProperty.length > 0 ? (
+        userProperty.map((item, index) => (
+          <li key={index} className='property-item' onClick={() => handlePropertySelect()}>
+            <div className='property-details'>
+              <p><span className='property-label'>주소:</span> {item.address}</p>
+              <p><span className='property-label'>아파트 이름:</span> {item.apartment_name}</p>
+              <p><span className='property-label'>층수:</span> {item.floor_number}층</p>
+              <p><span className='property-label'>거래 금액:</span> {item.transaction_amount.toLocaleString()} 원</p>
+              <p><span className='property-label'>건축 연도:</span> {item.year_built}년</p>
+            </div>
+          </li>
+        ))
+      ) : (
+        <div className='no-interest'>관심 등록한 목록이 없습니다.</div>
+      )}
+    </ul>
+  </div>
+</TabPanel>
+
+<TabPanel value={value2} index={1}>
+  <div className='my-interest-item'>
+    <ul className='stock-list'>
+      {userInterests.length > 0 ? (
+        userInterests.map((item, index) => (
+          <li key={index} className='stock-item' onClick={() => handleStockSelect(item.stock_code)}>
+            <div className='item-title'>{item.stock_name} ({item.stock_code})</div>
+            <div className='item-detail'>종가: {item.closing_price}</div>
+            <div className='item-detail'>대비: {item.compared_price}</div>
+            <div className='item-detail'>거래량: {item.trading_volume}</div>
+          </li>
+        ))
+      ) : (
+        <div className='no-interest'>관심 등록한 목록이 없습니다.</div>
+      )}
+    </ul>
+  </div>
+</TabPanel>
         
       </div>
     </Box>
