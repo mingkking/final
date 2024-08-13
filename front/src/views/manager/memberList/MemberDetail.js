@@ -233,86 +233,9 @@ const MemberDetail = () => {
         </Grid>
         <Grid item sm={6}>
           <Grid container spacing={3}>
-            {/* <Grid item sm={12} style={{ marginTop: '40px', marginBottom: '40px' }}>
-              <Typography variant='h4' align='left' color="primary" style={{ marginBottom: '20px' }}>관심 목록</Typography>
-              <DashboardCard>
-                <Grid container spacing={2}>
-                  <Grid item sm={12}>
-                    <Grid container spacing={2}>
-                      <Grid item sm={6}>
-                        <Typography variant='h5' style={{ marginBottom: '20px' }}>분류</Typography>
-                      </Grid>
-                      <Grid item sm={6}>
-                        <Typography variant='h5' style={{ marginBottom: '20px' }}>항목</Typography>
-                      </Grid>
-                    </Grid>
-                    <div style={{ borderBottom: '1px solid #c9c9c9', marginBottom: '20px' }} />
-                    <Grid container spacing={2}>
-                      <Grid item sm={6}>
-                        <Typography>주식</Typography>
-                      </Grid>
-                      <Grid item sm={6}>
-                        <Typography>삼성전자</Typography>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </DashboardCard>
-            </Grid> */}
             <Interest />
             <BookMark />
             <CommPost />
-            {/* <Grid item sm={12}>
-              <Typography variant='h4' align='left' color="primary" style={{ marginBottom: '20px' }}>글 작성 목록</Typography>
-              <DashboardCard>
-                <Grid container spacing={4}>
-                <Grid item sm={3}>
-                    <Typography variant='h5' style={{ marginBottom: '20px' }}>글 번호</Typography>
-                  </Grid>
-                  <Grid item sm={3}>
-                    <Typography variant='h5' style={{ marginBottom: '20px' }}>글 제목</Typography>
-                  </Grid>
-                  <Grid item sm={3}>
-                    <Typography variant='h5' style={{ marginBottom: '20px' }}>글 내용</Typography>
-                  </Grid>
-                  <Grid item sm={3}>
-                    <Typography variant='h5' style={{ marginBottom: '20px' }}>조회수</Typography>
-                  </Grid>
-                </Grid>
-                <div style={{ borderBottom: '1px solid #c9c9c9', marginBottom: '20px' }} />
-                <Grid container spacing={4}>
-                  {commPost.length === 0 ? (
-                        <Grid item sm={12}>
-                        <Typography>작성 글 없음</Typography>
-                      </Grid>
-                  ) : (
-                  commPost.map((post, index) => {
-                  // 제목과 내용이 글자수가 6글자 이상일 시 자르고 ... 으로 처리
-                    const truncateText = (text, length) => {
-                      return text.length > length ? text.slice(0, length) + "..." : text;
-                    };
-
-                    return (
-                      <React.Fragment key={index}>
-                        <Grid item sm={3}>
-                          <Typography>{post.id}</Typography>
-                        </Grid>
-                        <Grid item sm={3}>
-                          <Typography>{truncateText(post.title, 6)}</Typography>
-                        </Grid>
-                        <Grid item sm={3}>
-                          <Typography>{truncateText(post.contents, 6)}</Typography>
-                        </Grid>
-                        <Grid item sm={3}>
-                          <Typography>{post.view_count}</Typography>
-                        </Grid>
-                      </React.Fragment>
-                    );
-                  })
-                )}
-                </Grid>
-              </DashboardCard>
-            </Grid> */}
           </Grid>
         </Grid>
       </Grid>

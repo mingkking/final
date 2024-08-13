@@ -12,6 +12,9 @@ import mainContext from '../contexts/MainContext';
 const MembersGraph = () => {
 
   const value = useContext(mainContext);
+  const membersCount = value.state.membersCount;
+  const subscribersCount = value.state.totalSubscribersCount
+  const subscriberPercentage = Math.round(subscribersCount/membersCount * 100)
 
   // chart color
   const theme = useTheme();
@@ -64,27 +67,19 @@ const MembersGraph = () => {
       },
     ],
   };
-  const seriescolumnchart = [20, 100]; // 구독자수, 회원수 넣기
+  const seriescolumnchart = [subscribersCount, membersCount]; // 구독자수, 회원수
 
   return (
     <div>
-      <DashboardCard title="가입자수랑 회원수 비교">
+      <DashboardCard title="구독자수 / 회원수 비율">
         <Grid container spacing={3}>
           <Grid item xs={7} sm={7}>
-            <Typography variant="h3" fontWeight="700">
-              {/* 구독자수 넣기 */}
-              {value.state.membersCount} 
-            </Typography>
             <Stack direction="row" spacing={1} mt={1} alignItems="center">
               <Avatar sx={{ bgcolor: subscriberColor, width: 27, height: 27 }}>
                 <IconHeart width={20} color="#f3c2fc" />
               </Avatar>
               <Typography variant="subtitle2" fontWeight="600">
-                {/* 구독자수/회원수 퍼센트 넣기 */}
-                9%
-              </Typography>
-              <Typography variant="subtitle2" color="textSecondary">
-                비율
+                {subscriberPercentage}%
               </Typography>
             </Stack>
             <Stack spacing={3} mt={5} direction="row">

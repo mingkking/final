@@ -6,7 +6,7 @@ import { Typography } from '@mui/material';
 
 const managerCommunityComment = () => {
   return (
-    <PageContainer title="Community" description="this is Sample page">
+    <PageContainer title="커뮤니티 댓글 신고 페이지" description="커뮤니티 댓글 신고 페이지">
 
       <DashboardCard title="Community">
         <Typography>커뮤니티댓글신고페이지여</Typography>

@@ -8,7 +8,7 @@ import axios from 'axios';
 // components
 import SalesOverview from './components/SalesOverview';
 import MembersGraph from './components/MembersGraph';
-import MonthlyEarnings from './components/MonthlyEarnings';
+import SubscribeTotalWon from './components/SubscribeTotalWon';
 import MemberCount from './components/MembersCount';
 import mainContext from "../main/contexts/MainContext";
 
@@ -90,7 +90,7 @@ const Dashboard = () => {
                 <MembersGraph />
               </Grid>
               <Grid item xs={12}>
-                <MonthlyEarnings />
+                <SubscribeTotalWon />
               </Grid>
             </Grid>
           </Grid>

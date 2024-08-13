@@ -1,9 +1,12 @@
 package com.example.mgr.Service;
 
 import java.util.List;
+
+
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -11,10 +14,15 @@ import com.example.community.domain.BookmarkVO;
 import com.example.mgr.dao.MgrDAO;
 import com.example.mgr.domain.MgrBookMarkVO;
 import com.example.mgr.domain.MgrCommunityVO;
+import com.example.mgr.domain.MgrInterestEstateVO;
 import com.example.mgr.domain.MgrManagerVO;
 import com.example.mgr.domain.MgrMemberVO;
 import com.example.mgr.domain.MgrSessionCountVO;
 import com.example.mgr.domain.MgrSubscriberCountVO;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
   
 @Service 
 public class MgrServiceImpl implements MgrService {
@@ -145,6 +153,17 @@ public class MgrServiceImpl implements MgrService {
 	// 북마크
 	public List<MgrBookMarkVO> selectBookmark(MgrBookMarkVO vo) {
 		return mgrDAO.selectBookmark(vo);
+	}
+
+	// 댓글 수
+	public int countReply() {
+		int count = mgrDAO.countReply();
+		return count;
+	}
+
+	// 부동산 관심
+	public List<MgrInterestEstateVO> interestEstate(MgrInterestEstateVO vo) {
+		return mgrDAO.interestEstate(vo);
 	}
 
 }

@@ -4,6 +4,7 @@ import axios from 'axios';
 import TopStocks from './TopStocks';
 import TopProperties from './TopProperties';
 import PropertyModal from './PropertyModal';
+import StockModal from './StockModal';
 import '../mainCss/Slick.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -14,6 +15,7 @@ function MainList() {
     const [topProperties, setTopProperties] = useState([]);
     const [stockList, setStockList] = useState([]);
     const [selectedProperty, setSelectedProperty] = useState(null);
+    const [selectedStock, setSelectedStock] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
 
     useEffect(() => {
@@ -45,7 +47,18 @@ function MainList() {
     const handleTabChange = (event, newValue) => {
         setTabValue(newValue);
     };
+    // 주식 modal 핸들 이벤트
+    const stockHandleSlideClick = (stock) =>{
+        console.log(stock)
+        setSelectedStock(stock);
+        setModalOpen(true);
+    }
+    const stockHandleModalClose = () =>{
+        setModalOpen(false);
+        setSelectedStock(null);
+    }
 
+    //부동산 modal 핸들 이벤트
     const handleSlideClick = (property) => {
         setSelectedProperty(property);
         setModalOpen(true);
@@ -61,7 +74,8 @@ function MainList() {
             <Box sx={{ p: 2, bgcolor: 'secondary.light', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Grid container spacing={3} sx={{ maxWidth: '650px', width: '100%' }}>
                     <Grid item xs={12}>
-                        <TopStocks stocks={stockList} />
+                        <TopStocks stocks={stockList}
+                        onSlideClick={stockHandleSlideClick} />
                     </Grid>
                     <Grid item xs={12}>
                         <TopProperties
@@ -86,6 +100,14 @@ function MainList() {
                     open={modalOpen}
                     handleClose={handleModalClose}
                     property={selectedProperty}
+                />
+            )}
+
+            {selectedStock && (
+                <StockModal
+                    open={modalOpen}
+                    handleClose={stockHandleModalClose}
+                    stock={selectedStock}
                 />
             )}
         </div>
