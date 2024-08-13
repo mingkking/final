@@ -1,6 +1,8 @@
 package com.example.community.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.community.domain.BookmarkVO;
 import com.example.community.domain.CommunityVO;
+import com.example.community.domain.DeclarationVO;
 import com.example.community.domain.ReReplyVO;
 import com.example.community.domain.ReplyVO;
 import com.example.community.domain.UserLikeVO;
@@ -30,6 +33,10 @@ public interface CommunityService {
     public List<CommunityVO> selectAllPopularCommunity() throws Exception;
 
     public List<UserLikeVO> selectAllUserLike() throws Exception;
+
+    // 좋아요 id, 개수
+    @Query(value = "SELECT id, count(*) FROM USERLIKE GROUP BY id", nativeQuery = true)
+    public Map<String, Integer> selectAllUserLikeCnt() throws Exception;
 
     public void insertUserLike(UserLikeVO userLikeVO) throws Exception;
 
@@ -70,5 +77,12 @@ public interface CommunityService {
     public void deleteReReply(Integer rereply_num) throws Exception;
 
     List<ReplyVO> selectAllReply() throws Exception;
+
+    // 모든 신고 리스트
+    @Query(value = "SELECT * FROM DECLARATION", nativeQuery = true)
+    public List<DeclarationVO> selectAllDeclaration() throws Exception;
+
+    // 커뮤니티 신고 등록
+    public void insertDeclaration(DeclarationVO declarationVO) throws Exception;
 }
  

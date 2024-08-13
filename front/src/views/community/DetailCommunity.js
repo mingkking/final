@@ -26,7 +26,6 @@ const DetailCommunity = () => {
         selectAllBookmark();                                                // 커뮤니티 모든 글 북마크 검색 함수 실행
         selectAllReply(postId);                                             // 커뮤니티 모든 댓글 검색 함수 실행
         selectAllReReply();                                                 // 커뮤니티 모든 대댓글 검색 함수 실행
-        console.log("1111111111111111111111111111111111111111111111111 ", popularGetId, postId);
 
         const intervalId = setInterval(() => {
             communityValue.actions.setRealTime(new Date().toLocaleString());
@@ -39,7 +38,6 @@ const DetailCommunity = () => {
     }, []);
 
     useEffect(() => {
-        console.log("22222222222222222222222222222222222222222222222222", popularGetId, postId);
         if (popularGetId !== null && popularGetId !== undefined) {
             selectOnePost(popularGetId);
             selectAllReply(popularGetId);
@@ -47,7 +45,6 @@ const DetailCommunity = () => {
     }, [popularGetId]);
 
     useEffect(() => {
-        console.log("33333333333333333333333333333333333333333333333333", popularGetId, postId);
         if (postId !== null && postId !== undefined) {
             selectOnePost(postId);
             selectAllReply(postId);

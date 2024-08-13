@@ -13,6 +13,7 @@ import LoginContext from '../../../login/contexts/LoginContext';
 import ReplyBtn from '../ReplyBtn/ReplyBtn';
 import Reply from '../Reply/Reply';
 import { Tooltip } from '@mui/material';
+import Declaration from '../Declaration/Declaration';
 
 function DetailPost() {
   const navigate = useNavigate();
@@ -259,7 +260,7 @@ function DetailPost() {
               </div>
             )
             :
-            null
+            (<Declaration type={"community"} type_num={detailPostValue.state.selectOnePost.id}/>)
           }
         </div>
 

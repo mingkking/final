@@ -1,7 +1,9 @@
 package com.example.community.controller;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.community.domain.BookmarkVO;
 import com.example.community.domain.CommunityVO;
+import com.example.community.domain.DeclarationVO;
 import com.example.community.domain.ReReplyVO;
 import com.example.community.domain.ReplyVO;
 import com.example.community.domain.UserLikeVO;
@@ -175,6 +178,25 @@ public class CommunityController {
 
     }
 
+    // // 커뮤니티 모든 글 좋아요 수 검색
+    // @GetMapping("/selectAllUserLikeCnt")
+    // public Map<String, Integer> selectAllUserLikeCnt() {
+
+    //     Map<String, Integer> selectAllUserLikeCnt = new HashMap<>();
+            
+    //     try {
+    //         selectAllUserLikeCnt = communityService.selectAllUserLikeCnt(); // 커뮤니티 서비스 객체로 커뮤니티 모든 글 좋아요 수 검색 기능 실행
+    //         selectAllUserLikeCnt.forEach((key, value) -> {
+    //             System.out.println(key + "::::::::::::::::::::::::::::::::::::::::::::::::::::: " + value);
+    //         });
+    //     } catch (Exception e) {
+    //         System.out.println("커뮤니티 모든 글 좋아요 수 검색 : " + e.getMessage()); // 커뮤니티 모든 글 좋아요 수 검색 기능 에러 발생
+    //     }
+
+    //     return selectAllUserLikeCnt;
+
+    // }
+
     @PostMapping("/insertUserLike")
     public void insertUserLike(@RequestBody UserLikeVO userLikeVO) { // 커뮤니티 글 좋아요 등록 (UserLike.js 에서 받는 폼 데이터)
 
@@ -246,17 +268,17 @@ public class CommunityController {
     }
 
     @GetMapping("/selectAllReply")
-    public List<ReplyVO> selectAllReply(@RequestParam(value ="id", required = false) Integer id) { // 커뮤니티 모든 댓글 검색
+    public List<ReplyVO> selectAllReply(@RequestParam(value = "id", required = false) Integer id) { // 커뮤니티 모든 댓글 검색
         List<ReplyVO> selectAllReply = null;
         try {
-        	if (id != null) {
-        		selectAllReply = communityService.selectAllReply(id); // 커뮤니티 서비스 객체로 커뮤니티 모든 댓글 검색 기능 실행
-        
-        	}else {                
+            if (id != null) {
+                selectAllReply = communityService.selectAllReply(id); // 커뮤니티 서비스 객체로 커뮤니티 모든 댓글 검색 기능 실행
+
+            } else {
                 selectAllReply = communityService.selectAllReply(); // 모든 댓글을 조회
             }
-        	
-        }catch (Exception e) {
+
+        } catch (Exception e) {
             System.out.println("커뮤니티 모든 댓글 검색 : " + e.getMessage()); // 커뮤니티 모든 댓글 검색 기능 에러 발생
         }
 
@@ -264,7 +286,7 @@ public class CommunityController {
 
     }
 
-    // 커뮤니티 댓글 등록 
+    // 커뮤니티 댓글 등록
     @PostMapping("/insertReply")
     public void insertReply(@ModelAttribute ReplyVO replyVO) { // 커뮤니티 댓글 등록 (Reply.js 에서 받는 폼 데이터)
 
@@ -276,9 +298,9 @@ public class CommunityController {
 
     }
 
-    // 커뮤니티 댓글 수정 
+    // 커뮤니티 댓글 수정
     @PostMapping("/updateReply")
-    public void updateReply(@ModelAttribute ReplyVO replyVO) { 
+    public void updateReply(@ModelAttribute ReplyVO replyVO) {
 
         try {
             communityService.updateReply(replyVO); // 커뮤니티 서비스 객체로 커뮤니티 댓글 수정 기능 실행
@@ -329,7 +351,7 @@ public class CommunityController {
 
     // 커뮤니티 대댓글 수정
     @PostMapping("/updateReReply")
-    public void updateReReply(@ModelAttribute ReReplyVO reReplyVO) { 
+    public void updateReReply(@ModelAttribute ReReplyVO reReplyVO) {
         System.out.println("reReplyVO.toString() reReplyVO.toString() reReplyVO.toString() " + reReplyVO.toString());
 
         try {
@@ -342,12 +364,40 @@ public class CommunityController {
 
     // 커뮤니티 대댓글 삭제
     @DeleteMapping("/deleteReReply/{id}")
-    public void deleteReReply(@PathVariable Integer id) { // 커뮤니티 대댓글 삭제 (DetailPost.js 에서 받는 폼 데이터)
+    public void deleteReReply(@PathVariable Integer id) {
 
         try {
             communityService.deleteReReply(id); // 커뮤니티 서비스 객체로 커뮤니티 대댓글 삭제 기능 실행
         } catch (Exception e) {
             System.out.println("커뮤니티 대댓글 삭제 : " + e.getMessage()); // 커뮤니티 대댓글 삭제 기능 에러 발생
+        }
+
+    }
+
+    @GetMapping("/selectAllDeclaration")
+    public List<DeclarationVO> selectAllDeclaration() { // 커뮤니티 모든 글 신고 검색
+
+        List<DeclarationVO> selectAllDeclaration = null;
+        try {
+            selectAllDeclaration = communityService.selectAllDeclaration(); // 커뮤니티 서비스 객체로 커뮤니티 모든 글 신고 검색 기능 실행
+        } catch (Exception e) {
+            System.out.println("커뮤니티 모든 글 신고 검색 : " + e.getMessage()); // 커뮤니티 모든 글 신고 검색 기능 에러 발생
+        }
+
+        return selectAllDeclaration;
+
+    }
+
+    // 커뮤니티 댓글 신고 등록
+    @PostMapping("/insertDeclaration")
+    public void insertDeclaration(@ModelAttribute DeclarationVO declarationVO) {
+        System.out.println(
+                "declarationVOdeclarationVOdeclarationVOdeclarationVOdeclarationVO " + declarationVO.toString());
+
+        try {
+            communityService.insertDeclaration(declarationVO); // 커뮤니티 서비스 객체로 커뮤니티 신고 등록 기능 실행
+        } catch (Exception e) {
+            System.out.println("커뮤니티 신고 등록 : " + e.getMessage()); // 커뮤니티 신고 기능 에러 발생
         }
 
     }

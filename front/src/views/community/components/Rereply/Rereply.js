@@ -5,6 +5,7 @@ import LoginContext from "../../../login/contexts/LoginContext";
 import { Tooltip } from "@mui/material";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Declaration from "../Declaration/Declaration";
 
 const Rereply = (props) => {
     const communityValue = useContext(CommunityContext);
@@ -262,7 +263,7 @@ const Rereply = (props) => {
                                                             {reReply.user_num.userNickname}
                                                         </Link>
                                                         {reReply.user_num.userNum === communityValue.state.userNum ? (
-                                                            <Tooltip title="나의 대댓글 수정 삭제">
+                                                            <Tooltip title="대댓글">
                                                                 <button className='rereply-item-menu community-insertBtn' onClick={() => {
                                                                     handleReReplyUpdateClick(reReply.rereply_num);
                                                                 }}>
@@ -273,7 +274,9 @@ const Rereply = (props) => {
                                                                     </svg>
                                                                 </button>
                                                             </Tooltip>
-                                                        ) : null}
+                                                        ) : (
+                                                            <Declaration type={"reReply"} type_num={reReply.rereply_num}/>
+                                                        )}
                                                     </div>
                                                     {isUpdateReReplyBtn === reReply.rereply_num && (
                                                         <form method="post">

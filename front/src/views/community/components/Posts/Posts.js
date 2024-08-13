@@ -10,12 +10,14 @@ import Bookmark from '../Bookmark/Bookmark';
 import LoginContext from '../../../login/contexts/LoginContext';
 import ReplyBtn from '../ReplyBtn/ReplyBtn';
 import { Tooltip } from '@mui/material';
+import Declaration from '../Declaration/Declaration';
 
 function Posts() {
   const navigate = useNavigate();
   const postsValue = useContext(CommunityContext);
   const loginValue = useContext(LoginContext);
   const allPostList = postsValue.state.selectAllPosts || [];
+  const allDeclarationList = postsValue.state.selectAllDeclaration;
 
   const [keyword, setKeyword] = useState('');
 
@@ -163,6 +165,11 @@ function Posts() {
                     <div className='post-item-created_at'>{createAtCal(post.created_at)}</div>
                   </div>
                 </Link>
+                {postsValue.state.userNum === post.user_num.userNum ?
+                  (null) : (
+                    <Declaration type={"community"} type_num={post.id} />
+                  )
+                }
               </div>
             </Tooltip>
 
