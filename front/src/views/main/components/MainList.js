@@ -71,8 +71,8 @@ function MainList() {
 
     return (
         <div>
-            <Box sx={{ p: 2, bgcolor: 'secondary.light', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Grid container spacing={3} sx={{ maxWidth: '650px', width: '100%' }}>
+            <Box sx={{ p: 2, bgcolor: 'secondary.light', width: '100%', height: '500px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Grid container spacing={3} sx={{ maxWidth: '650px', width: '100%', height: '600px' }}>
                     <Grid item xs={12}>
                         <TopStocks stocks={stockList}
                         onSlideClick={stockHandleSlideClick} />
