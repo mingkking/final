@@ -24,6 +24,7 @@ import com.example.mgr.domain.MgrMemberVO;
 import com.example.mgr.domain.MgrSessionCountVO;
 import com.example.mgr.domain.MgrSubscriberCountVO;
 import com.example.mgr.domain.MgrBookMarkVO;
+import com.example.mgr.domain.MgrCommComplaintVO;
 import com.example.mgr.domain.MgrCommunityVO;
 import com.example.mgr.domain.MgrInterestEstateVO;
 import com.example.mgr.domain.MgrManagerVO;
@@ -285,5 +286,45 @@ public class MgrController {
 	    
 	    return jsonString;
 	}
+	
+	// 커뮤니티 게시글 신고 관리
+	@GetMapping("/manager/complaint/communityPost")
+	public String getComplaintPost(MgrCommComplaintVO vo) {
+		
+		List<MgrCommComplaintVO> commPostComplaint = mgrservice.selectComplaintPost(vo);
+		
+		Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy년 M월 d일") // 날짜 포맷 문자열 직접 설정
+                .create();
+		
+		String commPostComplaintSt = gson.toJson(commPostComplaint);
+		
+		String jsonString = "{\"selectCommPostComplaint\":" + commPostComplaintSt + "}";
+		
+		System.out.println("complaint/communityPost으로 보내는 값 : " + jsonString);
+		
+		return jsonString;
+	}
+	
+	// 커뮤니티 댓글 신고 관리
+	@GetMapping("/manager/complaint/communityComment")
+	public String getComplaintCmt(MgrCommComplaintVO vo) {
+		
+		List<MgrCommComplaintVO> commCmtComplaint = mgrservice.selectComplaintCmt(vo);
+		
+		Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy년 M월 d일") // 날짜 포맷 문자열 직접 설정
+                .create();
+		
+		String commCmtComplaintSt = gson.toJson(commCmtComplaint);
+		
+		String jsonString = "{\"selectCommCmpComplaint\":" + commCmtComplaintSt + "}";
+		
+		System.out.println("complaint/communityPost으로 보내는 값 : " + jsonString);
+		
+		return jsonString;
+	}
+	
+	
 
 }
