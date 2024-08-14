@@ -70,15 +70,23 @@ const ResultChart = ({ analysisResult, error }) => {
 
   const koreaMonths = ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"];
   
-  const formatDate = (date) => {
-    const d = new Date(date);
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const d = new Date(dateString);
     return `${d.getFullYear()}년 ${koreaMonths[d.getMonth()]} ${d.getDate()}일`;
   }
 
+  const formatCurrency = (value) => {
+    return new Intl.NumberFormat('ko-KR', { style: 'currency', currency: 'KRW' }).format(value);
+  };
+
   const chartData = analysisResult.processedData.map(d => ({
     date: new Date(d.date),
-    '예측 수익률': d.predicted_return
+    '예측 수익률': d.predicted_return_percentage,
+    '예측 가치': d.predicted_value
   }));
+
+  const lastPrediction = analysisResult.processedData[analysisResult.processedData.length - 1] || {};
 
   return (
     <Box sx={{ p: 4, bgcolor: theme.palette.background.paper, height: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -94,27 +102,39 @@ const ResultChart = ({ analysisResult, error }) => {
           series={[
             { 
               dataKey: '예측 수익률', 
-              label: '예측 수익률', 
+              label: '예측 수익률 (%)', 
               color: theme.palette.primary.main,
               curve: 'linear',
-              showMark: false, 
+              showMark: false,
+              yAxisKey: 'leftAxis', 
+            },
+            { 
+              dataKey: '예측 가치', 
+              label: '예측 가치 (원)', 
+              color: theme.palette.secondary.main,
+              curve: 'linear',
+              showMark: false,
+              yAxisKey: 'rightAxis', 
             },
           ]}
           xAxis={[{ 
             scaleType: 'time', 
             dataKey: 'date',
-            // label: '날짜',
             tickLabelStyle: { angle: 45, textAnchor: 'start', fontSize: 10 },
             valueFormatter: (date) => formatDate(date),
             tickNumber: 6,
           }]}
-          yAxis={[{ 
-            // label: '예측 수익률',
-            // labelStyle: { transform: 'translateX(-20px)' },
-          }]}
+          yAxis={[
+            { id: 'leftAxis', label: '예측 수익률 (%)', labelStyle: { transform: 'translateX(-20px)' } },
+            { id: 'rightAxis', label: '예측 가치 (원)', labelStyle: { transform: 'translateX(20px)' } }
+          ]}
+          rightAxis="rightAxis"
           sx={{
             [`& .${axisClasses.left} .${axisClasses.label}`]: {
               transform: 'translate(-20px, 0)',
+            },
+            [`& .${axisClasses.right} .${axisClasses.label}`]: {
+              transform: 'translate(20px, 0)',
             },
           }}
         />
@@ -125,7 +145,7 @@ const ResultChart = ({ analysisResult, error }) => {
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
               <ShowChartIcon sx={{ fontSize: 30, color: theme.palette.primary.main, mr: 2 }} />
               <Typography variant="h6" color="primary">
-                주식명: {analysisResult.stockName}
+                주식명: {analysisResult.stockName || 'N/A'}
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -145,10 +165,16 @@ const ResultChart = ({ analysisResult, error }) => {
               </Typography>
             </Box>
             <Typography variant="body1" gutterBottom>
-              최종 예측 수익: {analysisResult.processedData[analysisResult.processedData.length - 1].predicted_return.toFixed(2)}
+              초기 투자금: {formatCurrency(analysisResult.initialInvestment)}
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+              최종 예측 가치: {formatCurrency(analysisResult.finalPredictedValue)}
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+              총 수익률: {analysisResult.totalReturn.toFixed(2)}%
             </Typography>
             <Typography variant="body1">
-              최종 예측 움직임: {analysisResult.processedData[analysisResult.processedData.length - 1].predicted_movement}
+              최종 예측 움직임: {lastPrediction.predicted_movement || 'N/A'}
             </Typography>
           </Paper>
         </Grid>

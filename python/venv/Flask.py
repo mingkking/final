@@ -8,7 +8,7 @@ import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 from backtest.technical_indicators.indicators import add_technical_indicators
 from backtest.data_processing.data_processor import preprocess_data
-from backtest.models.lstm_model import prepare_data_for_lstm, train_lstm_model, evaluate_lstm_model, build_lstm_model
+from backtest.models.lstm_model import prepare_data_for_lstm, train_lstm_model, evaluate_lstm_model, build_lstm_model, predict_future, apply_rebalancing, analyze_stock
 import logging
 from datetime import datetime, timedelta
 
@@ -680,19 +680,16 @@ def delete_stock():
 
 # 백테스트 페이지에서 분석 시작 버튼을 눌렀을때 실행
 @app.route('/analyze', methods=['POST', 'GET'])
-def analyze_stock():
-    #logger.info(f"Received request: {request.method} {request.url}")
-    #logger.info(f"Request data: {request.json}")
-    
+def analyze_stock_route():
     if request.method == 'POST':
         try:
             data = request.json
-            #logger.info(f"Received data: {data}")
             name = data['stockName']
-            #사용자의 설정 기간을 저장
-            start_date = datetime.strptime(data['startDate'], '%Y-%m-%d') 
+            start_date = datetime.strptime(data['startDate'], '%Y-%m-%d')
             end_date = datetime.strptime(data['endDate'], '%Y-%m-%d')
-            #데이터 베이스에 있는 사용자가 설정한 해당 주식의 데이터를 가져와 학습
+            initial_investment = float(data['initialInvestment'])
+            rebalance_period = data['rebalancePeriod']
+
             connection = get_db_connection()
             if connection is None:
                 return jsonify({'error': '데이터베이스 연결 실패'}), 500
@@ -705,31 +702,26 @@ def analyze_stock():
             df = preprocess_data(df)
             df = add_technical_indicators(df)
 
-            target = 'closing_price'
+            results, loss, mae = analyze_stock(
+                df, 
+                FEATURES, 
+                'closing_price', 
+                start_date, 
+                end_date, 
+                initial_investment, 
+                rebalance_period
+            )
 
-            (X_train, X_test, y_train, y_test), scaler = prepare_data_for_lstm(df, FEATURES, target)
-            model, history = train_lstm_model(X_train, y_train)
-            loss, mae = evaluate_lstm_model(model, X_test, y_test)
+            final_value = results[-1]['predicted_value'] if results else initial_investment
 
-            logger.info(f"Model trained. Test MAE: {mae:.4f}")
-
-            last_sequence = df[FEATURES].values[-10:]
-            
-            days_to_predict = (end_date - start_date).days + 1
-            predictions = predict_future(model, scaler, last_sequence, days_to_predict)
-            result_data = [
-                {
-                    'date': (start_date + timedelta(days=i)).strftime('%Y-%m-%d'),
-                    'predicted_return': round(pred['predicted_return'] * 100, 2),
-                    'predicted_movement': pred['predicted_movement']
-                }
-                for i, pred in enumerate(predictions)
-            ]
             return jsonify({
-                'processedData': result_data,
+                'processedData': results,
                 'stockName': name,
                 'startDate': start_date.strftime('%Y-%m-%d'),
                 'endDate': end_date.strftime('%Y-%m-%d'),
+                'initialInvestment': initial_investment,
+                'finalPredictedValue': round(final_value, 2),
+                'totalReturn': round((final_value - initial_investment) / initial_investment * 100, 2),
                 'modelMAE': round(float(mae), 4)
             })
 
