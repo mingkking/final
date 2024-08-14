@@ -26,6 +26,8 @@ const DetailCommunity = () => {
         selectAllBookmark();                                                // 커뮤니티 모든 글 북마크 검색 함수 실행
         selectAllReply(postId);                                             // 커뮤니티 모든 댓글 검색 함수 실행
         selectAllReReply();                                                 // 커뮤니티 모든 대댓글 검색 함수 실행
+        selectAllUserLikeCnt();                                             // 커뮤니티 모든 글 좋아요 수 검색 함수 실행
+        selectAllReplyCnt();                                                // 커뮤니티 모든 글 댓글 수 검색 함수 실행
 
         const intervalId = setInterval(() => {
             communityValue.actions.setRealTime(new Date().toLocaleString());
@@ -85,6 +87,14 @@ const DetailCommunity = () => {
             })
     }
 
+    const selectAllUserLikeCnt = async () => {                                 // 커뮤니티 모든 글 좋아요 수 검색 함수 생성
+        axios.get("http://localhost:8080/selectAllUserLikeCnt")            // 검색 -> 컨트롤러 요청
+
+            .then((res) => {                                                // DB 검색 요청 후 응답     
+                communityValue.actions.setSelectAllUserLikeCnt(res.data);         // 커뮤니티 모든 글 좋아요 수 검색 데이터 저장
+            })
+    }
+
     const selectAllPopularPosts = async () => {                             // 커뮤니티 모든 인기 글 검색 함수 생성
 
         await axios.get("http://localhost:8080/selectPopularCommunity")     // 검색 -> 컨트롤러 요청
@@ -116,6 +126,14 @@ const DetailCommunity = () => {
 
             .then((res) => {                                                // DB 검색 요청 후 응답
                 communityValue.actions.setSelectAllReReply(res.data);         // 커뮤니티 모든 대댓글 검색 데이터 저장
+            })
+    }
+
+    const selectAllReplyCnt = async () => {                                 // 커뮤니티 모든 글 댓글 수 검색 함수 생성
+        axios.get("http://localhost:8080/selectAllReplyCnt")            // 검색 -> 컨트롤러 요청
+
+            .then((res) => {                                                // DB 검색 요청 후 응답
+                communityValue.actions.setSelectAllReplyCnt(res.data);         // 커뮤니티 모든 글 댓글 수 검색 데이터 저장
             })
     }
 

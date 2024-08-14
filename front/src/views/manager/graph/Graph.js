@@ -32,7 +32,16 @@ const Dashboard = () => {
         value.actions.setTotalCount(result.data.selectTotalSession);
         value.actions.setTodayCount(result.data.selectTodaySession);
         value.actions.setCountReply(result.data.countReply);
+        value.actions.setUserLike(result.data.userLike);
       });
+    }, []);
+
+    // 채팅방 수 가져오기
+    useEffect(() => {
+      axios.get('http://localhost:8080/manager/chat')
+      .then((result) => {
+        value.actions.setChatRoomCount(result.data.chatRoomCount);
+      })
     }, []);
 
 
@@ -75,13 +84,13 @@ const Dashboard = () => {
             <CountSomething title='금일 방문자 수' count={value.state.todayCount} />
           </Grid>
           <Grid item xs={12} lg={3}>
-            <CountSomething title='채팅방 수'/>
+            <CountSomething title='채팅방 수' count={value.state.chatRoomCount} />
           </Grid>
           <Grid item xs={12} lg={3}>
-            <CountSomething title='게시글 수' count={value.state.commCount}/>
+            <CountSomething title='게시글 수' count={value.state.commCount} />
           </Grid>
           <Grid item xs={12} lg={3}>
-            <CountSomething title='댓글 수' count={value.state.countReply}/>
+            <CountSomething title='댓글 수' count={value.state.countReply} />
           </Grid>
           <Grid item xs={12} lg={3}>
             <CountSomething title='게시글 신고 수'/>
@@ -90,7 +99,7 @@ const Dashboard = () => {
             <CountSomething title='댓글 신고 수'/>
           </Grid>
           <Grid item xs={12} lg={3}>
-            <CountSomething title='좋아요 수'/>
+            <CountSomething title='좋아요 수' count={value.state.userLike} />
           </Grid>
             </Grid>
       </Box>

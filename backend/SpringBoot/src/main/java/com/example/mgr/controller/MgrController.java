@@ -229,6 +229,7 @@ public class MgrController {
 	    List<Map<String, Object>> last5MonthsMember = mgrservice.selectLast5MonthsMember(); // 최근 5달 가입자 수
 	    List<Map<String, Object>> last2YearsMember = mgrservice.selectLast2YearsMember(); // 최근 2년 가입자 수
 	    int countReply = mgrservice.countReply();
+	    int userLike = mgrservice.userLike();
 	   
 	    
 	    // last5MonthsMember의 JOIN_MONTH 값을 "M월" 형식으로 변환
@@ -256,7 +257,8 @@ public class MgrController {
 		        "selectLast2YearsMember", last2YearsMember,
 		        "selectTotalSession", selectTotalSession,
 		        "selectTodaySession", selectTodaySession,
-		        "countReply", countReply
+		        "countReply", countReply,
+		        "userLike", userLike
 		    ));
 	    
 	    System.out.println("graph로 보내는 값: " + jsonString); // 확인용

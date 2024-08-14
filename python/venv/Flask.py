@@ -12,6 +12,8 @@ from backtest.models.lstm_model import prepare_data_for_lstm, train_lstm_model, 
 import logging
 from datetime import datetime, timedelta
 
+import requests
+from bs4 import BeautifulSoup
 import joblib
 from konlpy.tag import Okt
 # from stock.stock_interest import check_stock,delete_stock,add_stock
@@ -58,7 +60,7 @@ def preprocess_text(text):
 
 def crawl_url(url):
     titles, urls, dates, imgs = [], [], [], []
-    today = datetime.date.today().strftime('%Y.%m.%d')
+    today = datetime.today().strftime('%Y.%m.%d')
     pageNum = 1
     while True:
         response = requests.get(f"{url}{pageNum}")
@@ -169,6 +171,7 @@ def update_news():
     except Exception as e:
         logger.exception("An error occurred while updating news")
         return jsonify({"error": str(e)}), 500
+        
 def convert_lob(value):
     if value is None:
         return ""
