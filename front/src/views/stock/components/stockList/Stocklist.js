@@ -19,7 +19,6 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CommunityContext from "../../../community/contexts/CommunityContext";
-import axiosInstance from "../../../login/component/Token/axiosInstance";
 
 const Stocklist = ({ onStockSelect }) => {
   const [stocks, setStocks] = useState([]);
@@ -34,27 +33,27 @@ const Stocklist = ({ onStockSelect }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const communityValue = useContext(CommunityContext);
 
-  const loginCheck = async () => {
+  const fetchStocks = useCallback(async (url, isInitialLoad = false) => {
     try {
-      const response = await axiosInstance.get('/check-login-status', {
-        withCredentials: true,
-      });
-
-      if (response.data.isLoggedIn !== true) {
-        alert("로그인 및 구독 후 이용해주세요!");
-        navigate("/login");
-      } else {
-        communityValue.actions.setUserNick(response.data.userNickname);
-        communityValue.actions.setUserNum(response.data.userNum);
-        return true;  // 로그인 상태일 때 true 반환
-      }
-    } catch (error) {
-      console.error("로그인 상태 확인 중 오류 발생:", error);
-      alert("로그인 상태를 확인하는 중 오류가 발생했습니다.");
-      return false;
+      setLoading(true);
+      const response = await axios.get(url);
+      if (communityValue.state.userNum) 
+        setStocks(prevStocks => isInitialLoad ? response.data.stocks : [...prevStocks, ...response.data.stocks]);
+      setHasMore(response.data.hasMore);
+      setLastLoadedId(response.data.lastLoadedId);
+      setLoading(false);
+    } catch (err) {
+      console.error('주식 데이터 불러오기 오류:', err);
+      setError('주식 데이터를 불러오는 데 실패했습니다. 잠시 후 다시 시도해 주세요.');
+      setLoading(false);
     }
-  };
-  
+  }, [communityValue.state.userNum]);
+
+  const loadMoreStocks = useCallback(() => {
+    if (hasMore && !loading) {
+      fetchStocks(`http://localhost:8080/stock/search?query=${searchTerm}&lastId=${lastLoadedId}&size=15`);
+    }
+  }, [hasMore, loading, searchTerm, lastLoadedId, fetchStocks]);
 
   const lastStockElementRef = useCallback(node => {
     if (loading) return;
@@ -65,53 +64,20 @@ const Stocklist = ({ onStockSelect }) => {
       }
     });
     if (node) observer.current.observe(node);
-  }, [loading, hasMore]);
+  }, [loading, hasMore, loadMoreStocks]);
 
-  const fetchStocks = async (url, isInitialLoad = false) => {
-    try {
-      setLoading(true);
-      const response = await axios.get(url);
-      if (communityValue.state.userNum) 
-      setStocks(prevStocks => isInitialLoad ? response.data.stocks : [...prevStocks, ...response.data.stocks]);
-      setHasMore(response.data.hasMore);
-      setLastLoadedId(response.data.lastLoadedId);
-      setLoading(false);
-    } catch (err) {
-      console.error('주식 데이터 불러오기 오류:', err);
-      setError('주식 데이터를 불러오는 데 실패했습니다. 잠시 후 다시 시도해 주세요.');
-      setLoading(false);
-    }
-  };
+  // 컴포넌트 마운트 시 데이터 불러오기
+  useEffect(() => {
+    fetchStocks(`http://localhost:8080/stock/search?query=${searchTerm}&page=0&size=15`, true);
+  }, [fetchStocks, searchTerm]);
 
-useEffect(() => {
-  setStocks([]);
-  setLastLoadedId(null);
-  setHasMore(true);
-  fetchStocks(`http://localhost:8080/stock/search?query=${searchTerm}&page=0&size=15`, true);
-}, [searchTerm, communityValue.state.userNum]);
-
-useEffect(()=>{
-  const fetchStocks = async (url, isInitialLoad = false) => {
-    try {
-      setLoading(true);
-      const response = await axios.get(url);
-      setStocks(prevStocks => isInitialLoad ? response.data.stocks : [...prevStocks, ...response.data.stocks]);
-      setHasMore(response.data.hasMore);
-      setLastLoadedId(response.data.lastLoadedId);
-      setLoading(false);
-    } catch (err) {
-      console.error('주식 데이터 불러오기 오류:', err);
-      setError('주식 데이터를 불러오는 데 실패했습니다. 잠시 후 다시 시도해 주세요.');
-      setLoading(false);
-    }
-  };
-})
-
-  const loadMoreStocks = () => {
-    if (hasMore && !loading) {
-      fetchStocks(`http://localhost:8080/stock/search?query=${searchTerm}&lastId=${lastLoadedId}&size=15`);
-    }
-  };
+  // 검색어 변경 시 데이터 다시 불러오기
+  useEffect(() => {
+    setStocks([]);
+    setLastLoadedId(null);
+    setHasMore(true);
+    fetchStocks(`http://localhost:8080/stock/search?query=${searchTerm}&page=0&size=15`, true);
+  }, [searchTerm, fetchStocks]);
 
   const handleStockSelect = (stock) => {
     onStockSelect(stock);
@@ -123,7 +89,6 @@ useEffect(()=>{
   };
 
   if (error) return <Typography color="error">{error}</Typography>;
-
 
   return (
     <Box sx={{ width: '100%', maxWidth: '100vw', overflow: 'hidden' }}>

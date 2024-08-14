@@ -16,9 +16,8 @@ function StockModal({ open, handleClose, stock }) {
     };
     return (
         <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>{stock.apartMentName}</DialogTitle>
+            <DialogTitle>{stock.stock_name}</DialogTitle>
             <DialogContent>
-                <DialogContentText> {stock.stock_name}</DialogContentText>
                 <DialogContentText> 종가:{stock.closing_price}</DialogContentText>
                 <DialogContentText> 고가:{stock.high_price}</DialogContentText>
                 <DialogContentText> 저가:{stock.low_price}</DialogContentText>

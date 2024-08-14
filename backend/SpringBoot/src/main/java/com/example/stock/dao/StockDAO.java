@@ -18,5 +18,5 @@ public interface StockDAO {
 
     List<StockVO> autocompleteStocks(@Param("query") String query);
 
-    List<StockVO> selectTopInterestedStocks(@Param("limit") int limit);
+    List<StockVO> selectTopInterestedStocks();
 }
