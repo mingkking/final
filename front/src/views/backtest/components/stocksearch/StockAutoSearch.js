@@ -1,7 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import { TextField,Autocomplete } from '@mui/material'
 import axios from 'axios'
-import {useStock} from '../../stock/components/context/StockContext'
 const StockAutoSearch = ({onStockSelect}) => {
   const [inputValue,setInputValue] = useState('');
   const [options, setOptions] = useState([]);

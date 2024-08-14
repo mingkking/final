@@ -14,4 +14,7 @@ public interface StockService {
     List<StockVO> getYearlyStockPriceHistory(String stock_code);
     // 백테스트 종목 자동완성
     List<StockVO> autocompleteStocks(String query);
+
+    List<StockVO> getTopInterestedStocks();
+
 }

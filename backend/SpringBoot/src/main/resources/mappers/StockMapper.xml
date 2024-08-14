@@ -70,4 +70,18 @@
         ORDER BY stock_code
         ]]>
     </select>
+        <select id="selectTopInterestedStocks" resultType="com.example.stock.domain.StockVO">
+        <![CDATA[
+           SELECT * FROM (
+        SELECT s.*, COUNT(si.stock_code) as interest_count, 
+               ROW_NUMBER() OVER (ORDER BY COUNT(si.stock_code) DESC) as rn
+        FROM STOCK_INFO s
+        LEFT JOIN STOCK_INTEREST si ON s.stock_code = si.stock_code
+        GROUP BY s.stock_code, s.stock_name, s.stock_type, s.closing_price, s.opening_price,
+                 s.high_price, s.low_price, s.compared_price, s.trading_volume, s.trading_amount,
+                 s.capitalization, s.listed_stocks, s.record_date
+    )
+    WHERE rn <= #{limit}
+    ]]>
+    </select>
 </mapper>

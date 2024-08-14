@@ -32,5 +32,8 @@ public class StockServiceImpl implements StockService {
     public List<StockVO> autocompleteStocks(String query) {
         return stockDAO.autocompleteStocks(query);
     }
-   
+    @Override
+    public List<StockVO> getTopInterestedStocks() {
+        return stockDAO.selectTopInterestedStocks(10); // 상위 10개 종목을 가져옵니다
+    }
 }
