@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.example.member.dao.InterestDAO">
+
+   <select id="getUserStockInfo" resultType="com.example.stock.domain.StockVO">
+        SELECT 
+            s.stock_code,
+            s.stock_name,
+            sif.closing_price,
+            sif.compared_price,
+            sif.trading_volume
+        FROM 
+            Stock_Interest si
+        JOIN 
+            Stock s 
+        ON 
+            si.stock_code = s.stock_code
+        JOIN
+        	Stock_Info sif
+        ON
+        	si.stock_code = sif.stock_code
+        WHERE 
+            si.user_num = #{userNum}
+    </select>
+    
+    <select id="getUserPropertyInfo" resultType="com.example.member.domain.PropertyVO">
+        SELECT
+        	p.property_num, 
+        	p.address,
+            p.apartment_name,
+            p.floor_number,
+            p.transaction_amount,
+            p.year_built
+        FROM 
+            PROPERTY_FAVORITE pi
+        JOIN 
+            Property p 
+        ON 
+            pi.property_num = p.property_num
+        WHERE 
+            pi.user_num = #{userNum}
+    </select>
+    
+</mapper>

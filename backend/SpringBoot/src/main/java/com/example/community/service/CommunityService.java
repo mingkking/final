@@ -1,5 +1,6 @@
 package com.example.community.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,7 @@ public interface CommunityService {
 
     // 좋아요 id, 개수
     @Query(value = "SELECT id, count(*) FROM USERLIKE GROUP BY id", nativeQuery = true)
-    public Map<String, Integer> selectAllUserLikeCnt() throws Exception;
+    public List<Map<String, Object>> selectAllUserLikeCnt() throws Exception;
 
     public void insertUserLike(UserLikeVO userLikeVO) throws Exception;
 
@@ -77,6 +78,24 @@ public interface CommunityService {
     public void deleteReReply(Integer rereply_num) throws Exception;
 
     List<ReplyVO> selectAllReply() throws Exception;
+
+    // 댓글 개수
+    @Query(value = "SELECT \r\n" + //
+                "    r.id AS id,\r\n" + //
+                "    COALESCE(reply_count, 0) AS reply_count,\r\n" + //
+                "    COALESCE(rereply_count, 0) AS rereply_count,\r\n" + //
+                "    COALESCE(reply_count, 0) + COALESCE(rereply_count, 0) AS total_count\r\n" + //
+                "FROM\r\n" + //
+                "    (SELECT id, COUNT(*) AS reply_count\r\n" + //
+                "     FROM reply\r\n" + //
+                "     GROUP BY id) r\r\n" + //
+                "LEFT JOIN\r\n" + //
+                "    (SELECT r.id, COUNT(*) AS rereply_count\r\n" + //
+                "     FROM rereply rr\r\n" + //
+                "     JOIN reply r ON rr.reply_num = r.reply_num\r\n" + //
+                "     GROUP BY r.id) rr\r\n" + //
+                "ON r.id = rr.id", nativeQuery = true)
+    public List<Map<String, Object>> selectAllReplyCnt() throws Exception;
 
     // 모든 신고 리스트
     @Query(value = "SELECT * FROM DECLARATION", nativeQuery = true)
