@@ -12,9 +12,9 @@ const Chat = () => {
   const [filteredChats, setFilteredChats] = useState([]);
   const [page, setPage] = useState(1);
   const [roomMemberCount, setRoomMemberCount] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchField, setSearchField] = useState('chat_num');
-  const [sortField, setSortField] = useState('chat_num');
+  const [searchTerm, setSearchTerm] = useState(''); // 검색 입력창
+  const [searchField, setSearchField] = useState('chat_num'); // 검색 필터
+  const [sortField, setSortField] = useState('chat_num'); // 정렬 필터
   const [sortOrder, setSortOrder] = useState('asc');
   const navigate = useNavigate();
   const chatsPerPage = 10;
@@ -22,12 +22,8 @@ const Chat = () => {
   useEffect(() => {
     axios.get('http://localhost:8080/manager/chat')
       .then((result) => {
-        const chatListWithIndex = result.data.chatRoomList.map((chat, index) => ({
-          ...chat,
-          originalIndex: index,  // 원본 인덱스를 추가
-        }));
-        setChatList(chatListWithIndex);
-        setFilteredChats(chatListWithIndex);
+        setChatList(result.data.chatRoomList);
+        setFilteredChats(result.data.chatRoomList);
         setRoomMemberCount(result.data.memberCount);
       });
   }, []);
@@ -57,7 +53,10 @@ const Chat = () => {
   const filterAndSortChats = () => {
     // 필터링
     const filtered = chatList.filter((chat) => {
-      const matchesSearch = String(chat[searchField]).toLowerCase().includes(searchTerm.toLowerCase());
+      if(searchField == 'chat_num') {
+        return chat.chat_num == searchTerm;
+      }
+      const matchesSearch = chat[searchField].toString().toLowerCase().includes(searchTerm.toLowerCase());
       return matchesSearch;
     });
 
@@ -85,7 +84,7 @@ const Chat = () => {
 
   useEffect(() => {
     filterAndSortChats();
-  }, [searchField, searchTerm, sortField, sortOrder]);
+  }, [sortField, sortOrder]);
 
   const indexOfLastChat = page * chatsPerPage;
   const indexOfFirstChat = indexOfLastChat - chatsPerPage;
@@ -107,7 +106,7 @@ const Chat = () => {
                 label="정렬 기준"
                 size='small'
               >
-                <MenuItem value="id">채팅방 번호</MenuItem>
+                <MenuItem value="chat_num">채팅방 번호</MenuItem>
                 <MenuItem value="room">채팅방 이름</MenuItem>
                 <MenuItem value="createdAt">생성 일시</MenuItem>
               </Select>
@@ -136,7 +135,7 @@ const Chat = () => {
                 label="필터"
                 size='small'
               >
-                <MenuItem value="id">채팅방 번호</MenuItem>
+                <MenuItem value="chat_num">채팅방 번호</MenuItem>
                 <MenuItem value="room">채팅방 이름</MenuItem>
                 <MenuItem value="createdAt">생성 일시</MenuItem>
               </Select>
@@ -166,12 +165,12 @@ const Chat = () => {
 
         {/* 채팅 리스트 */}
         <Grid container spacing={3}>
-          {currentChats.map((chat) => (
-            <Grid item xs={12} key={chat.originalIndex} style={{ cursor: 'pointer', marginBottom: '5px' }} onClick={() => handleClickDetail()}>
+          {currentChats.map((chat, index) => (
+            <Grid item xs={12} key={index} style={{ cursor: 'pointer', marginBottom: '5px' }} onClick={() => handleClickDetail()}>
               <BlankCard>
                 <Grid container spacing={3} style={{ paddingTop: '30px', paddingBottom: '30px' }}>
                   <Grid item xs={3}>
-                    <Typography variant='h6' align='center'>{chat.originalIndex}</Typography>
+                    <Typography variant='h6' align='center'>{chat.chat_num}</Typography>
                   </Grid>
                   <Grid item xs={3}>
                     <Typography variant='h6' align='center'>{chat.room}</Typography>
@@ -180,7 +179,7 @@ const Chat = () => {
                     <Typography variant='h6' align='center'>{chat.createdAt}</Typography>
                   </Grid>
                   <Grid item xs={3}>
-                    <Typography variant='h6' align='center'>{roomMemberCount[chat.originalIndex]}</Typography>
+                    <Typography variant='h6' align='center'>{roomMemberCount[index]}</Typography>
                   </Grid>
                 </Grid>
               </BlankCard>
