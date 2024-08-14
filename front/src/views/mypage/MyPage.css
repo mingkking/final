@@ -405,18 +405,30 @@
 }
 
 /* 반응형 디자인 */
-
-
-@media (max-width: 768px) {
+@media (max-width: 360px) {
   .mypage-container {
     padding: 10px;
-    
+    display: flex;
+    flex-direction: column; /* 수직 방향으로 배치 */
   }
 
   .profile-section {
     width: 100%;
     padding: 15px;
     box-shadow: none; /* 작은 화면에서 그림자 제거 */
+    
+  }
+
+  .my-interest {
+    padding: 15px;
+    margin-top: 10px;
+    box-shadow: none;
+    border-radius: 8px;
+    background-color: #fff;
+    width: 111% !important;
+    margin: 0 -15px;
+    position: relative; /* 상대 위치 */
+    top: 20px; /* 원하는 만큼 이동 */
   }
 
   .profile-info {
@@ -434,6 +446,31 @@
     align-items: flex-start; /* 왼쪽 정렬 */
     margin-bottom: 15px;
     width: 100%;
+  }
+
+  .profile-stats {
+    width: 100%;
+    margin-top: 10px; /* 상단 간격 추가 */
+    padding: 5px 0; /* 테이블 상하 패딩 추가 */
+    table-layout: auto; /* 테이블 레이아웃을 자동으로 설정 */
+    border-spacing: 10px; /* 셀 간 간격 조정 */
+  }
+
+  .profile-stats th, .profile-stats td {
+    padding: 0 5px; /* 각 셀의 상하좌우 패딩 조정 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+    white-space: nowrap; /* 텍스트를 한 줄로 표시 */
+    vertical-align: middle; /* 텍스트를 셀의 중간에 정렬 */
+  }
+
+  .profile-stats th {
+    font-size: 14px; /* 제목의 폰트 크기 조정 */
+    color: #333; /* 텍스트 색상 조정 */
+  }
+
+  .profile-stats td {
+    font-size: 16px; /* 데이터의 폰트 크기 조정 */
+    color: #555; /* 텍스트 색상 조정 */
   }
 
   .profile-avatar-container {
@@ -458,19 +495,6 @@
     width: 100%;
   }
 
-  .my-interest {
-    padding: 15px;
-    margin-top: -10px !important;
-    box-shadow: none;
-    border-radius: 8px;
-    background-color: #fff;
-    width: 100% !important; /* 너비 강제 설정 */
-    margin: 0 auto !important; /* 중앙 정렬 */
-    position: relative; /* relative로 위치 설정 */
-    top: -20px !important; /* 음수 값을 사용하여 위로 이동 */
-    z-index: 10
-  }
-
   .my-interest h2 {
     font-size: 20px; /* 제목 폰트 크기 조정 */
     margin-bottom: 15px; /* 제목 아래 여백 추가 */
@@ -483,7 +507,6 @@
     border-radius: 8px; /* 모서리 둥글게 */
     background-color: #f9f9f9; /* 배경 색상 설정 */
   }
-  
 
   .property-list, .stock-list {
     padding: 0; /* 리스트 패딩 제거 */
@@ -497,6 +520,11 @@
     border-radius: 8px; /* 모서리 둥글게 */
     background-color: #fff; /* 배경 색상 설정 */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+    width: 250px;
+    height: 200px; /* 고정 높이 설정 */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* 콘텐츠를 위아래로 균등 배치 */
   }
 
   .property-item:hover, .stock-item:hover {
@@ -513,21 +541,19 @@
     font-size: 14px; /* 폰트 크기 조정 */
   }
 
-    /* MUI Tabs 스타일 조정 */
-    .MuiTabs-root {
-      padding: 0 !important;
-    }
-  
-    .MuiTab-root {
-      padding: 10px !important;
-      font-size: 14px !important;
-    }
-    
-  
-    .MuiTabPanel-root {
-      padding: 0 !important;
-    }
-  
+  /* MUI Tabs 스타일 조정 */
+  .MuiTabs-root {
+    padding: 0 !important;
+  }
+
+  .MuiTab-root {
+    padding: 10px !important;
+    font-size: 14px !important;
+  }
+
+  .MuiTabPanel-root {
+    padding: 0 !important;
+  }
 
   .post-image-placeholder {
     height: 200px; /* 작은 화면에서 이미지 높이 조절 */

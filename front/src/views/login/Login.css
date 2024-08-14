@@ -193,47 +193,48 @@
 /* 미디어 쿼리: 모바일 화면 */
 @media (max-width: 360px) {
     .login-container {
-        position: relative;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, 20%);
-        margin-bottom: 15%;
-        max-width: 1200px; /* 최대 너비 조정 */
+        position: static; /* 위치 고정 및 중앙 정렬 제거 */
+        transform: none; /* 변형 제거 */
+        margin: 0 10px; /* 좌우 여백 추가 */
         width: 100%; /* 전체 너비를 차지하도록 설정 */
     }
     
     /* 로그인 박스 스타일 */
     .login-box {
-        padding: 20px; /* 패딩을 줄여서 공간을 더 확보 */
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        background-color: #f8f9fa;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-        box-sizing: border-box; /* 패딩과 보더를 너비에 포함 */
+        max-width: 300px; /* 박스의 최대 너비를 설정 */
+    width: 100%; /* 전체 너비를 차지하도록 설정 */
+    padding: 15px; /* 패딩을 줄여서 공간 확보 */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box; /* 패딩과 보더를 너비에 포함 */
+    margin-left: 20px;
     }
     
     /* 제목 스타일 */
     .login-title {
-        font-size: 1.5rem; /* 폰트 크기를 조정 */
-        margin-bottom: 15px; /* 여백을 줄여서 공간을 확보 */
+        font-size: 1.25rem; /* 폰트 크기 축소 */
+        margin-bottom: 10px; /* 여백을 줄여서 공간을 확보 */
     }
     
     /* 폼 그룹 스타일 */
     .login-form-group {
-        margin-bottom: 1rem; /* 여백을 줄여서 공간을 확보 */
+        margin-bottom: 0.75rem; /* 여백을 줄여서 공간을 확보 */
     }
     
     .login-form-group label {
         display: block;
         font-weight: bold;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.4rem;
         text-align: left;
+        font-size: 0.85rem; /* 레이블 폰트 크기 조정 */
     }
     
     .login-form-group input {
         width: 100%;
-        padding: 8px; /* 패딩을 줄여서 공간을 확보 */
-        font-size: 0.9rem; /* 폰트 크기를 조정 */
+        padding: 6px; /* 패딩을 줄여서 공간을 확보 */
+        font-size: 0.85rem; /* 폰트 크기를 조정 */
         border: 1px solid #ced4da;
         border-radius: 4px;
     }
@@ -241,11 +242,11 @@
     /* 버튼 스타일 */
     .login-button {
         width: 100%;
-        padding: 10px; /* 패딩을 줄여서 공간을 확보 */
+        padding: 8px; /* 패딩을 줄여서 공간을 확보 */
         background-color: #007bff;
         border: none;
         color: #fff;
-        font-size: 0.9rem; /* 폰트 크기를 조정 */
+        font-size: 0.85rem; /* 폰트 크기를 조정 */
         border-radius: 4px;
         cursor: pointer;
     }
@@ -257,7 +258,7 @@
     /* 구글 로그인 버튼 스타일 */
     .login-google-container {
         width: 100%;
-        height: 40px; /* 높이를 줄여서 공간을 확보 */
+        height: 35px; /* 높이를 줄여서 공간을 확보 */
         display: flex;
         justify-content: center;
         align-items: center;
@@ -265,16 +266,18 @@
     
     /* 링크 컨테이너 스타일 */
     .login-link-container {
-        text-align: center;
-        margin-top: 15px; /* 여백을 줄여서 공간을 확보 */
+        text-align: left;
+    margin-top: 8px; /* 상단 여백 축소 */
+    width: 100%;
+    margin-left: 8px;
     }
     
     .login-link-container a {
         display: inline-block;
-        font-size: 12px; /* 폰트 크기를 조정 */
+        font-size: 0.7rem; /* 폰트 크기 조정 */
         color: #007bff;
         text-decoration: none;
-        margin: 0 8px; /* 여백을 조정 */
+        margin: 0 3px; /* 좌우 여백 축소 */
     }
     
     .login-link-container a:hover {
@@ -283,6 +286,6 @@
     
     /* 구분선 스타일 */
     .login-hr {
-        margin: 15px 0; /* 여백을 줄여서 공간을 확보 */
+        margin: 10px 0; /* 여백을 줄여서 공간을 확보 */
     }
 }

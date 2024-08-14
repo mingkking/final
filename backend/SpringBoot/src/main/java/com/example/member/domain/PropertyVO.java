@@ -10,7 +10,7 @@ public class PropertyVO {
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private String registration_date; 
 	private Integer property_num; 
-	private Integer transaction_amount; 
+	private Long transaction_amount; 
 	private String year_built; 
 	private String address; 
 	private String road_name; 

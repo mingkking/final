@@ -226,5 +226,23 @@
 		SELECT count(*)
 		FROM userLike
 	</select>
+	
+	<!-- 커뮤니티 게시글 신고 목록 -->
+	<select id="selectComplaintPost" resultType="MgrCommComplaintVO">
+		SELECT d.*, u.user_name, c.title
+		FROM declaration d
+		JOIN users u ON d.user_num = u.user_num
+		JOIN community c ON d.type_num = c.ID 
+		WHERE d.type = 'community'
+	</select>
+	
+	<!-- 커뮤니티 댓글 신고 목록 -->
+	<select id="selectComplaintCmt" resultType="MgrCommComplaintVO">
+		SELECT d.*, u.user_name, r.CONTENTS
+		FROM declaration d
+		JOIN users u ON d.user_num = u.user_num
+		JOIN reply r ON d.TYPE_NUM  = r.REPLY_NUM 
+		WHERE d.type = 'reply'
+	</select>
 </mapper>
 

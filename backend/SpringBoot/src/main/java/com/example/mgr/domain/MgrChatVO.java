@@ -24,10 +24,8 @@ public class MgrChatVO {
     	return members != null ? members.size() : 0;
     }
     
-    public int chatNum() {
-        for (int i = 1; i < room.length(); i++) {
-            chat_num++;
-        }
-        return chat_num;
+    // chat_num 값을 설정하는 메서드
+    public void setChatNum(int chat_num) {
+        this.chat_num = chat_num;
     }
 }
