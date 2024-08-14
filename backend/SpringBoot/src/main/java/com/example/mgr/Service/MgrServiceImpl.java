@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import com.example.community.domain.BookmarkVO;
 import com.example.mgr.dao.MgrDAO;
 import com.example.mgr.domain.MgrBookMarkVO;
+import com.example.mgr.domain.MgrCommComplaintVO;
 import com.example.mgr.domain.MgrCommunityVO;
 import com.example.mgr.domain.MgrInterestEstateVO;
 import com.example.mgr.domain.MgrManagerVO;
@@ -169,6 +170,16 @@ public class MgrServiceImpl implements MgrService {
 	// 좋아요 수
 	public int userLike() {
 		return mgrDAO.userLike();
+	}
+
+	// 커뮤니티 게시글 신고 리스트
+	public List<MgrCommComplaintVO> selectComplaintPost(MgrCommComplaintVO vo) {
+		return mgrDAO.selectComplaintPost(vo);
+	}
+
+	// 커뮤니티 댓글 신고 리스트
+	public List<MgrCommComplaintVO> selectComplaintCmt(MgrCommComplaintVO vo) {
+		return mgrDAO.selectComplaintCmt(vo);
 	}
 
 }
