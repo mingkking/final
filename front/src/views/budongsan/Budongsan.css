@@ -22,7 +22,7 @@
 }
 
 /* 미디어 쿼리: 화면 너비가 768px 이하일 때 */
-@media (max-width: 768px) {
+@media (max-width: 360px) {
   .buContainer {
     position: relative;
     flex-direction: column;
@@ -30,7 +30,7 @@
   }
 
   .left {
-    width: 50%;
+    width: 100%;
     position: fixed; /* 사이드바를 화면에 고정 */
     top: 0;
     left: 0;

@@ -29,7 +29,7 @@ const Kospi = () => {
     ];
 
     return (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', color:'#fff' }}>
             {videos.map((video, index) => (
                 <div key={index} style={{ flex: '1 1 calc(25% - 20px)', marginBottom: '20px' }}> {/* 4개를 한 줄에 배치 */}
                     <a href={video.videoUrl} target="_blank" rel="noopener noreferrer">

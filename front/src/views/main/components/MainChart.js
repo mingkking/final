@@ -42,9 +42,17 @@ function MainChart() {
     const latestKospi = kospiData[kospiData.length - 1];
 
     return (
-        <Paper elevation={3} sx={{ p: isMobile ? 2 : 3, borderRadius: 2, bgcolor: 'background.paper' }}>
+        <Paper
+            elevation={3}
+            sx={{ 
+                p: isMobile ? 2 : 3, 
+                borderRadius: 2, 
+                bgcolor: '#131722',
+                border: '1px solid rgba(255, 255, 255, 0.5)' // 흰색 보더 추가
+            }}
+        >
             <Box sx={{ mb: isMobile ? 1 : 3 }}>
-                <Typography variant={isMobile ? "h5" : "h4"} component="h3" align="center" sx={{ fontWeight: "bold", mb: 1 }}>
+                <Typography variant={isMobile ? "h5" : "h4"} component="h3" align="center" sx={{ fontWeight: "bold", mb: 1, color: "white", }}>
                 코스피지수
                 </Typography>
                 {latestKospi && (
@@ -66,7 +74,7 @@ function MainChart() {
                         color: 'text.secondary',
                         fontWeight: "bold",
                         fontSize: isMobile ? '0.8rem' : '0.9rem',
-                        
+                        color: "white",
                     }}
                 >
                     {latestDate} 기준
@@ -91,11 +99,11 @@ function MainChart() {
                             height={70} 
                             angle={-45} 
                             textAnchor="end" 
-                            tick={{fontSize: isMobile ? 10 : 12}}
+                            tick={{fontSize: isMobile ? 10 : 12, fill: '#FFFFFF'}}
                         />
                         <YAxis 
                          textAnchor="end" 
-                         tick={{fontSize: isMobile ? 10 : 12}}/>
+                         tick={{fontSize: isMobile ? 10 : 12, fill: '#FFFFFF'}}/>
                         <Tooltip />
                         <Area 
                             type="monotone" 

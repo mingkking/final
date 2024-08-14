@@ -1,9 +1,13 @@
 /* 모바일 스타일 */
-@media (max-width: 768px) {
-    .nav-area {
-      margin-left: 100px;
-      
-      
-    }
-
+@media (max-width: 360px) {
+  .nav-area {
+      display: flex;
+      justify-content: flex-start; /* 요소를 왼쪽으로 정렬 */
+      align-items: center;
+      padding-left: 20px; /* 로고를 왼쪽으로 밀어내기 위해 padding 추가 */
   }
+
+  .logo {
+      margin-right: auto !important; /* 오른쪽 마진을 자동으로 설정 */
+  }
+}

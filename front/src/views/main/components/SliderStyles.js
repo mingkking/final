@@ -6,7 +6,7 @@ import { Paper } from '@mui/material';
 export const StyledSlide = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(2),
     textAlign: 'center',
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: '#1E2332',
     width: '100%',
     boxSizing: 'border-box',
 }));

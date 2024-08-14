@@ -42,8 +42,8 @@ const EconomicNewsFeed = () => {
                                     <img src={item.img} alt={item.title} className="economics-image" />
                                 )}
                                 <div>
-                                    <h2 className="economics-title">{item.title}</h2>
-                                    <p className="economics-date">{item.date}</p>
+                                    <h2 className="economics-title" style={{ color: '#fff' }}>{item.title}</h2>
+                                    <p className="economics-date" style={{ color: '#fff' }}>{item.date}</p>
                                 </div>
                             </a>
                         </li>

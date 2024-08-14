@@ -42,8 +42,8 @@ const BudongsanNews = () => {
                                     <img src={item.img} alt={item.title} className="budongsan-image" />
                                 )}
                                 <div>
-                                    <h2 className="budongsan-title">{item.title}</h2>
-                                    <p className="budongsan-date">{item.date}</p>
+                                    <h2 className="budongsan-title" style={{ color: '#fff' }}>{item.title}</h2>
+                                    <p className="budongsan-date" style={{ color: '#fff' }}>{item.date}</p>
                                 </div>
                             </a>
                         </li>

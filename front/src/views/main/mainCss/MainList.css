@@ -50,3 +50,10 @@
 .news-list-item:last-of-type {
     border-bottom: none;
 }
+
+@media (max-width: 380px) {
+    .news-list-item {
+        font-size: 14px; /* 작은 화면에서 폰트 크기 줄임 */
+    }
+}
+
