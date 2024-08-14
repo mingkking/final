@@ -724,7 +724,6 @@ def analyze_stock():
                 }
                 for i, pred in enumerate(predictions)
             ]
-
             return jsonify({
                 'processedData': result_data,
                 'stockName': name,

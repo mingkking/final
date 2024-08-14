@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import com.example.mgr.domain.MgrMemberVO;
 import com.example.mgr.domain.MgrSessionCountVO;
 import com.example.mgr.domain.MgrBookMarkVO;
+import com.example.mgr.domain.MgrCommComplaintVO;
 import com.example.mgr.domain.MgrCommunityVO;
 import com.example.mgr.domain.MgrInterestEstateVO;
 import com.example.mgr.domain.MgrManagerVO;
@@ -84,4 +85,10 @@ public interface MgrService {
 	
 	// 좋아요 수
 	int userLike();
+	
+	// 커뮤니티 게시글 신고 리스트
+	List<MgrCommComplaintVO> selectComplaintPost(MgrCommComplaintVO vo);
+	
+	// 커뮤니티 댓글 신고 리스트
+	List<MgrCommComplaintVO> selectComplaintCmt(MgrCommComplaintVO vo);
 }

@@ -70,18 +70,42 @@
         ORDER BY stock_code
         ]]>
     </select>
-        <select id="selectTopInterestedStocks" resultType="com.example.stock.domain.StockVO">
-        <![CDATA[
-           SELECT * FROM (
-        SELECT s.*, COUNT(si.stock_code) as interest_count, 
-               ROW_NUMBER() OVER (ORDER BY COUNT(si.stock_code) DESC) as rn
-        FROM STOCK_INFO s
-        LEFT JOIN STOCK_INTEREST si ON s.stock_code = si.stock_code
-        GROUP BY s.stock_code, s.stock_name, s.stock_type, s.closing_price, s.opening_price,
-                 s.high_price, s.low_price, s.compared_price, s.trading_volume, s.trading_amount,
-                 s.capitalization, s.listed_stocks, s.record_date
-    )
-    WHERE rn <= #{limit}
-    ]]>
-    </select>
+       <select id="selectTopInterestedStocks" resultType="com.example.stock.domain.StockVO">
+  WITH StockInterestCounts AS (
+    SELECT stock_code, COUNT(*) AS interest_count
+    FROM STOCK_INTEREST
+    GROUP BY stock_code
+  ),
+  LatestStockInfo AS (
+    SELECT si.*,
+           ROW_NUMBER() OVER (PARTITION BY si.stock_code ORDER BY si.record_date DESC) AS rn
+    FROM STOCK_INFO si
+  )
+  SELECT * FROM (
+    SELECT 
+      lsi.stock_code,
+      lsi.stock_name,
+      lsi.closing_price,
+      lsi.opening_price,
+      lsi.high_price,
+      lsi.low_price,
+      TO_CHAR(lsi.record_date, 'YYYY-MM-DD') AS record_date,
+      lsi.stock_type,
+      lsi.trading_volume AS trading_volume,
+      lsi.compared_price,
+      lsi.trading_amount,
+      lsi.capitalization,
+      lsi.listed_stocks,
+      COALESCE(sic.interest_count, 0) AS interest_count
+    FROM 
+      LatestStockInfo lsi
+    LEFT JOIN 
+      StockInterestCounts sic ON lsi.stock_code = sic.stock_code
+    WHERE 
+      lsi.rn = 1
+    ORDER BY 
+      sic.interest_count DESC NULLS LAST
+  )
+  WHERE ROWNUM &lt;= 10
+</select>
 </mapper>

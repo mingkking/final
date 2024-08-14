@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 import com.example.community.domain.BookmarkVO;
 import com.example.mgr.domain.MgrBookMarkVO;
+import com.example.mgr.domain.MgrCommComplaintVO;
 import com.example.mgr.domain.MgrCommunityVO;
 import com.example.mgr.domain.MgrInterestEstateVO;
 import com.example.mgr.domain.MgrManagerVO;
@@ -85,4 +86,10 @@ public interface MgrDAO {
 	
 	// 좋아요 수
 	public int userLike();
+	
+	// 커뮤니티 게시글 신고 목록
+	public List<MgrCommComplaintVO> selectComplaintPost(MgrCommComplaintVO vo);
+	
+	// 커뮤니티 댓글 신고 목록
+	public List<MgrCommComplaintVO> selectComplaintCmt(MgrCommComplaintVO vo);
 }
