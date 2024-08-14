@@ -1,8 +1,11 @@
 import React from 'react';
 import { Paper, Typography, Box } from '@mui/material';
-import { CustomSlider, StyledSlide } from './SliderStyles'; // 슬라이더 스타일을 정의한 파일에서 가져오기
+import { CustomSlider, StyledSlide } from './SliderStyles';
 
 const formatNumber = (number) => {
+    if (number === undefined || number === null || isNaN(number)) {
+        return '0';
+    }
     if (number >= 10000 || number <= -10000) {
         return (number / 10000).toFixed(2) + '만';
     } else {
@@ -10,7 +13,7 @@ const formatNumber = (number) => {
     }
 };
 
-const TopStocks = ({ stocks,onSlideClick }) => {
+const TopStocks = ({ stocks, onSlideClick }) => {
     const sliderSettings = {
         dots: true,
         infinite: true,
@@ -30,15 +33,15 @@ const TopStocks = ({ stocks,onSlideClick }) => {
                     <StyledSlide
                         key={index}
                         elevation={1}
-                        onClick={()=> onSlideClick(stock)}
+                        onClick={() => onSlideClick(stock)}
                     >
-                        <Typography variant="body1" color="text.primary">{stock.stockName}</Typography>
+                        <Typography variant="body1" color="text.primary">{stock.stock_name}</Typography>
                         <Typography 
                             variant="body2" 
                             color={stock.comparedPrice >= 0 ? 'success.main' : 'error.main'}
                             sx={{ fontWeight: 'bold' }}
                         >
-                            대비: {stock.comparedPrice >= 0 ? '+' : ''}{formatNumber(stock.comparedPrice)}
+                            대비: {stock.comparedPrice >= 0 ? '+' : ''}{formatNumber(stock.compared_price)}
                         </Typography>
                     </StyledSlide>
                 ))}

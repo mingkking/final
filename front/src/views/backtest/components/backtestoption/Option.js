@@ -4,7 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/locale"
 import { TextField, Button, Select, MenuItem, FormControl, Box, Typography, useTheme, InputLabel } from '@mui/material';
 import { useStock } from '../../../stock/components/context/StockContext';
-import StockAutoSearch from '../../stocksearch/StockAutoSearch';
+import StockAutoSearch from '../stocksearch/StockAutoSearch';
 
 const Options = ({ onAnalyze }) => {
   const [stockName, setStockName] = useState('');

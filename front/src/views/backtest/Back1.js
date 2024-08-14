@@ -2,7 +2,7 @@ import React, { useState, useEffect,useContext } from "react";
 import { useNavigate } from "react-router";
 import Options from "./components/backtestoption/Option";
 import ResultChart from "./components/resultchart/Resultchart"
-import { Card, Container, Grid, Typography, Box, useTheme, CircularProgress, Snackbar, Alert } from "@mui/material";
+import { Paper,Card, Container, Grid, Typography, Box, useTheme, CircularProgress, Snackbar, Alert } from "@mui/material";
 import axios from 'axios';
 import axiosInstance from "../login/component/Token/axiosInstance"
 import CommunityContext from "../community/contexts/CommunityContext"
@@ -118,9 +118,11 @@ const Back1 = () => {
   return (
     <Box sx={{ bgcolor: theme.palette.background.default, minHeight: '100vh', py: 4 }}>
     <Container maxWidth="lg">
-      <Typography variant="h3" component="h1" gutterBottom align="center" sx={{ mb: 4, color: theme.palette.primary.main, fontWeight: 'bold' }}>
-        백테스트
-      </Typography>
+    <Paper elevation={3} sx={{ mb: 2, p: 2, backgroundColor: theme.palette.primary.main }}>
+        <Typography variant="h4" component="h1" align="center" sx={{ color: theme.palette.primary.contrastText ,fontWeight:"bold"}}>
+          백테스트
+        </Typography>
+      </Paper>
       <Grid container spacing={4}>
         <Grid item xs={12} md={5}>
           <Card elevation={3} sx={{ height: '100%' }}>

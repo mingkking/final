@@ -25,31 +25,40 @@ public class StockController {
     private StockService stockService;
 
     // 메인 페이지 주요 주식 게시판에 데이터를 보내는 컨트롤러
+    // @GetMapping("/MainstockList")
+    // public ResponseEntity<List<Map<String, Object>>> MainstockList() {
+    //     try {
+    //         List<Map<String, Object>> stockList = new ArrayList<>();
+
+    //         // 여기서는 예시로 4개의 주식을 하드코딩했습니다. 실제로는 DB에서 가져와야 합니다.
+    //         String[] stockCodes = { "005930", "000660", "051910", "012450" };
+
+    //         for (String code : stockCodes) {
+    //             StockVO stock = stockService.getStockInfo(code);
+    //             if (stock != null) {
+    //                 Map<String, Object> stockInfo = new HashMap<>();
+    //                 stockInfo.put("stockName", stock.getStock_name());
+    //                 stockInfo.put("comparedPrice", stock.getCompared_price());
+    //                 stockList.add(stockInfo);
+    //             }
+    //         }
+
+    //         return ResponseEntity.ok(stockList);
+    //     } catch (Exception e) {
+    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+    //     }
+    // }
+
     @GetMapping("/MainstockList")
-    public ResponseEntity<List<Map<String, Object>>> MainstockList() {
+    public ResponseEntity<List<StockVO>> getTopInterestedStocks() {
         try {
-            List<Map<String, Object>> stockList = new ArrayList<>();
-
-            // 여기서는 예시로 4개의 주식을 하드코딩했습니다. 실제로는 DB에서 가져와야 합니다.
-            String[] stockCodes = { "005930", "000660", "051910", "012450" };
-
-            for (String code : stockCodes) {
-                StockVO stock = stockService.getStockInfo(code);
-                if (stock != null) {
-                    Map<String, Object> stockInfo = new HashMap<>();
-                    stockInfo.put("stockName", stock.getStock_name());
-                    stockInfo.put("comparedPrice", stock.getCompared_price());
-                    stockList.add(stockInfo);
-                }
-            }
-
-            return ResponseEntity.ok(stockList);
+            List<StockVO> topStocks = stockService.getTopInterestedStocks();
+            return ResponseEntity.ok(topStocks);
         } catch (Exception e) {
+            logger.error("Error fetching top interested stocks", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-
-
 
     // 주식 리스트에서 검색기능
     @GetMapping("/stock/search")
@@ -113,4 +122,5 @@ public class StockController {
             return ResponseEntity.internalServerError().body("Error in stock autocomplete");
         }
     }
+
 }

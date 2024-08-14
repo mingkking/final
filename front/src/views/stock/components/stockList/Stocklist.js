@@ -16,11 +16,8 @@ import {
   InputAdornment,
   IconButton,
   useMediaQuery,
-  Tooltip
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
-import StarIcon from '@mui/icons-material/Star';
 import CommunityContext from "../../../community/contexts/CommunityContext";
 import axiosInstance from "../../../login/component/Token/axiosInstance";
 
@@ -57,31 +54,7 @@ const Stocklist = ({ onStockSelect }) => {
       return false;
     }
   };
-  const handleToggleFavorite = async (event, stock) => {
-    event.stopPropagation();
-    if (await loginCheck()) {
-      try {
-        const endpoint = stock.isFavorite ? 'delete_stock' : 'add_stock';
-        const response = await axios.post(`http://localhost:5000/${endpoint}`, {
-          user_num: communityValue.state.userNum,
-          stock_code: stock.stock_code
-        });
-        
-        if (response.data.status === 'success') {
-          setStocks(stocks.map(s =>
-            s.stock_code === stock.stock_code
-              ? { ...s, isFavorite: !s.isFavorite }
-              : s
-          ));
-          // console.log(response.data.message);
-        } else {
-          console.error('관심 종목 토글 실패:', response.data.message);
-        }
-      } catch (error) {
-        console.error('관심 종목 토글 중 오류 발생:', error);
-      }
-    }
-  };
+  
 
   const lastStockElementRef = useCallback(node => {
     if (loading) return;
@@ -98,23 +71,8 @@ const Stocklist = ({ onStockSelect }) => {
     try {
       setLoading(true);
       const response = await axios.get(url);
-      if (communityValue.state.userNum) {
-        const stocksWithFavorites = await Promise.all(response.data.stocks.map(async (stock) => {
-          try {
-            const favoriteResponse = await axios.post('http://localhost:5000/check_stock', {
-              user_num: communityValue.state.userNum,
-              stock_code: stock.stock_code
-            });
-            return { ...stock, isFavorite: favoriteResponse.data.isFavorite };
-          } catch (error) {
-            console.error('관심 종목 확인 중 오류:', error);
-            return { ...stock, isFavorite: false };
-          }
-        }));
-        setStocks(prevStocks => isInitialLoad ? stocksWithFavorites : [...prevStocks, ...stocksWithFavorites]);
-      } else {
-        setStocks(prevStocks => isInitialLoad ? response.data.stocks : [...prevStocks, ...response.data.stocks]);
-      }
+      if (communityValue.state.userNum) 
+      setStocks(prevStocks => isInitialLoad ? response.data.stocks : [...prevStocks, ...response.data.stocks]);
       setHasMore(response.data.hasMore);
       setLastLoadedId(response.data.lastLoadedId);
       setLoading(false);
@@ -137,13 +95,7 @@ useEffect(()=>{
     try {
       setLoading(true);
       const response = await axios.get(url);
-      if (communityValue.state.userNum) {
-        const stocksWithFavorites = await Promise.all(response.data.stocks.map(async (stock) => {
-        }));
-        setStocks(prevStocks => isInitialLoad ? stocksWithFavorites : [...prevStocks, ...stocksWithFavorites]);
-      } else {
-        setStocks(prevStocks => isInitialLoad ? response.data.stocks : [...prevStocks, ...response.data.stocks]);
-      }
+      setStocks(prevStocks => isInitialLoad ? response.data.stocks : [...prevStocks, ...response.data.stocks]);
       setHasMore(response.data.hasMore);
       setLastLoadedId(response.data.lastLoadedId);
       setLoading(false);

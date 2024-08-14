@@ -32,36 +32,36 @@ const ResultChart = ({ analysisResult, error }) => {
           
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
-              <Typography variant="h6" color="primary" gutterBottom>
-                작동 방식:
+              <Typography variant="h6" color="primary" gutterBottom align='left'>
+                작동 방식
               </Typography>
-              <Typography variant="body1" component="ol" sx={{ pl: 2 }}>
-                <li>선택한 주식의 과거 데이터 수집</li>
-                <li>전문가들이 사용하는 지표 계산</li>
-                <li>인공지능의 패턴 학습</li>
-                <li>미래 주가 움직임 예측</li>
+              <Typography variant="body1" component="ol" sx={{ pl: 2 }} align='left'>
+                <dt>1.선택한 주식의 과거 데이터 수집</dt>
+                <dt>2.전문가들이 사용하는 지표 계산</dt>
+                <dt>3.인공지능의 패턴 학습</dt>
+                
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Typography variant="h6" color="primary" gutterBottom>
-                제공 정보:
+              <Typography variant="h6" color="primary" gutterBottom align='left'>
+                제공 정보
               </Typography>
-              <Typography variant="body1" component="ul" sx={{ pl: 2 }}>
-                <li>날짜별 예상 수익률 (%)</li>
-                <li>주가 상승/하락 예측</li>
-                <li>예측 신뢰도 지표</li>
+              <Typography variant="body1" component="ul" sx={{ pl: 2 }} align='left'>
+                <dt>1.날짜별 예상 수익예측</dt>
+                <dt>2.주가 상승/하락 예측</dt>
+                <dt>3.총 수익률 예측</dt>
               </Typography>
             </Grid>
           </Grid>
           
           <Box sx={{ mt: 3, p: 2, bgcolor: theme.palette.grey[100], borderRadius: 1 }}>
-            <Typography variant="body2" fontWeight="bold">
+            <Typography variant="body1" fontWeight="bold">
               주의: 이 도구는 참고용입니다. 실제 투자 결정은 신중하게 내려야 합니다.
             </Typography>
           </Box>
         </Paper>
         
-        <Typography variant="h6" color="text.secondary" sx={{ mt: 4 }}>
+        <Typography variant="h5" color="text.secondary" sx={{ mt: 12 }}>
           분석을 시작하려면 옵션을 선택하고 '분석 시작' 버튼을 클릭하세요.
         </Typography>
       </Box>
@@ -103,14 +103,14 @@ const ResultChart = ({ analysisResult, error }) => {
           xAxis={[{ 
             scaleType: 'time', 
             dataKey: 'date',
-            label: '날짜',
-            tickLabelStyle: { angle: 45, textAnchor: 'start', fontSize: 12 },
+            // label: '날짜',
+            tickLabelStyle: { angle: 45, textAnchor: 'start', fontSize: 10 },
             valueFormatter: (date) => formatDate(date),
             tickNumber: 6,
           }]}
           yAxis={[{ 
-            label: '예측 수익률',
-            labelStyle: { transform: 'translateX(-20px)' },
+            // label: '예측 수익률',
+            // labelStyle: { transform: 'translateX(-20px)' },
           }]}
           sx={{
             [`& .${axisClasses.left} .${axisClasses.label}`]: {
@@ -145,7 +145,7 @@ const ResultChart = ({ analysisResult, error }) => {
               </Typography>
             </Box>
             <Typography variant="body1" gutterBottom>
-              최종 예측 수익: {analysisResult.processedData[analysisResult.processedData.length - 1].predicted_return.toFixed(2)}%
+              최종 예측 수익: {analysisResult.processedData[analysisResult.processedData.length - 1].predicted_return.toFixed(2)}
             </Typography>
             <Typography variant="body1">
               최종 예측 움직임: {analysisResult.processedData[analysisResult.processedData.length - 1].predicted_movement}
