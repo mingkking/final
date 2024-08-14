@@ -21,7 +21,6 @@ const MemberList = () => {
   const navigate = useNavigate();
 
   const handleClickDetail = (user_num) => {
-    console.log("클릭한 번호--------", user_num);
     navigate(`/manager/memberDetail/${user_num}`);    
   }
 
@@ -48,7 +47,6 @@ const MemberList = () => {
     const filtered = value.state.memberList.filter((member) => {
       const matchesSearch = member[searchField].toString().toLowerCase().includes(searchMember.toLowerCase());
       const hasPayment = !hasPaymentDate || (member.payment_date && member.payment_date.trim() !== '');
-
       return matchesSearch && hasPayment;
     });
 
@@ -86,12 +84,14 @@ const MemberList = () => {
       });
   }, []);
 
+  // 체크박스 상태 변경 시 필터링 및 정렬
   useEffect(() => {
-    filterAndSortMembers();  // 체크박스 상태 변경 시 필터링 및 정렬
+    filterAndSortMembers();
   }, [hasPaymentDate]);
 
+  // 검색 필드, 검색 값 또는 정렬 기준 변경 시 필터링 및 정렬
   useEffect(() => {
-    filterAndSortMembers();  // 검색 필드, 검색 값 또는 정렬 기준 변경 시 필터링 및 정렬
+    filterAndSortMembers(); 
   }, [searchField, searchMember, sortField, sortOrder]);
 
   const indexLastMember = pageTen * member10List;
