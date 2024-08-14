@@ -26,7 +26,7 @@ def build_lstm_model(input_shape):
     return model
 
 def prepare_data_for_lstm(df, features, target, seq_length=10):
-    # 수익률 계산 (필요하다면)
+    # 수익률 계산
     df['returns'] = df[target].pct_change()
     
     # NaN 값을 평균으로 대체
@@ -53,4 +53,5 @@ def train_lstm_model(X_train, y_train):
 
 def evaluate_lstm_model(model, X_test, y_test):
     loss, mae = model.evaluate(X_test, y_test, verbose=0)
+    #print(loss,mae)
     return loss, mae

@@ -34,6 +34,6 @@ public class StockServiceImpl implements StockService {
     }
     @Override
     public List<StockVO> getTopInterestedStocks() {
-        return stockDAO.selectTopInterestedStocks(10); // 상위 10개 종목을 가져옵니다
+        return stockDAO.selectTopInterestedStocks();
     }
 }
