@@ -54,15 +54,17 @@ const Rereply = (props) => {
 
         await axios.post("http://localhost:8080/insertReReply", formData) // 데이터 -> 컨트롤러 요청
             .then((res) => {
-                setTimeout(() => {
-                    setRereplyContent("");                                    // 댓글 내용 초기화
-                    handleRereplyCancelClick(); // 대댓글 작성 후 입력창 닫기
-                    axios.get("http://localhost:8080/selectAllReReply", { params: { id: communityValue.state.selectOnePost.id } })            // 검색 -> 컨트롤러 요청
+                setRereplyContent("");                                    // 댓글 내용 초기화
+                handleRereplyCancelClick(); // 대댓글 작성 후 입력창 닫기
+            })
+        await axios.get("http://localhost:8080/selectAllReReply", { params: { id: communityValue.state.selectOnePost.id } })            // 검색 -> 컨트롤러 요청
 
-                        .then((res) => {                                                // DB 입력 요청 후 응답
-                            communityValue.actions.setSelectAllReReply(res.data);         // 커뮤니티 모든 댓글 검색 데이터 저장
-                        })
-                }, 0);
+            .then((res) => {                                                // DB 입력 요청 후 응답
+                communityValue.actions.setSelectAllReReply(res.data);         // 커뮤니티 모든 댓글 검색 데이터 저장
+            })
+        await axios.get("http://localhost:8080/selectAllReplyCnt")            // 검색 -> 컨트롤러 요청
+            .then((res) => {                                                // DB 검색 요청 후 응답
+                communityValue.actions.setSelectAllReplyCnt(res.data);         // 커뮤니티 모든 글 댓글 수 검색 데이터 저장
             })
     }
 
@@ -167,6 +169,10 @@ const Rereply = (props) => {
                         communityValue.actions.setSelectAllReReply(res.data);         // 커뮤니티 모든 댓글 검색 데이터 저장
                     })
             })
+        await axios.get("http://localhost:8080/selectAllReplyCnt")            // 검색 -> 컨트롤러 요청
+            .then((res) => {                                                // DB 검색 요청 후 응답
+                communityValue.actions.setSelectAllReplyCnt(res.data);         // 커뮤니티 모든 글 댓글 수 검색 데이터 저장
+            })
     }
 
     return (
@@ -232,7 +238,7 @@ const Rereply = (props) => {
                             </li>
                         </form>
                     )}
-                    {
+                    {reReplyList.length > 0 &&
                         reReplyList.map((reReply, i) => {
                             if (reReply.reply_num.reply_num === props.reply_num) {
                                 return (
@@ -275,7 +281,7 @@ const Rereply = (props) => {
                                                                 </button>
                                                             </Tooltip>
                                                         ) : (
-                                                            <Declaration type={"reReply"} type_num={reReply.rereply_num}/>
+                                                            <Declaration type={"reReply"} type_num={reReply.rereply_num} />
                                                         )}
                                                     </div>
                                                     {isUpdateReReplyBtn === reReply.rereply_num && (

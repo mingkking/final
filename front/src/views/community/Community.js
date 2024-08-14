@@ -20,7 +20,7 @@ const Community = () => {
         selectAllPopularPosts();                                            // 커뮤니티 모든 인기 글 검색 함수 실행
         selectAllBookmark();                                                // 커뮤니티 모든 글 북마크 검색 함수 실행
         selectAllDeclaration();                                             // 커뮤니티 모든 글 신고 검색 함수 실행
-        // selectAllUserLikeCnt();                                             // 커뮤니티 모든 글 좋아요 수 검색 함수 실행
+        selectAllUserLikeCnt();                                             // 커뮤니티 모든 글 좋아요 수 검색 함수 실행
 
         communityValue.actions.setRealTime(new Date().toLocaleString());
 
@@ -68,14 +68,13 @@ const Community = () => {
             })
     }
 
-    // const selectAllUserLikeCnt = async () => {                                 // 커뮤니티 모든 글 좋아요 수 검색 함수 생성
-    //     await axios.get("http://localhost:8080/selectAllUserLikeCnt")            // 검색 -> 컨트롤러 요청
+    const selectAllUserLikeCnt = async () => {                                 // 커뮤니티 모든 글 좋아요 수 검색 함수 생성
+            axios.get("http://localhost:8080/selectAllUserLikeCnt")            // 검색 -> 컨트롤러 요청
 
-    //         .then((res) => {                                                // DB 검색 요청 후 응답     
-    //             console.log(res);
-    //             communityValue.actions.selectAllUserLikeCnt(res.data);         // 커뮤니티 모든 글 좋아요 수 검색 데이터 저장
-    //         })
-    // }
+            .then((res) => {                                                // DB 검색 요청 후 응답     
+                communityValue.actions.setSelectAllUserLikeCnt(res.data);         // 커뮤니티 모든 글 좋아요 수 검색 데이터 저장
+            })
+    }
 
     const selectAllPopularPosts = async () => {                             // 커뮤니티 모든 인기 글 검색 함수 생성
 

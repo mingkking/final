@@ -9,6 +9,7 @@ const UserLike = (props) => {
     const navigate = useNavigate();
     const [isLike, setIsLike] = useState(false);
     const userLikeList = communityValue.state.selectAllUserLike || [];
+    const userLikeCntList = communityValue.state.selectAllUserLikeCnt || [];
 
     useEffect(() => {
         let liked = false;
@@ -39,8 +40,22 @@ const UserLike = (props) => {
 
         if (!isLike) {
             axios.post("http://localhost:8080/insertUserLike", userLike) // 데이터 -> 컨트롤러 요청
+                .then(() => {
+                    axios.get("http://localhost:8080/selectAllUserLikeCnt")             // 검색 -> 컨트롤러 요청
+
+                        .then((res) => {                                                // DB 검색 요청 후 응답     
+                            communityValue.actions.setSelectAllUserLikeCnt(res.data);   // 커뮤니티 모든 글 좋아요 수 검색 데이터 저장
+                        })
+                })
         } else {
             axios.post("http://localhost:8080/deleteUserLike", userLike) // 데이터 -> 컨트롤러 요청
+                .then(() => {
+                    axios.get("http://localhost:8080/selectAllUserLikeCnt")             // 검색 -> 컨트롤러 요청
+
+                        .then((res) => {                                                // DB 검색 요청 후 응답     
+                            communityValue.actions.setSelectAllUserLikeCnt(res.data);   // 커뮤니티 모든 글 좋아요 수 검색 데이터 저장
+                        })
+                })
         }
     }
 
@@ -79,6 +94,14 @@ const UserLike = (props) => {
                     </button>
                 }
             </Tooltip>
+            {userLikeCntList.length > 0 &&
+                userLikeCntList.map((userLikeCnt, i) => {
+                    if (userLikeCnt.ID === props.postId) {
+                        return (
+                            userLikeCnt.CNT
+                        )
+                    }
+                })}
         </div>
     );
 }
