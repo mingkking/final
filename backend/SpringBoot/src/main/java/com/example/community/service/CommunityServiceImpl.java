@@ -1,5 +1,6 @@
 package com.example.community.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,7 +93,7 @@ public class CommunityServiceImpl implements CommunityService {
 
     // 좋아요 id, 개수
     @Override
-    public Map<String, Integer> selectAllUserLikeCnt() throws Exception {
+    public List<Map<String, Object>> selectAllUserLikeCnt() throws Exception {
         return userLikeRepository.selectAllUserLikeCnt();
     }
 
@@ -179,6 +180,12 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public List<ReplyVO> selectAllReply() throws Exception {
         return replyRepository.findAll(); 
+    }
+
+    // 댓글 개수
+    @Override
+    public List<Map<String, Object>> selectAllReplyCnt() throws Exception {
+        return replyRepository.selectAllReplyCnt();
     }
 
     // 모든 신고 리스트

@@ -1,15 +1,12 @@
 package com.example.community.controller;
 
 import java.io.File;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -178,24 +175,19 @@ public class CommunityController {
 
     }
 
-    // // 커뮤니티 모든 글 좋아요 수 검색
-    // @GetMapping("/selectAllUserLikeCnt")
-    // public Map<String, Integer> selectAllUserLikeCnt() {
+    // 커뮤니티 모든 글 좋아요 수 검색
+    @GetMapping("/selectAllUserLikeCnt")
+    public List<Map<String, Object>> selectAllUserLikeCnt() {
+        List<Map<String, Object>> selectAllUserLikeCnt = null;
+        try {
+            selectAllUserLikeCnt = communityService.selectAllUserLikeCnt(); // 커뮤니티 서비스 객체로 커뮤니티 모든 글 좋아요 수 검색 기능 실행
+        } catch (Exception e) {
+            System.out.println("커뮤니티 모든 글 좋아요 수 검색 : " + e.getMessage()); // 커뮤니티 모든 글 좋아요 수 검색 기능 에러 발생
+        }
 
-    //     Map<String, Integer> selectAllUserLikeCnt = new HashMap<>();
-            
-    //     try {
-    //         selectAllUserLikeCnt = communityService.selectAllUserLikeCnt(); // 커뮤니티 서비스 객체로 커뮤니티 모든 글 좋아요 수 검색 기능 실행
-    //         selectAllUserLikeCnt.forEach((key, value) -> {
-    //             System.out.println(key + "::::::::::::::::::::::::::::::::::::::::::::::::::::: " + value);
-    //         });
-    //     } catch (Exception e) {
-    //         System.out.println("커뮤니티 모든 글 좋아요 수 검색 : " + e.getMessage()); // 커뮤니티 모든 글 좋아요 수 검색 기능 에러 발생
-    //     }
+        return selectAllUserLikeCnt;
 
-    //     return selectAllUserLikeCnt;
-
-    // }
+    }
 
     @PostMapping("/insertUserLike")
     public void insertUserLike(@RequestBody UserLikeVO userLikeVO) { // 커뮤니티 글 좋아요 등록 (UserLike.js 에서 받는 폼 데이터)
@@ -333,27 +325,21 @@ public class CommunityController {
         }
 
         return selectAllReReply;
-
     }
 
     // 커뮤니티 대댓글 등록
     @PostMapping("/insertReReply")
     public void insertReReply(@ModelAttribute ReReplyVO reReplyVO) { // 커뮤니티 대댓글 등록 (Rereply.js 에서 받는 폼 데이터)
-        System.out.println("reReplyVO.toString() reReplyVO.toString() reReplyVO.toString() " + reReplyVO.toString());
-
         try {
             communityService.insertReReply(reReplyVO); // 커뮤니티 서비스 객체로 커뮤니티 대댓글 등록 기능 실행
         } catch (Exception e) {
             System.out.println("커뮤니티 대댓글 등록 : " + e.getMessage()); // 커뮤니티 대댓글 등록 기능 에러 발생
         }
-
     }
 
     // 커뮤니티 대댓글 수정
     @PostMapping("/updateReReply")
     public void updateReReply(@ModelAttribute ReReplyVO reReplyVO) {
-        System.out.println("reReplyVO.toString() reReplyVO.toString() reReplyVO.toString() " + reReplyVO.toString());
-
         try {
             communityService.updateReReply(reReplyVO); // 커뮤니티 서비스 객체로 커뮤니티 대댓글 수정 기능 실행
         } catch (Exception e) {
@@ -372,6 +358,19 @@ public class CommunityController {
             System.out.println("커뮤니티 대댓글 삭제 : " + e.getMessage()); // 커뮤니티 대댓글 삭제 기능 에러 발생
         }
 
+    } 
+
+    // 커뮤니티 모든 글 댓글 수 검색
+    @GetMapping("/selectAllReplyCnt")
+    public List<Map<String, Object>> selectAllReplyCnt() {
+        List<Map<String, Object>> selectAllReplyCnt = null;
+        try {
+            selectAllReplyCnt = communityService.selectAllReplyCnt(); // 커뮤니티 서비스 객체로 커뮤니티 모든 글 댓글 수 검색 기능 실행
+        } catch (Exception e) {
+            System.out.println("커뮤니티 모든 글 댓글 수 검색 : " + e.getMessage()); // 커뮤니티 모든 글 댓글 수 검색 기능 에러 발생
+        }
+
+        return selectAllReplyCnt;
     }
 
     @GetMapping("/selectAllDeclaration")
@@ -391,8 +390,6 @@ public class CommunityController {
     // 커뮤니티 댓글 신고 등록
     @PostMapping("/insertDeclaration")
     public void insertDeclaration(@ModelAttribute DeclarationVO declarationVO) {
-        System.out.println(
-                "declarationVOdeclarationVOdeclarationVOdeclarationVOdeclarationVO " + declarationVO.toString());
 
         try {
             communityService.insertDeclaration(declarationVO); // 커뮤니티 서비스 객체로 커뮤니티 신고 등록 기능 실행
