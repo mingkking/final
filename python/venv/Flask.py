@@ -12,10 +12,12 @@ from backtest.models.lstm_model import prepare_data_for_lstm, train_lstm_model, 
 import logging
 from datetime import datetime, timedelta
 
-import requests
-from bs4 import BeautifulSoup
+
 import joblib
 from konlpy.tag import Okt
+from bs4 import BeautifulSoup
+import requests
+
 # from stock.stock_interest import check_stock,delete_stock,add_stock
 app = Flask(__name__)
 CORS(app)
@@ -34,6 +36,8 @@ json_file_path_map_data = os.path.join(os.path.dirname(__file__), 'budongsan', '
 json_file_path_school_data = os.path.join(os.path.dirname(__file__), 'budongsan', 'schoolSelect', 'schoolData.txt')
 json_file_path_store_data = os.path.join(os.path.dirname(__file__), 'budongsan', 'storeId', 'storeIdData.txt')
 json_file_path_busStation_data = os.path.join(os.path.dirname(__file__), 'budongsan', 'busStation', 'busStationData.txt')
+
+
 loaded_model_path = os.path.join(os.path.dirname(__file__), 'news', 'ML_Model', 'rf_model.joblib')
 loaded_vectorizer_path = os.path.join(os.path.dirname(__file__), 'news', 'ML_Model', 'tfidf_vectorizer.joblib')
 
@@ -85,7 +89,6 @@ def crawl_url(url):
                         titles.append(title_text)
                         urls.append(link)
                         dates.append(element2.get_text())
-                        print(dates)
 
                         # 이미지가 없을 때 처리
                         if element3:
@@ -118,8 +121,6 @@ def check_existing_titles(cursor, titles):
     return existing_titles
 
 def insert_data(cursor, titles, urls, dates, categories, imgs):
-    conn = get_db_connection()
-    cursor = conn.cursor()
     if not titles:
         print("삽입할 데이터가 없습니다.")
         return
@@ -131,11 +132,10 @@ def insert_data(cursor, titles, urls, dates, categories, imgs):
         print("새로 삽입할 데이터가 없습니다.")
         return
     sql = """
-    INSERT INTO news (id,title, url, published_at, category, imgs)
-    VALUES (:news_seq.NEXTVAL,:1, :2, :3, :4, :5)
+    INSERT INTO news (title, url, published_at, category, imgs)
+    VALUES (:1, :2, :3, :4, :5)
     """
-    # cursor.executemany(sql, new_data)
-    conn.commit()
+    cursor.executemany(sql, new_data)
     print(f"{len(new_data)}개의 새로운 기사가 삽입되었습니다.")
 
 @app.route('/news/update_news', methods=['POST'])
@@ -171,7 +171,6 @@ def update_news():
     except Exception as e:
         logger.exception("An error occurred while updating news")
         return jsonify({"error": str(e)}), 500
-        
 def convert_lob(value):
     if value is None:
         return ""

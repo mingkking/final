@@ -13,16 +13,12 @@ function InvestmentInside() {
             case '추천사이트':
                 return <RecommendationSites />;
             case '한국주식':
-                // 한국주식 컴포넌트 추가 필요
                 return <Kospi/>;
             case '부동산':
-                // 부동산 컴포넌트 추가 필요
                 return <BudongsanSite/>;
             case '노후계획':
-                // 노후계획 컴포넌트 추가 필요
                 return <RetirementPlan/>
             case '배당투자':
-                // 배당투자 컴포넌트 추가 필요
                 return <DividendInvesting/>;
             default:
                 return null;
@@ -33,29 +29,34 @@ function InvestmentInside() {
         marginRight: 10,
         padding: '10px 15px',
         cursor: 'pointer',
-        borderBottom: activeTab === tabName ? '3px solid #007BFF' : '3px solid transparent',
-        color: activeTab === tabName ? '#007BFF' : '#000',
+        border: activeTab === tabName ? '1px solid #007BFF' : 'none', // Show border only for active tab
+        borderRadius: 5, // Optional: adds rounded corners to the border
+        backgroundColor: activeTab === tabName ? '#292625' : 'transparent', // Background color for active tab
+        color: activeTab === tabName ? '#F1B13C' : '#fff', // Text color for active tab
         fontWeight: activeTab === tabName ? 'bold' : 'normal',
+        boxSizing: 'border-box' // Ensure padding and border are included in element's width and height
     });
 
     return (
         <div>
-            <h2 style={{ textAlign: 'left' }}>투자인사이드</h2>
-            <div style={{ display: 'flex', borderBottom: '1px solid #ddd' }}>
-                <div onClick={() => setActiveTab('추천사이트')} style={tabStyle('추천사이트')}>
-                    추천사이트
-                </div>
-                <div onClick={() => setActiveTab('한국주식')} style={tabStyle('한국주식')}>
-                    한국주식
-                </div>
-                <div onClick={() => setActiveTab('부동산')} style={tabStyle('부동산')}>
-                    부동산
-                </div>
-                <div onClick={() => setActiveTab('노후계획')} style={tabStyle('노후계획')}>
-                    노후계획
-                </div>
-                <div onClick={() => setActiveTab('배당투자')} style={tabStyle('배당투자')}>
-                    배당투자
+            <h2 style={{ textAlign: 'left', color:'#fff' }}>투자인사이드</h2>
+            <div style={{ display: 'flex', borderBottom: 'none' }} className='investmentInside-tab'>
+                <div style={{ flex: 1, display: 'flex' }}>
+                    <div onClick={() => setActiveTab('추천사이트')} style={tabStyle('추천사이트')} className='investmentInside-tab-item'>
+                        추천사이트
+                    </div>
+                    <div onClick={() => setActiveTab('한국주식')} style={tabStyle('한국주식')} className='investmentInside-tab-item'>
+                        한국주식
+                    </div>
+                    <div onClick={() => setActiveTab('부동산')} style={tabStyle('부동산')} className='investmentInside-tab-item'>
+                        부동산
+                    </div>
+                    <div onClick={() => setActiveTab('노후계획')} style={tabStyle('노후계획')} className='investmentInside-tab-item'>
+                        노후계획
+                    </div>
+                    <div onClick={() => setActiveTab('배당투자')} style={tabStyle('배당투자')} className='investmentInside-tab-item'>
+                        배당투자
+                    </div>
                 </div>
             </div>
             <div style={{ marginTop: 20 }}>

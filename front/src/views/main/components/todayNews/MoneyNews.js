@@ -42,8 +42,8 @@ const MoneyNews = () => {
                                     <img src={item.img} alt={item.title} className="money-image" />
                                 )}
                                 <div>
-                                    <h2 className="money-title">{item.title}</h2>
-                                    <p className="money-date">{item.date}</p>
+                                    <h2 className="money-title" style={{ color: '#fff' }}>{item.title}</h2>
+                                    <p className="money-date" style={{ color: '#fff' }}>{item.date}</p>
                                 </div>
                             </a>
                         </li>

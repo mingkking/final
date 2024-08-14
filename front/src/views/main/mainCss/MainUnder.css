@@ -2,6 +2,7 @@
 .main-under-container {
   margin-top: 40px;
   margin-bottom: 80px;
+  background-color: #131722;
 }
 
 /* 제목 스타일 */
@@ -9,7 +10,7 @@
   font-family: 'Arial', sans-serif;
   font-size: 24px;
   font-weight: bold;
-  color: #333;
+  color: #fff;
   margin-bottom: 20px;
   padding-left: 20px;
   text-align: left;
@@ -19,6 +20,7 @@
 .slider {
   .slick-slide {
     padding: 0 10px;
+    
   }
 }
 
@@ -27,4 +29,5 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  
 }

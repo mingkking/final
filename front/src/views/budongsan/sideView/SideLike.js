@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import SideTopProperties from './componoets/SideTopProperties';
 import { Grid, Box } from '@mui/material';
+import './sideCss/SideLike.css'
 
 const SideLike = ({ onPropertySelect }) => {
     const [topProperties, setTopProperties] = useState([]);    
@@ -21,8 +22,17 @@ const SideLike = ({ onPropertySelect }) => {
     }, []);
 
     return (
-        <div>
-            <Box sx={{ p: 2, bgcolor: 'secondary.light', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div className="scrollableLike-container">
+            <Box 
+                sx={{ 
+                    p: 2, 
+                    bgcolor: 'secondary.light', 
+                    width: '100%', 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    alignItems: 'center',
+                }}
+            >
                 <Grid container spacing={3} sx={{ maxWidth: '650px', width: '100%' }}>
                     <Grid item xs={12}>
                         <SideTopProperties 

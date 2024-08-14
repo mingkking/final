@@ -1,6 +1,5 @@
 export const MenuItemsData = [
     
-    
     {
       title: '주식',
       url: 'stock',
@@ -12,6 +11,10 @@ export const MenuItemsData = [
     {
         title: '부동산',
         url: 'budongsan',
+    },
+    {
+      title: '뉴스',
+      url: 'news',
     },
     {
         title: '채팅',

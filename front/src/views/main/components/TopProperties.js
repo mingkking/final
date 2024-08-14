@@ -1,6 +1,7 @@
 import React from 'react';
-import { Paper, Typography, Box } from '@mui/material';
+import { Paper, Typography, Box,  useMediaQuery } from '@mui/material';
 import { CustomSlider, StyledSlide } from './SliderStyles'; // 슬라이더 스타일을 정의한 파일에서 가져오기
+
 
 // 숫자를 적절한 단위로 포맷팅하는 함수
 const formatNumber = (number) => {
@@ -21,11 +22,13 @@ const formatNumber = (number) => {
 };
 
 const TopProperties = ({ properties, onSlideClick }) => {
+    const isMobile = useMediaQuery('(max-width:360px)'); // 모바일 화면 크기 감지
+
     const sliderSettings = {
         dots: true,
         infinite: true,
         speed: 1000,
-        slidesToShow: 2,
+        slidesToShow: isMobile ? 1 : 2, // 모바일에서는 1개 슬라이드, 데스크탑에서는 2개 슬라이드
         slidesToScroll: 1,
         autoplay: true,
         autoplaySpeed: 3000,
@@ -33,24 +36,37 @@ const TopProperties = ({ properties, onSlideClick }) => {
     };
 
     return (
-        <Paper elevation={3} sx={{ p: 2, bgcolor: 'background.paper', borderRadius: 2, width: '100%', height: '200px', overflow: 'hidden' }}>
-            <Typography variant="h4" gutterBottom color="primary.dark">인기 매물</Typography>
+        <Paper elevation={3} sx={{ p: 2, bgcolor: '#1B1F2C', borderRadius: 2, width: '100%', height: 'auto', overflow: 'hidden' }}>
+            <Typography variant="h6" gutterBottom color="#fff">인기 매물</Typography>
             <CustomSlider {...sliderSettings} style={{ width: '100%' }}>
                 {properties.map((property, index) => (
                     <StyledSlide
                         key={index}
                         elevation={1}
                         onClick={() => onSlideClick(property)}
-                        sx={{ height: '140px' }}
+                        sx={{
+                            height: '140px',
+                            padding: '8px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-between',
+                            '@media (max-width:600px)': { // 모바일 화면에서 적용될 스타일
+                                padding: '4px',
+                            },
+                            '@media (min-width:601px)': { // 데스크탑 화면에서 적용될 스타일
+                                height: '140px',
+                                padding: '8px',
+                            }
+                        }}
                     >
-                        <Box sx={{ height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <Typography variant="body1" color="text.secondary">{property.address}</Typography>
+                        <Box sx={{height:'40px',mb: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', color:'#1F2535' }}>
+                            <Typography variant="body2" color="#fff" sx={{ textAlign: 'center', fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>{property.address}</Typography>
                         </Box>
-                        <Box sx={{ height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <Typography variant="body2" color="text.secondary">{property.apartMentName} {property.floorNumber} 층</Typography>
+                        <Box sx={{height:'40px',mb: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <Typography variant="body2" color="#fff" sx={{ textAlign: 'center', fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>{property.apartMentName} {property.floorNumber} 층</Typography>
                         </Box>
-                        <Box sx={{ height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <Typography sx={{ fontWeight: 'bold' }} variant="body2" color="text.primary">
+                        <Box sx={{height:'40px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <Typography sx={{ fontWeight: 'bold', fontSize: { xs: '0.875rem', sm: '1rem' } }} variant="body2" color="#F1B13C">
                                 {formatNumber(property.transactionAmount)}
                             </Typography>
                         </Box>

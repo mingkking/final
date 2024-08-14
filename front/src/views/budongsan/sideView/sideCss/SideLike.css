@@ -1,0 +1,14 @@
+/* 기본 스타일 */
+.scrollableLike-container {
+    max-height: none;
+    overflow-y: visible;
+  }
+  
+  /* 화면 너비가 360px 이하일 때 적용할 스타일 */
+  @media (max-width: 360px) {
+    .scrollableLike-container {
+      max-height: 700px;
+      overflow-y: auto;
+    }
+  }
+  

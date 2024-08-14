@@ -34,7 +34,7 @@ html, body {
     flex: 1;
     padding: 10px;
     box-sizing: border-box;
-    background-color: #ffffff;
+    background-color: #131722;
     margin-right: 10px; /* 차트와 리스트 사이에 여백 추가 */
 }
 
@@ -42,7 +42,7 @@ html, body {
     flex: 0 0 auto;
     padding: 10px;
     box-sizing: border-box;
-    background-color: #ffffff;
+    background-color: #131722;
     margin-left: 10px; /* 차트와 리스트 사이에 여백 추가 */
 }
 
@@ -50,7 +50,7 @@ html, body {
     flex: 0 0 auto;
     padding: 10px;
     box-sizing: border-box;
-    background-color: #ffffff;
+    background-color: #131722;
 }
 
 /* 반응형 디자인을 위한 미디어 쿼리 추가 */
@@ -67,4 +67,42 @@ html, body {
     .list-container {
         margin-left: 0;
     }
+}
+
+@media (max-width: 760px) { /* 모바일 화면 크기 조정 */
+    .todayNews-tab {
+        overflow-x: scroll;
+    }
+    .todayNews-tab-item {
+        width: 120px;
+    }
+
+    /* 모바일 화면 크기 조정 */
+    .investmentInside-tab {
+        overflow-x: scroll;
+    }
+
+    .investmentInside-tab-item {
+        width: 120px;
+    }
+    
+}
+
+@media (max-width: 360px) { /* 모바일 화면 크기 조정 */
+    .todayNews-tab {
+        overflow-x: scroll;
+    }
+    .todayNews-tab-item {
+        width: 120px;
+    }
+
+    /* 모바일 화면 크기 조정 */
+    .investmentInside-tab {
+        overflow-x: scroll;
+    }
+
+    .investmentInside-tab-item {
+        width: 120px;
+    }
+    
 }
