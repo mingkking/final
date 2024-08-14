@@ -245,7 +245,7 @@ function Join() {
                 </div>
                 
                 {errors.userId && <p className='err'>{errors.userId.message}</p>}
-                {usernameChecked && (
+                {usernameChecked && !errors.userId &&(
                         <>
                             {usernameExists && <p className="err">이미 존재하는 아이디입니다.</p>}
                             {!usernameExists && usernameLengthValid && <p className='suc'>사용 가능한 아이디입니다.</p>}
@@ -296,7 +296,7 @@ function Join() {
                 </div>
                 
                     {errors.userNickname && <p className='err'>{errors.userNickname.message}</p>}
-                    {nicknameChecked && (
+                    {nicknameChecked && !errors.userNickname &&(
                         <>
                             
                             {nicknameExists && <p className="err">이미 존재하는 닉네임입니다.</p>}
@@ -361,7 +361,7 @@ function Join() {
                 </div>
                 
                     {errors.userTel && <p className='err'>{errors.userTel.message}</p>}
-                    {usertelChecked && (
+                    {usertelChecked && !errors.userTel &&(
                         <>
                             
                             {usertelExists && <p className="err">이미 존재하는 전화번호입니다.</p>}
@@ -391,7 +391,7 @@ function Join() {
                 </div>
                 
                     {errors.userEmail && <p className='err'>{errors.userEmail.message}</p>}
-                    {useremailChecked && (
+                    {useremailChecked && !errors.userEmail &&(
                         <>
                             
                             {useremailExists && <p className="err">이미 존재하는 이메일입니다.</p>}

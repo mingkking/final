@@ -1,6 +1,6 @@
 import React from 'react';
 import './MyPage.css';
-import { useContext, useRef, useState, useEffect } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import LoginContext from '../login/contexts/LoginContext';
 import { Avatar, Tabs, Tab, Box } from '@mui/material';
 import UploadImage from './component/UploadImage';
@@ -12,12 +12,7 @@ import { useForm } from 'react-hook-form';
 import UserLike from '../community/components/UserLike/UserLike';
 import ReplyBtn from '../community/components/ReplyBtn/ReplyBtn';
 import Share from '../community/components/Share/Share';
-import Bookmark from '../community/components/Bookmark/Bookmark';
 import CommunityContext from '../community/contexts/CommunityContext';
-import SideMypage from '../budongsan/sideView/SideMypage';
-import { setSelectedProperty } from '../../redux/propertySlice';
-import { useDispatch, useSelector } from 'react-redux';
-import StockContext from '../stock/components/context/StockContext';
 import BudongsanContext from '../budongsan/sideView/componoets/BudongsanContext';
 
 
@@ -52,7 +47,7 @@ const MyPage = () => {
   const BASE_URL = 'http://localhost:8080';
   
 
- 
+// 프로필 이미지 업로드
 useEffect(() => {
   if (state.userId) {
     axiosInstance.get(`/profile-image/${state.userId}`)
@@ -99,7 +94,7 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
     };
 
     
-
+    // 닉네임 중복검사
     const checkNicknameExists = async (nickname) => {
         try {
             setNicknameChecked(false);
@@ -210,12 +205,14 @@ const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode:
     fetchMyPosts();
 }, [state.userId, communityState.selectAllPosts]);
 
+//------------------------------------------------------------
+
 const [myReplies, setMyReplies] = useState([]);
 const [myReReplies, setMyReReplies] = useState([]);
 
 useEffect(() => {
 
-
+  // 댓글수
   const fetchReplies = async () => {
     
     try {
@@ -233,6 +230,7 @@ useEffect(() => {
   
 };
 
+  // 대댓글수
   const fetchRereplyData = async () => {
     try {
         const res2 = await fetch('http://localhost:8080/selectAllReReply');
@@ -266,6 +264,7 @@ useEffect(() => {
     fetchMyReplies();
 }, [state.userId, communityState.selectAllReply, communityState.selectAllReReply]);
 
+//------------------------------------------------------------
 
 const [bookmarkedPosts, setBookmarkedPosts] = useState("");
 const [communityId, setCommunityId] = useState(null);
@@ -281,6 +280,7 @@ const fetchUserNum = async () => {
   }
 };
 
+// 북마크
 const fetchBookmarkedPosts = async () => {
   try {
     const userData = await fetchUserNum(); // 사용자 userNum 가져오기
@@ -349,49 +349,13 @@ useEffect(() => {
 const [userprofileImage, setUserprofileImage] = useState('');
 
 
-// 절대 경로로 변환하는 함수
-// const convertToAbsoluteUrl = (relativeUrl) => {
-//   return relativeUrl.startsWith('/images/') 
-//     ? `http://localhost:8080${relativeUrl}` 
-//     : relativeUrl;
-// };
-
-// useEffect(() => {
-//   const fetchUserProfile = async (userId) => {
-//     console.log('userId :>> ', userId);
-//     try {
-//       const response = await axiosInstance.get(`/profile-image/${userId}`);
-//       const userData = response.data;
-//       const absoluteProfileImageUrl = convertToAbsoluteUrl(userData.profileImageUrl);
-//       setUserprofileImage(absoluteProfileImageUrl);
-//     } catch (error) {
-//       if (error.response && error.response.status === 400) {
-//         console.error('사용자를 찾을 수 없습니다!');
-//       } else {
-//         console.error('에러 발생:', error);
-//       }
-//     }
-//   };
-
-  
-//     fetchUserProfile();
-  
-// }, []);
-
-
-//---------------------------------------------------------
-
-
-
-  
-
-
-const stockInfo = useContext(StockContext)
+//---------------------------------------------------
 
 const [userInterests, setUserInterests] = useState([]);
 const [loadingInterests, setLoadingInterests] = useState(true);
 const [errorInterests, setErrorInterests] = useState(null);
 
+// 주식 관심등록
 useEffect(() => {
   const loadUserInterests = async () => {
     try {
@@ -429,6 +393,7 @@ const { state:budongsanState } = useContext(BudongsanContext)
 
 const [ userProperty,setUserProperty ] = useState([]);
 
+// 부동산 관심등록
 useEffect(() => {
   const loadUserProperty = async () => {
     try {
@@ -730,10 +695,14 @@ const handlePropertySelect = () => {
       </div>  
 
       <Box sx={{ 
-      width: { xs: '200%', sm: '45%', md: '50%', lg: '40%' }, // 반응형 너비 설정
+      width: { xs: '200%', sm: '50%', md: '50%', lg: '40%' }, // 반응형 너비 설정
       margin: '0 auto', // 중앙 정렬
       padding: 2,
-    }}>
+      maxWidth: '100% !important',
+      marginTop: -2
+    }}
+    
+    >
       <div className='my-interest'>
         <h2>관심목록</h2>
         
@@ -743,7 +712,7 @@ const handlePropertySelect = () => {
         </Tabs>
         
         <TabPanel value={value2} index={0}>
-  <div className='my-interest-item'>
+  <div className='my-interest-item' style={{ width: '100%' }}>
     <ul className='property-list'>
       {userProperty.length > 0 ? (
         userProperty.map((item, index) => (
@@ -765,7 +734,7 @@ const handlePropertySelect = () => {
 </TabPanel>
 
 <TabPanel value={value2} index={1}>
-  <div className='my-interest-item'>
+  <div className='my-interest-item' style={{ width: '100%' }}>
     <ul className='stock-list'>
       {userInterests.length > 0 ? (
         userInterests.map((item, index) => (
