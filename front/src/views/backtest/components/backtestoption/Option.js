@@ -11,7 +11,7 @@ const Options = ({ onAnalyze }) => {
   const [stockCode, setStockCode] = useState('');
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [initialInvestment, setInitialInvestment] = useState(1000);
+  const [initialInvestment, setInitialInvestment] = useState(1000000000);
   const [rebalancePeriod, setRebalancePeriod] = useState('monthly');
   const theme = useTheme();
   const { stockInfo } = useStock();
