@@ -220,5 +220,11 @@
 		JOIN property a ON b.property_num = a.property_num
 		WHERE b.USER_NUM = #{user_num}
 	</select>
+	
+	<!-- 좋아요 수 -->
+	<select id="userLike" resultType="int">
+		SELECT count(*)
+		FROM userLike
+	</select>
 </mapper>
 

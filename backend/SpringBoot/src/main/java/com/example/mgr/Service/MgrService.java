@@ -81,4 +81,7 @@ public interface MgrService {
 	
 	// 부동산 관심
 	List<MgrInterestEstateVO> interestEstate(MgrInterestEstateVO vo);
+	
+	// 좋아요 수
+	int userLike();
 }

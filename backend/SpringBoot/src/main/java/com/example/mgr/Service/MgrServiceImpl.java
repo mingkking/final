@@ -166,4 +166,10 @@ public class MgrServiceImpl implements MgrService {
 		return mgrDAO.interestEstate(vo);
 	}
 
+	// 좋아요 수
+	public int userLike() {
+		return mgrDAO.userLike();
+	}
+
 }
+

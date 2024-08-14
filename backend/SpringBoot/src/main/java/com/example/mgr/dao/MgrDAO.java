@@ -82,4 +82,7 @@ public interface MgrDAO {
 	
 	// 부동산 관심
 	public List<MgrInterestEstateVO> interestEstate(MgrInterestEstateVO vo);
+	
+	// 좋아요 수
+	public int userLike();
 }
