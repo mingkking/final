@@ -166,7 +166,7 @@ const Character = () => {
   }
 
   return (
-    <div className="character-container">
+    <div className="character-container" style={{color:'#fff'}}>
       <img src={character.imageUrl} alt={name} className="character-image" />
       <div className="character-info">
         <h1>{name} 소개</h1>
