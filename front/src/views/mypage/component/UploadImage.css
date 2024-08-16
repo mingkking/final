@@ -1,7 +1,6 @@
 .upload-button {
-    background-color: #007bff; 
     border: none; 
-    color: white; 
+    color: rgb(0, 0, 0); 
     padding: 10px 10px; 
     text-align: center; 
     text-decoration: none; 
