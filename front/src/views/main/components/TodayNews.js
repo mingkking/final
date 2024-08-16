@@ -53,7 +53,7 @@ function TodayNews() {
                     >
                         경제뉴스
                     </div>
-                    <div style={{ marginLeft: 'auto', padding: '10px 10px', cursor: 'pointer'}}
+                    <div style={{ marginLeft: 'auto', padding: '10px 10px', cursor: 'pointer', color:'#fff'}}
                      onClick={() => navigate('/news')}  // 클릭 시 이동
                      className='todayNews-tab-item'
                     >

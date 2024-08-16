@@ -66,7 +66,7 @@ const SideMypage = ({ onPropertySelect }) => {
                     {properties.map((property) => (
                         <li
                             key={property.property_num}
-                            className="property-item"
+                            className="side-property-item"
                             onClick={() => handlePropertyClick(property)} // 매물 클릭 시 핸들러 호출
                         >
                             <div className="property-details">

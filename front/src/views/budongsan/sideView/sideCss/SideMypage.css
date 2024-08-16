@@ -26,7 +26,7 @@
 }
 
 /* 매물 항목 스타일링 */
-.side-mypage .property-item {
+.side-mypage .side-property-item {
     border: 1px solid #ddd;
     border-radius: 8px;
     margin-bottom: 15px;
