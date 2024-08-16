@@ -61,7 +61,7 @@ function Subscribe1() {
 
 
     return (
-        <div className='subscribe-container'>
+        <div className='subscribe-container' style={{color:'#fff'}}>
             <div className='subscribe-img'>
                 <Hearts size={50} />
             </div>

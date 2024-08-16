@@ -101,12 +101,12 @@ function Login({ onLoginSuccess }) {
             
             <div className="login-container mt-5">
                 <div className="row justify-content-center">
-                    <div className="col-md-8 col-lg-6">
-                        <div className="login-box p-4 border rounded bg-light">
+                    <div className="col-md-8 col-lg-6" >
+                        <div className="login-box" >
                             <h2 className="login-title text-center mb-4">로그인</h2>
                             <form onSubmit={handleLogin}>
                                 <div className="login-form-group mb-3">
-                                    <label htmlFor="userId">아이디</label>
+                                    <label htmlFor="userId" style={{color:'#fff'}}>아이디</label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -117,7 +117,7 @@ function Login({ onLoginSuccess }) {
                                     />
                                 </div>
                                 <div className="login-form-group mb-4">
-                                    <label htmlFor="userPass">비밀번호</label>
+                                    <label htmlFor="userPass" style={{color:'#fff'}}>비밀번호</label>
                                     <input
                                         type="password"
                                         className="form-control"
@@ -127,7 +127,7 @@ function Login({ onLoginSuccess }) {
                                         required
                                     />
                                 </div>
-                                <button type="submit" className="login-button btn-block mb-3">로그인</button>
+                                <button type="submit" className="login-button btn-block mb-3" style={{backgroundColor:'#BCB6AA', color:'#000'}}>로그인</button>
                                 <hr className="login-hr" />
                                 <div className="login-google-container">
                                     <GoogleLogin
@@ -140,12 +140,12 @@ function Login({ onLoginSuccess }) {
                                 </div>
                             </form>
                         </div>
-                        <div className="login-link-container mb-4">
-                            <a href="/Join" className="btn btn-link">회원가입</a>
+                        <div className="login-link-container mb-4" style={{color:'#fff'}}>
+                            <a href="/Join" className="btn btn-link" style={{color:'#fff'}}>회원가입</a>
                             |
-                            <a href="/IdFind" className="btn btn-link">아이디 찾기</a>
+                            <a href="/IdFind" className="btn btn-link" style={{color:'#fff'}}>아이디 찾기</a>
                             |
-                            <a href="/PwFind" className="btn btn-link">비밀번호 재설정</a>
+                            <a href="/PwFind" className="btn btn-link" style={{color:'#fff'}}>비밀번호 재설정</a>
                         </div>
                     </div>
                 </div>

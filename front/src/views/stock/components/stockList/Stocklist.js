@@ -91,7 +91,7 @@ const Stocklist = ({ onStockSelect }) => {
   if (error) return <Typography color="error">{error}</Typography>;
 
   return (
-    <Box sx={{ width: '100%', maxWidth: '100vw', overflow: 'hidden' }}>
+    <Box sx={{ width: '100%', maxWidth: '100vw', overflow: 'hidden', backgroundColor:'#282E3C' }}>
       <TextField
         fullWidth
         variant="outlined"
@@ -109,6 +109,9 @@ const Stocklist = ({ onStockSelect }) => {
             },
             '&.Mui-focused fieldset': {
               borderColor: theme.palette.primary.main,
+            },
+            '& input::placeholder': {
+              color: '#FFFFFF', // Placeholder 텍스트 색상을 흰색으로 변경
             },
           },
         }}
@@ -158,7 +161,7 @@ const Stocklist = ({ onStockSelect }) => {
                   key={index}
                   align={index > 1 ? "right" : "left"}
                   sx={{
-                    backgroundColor: theme.palette.primary.main,
+                    backgroundColor: '#202636',
                     color: theme.palette.primary.contrastText,
                     fontWeight: 'bold',
                     whiteSpace: 'nowrap',
@@ -180,10 +183,13 @@ const Stocklist = ({ onStockSelect }) => {
                 sx={{
                   cursor: 'pointer',
                   '&:hover': {
-                    backgroundColor: theme.palette.action.hover,
+                    backgroundColor: '#282E3C',
                   },
                   '&:nth-of-type(even)': {
-                    backgroundColor: theme.palette.action.hover,
+                    backgroundColor: '#F1B13C',
+                  },
+                  '&:nth-of-type(odd)': {
+                    backgroundColor: '#BCB6AA', // 홀수 행 색상
                   },
                 }}
               >

@@ -29,7 +29,7 @@ import org.springframework.stereotype.Service;
 public class MgrServiceImpl implements MgrService {
 	 
 	@Autowired
-	private MgrDAO mgrDAO; 
+	private MgrDAO mgrDAO;  
 
 	// 세션 값 저장 
 	public int saveSession(MgrSessionCountVO vo) {
@@ -180,6 +180,37 @@ public class MgrServiceImpl implements MgrService {
 	// 커뮤니티 댓글 신고 리스트
 	public List<MgrCommComplaintVO> selectComplaintCmt(MgrCommComplaintVO vo) {
 		return mgrDAO.selectComplaintCmt(vo);
+	}
+
+	// 커뮤니티 게시글 신고 상세보기
+	public List<MgrCommComplaintVO> selectComplaintPostDetail(MgrCommComplaintVO vo) {
+		return mgrDAO.selectComplaintPostDetail(vo);
+	}
+
+	// 게시글 삭제
+	public void deleteCommPost(int id) {
+		mgrDAO.deleteCommPost(id);
+	}
+
+	// 게시글 신고 수
+	public int selectCPPostCount() {
+		return mgrDAO.selectCPPostCount();
+	}
+
+	// 댓글 신고 수
+	public int selectCPReplyCount() {
+		return mgrDAO.selectCPReplyCount();
+	}
+
+	// 커뮤니티 댓글 신고 상세보기
+	public List<MgrCommComplaintVO> selectComplaintReplyDetail(MgrCommComplaintVO vo) {
+		return mgrDAO.selectComplaintReplyDetail(vo);
+	}
+
+	// 커뮤니티 댓글 삭제
+	public void deleteCommReply(int reply_num) {
+		mgrDAO.deleteCommReply(reply_num);
+		
 	}
 
 }

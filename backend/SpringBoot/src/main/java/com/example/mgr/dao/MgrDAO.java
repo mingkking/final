@@ -92,4 +92,22 @@ public interface MgrDAO {
 	
 	// 커뮤니티 댓글 신고 목록
 	public List<MgrCommComplaintVO> selectComplaintCmt(MgrCommComplaintVO vo);
+	
+	// 커뮤니티 게시글 신고 상세보기
+	public List<MgrCommComplaintVO> selectComplaintPostDetail(MgrCommComplaintVO vo);
+	
+	// 커뮤니티 게시글 삭제 
+	public void deleteCommPost(int id);
+	
+	// 게시글 신고 수
+	public int selectCPPostCount();
+	
+	// 댓글 신고 수
+	public int selectCPReplyCount();
+	
+	// 커뮤니티 댓글 신고 상세보기
+	public List<MgrCommComplaintVO> selectComplaintReplyDetail(MgrCommComplaintVO vo);
+	
+	// 커뮤니티 댓글 삭제
+	public void deleteCommReply(int reply_num);
 }

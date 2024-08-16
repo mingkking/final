@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState,useContext } from 'react';
-import { useParams,useNavigate } from 'react-router-dom';
-import { useStock  } from "../context/StockContext";
+import React, { useEffect, useRef, useState, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useStock } from "../context/StockContext";
 import axios from 'axios';
 import { createChart, CrosshairMode } from 'lightweight-charts';
 import {
@@ -50,6 +50,7 @@ const StockDetail = () => {
     upColor: '#26a69a',
     downColor: '#ef5350',
   };
+  
   //주식상세 정보
   useEffect(() => {
     const fetchStockDetail = async () => {
@@ -93,7 +94,7 @@ const StockDetail = () => {
       return false;
     }
   };
-  
+
   useEffect(() => {
     const checkFavoriteStatus = async () => {
       if (communityValue.state.userNum) {
@@ -149,28 +150,40 @@ const StockDetail = () => {
         layout: {
           background: { type: 'solid', color: darkTheme.backgroundColor },
           textColor: darkTheme.textColor,
-        },
-        grid: {
-          vertLines: { color: darkTheme.gridColor },
-          horzLines: { color: darkTheme.gridColor },
-        },
-        crosshair: { mode: CrosshairMode.Normal },
-        rightPriceScale: { borderColor: darkTheme.borderColor },
-        timeScale: { borderColor: darkTheme.borderColor, timeVisible: true, secondsVisible: false },
-      });
-      
-      const volumeChart = createChart(volumeChartRef.current, {
-        width: chartWidth,
-        height: volumeChartHeight,
-        layout: {
           background: { type: 'solid', color: darkTheme.backgroundColor },
           textColor: darkTheme.textColor,
         },
         grid: {
           vertLines: { color: darkTheme.gridColor },
           horzLines: { color: darkTheme.gridColor },
+          vertLines: { color: darkTheme.gridColor },
+          horzLines: { color: darkTheme.gridColor },
         },
         crosshair: { mode: CrosshairMode.Normal },
+        rightPriceScale: { borderColor: darkTheme.borderColor },
+        timeScale: { borderColor: darkTheme.borderColor, timeVisible: true, secondsVisible: false },
+        rightPriceScale: { borderColor: darkTheme.borderColor },
+        timeScale: { borderColor: darkTheme.borderColor, timeVisible: true, secondsVisible: false },
+      });
+            
+      const volumeChart = createChart(volumeChartRef.current, {
+        width: chartWidth,
+        height: volumeChartHeight,
+        layout: {
+          background: { type: 'solid', color: darkTheme.backgroundColor },
+          textColor: darkTheme.textColor,
+          background: { type: 'solid', color: darkTheme.backgroundColor },
+          textColor: darkTheme.textColor,
+        },
+        grid: {
+          vertLines: { color: darkTheme.gridColor },
+          horzLines: { color: darkTheme.gridColor },
+          vertLines: { color: darkTheme.gridColor },
+          horzLines: { color: darkTheme.gridColor },
+        },
+        crosshair: { mode: CrosshairMode.Normal },
+        rightPriceScale: { borderColor: darkTheme.borderColor },
+        timeScale: { borderColor: darkTheme.borderColor, timeVisible: true, secondsVisible: false },
         rightPriceScale: { borderColor: darkTheme.borderColor },
         timeScale: { borderColor: darkTheme.borderColor, timeVisible: true, secondsVisible: false },
       });
@@ -361,28 +374,28 @@ const StockDetail = () => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 2, px: { xs: 1, sm: 2 } }}>
-      <Paper elevation={3} sx={{ p: { xs: 2, sm: 3 }, borderRadius: 2 }}>
+      <Paper elevation={3} sx={{ p: { xs: 2, sm: 3 }, borderRadius: 2, backgroundColor: '#131722' }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
           <Box>
-            <Typography variant={isMobile ? "h4" : "h3"} component="h1" align='left' sx={{ fontWeight: 'bold' }}>
+            <Typography variant={isMobile ? "h4" : "h3"} component="h1" align='left' sx={{ fontWeight: 'bold', color: '#fff' }}>
               {latestData.stock_name} ({latestData.stock_code})
             </Typography>
-            <Typography variant="body1" sx={{fontWeight:"bold"}} color="text.secondary">
+            <Typography variant="body1" sx={{ fontWeight: "bold" }} color="#fff">
               {latestData.record_date} 기준 | {latestData.stock_type}
             </Typography>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Tooltip title="백테스트 하러 가기">
-            <IconButton size="small" onClick={handleAddToBacktest}>
-              <Addchart />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title={isFavorite ? "관심종목에서 제거" : "관심종목에 추가"}>
-            <IconButton size="small" onClick={handleToggleFavorite}>
-              {isFavorite ? <StarIcon color="warning" /> : <StarBorderIcon />}
-            </IconButton>
-          </Tooltip>
-        </Box>
+            <Tooltip title="백테스트 하러 가기">
+              <IconButton size="small" onClick={handleAddToBacktest}>
+                <Addchart sx={{ color: 'white' }} />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={isFavorite ? "관심종목에서 제거" : "관심종목에 추가"}>
+              <IconButton size="small" onClick={handleToggleFavorite}>
+                {isFavorite ? <StarIcon color="warning" /> : <StarBorderIcon sx={{ color: 'white' }} />}
+              </IconButton>
+            </Tooltip>
+          </Box>
         </Box>
 
         <Box sx={{ mb: 2 }}>
@@ -398,7 +411,7 @@ const StockDetail = () => {
 
         <Box sx={{ mb: 2 }}>
           <FormControl size="small" fullWidth>
-            <InputLabel id="indicator-select-label">지표</InputLabel>
+            <InputLabel id="indicator-select-label" sx={{ color: 'white' }}>지표</InputLabel>
             <Select
               labelId="indicator-select-label"
               id="indicator-select"
@@ -406,20 +419,58 @@ const StockDetail = () => {
               value={indicators}
               label="지표"
               onChange={(e) => setIndicators(e.target.value)}
+              sx={{ color: 'white', '.MuiSvgIcon-root': { color: 'white' } }} // 드롭다운 화살표 색상도 흰색으로 설정
+              MenuProps={{
+                PaperProps: {
+                  style: {
+                    backgroundColor: '#333', // 드롭다운 배경색을 어두운 회색으로 설
+                  },
+                },
+              }}
             >
-              <MenuItem value="MA">이동평균선</MenuItem>
-              <MenuItem value="RSI">RSI</MenuItem>
-              <MenuItem value="MACD">MACD</MenuItem>
+              <MenuItem
+                value="MA"
+                sx={{
+                  color: 'white',
+                  '&:hover': {
+                    backgroundColor: '#555', // 마우스 오버 시 배경색을 더 어두운 회색으로 설정
+                  },
+                }}
+              >
+                이동평균선
+              </MenuItem>
+              <MenuItem
+                value="RSI"
+                sx={{
+                  color: 'white',
+                  '&:hover': {
+                    backgroundColor: '#555', // 마우스 오버 시 배경색을 더 어두운 회색으로 설정
+                  },
+                }}
+              >
+                RSI
+              </MenuItem>
+              <MenuItem
+                value="MACD"
+                sx={{
+                  color: 'white',
+                  '&:hover': {
+                    backgroundColor: '#555', // 마우스 오버 시 배경색을 더 어두운 회색으로 설정
+                  },
+                }}
+              >
+                MACD
+              </MenuItem>
             </Select>
           </FormControl>
         </Box>
 
-        <Box ref={candleChartRef} sx={{ width: '100%', height: isMobile ? 300 : 400, mb: 2 }} />
-        <Box ref={volumeChartRef} sx={{ width: '100%', height: isMobile ? 100 : 150, mb: 3 }} />
+        <Box ref={candleChartRef} sx={{ width: '100%', height: isMobile ? 300 : 400, mb: 2, backgroundColor: '#1e1e1e' }} />
+        <Box ref={volumeChartRef} sx={{ width: '100%', height: isMobile ? 100 : 150, mb: 3, backgroundColor: '#1e1e1e' }} />
 
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
-            <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>주가 정보</Typography>
+            <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', color: 'white' }}>주가 정보</Typography>
             <Grid container spacing={1}>
               {[
                 { label: '시가', value: latestData.opening_price },
@@ -428,15 +479,15 @@ const StockDetail = () => {
                 { label: '종가', value: latestData.closing_price }
               ].map((item, index) => (
                 <Grid item xs={6} key={index}>
-                  <Typography variant="body2" color="text.secondary" sx={{fontWeight:"bold"}}>{item.label}</Typography>
-                  <Typography variant="body2" sx={{fontWeight:"bold"}}>{item.value?.toLocaleString()} 원</Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ fontWeight: "bold", color: 'white' }}>{item.label}</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: "bold", color: 'white' }}>{item.value?.toLocaleString()} 원</Typography>
                 </Grid>
               ))}
             </Grid>
 
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>거래 정보</Typography>
+            <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', color: 'white' }}>거래 정보</Typography>
             <Grid container spacing={1}>
               {[
                 { label: '거래량', value: latestData.trading_volume, unit: '' },
@@ -445,8 +496,8 @@ const StockDetail = () => {
                 { label: '상장주식수', value: latestData.listed_stocks, unit: '' }
               ].map((item, index) => (
                 <Grid item xs={6} key={index}>
-                  <Typography variant="body2" color="text.secondary" sx={{fontWeight:"bold"}}>{item.label}</Typography>
-                  <Typography variant="body2" sx={{fontWeight:"bold"}}>{item.value?.toLocaleString()} {item.unit} </Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ fontWeight: "bold", color: 'white' }}>{item.label}</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: "bold", color: 'white' }}>{item.value?.toLocaleString()} {item.unit} </Typography>
                 </Grid>
               ))}
             </Grid>

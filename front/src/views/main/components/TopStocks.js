@@ -41,7 +41,7 @@ const TopStocks = ({ stocks, onSlideClick }) => {
                     <StyledSlide
                         key={index}
                         elevation={1}
-                        sx={{ height: '100px' }}
+                        sx={{ height: '140px' }}
                         onClick={() => onSlideClick(stock)}
                     >
                         <Box sx={{ height: '55px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

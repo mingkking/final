@@ -117,6 +117,7 @@ const DetailCommunity = () => {
         await axios.get("http://localhost:8080/selectAllReply", { params: { id: postId } }) // 검색 -> 컨트롤러 요청
 
             .then((res) => {                                                // DB 검색 요청 후 응답
+                console.log(res.data);
                 communityValue.actions.setSelectAllReply(res.data);         // 커뮤니티 모든 댓글 검색 데이터 저장
             })
     }
@@ -125,6 +126,7 @@ const DetailCommunity = () => {
         await axios.get("http://localhost:8080/selectAllReReply") // 검색 -> 컨트롤러 요청
 
             .then((res) => {                                                // DB 검색 요청 후 응답
+                console.log(res.data);
                 communityValue.actions.setSelectAllReReply(res.data);         // 커뮤니티 모든 대댓글 검색 데이터 저장
             })
     }
