@@ -21,7 +21,7 @@ public class MgrMemberVO {
 	private String user_birthdate;
 	
 	// 관리자 확인용
-	private int is_admin;
+	private int is_admin; 
 	
 	// 구독 확인
 	private Date payment_date;
