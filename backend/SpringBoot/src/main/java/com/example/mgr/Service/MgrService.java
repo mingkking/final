@@ -20,7 +20,7 @@ public interface MgrService {
 	// session 값 저장
 	int saveSession(MgrSessionCountVO vo);
 	 
-	// 방문자 수 count
+	// 방문자 수 count 
 	int selectTotalSession();
 	int selectTodaySession();
 	int selectMonthSession();

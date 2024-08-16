@@ -7,7 +7,7 @@ import lombok.Data;
 @Data   
 public class MgrCommComplaintVO {
 	private int id;
-	private int user_num;
+	private int user_num; 
 	private String type;
 	private int type_num; // 커뮤니티 글 or 댓글 번호
 	private String content; // 신고 내용

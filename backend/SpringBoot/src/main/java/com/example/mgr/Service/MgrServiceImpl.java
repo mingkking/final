@@ -29,7 +29,7 @@ import org.springframework.stereotype.Service;
 public class MgrServiceImpl implements MgrService {
 	 
 	@Autowired
-	private MgrDAO mgrDAO; 
+	private MgrDAO mgrDAO;  
 
 	// 세션 값 저장 
 	public int saveSession(MgrSessionCountVO vo) {

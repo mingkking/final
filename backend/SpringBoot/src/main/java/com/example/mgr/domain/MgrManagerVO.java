@@ -8,5 +8,5 @@ import lombok.Data;
 public class MgrManagerVO {
 	private int manager_seq;
 	private String manager_num;
-	private String manager_name;
+	private String manager_name; 
 } 
