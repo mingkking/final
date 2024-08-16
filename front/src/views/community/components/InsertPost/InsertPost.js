@@ -58,7 +58,6 @@ function InsertPost() {
     }
 
     await axios.post("http://localhost:8080/insertCommunity", formData) // 데이터 -> 컨트롤러 요청
-    await selectAllPosts();
 
     setTimeout(() => {
       navigate("/Community");
@@ -66,7 +65,7 @@ function InsertPost() {
 
   }
 
-  const selectAllPosts = async () => {                                    // 커뮤니티 모든 글 검색 함수 생성
+  const selectAllPosts = async (page) => {                                    // 커뮤니티 모든 글 검색 함수 생성
 
     await axios.get("http://localhost:8080/selectCommunity")            // 검색 -> 컨트롤러 요청
 

@@ -18,9 +18,24 @@ import com.example.community.domain.UserLikeVO;
 
 @Service
 public interface CommunityService {
-    // 네이티브 쿼리를 사용
-    @Query(value = "SELECT * FROM COMMUNITY ORDER BY created_at DESC", nativeQuery = true)
+    // 커뮤니티 글 조회
+    // @Query(value = "SELECT * FROM (\n" + //
+    //         "  SELECT a.*, ROWNUM rnum\n" + //
+    //         "  FROM (\n" + //
+    //         "    SELECT * FROM community\n" + //
+    //         "    ORDER BY created_at DESC\n" + //
+    //         "  ) a\n" + //
+    //         "  WHERE ROWNUM <= :endRow\n" + //
+    //         ")\n" + //
+    //         "WHERE rnum > :startRow", nativeQuery = true)
+    // public List<CommunityVO> selectAllCommunity(Integer startRow, Integer endRow) throws Exception;
+    @Query(value = "SELECT * FROM community ORDER BY created_at DESC", nativeQuery = true)
     public List<CommunityVO> selectAllCommunity() throws Exception;
+
+    // 커뮤니티 글 검색 조회
+    @Query(value = "SELECT * FROM community WHERE title LIKE('%" + "?1"
+            + "%') OR contents LIKE('%?1%') ORDER BY created_at", nativeQuery = true)
+    public List<CommunityVO> selectSearchCommunity(String keyword) throws Exception;
 
     @Query(value = "SELECT * FROM COMMUNITY WHERE id = ?1", nativeQuery = true)
     public CommunityVO selectOneCommunity(Integer id) throws Exception;
@@ -81,20 +96,20 @@ public interface CommunityService {
 
     // 댓글 개수
     @Query(value = "SELECT \r\n" + //
-                "    r.id AS id,\r\n" + //
-                "    COALESCE(reply_count, 0) AS reply_count,\r\n" + //
-                "    COALESCE(rereply_count, 0) AS rereply_count,\r\n" + //
-                "    COALESCE(reply_count, 0) + COALESCE(rereply_count, 0) AS total_count\r\n" + //
-                "FROM\r\n" + //
-                "    (SELECT id, COUNT(*) AS reply_count\r\n" + //
-                "     FROM reply\r\n" + //
-                "     GROUP BY id) r\r\n" + //
-                "LEFT JOIN\r\n" + //
-                "    (SELECT r.id, COUNT(*) AS rereply_count\r\n" + //
-                "     FROM rereply rr\r\n" + //
-                "     JOIN reply r ON rr.reply_num = r.reply_num\r\n" + //
-                "     GROUP BY r.id) rr\r\n" + //
-                "ON r.id = rr.id", nativeQuery = true)
+            "    r.id AS id,\r\n" + //
+            "    COALESCE(reply_count, 0) AS reply_count,\r\n" + //
+            "    COALESCE(rereply_count, 0) AS rereply_count,\r\n" + //
+            "    COALESCE(reply_count, 0) + COALESCE(rereply_count, 0) AS total_count\r\n" + //
+            "FROM\r\n" + //
+            "    (SELECT id, COUNT(*) AS reply_count\r\n" + //
+            "     FROM reply\r\n" + //
+            "     GROUP BY id) r\r\n" + //
+            "LEFT JOIN\r\n" + //
+            "    (SELECT r.id, COUNT(*) AS rereply_count\r\n" + //
+            "     FROM rereply rr\r\n" + //
+            "     JOIN reply r ON rr.reply_num = r.reply_num\r\n" + //
+            "     GROUP BY r.id) rr\r\n" + //
+            "ON r.id = rr.id", nativeQuery = true)
     public List<Map<String, Object>> selectAllReplyCnt() throws Exception;
 
     // 모든 신고 리스트
@@ -104,4 +119,3 @@ public interface CommunityService {
     // 커뮤니티 신고 등록
     public void insertDeclaration(DeclarationVO declarationVO) throws Exception;
 }
- 
