@@ -45,7 +45,7 @@
   
   .rereply-item-userNickname {
     font-weight: bold;
-    color: black;
+    color: #CFCDDA;
     font-size: 12px;
     display: flex;
     align-items: center; /* 수직으로 중앙 정렬 */
@@ -58,13 +58,13 @@
   }
   
   .rereply-item-content {
-    color: black;
+    color: #C5C5BC;
     font-weight: bold;
     font-size: 15px;
   }
   
   .rereply-item-created_at {
-    color: gray;
+    color: #808080;
     font-size: 12px;
     align-self: flex-start; /* 작성 시간을 왼쪽에 배치 */
   }

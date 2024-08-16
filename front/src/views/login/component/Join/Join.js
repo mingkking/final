@@ -170,7 +170,7 @@ function Join() {
     
 
     return (
-        <div className="signup-container">
+        <div className="signup-container" style={{backgroundColor:'#212737'}}>
             <div className="agreement-section">
                 <div className='allCheck'>
                     <input 
@@ -180,24 +180,24 @@ function Join() {
                         onChange={(e) => handleAllCheck(e.target.checked)} 
                         checked={agreeAll}
                     />
-                    <label htmlFor="allAgree"> 전체 동의하기</label>
+                    <label htmlFor="allAgree" style={{color:'#fff'}}> 전체 동의하기</label>
                 </div>
                 <div className="agreement-box">                    
-                    <div className="agreement-content">
+                    <div className="agreement-content" style={{backgroundColor:'#282E3C', color:'#fff'}}>
                     여러분을 환영합니다.
                     InvestGate에 서비스 및 제품(이하 ‘서비스’)을 이용해 주셔서 감사합니다. 본 약관은 다양한 InvestGate에 서비스의 이용과 관련하여 InvestGate에 서비스를 제공하는 InvestGate에와 이를 이용하는 InvestGate 서비스 회원(이하 ‘회원’) 또는 비회원과의 관계를 설명하며, 아울러 여러분의 InvestGate에 서비스 이용에 도움이 될 수 있는 유익한 정보를 포함하고 있습니다.
                     </div>
-                    <span> 위 약관에 동의합니까?(필수)</span>
+                    <span style={{color:'#fff'}}> 위 약관에 동의합니까?(필수)</span>
                     <input 
                         type="checkbox" 
                         id="agree1"        
                         onChange={(e) => handleSingleCheck(e.target.id, e.target.checked)} 
                         checked={agree1}
                         />
-                    <label htmlFor="agree1"> 동의합니다</label>                    
+                    <label htmlFor="agree1" style={{color:'#fff'}}> 동의합니다</label>                    
                 </div>
                 <div className="agreement-box">                    
-                    <div className="agreement-content">
+                    <div className="agreement-content" style={{backgroundColor:'#282E3C',color:'#fff'}}>
                     개인정보보호법에 따라 InvestGate에 회원가입 신청하시는 분께 수집하는 개인정보의 항목, 개인정보의 수집 및 이용목적, 개인정보의 보유 및 이용기간, 동의 거부권 및 동의 거부 시 불이익에 관한 사항을 안내 드리오니 자세히 읽은 후 동의하여 주시기 바랍니다.
 
                     1. 수집하는 개인정보
@@ -214,20 +214,20 @@ function Join() {
 
 
                     </div>
-                    <span> 위 약관에 동의합니까?(필수)</span>
+                    <span style={{color:'#fff'}}> 위 약관에 동의합니까?(필수)</span>
                     <input 
                         type="checkbox" 
                         id="agree2"                         
                         onChange={(e) => handleSingleCheck(e.target.id, e.target.checked)} 
                         checked={agree2} required/>
-                    <label htmlFor="agree2"> 동의합니다</label>                    
+                    <label htmlFor="agree2" style={{color:'#fff'}}> 동의합니다</label>                    
                 </div>
                 
             </div>
             <div className="join-form-section">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="join-form-group">
-                    <label>아이디</label>
+                    <label style={{color:'#fff'}}>아이디</label>
                     <input 
                         type="text" 
                         name="userId" 
@@ -252,7 +252,7 @@ function Join() {
                         </>
                     )}
                 <div className="join-form-group">
-                    <label>이름</label>
+                    <label style={{color:'#fff'}}>이름</label>
                     <input 
                         type="text" 
                         name="userName" 
@@ -271,7 +271,7 @@ function Join() {
                     {errors.userName && <p className='err'>{errors.userName.message}</p>}
                    
                 <div className="join-form-group">
-                    <label>닉네임</label>
+                    <label style={{color:'#fff'}}>닉네임</label>
                     <input 
                         type="text" 
                         name="userNickname" 
@@ -304,7 +304,7 @@ function Join() {
                     )}
 
                 <div className="join-form-group">
-                    <label>비밀번호</label>
+                    <label style={{color:'#fff'}}>비밀번호</label>
                     <input 
                         type="password" 
                         name="userPass" 
@@ -323,7 +323,7 @@ function Join() {
                     {errors.userPass && <p className='err'>{errors.userPass.message}</p>}
                 
                 <div className="join-form-group">
-                    <label>비밀번호 확인</label>
+                    <label style={{color:'#fff'}}>비밀번호 확인</label>
                     <input 
                         type="password" 
                         name="userPassConfirm" 
@@ -340,7 +340,7 @@ function Join() {
                     {errors.userPassConfirm && <p className='err'>{errors.userPassConfirm.message}</p>}
                 
                 <div className="join-form-group">
-                    <label>전화번호</label>
+                    <label style={{color:'#fff'}}>전화번호</label>
                     <input 
                     type="tel" 
                     name="userTel" 
@@ -369,7 +369,7 @@ function Join() {
                     )}
                 
                 <div className="join-form-group">
-                    <label>이메일</label>
+                    <label style={{color:'#fff'}}>이메일</label>
                     <input 
                         type="email" 
                         name="userEmail" 
@@ -399,7 +399,7 @@ function Join() {
                     )}
                 
                     <div className="join-form-group">
-                        <label>생년월일</label>
+                        <label style={{color:'#fff'}}>생년월일</label>
                         <DatePicker
                             selected={startDate}
                             onChange={handleDateChange}
@@ -425,7 +425,7 @@ function Join() {
                     {errors.userBirthdate && <p className='err'>{errors.userBirthdate.message}</p>}
                     
 
-                <button type="submit" className="signup-button">가입하기</button>
+                <button type="submit" className="signup-button" style={{backgroundColor:'#BCB6AA', color:'#000'}}>가입하기</button>
             </form>
             </div>
         </div>

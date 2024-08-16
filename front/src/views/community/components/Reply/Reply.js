@@ -49,7 +49,7 @@ const Reply = () => {
         const formData = new FormData();                                // 폼 데이터 가공
         formData.append("id", communityValue.state.selectOnePost.id);   // 커뮤니티 프라이머리 키
         formData.append('user_num', communityValue.state.userNum);      // 유저 프라이머리 키 
-        formData.append('content', replyContent);                       // 커뮤니티 댓글 내용
+        formData.append('contents', replyContent);                       // 커뮤니티 댓글 내용
 
         await axios.post("http://localhost:8080/insertReply", formData) // 데이터 -> 컨트롤러 요청
             .then((res) => {
@@ -150,7 +150,7 @@ const Reply = () => {
         formData.append("reply_num", reply_num);                        // 댓글 프라이머리 키
         formData.append("id", communityValue.state.selectOnePost.id);   // 커뮤니티 프라이머리 키
         formData.append('user_num', communityValue.state.userNum);      // 유저 프라이머리 키 
-        formData.append('content', replyUpdateContent);                 // 커뮤니티 댓글 내용
+        formData.append('contents', replyUpdateContent);                 // 커뮤니티 댓글 내용
 
         await axios.post("http://localhost:8080/updateReply", formData) // 데이터 -> 컨트롤러 요청
             .then((res) => {
@@ -337,7 +337,7 @@ const Reply = () => {
                                                     </li>
                                                 </form>
                                             )}
-                                            <div className='reply-item-content'>{reply.content}</div>
+                                            <div className='reply-item-content'>{reply.contents}</div>
 
                                             <div className='reply-item-created_at'>
                                                 {createAtCal(reply.created_at)}

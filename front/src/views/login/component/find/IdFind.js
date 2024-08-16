@@ -31,7 +31,7 @@ const IdFind = () => {
     };  
 
     return (
-        <div className="center-container d-flex justify-content-center align-items-center min-vh-100">
+        <div className="centerSrh-container d-flex justify-content-center align-items-center">
         <div className="id-find-container">
             <h1 className="text-center mb-4">아이디 찾기</h1>
             <form className="id-find-form" onSubmit={handleSubmit}>
@@ -75,7 +75,7 @@ const IdFind = () => {
                     />
                 </div>
                 
-                <button type="submit" className="btn btn-primary w-100">인증하기</button>
+                <button type="submit" className="btn btn-primary w-100" style={{backgroundColor:'#BCB6AA', color:'#000'}}>인증하기</button>
             </form>
         </div>
         </div>

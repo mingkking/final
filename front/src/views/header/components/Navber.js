@@ -106,7 +106,7 @@ const Navbar = ({ onLoginSuccess }) => {
                     <Profile onLogout={handleLogoutClick} />
                 </div>
             ) : (
-                <button type="button" className="btn" onClick={handleLoginClick}>로그인</button>
+                <button type="button" className="btn" style={{ color: '#fff'}} onClick={handleLoginClick}>로그인</button>
             )}
         </div>
       </nav>

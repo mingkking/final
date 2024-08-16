@@ -13,7 +13,7 @@ const ReplyBtn = (props) => {
             navigate("/DetailCommunity", { state: { id: props.postId, click: 1 } });
         }
     }
-console.log(replyCntList, props.postId);
+    
     return (
         <div className='post-item-replyBtn' onClick={handleReplyBtnClick}>
             <Tooltip title={"댓글 보러가기"}>

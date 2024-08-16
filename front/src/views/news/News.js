@@ -126,9 +126,20 @@ const News = () => {
                 </ul>
             </nav>
             <div className="buttonContainer">
-                <Button className="newsUpdateBtn" variant="contained" color="primary" onClick={handleClickRefresh} disabled={loading}>
-                    {loading ? '업데이트 중...' : '뉴스 불러오기'}
-                </Button>
+            <Button
+                variant="contained"
+                onClick={handleClickRefresh}
+                disabled={loading}
+                sx={{
+                backgroundColor: '#BCB6AA', // 원하는 색상
+                color: 'white',
+                '&:hover': {
+                    backgroundColor: '#FDC954', // Hover 시 색상
+                },
+                }}
+            >
+                {loading ? '업데이트 중...' : '뉴스 불러오기'}
+            </Button>
             </div>
             {/* 분류선 */}
             <div style={{ borderBottom: '1px solid #c9c9c9', margin: '20px' }} /> 

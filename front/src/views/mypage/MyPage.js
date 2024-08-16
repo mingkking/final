@@ -214,11 +214,13 @@ useEffect(() => {
 
   // 댓글수
   const fetchReplies = async () => {
-    
     try {
       const response = await fetch(`http://localhost:8080/selectAllReply`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
       const data = await response.json();
-      
+  
       if (Array.isArray(data)) {
         communityContext.actions.setSelectAllReply(data);
       } else {
@@ -227,24 +229,26 @@ useEffect(() => {
     } catch (error) {
       console.error('댓글을 가져오는 중 오류 발생:', error);
     }
-  
-};
+  };
 
   // 대댓글수
   const fetchRereplyData = async () => {
     try {
-        const res2 = await fetch('http://localhost:8080/selectAllReReply');
-        const data2 = await res2.json();
-        
-        if (Array.isArray(data2)) {
-            communityActions.setSelectAllReReply(data2);
-        } else {
-            console.error('Received data2 is not an array:', data2);
-        }
+      const res2 = await fetch('http://localhost:8080/selectAllReReply');
+      if (!res2.ok) {
+        throw new Error(`HTTP error! Status: ${res2.status}`);
+      }
+      const data2 = await res2.json();
+  
+      if (Array.isArray(data2)) {
+        communityActions.setSelectAllReReply(data2);
+      } else {
+        console.error('받아온 대댓글 데이터가 배열이 아닙니다:', data2);
+      }
     } catch (error) {
-        console.error('Error fetching re-replies:', error);
+      console.error('대댓글을 가져오는 중 오류 발생:', error);
     }
-};
+  };
 
   fetchReplies();
   fetchRereplyData();
@@ -433,9 +437,9 @@ const handlePropertySelect = () => {
   };
 
     return (
-      <div className="mypage-container">
+      <div className="mypage-container" style={{backgroundColor:'#212737'}}>
         
-        <div className="profile-section">
+        <div className="profile-section" style={{backgroundColor:'#212737'}}>
           
           <div className="profile-info">
             <div className="profile-avatar-container">
@@ -580,12 +584,12 @@ const handlePropertySelect = () => {
                     )}
 
 
-                    <button className="edit-profile-button">수정하기</button>
+                    <button className="btn btn-warning edit-profile-button">수정하기</button>
                 
               </form>
             </div>
           )}
-             <button onClick={() => setIsEditing(!isEditing)} className="edit-profile-toggle-button">
+             <button onClick={() => setIsEditing(!isEditing)} className="btn btn-warning edit-profile-toggle-button">
           {isEditing ? '취소' : '프로필 편집'}
         </button>
          
@@ -653,15 +657,15 @@ const handlePropertySelect = () => {
             </div>
           </TabPanel>
           <TabPanel value={value} index={1}>
-          <div className="bookmarked-posts">
+          <div className="my-posts">
   {bookmarkedPosts.length === 0 ? (
     <p>북마크된 게시글이 없습니다.</p>
   ) : (
-    <div className="bookmarked-posts-container">
+    <div className="post-list">
       {bookmarkedPosts.map(post => (
-        <div key={post.id} className="bookmarked-post">
-          <div className="bookmarked-post-header">
-            <div className="bookmarked-post-profile">
+        <div key={post.id} className="post-item">
+          <div className="post-item-top">
+            <div className="post-item-profile">
               <Avatar
                 src={userprofileImage || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'}
                 alt="Profile"
@@ -672,17 +676,28 @@ const handlePropertySelect = () => {
                 }}
               />
             </div>
-            <div className="bookmarked-post-info">
-              <p className="bookmarked-post-nickname">{post.nickname}</p>
-              <p className="bookmarked-post-created_at">{createAtCal(post.created_at)}</p>
+            <div className="post-item-info">
+              <p className="post-item-userNickname">{post.nickname}</p>
+              <p className="post-item-created_at">{createAtCal(post.created_at)}</p>
             </div>
           </div>
-          <div className="bookmarked-post-body">
+          <div className="post-item-middle">
             <Link className="no-underline-link" to={"/DetailCommunity"} state={{ id: post.id }}>
-              <h3 className="bookmarked-post-title">{post.title}</h3>
-              <p className="bookmarked-post-contents">{post.contents}</p>
+              <h3 className="post-item-title">{post.title}</h3>
+              <p className="post-item-contents">{post.contents}</p>
             </Link>
           </div>
+          <div className="post-item-bottom">
+                        <div className='post-item-uploadFile'>
+                          {post.image_path && (<img src={`http://localhost:8080/uploads/${post.image_path}`} alt={"업로드 이미지"}></img>)}
+                        </div>
+                      </div>
+                      <div className="post-item-actions">
+                        <UserLike postId={post.id} />
+                        <ReplyBtn postId={post.id} />
+                        <Share post={post} />
+                        
+                      </div>
         </div>
       ))}
     </div>
@@ -703,7 +718,7 @@ const handlePropertySelect = () => {
     }}
     
     >
-      <div className='my-interest'>
+      <div className='my-interest' style={{backgroundColor:'#212737'}}>
         <h2>관심목록</h2>
         
         <Tabs value={value2} onChange={handleChange2} aria-label="tabs">
@@ -712,7 +727,7 @@ const handlePropertySelect = () => {
         </Tabs>
         
         <TabPanel value={value2} index={0}>
-  <div className='my-interest-item' style={{ width: '100%' }}>
+  <div className='my-interest-item' style={{ width: '100%', backgroundColor:'#212737'}}>
     <ul className='property-list'>
       {userProperty.length > 0 ? (
         userProperty.map((item, index) => (
@@ -734,7 +749,7 @@ const handlePropertySelect = () => {
 </TabPanel>
 
 <TabPanel value={value2} index={1}>
-  <div className='my-interest-item' style={{ width: '100%' }}>
+  <div className='my-interest-item' style={{ width: '100%', backgroundColor:'#212737' }}>
     <ul className='stock-list'>
       {userInterests.length > 0 ? (
         userInterests.map((item, index) => (
