@@ -51,7 +51,7 @@ const UploadImage = ({ onImageUpload }) => {
               onChange={handleChange}
               ref={fileInput}
           />
-          <button className="upload-button" onClick={handleClick}>이미지 편집</button>
+          <button className="btn btn-warning upload-button" onClick={handleClick}>이미지 편집</button>
       </>
   );
 };

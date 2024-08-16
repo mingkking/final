@@ -18,8 +18,8 @@ const CommDecPost = () => {
   const [sortOrder, setSortOrder] = useState('asc');  // 정렬 순서
   const navigate = useNavigate();
 
-  const handleClickDetail = (postId) => {
-    navigate(`/manager/complaintDetail/${postId}`);    
+  const handleClickDetail = (id) => {
+    navigate(`/manager/complaint/commPostDetail/${id}`);    
   }
 
   const handlePageChange = (event, value) => {
@@ -170,9 +170,9 @@ const CommDecPost = () => {
             {/* 커뮤니티 게시글 리스트 */}
             <Grid container spacing={3}>
               {slicePosts.map((post, index) => (
-                <Grid item xs={12} key={index} style={{ cursor: 'pointer', marginBottom: '5px' }} onClick={() => handleClickDetail(post.id)}>
+                <Grid item xs={12} key={index} style={{ cursor: 'pointer', marginBottom: '5px' }}  onClick={() => handleClickDetail(post.id)}>
                   <BlankCard>
-                    <Grid container spacing={3} style={{ paddingTop: '30px', paddingBottom: '30px' }}>
+                    <Grid container spacing={3} style={{ paddingTop: '30px', paddingBottom: '30px' }} >
                       <Grid item xs={3}>
                         <Typography variant='h6' align='center'>{post.user_name}</Typography>
                       </Grid>

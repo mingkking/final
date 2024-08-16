@@ -34,7 +34,7 @@ const PwChange = () => {
     };
 
     return (
-        <div className="center-container d-flex justify-content-center align-items-center min-vh-100">
+        <div className="centerPc-container d-flex justify-content-center align-items-center min-vh-100">
         <div className="pwchange-container">
             <h1>비밀번호 변경</h1>
             <form className="pwchange-form" onSubmit={handleSubmit(onSubmit)}>
@@ -89,7 +89,7 @@ const PwChange = () => {
                 </div>
                 {errors.confirmPassword && <p className='er'>{errors.confirmPassword.message}</p>}
 
-                <button type="submit">비밀번호 변경</button>
+                <button type="submit" style={{backgroundColor:'#BCB6AA', color:'#000'}}>비밀번호 변경</button>
             </form>
         </div>
         </div>
