@@ -5,17 +5,18 @@
     align-items: center;
     justify-content: space-between;
     padding: 10px 20px;
-    color: white;
     position: relative;
-    border-radius: 15px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #1B1F2C;
   }
   
   /* 버튼 스타일 */
   .back-button {
     background: none;
     border: none;
-    color: black;
+    color: #C4C2CF;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
@@ -28,7 +29,7 @@
   }
   
   .back-button:hover {
-    background-color: whitesmoke;
+    background-color: #202637;
   }
 
   /* 룸 이름 스타일 */
@@ -45,6 +46,7 @@
     font-weight: bold;
     text-align: center;
     flex: 1;
+    color: #CFCDDA;
   }
   
   /* 드롭다운 메뉴 스타일 */
