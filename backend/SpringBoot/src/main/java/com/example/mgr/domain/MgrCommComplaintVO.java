@@ -14,5 +14,6 @@ public class MgrCommComplaintVO {
 	private String contents; // 댓글 내용
 	private Date created_at;
 	private String user_name;
-	private String title;
+	private String title; // 제목
+	private int commNum; // 댓글 상세보기 할 때 게시글 번호
 } 
