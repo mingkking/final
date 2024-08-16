@@ -126,7 +126,7 @@ const Back1 = () => {
         </Paper>
         <Grid container spacing={4}>
           <Grid item xs={12} md={5}>
-            <Card elevation={3} sx={{ height: '100%' }}>
+            <Card elevation={3} sx={{ height: '100%' ,bgcolor:"#202637"}} >
               <Options onAnalyze={handleAnalyze} />
             </Card>
           </Grid>
@@ -139,7 +139,7 @@ const Back1 = () => {
                   justifyContent: 'center',
                   alignItems: 'center',
                   flexGrow: 1,
-                  bgcolor: "#1B1F2C",
+                  bgcolor: "#202637",
                   p: 4
                 }}>
                   <Fade in={true} style={{ transitionDelay: '300ms' }}>

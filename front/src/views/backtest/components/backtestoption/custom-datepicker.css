@@ -7,10 +7,9 @@
 }
 
 .react-datepicker__header {
-  background: #2C3E50;
-  background-color:#2C3E50;
-  border-bottom: 1px solid #3A3F4C;
-  padding: 10px 0;
+  background-color: #2C3E50 !important;
+  border-bottom: 1px solid #3A3F4C !important;
+  padding: 10px 0 !important;
 }
 
 .react-datepicker__current-month {
@@ -80,4 +79,51 @@
 .react-datepicker__day--today {
   font-weight: bold;
   border: 1px solid #FFAE1F;
+}
+
+/* 년도, 월 선택 드롭다운 컨테이너 */
+.react-datepicker__header__dropdown {
+  margin-top: 10px;
+  padding: 5px;
+  background-color: #2C3E50;
+}
+
+/* 년도, 월 선택 드롭다운 */
+.react-datepicker__year-select,
+.react-datepicker__month-select {
+  background-color: #1E222D;
+  color: #FFFFFF;
+  border: 1px solid #3A3F4C;
+  border-radius: 4px;
+  padding: 5px;
+  font-size: 14px;
+  margin: 0 5px;
+}
+
+/* 드롭다운 옵션 */
+.react-datepicker__year-select option,
+.react-datepicker__month-select option {
+  background-color: #1E222D;
+  color: #FFFFFF;
+}
+
+/* 드롭다운 호버 시 */
+.react-datepicker__year-select:hover,
+.react-datepicker__month-select:hover {
+  border-color: #FFAE1F;
+}
+
+/* 드롭다운 포커스 시 */
+.react-datepicker__year-select:focus,
+.react-datepicker__month-select:focus {
+  outline: none;
+  border-color: #FFAE1F;
+  box-shadow: 0 0 0 2px rgba(255, 174, 31, 0.3);
+}
+
+/* 현재 선택된 년도/월 강조 */
+.react-datepicker__year-select option:checked,
+.react-datepicker__month-select option:checked {
+  background-color: #FFAE1F;
+  color: #1E222D;
 }
