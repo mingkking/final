@@ -62,7 +62,7 @@ const Options = ({ onAnalyze }) => {
         sx={{
           mb: 2,
           '& .MuiInputBase-input': {
-            color: '#fff', // 입력 텍스트 색상
+            color: '#fff !important', // 입력 텍스트 색상
           },
           '& .MuiInputLabel-root': {
             color: '#fff', // 레이블 색상
@@ -77,6 +77,10 @@ const Options = ({ onAnalyze }) => {
             '&.Mui-focused fieldset': {
               borderColor: '#fff', // 포커스 시 테두리 색상
             },
+          },
+          '& .Mui-disabled': {
+            color: 'rgba(255, 255, 255, 0.7) !important', // 비활성화 상태의 텍스트 색상
+            WebkitTextFillColor: '#FFF !important', // Safari에서의 텍스트 색상
           },
         }}
         InputProps={{

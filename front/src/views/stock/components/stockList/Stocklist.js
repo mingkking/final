@@ -91,7 +91,7 @@ const Stocklist = ({ onStockSelect }) => {
   if (error) return <Typography color="error">{error}</Typography>;
 
   return (
-    <Box sx={{ width: '100%', maxWidth: '100vw', overflow: 'hidden', backgroundColor:'#282E3C' }}>
+    <Box sx={{ width: '100%', maxWidth: '100vw', overflow: 'hidden', background:'#282E3C' }}>
       <TextField
         fullWidth
         variant="outlined"
@@ -113,7 +113,9 @@ const Stocklist = ({ onStockSelect }) => {
             '& input::placeholder': {
               color: '#FFFFFF', // Placeholder 텍스트 색상을 흰색으로 변경
             },
-          },
+            '& .MuiInputBase-input': {
+              color: '#fff !important', 
+          },}
         }}
         InputProps={{
           endAdornment: (
@@ -128,6 +130,7 @@ const Stocklist = ({ onStockSelect }) => {
       <TableContainer
         component={Paper}
         sx={{
+          backgroundColor: '#202637',
           height: 'calc(100vh - 200px)',
           overflow: 'auto',
           '&::-webkit-scrollbar': {
@@ -173,7 +176,8 @@ const Stocklist = ({ onStockSelect }) => {
               ))}
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody
+          sx={{ backgroundColor: '#202637'}}>
             {stocks.map((stock, index) => (
               <TableRow
                 key={`${stock.stock_code}-${stock.record_date}`}
@@ -181,6 +185,7 @@ const Stocklist = ({ onStockSelect }) => {
                 hover
                 ref={stocks.length === index + 1 ? lastStockElementRef : null}
                 sx={{
+                  background: '#202637',
                   cursor: 'pointer',
                   '&:hover': {
                     backgroundColor: '#282E3C',

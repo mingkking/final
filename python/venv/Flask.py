@@ -41,7 +41,7 @@ json_file_path_busStation_data = os.path.join(os.path.dirname(__file__), 'budong
 loaded_model_path = os.path.join(os.path.dirname(__file__), 'news', 'ML_Model', 'rf_model.joblib')
 loaded_vectorizer_path = os.path.join(os.path.dirname(__file__), 'news', 'ML_Model', 'tfidf_vectorizer.joblib')
 
-# ML 모델 가져오기
+# 뉴스 ML 모델 가져오기
 loaded_model = joblib.load(loaded_model_path)
 loaded_vectorizer = joblib.load(loaded_vectorizer_path)
 okt = Okt()
@@ -338,30 +338,6 @@ def get_stock_data(connection, stock_name):
     columns = ['record_date', 'stock_code', 'stock_name', 'stock_type', 'closing_price', 'opening_price', 'high_price', 'low_price']
     data = cursor.fetchall()
     return pd.DataFrame(data, columns=columns)
-# LSTM 학습된 모델을 이용해서 값을 예측
-def predict_future(model, scaler, last_sequence, days):
-    current_sequence = last_sequence
-    predictions = []
-    for _ in range(days):
-        current_sequence_scaled = scaler.transform(current_sequence) 
-        current_sequence_reshaped = current_sequence_scaled.reshape((1, current_sequence_scaled.shape[0], current_sequence_scaled.shape[1]))
-        prediction = model.predict(current_sequence_reshaped)
-        
-        pred_scaled = np.zeros((1, len(FEATURES)))
-        pred_scaled[0, :] = current_sequence_scaled[-1, :]
-        pred_scaled[0, 0] = prediction[0, 0]
-        pred_return = scaler.inverse_transform(pred_scaled)[0, 0]
-        
-        predictions.append({
-            'predicted_return': pred_return,
-            'predicted_movement': 'Up' if pred_return > current_sequence[-1, 0] else 'Down'
-        })
-        
-        new_data_point = current_sequence[-1].copy()
-        new_data_point[0] = pred_return
-        current_sequence = np.vstack((current_sequence[1:], new_data_point.reshape(1, -1)))
-    
-    return predictions
 
 @app.route('/budongsanAllData', methods=['GET'])
 def get_budongsan_all_data():
@@ -682,22 +658,22 @@ def delete_stock():
 def analyze_stock_route():
     if request.method == 'POST':
         try:
-            data = request.json
-            name = data['stockName']
-            start_date = datetime.strptime(data['startDate'], '%Y-%m-%d')
-            end_date = datetime.strptime(data['endDate'], '%Y-%m-%d')
-            initial_investment = float(data['initialInvestment'])
-            rebalance_period = data['rebalancePeriod']
+            data = request.json #사용자가 보낸 값을 제이슨으로 변환
+            name = data['stockName'] # 주식 종목
+            start_date = datetime.strptime(data['startDate'], '%Y-%m-%d') #시작 날짜
+            end_date = datetime.strptime(data['endDate'], '%Y-%m-%d') #종료 날짜
+            initial_investment = float(data['initialInvestment'])#초기 투자금
+            rebalance_period = data['rebalancePeriod'] #리밸런싱 주기 설정
 
-            connection = get_db_connection()
+            connection = get_db_connection() #데이터 베이스 연결
             if connection is None:
                 return jsonify({'error': '데이터베이스 연결 실패'}), 500
 
-            df = get_stock_data(connection, name)
+            df = get_stock_data(connection, name) # 주식 정보 가져오기
             
             if df.empty:
                 return jsonify({'error': f'{name} 주식의 데이터가 부족합니다.'}), 400
-
+            #주식 정보들을 모델 학습하기 위한 데이터 전처리 후 판다스에 추가
             df = preprocess_data(df)
             df = add_technical_indicators(df)
 
