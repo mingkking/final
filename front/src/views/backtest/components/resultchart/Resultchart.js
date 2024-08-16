@@ -9,6 +9,17 @@ import { LineChart, axisClasses } from '@mui/x-charts';
 const ResultChart = ({ analysisResult, error }) => {
   const theme = useTheme();
 
+  const formatYAxisLabel = (value) => {
+    if (value >= 1000000000000) {
+      return `${(value / 1000000000000).toFixed(1)}조`;
+    } else if (value >= 100000000) {
+      return `${(value / 100000000).toFixed(1)}억`;
+    } else if (value >= 10000) {
+      return `${(value / 10000).toFixed(1)}만`;
+    } else {
+      return value.toLocaleString();
+    }
+  };
   if (error) {
     return <Typography color="error" sx={{ p: 4, color: '#fff' }}>{error}</Typography>;
   }
@@ -18,18 +29,18 @@ const ResultChart = ({ analysisResult, error }) => {
       <Box sx={{ p: 4, display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', bgcolor: '#202637' }}>
         <Paper elevation={3} sx={{ p: 4, maxWidth: 600, width: '100%', bgcolor: '#1B1F2C' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-            <AutoGraphIcon sx={{ fontSize: 48, color: theme.palette.primary.main, mr: 2 }} />
+            <AutoGraphIcon sx={{ fontSize: 48, color: "#FFAE1F" }} />
             <Typography variant="h4" color="#fff" fontWeight="bold">
               주식 분석 인공지능
             </Typography>
           </Box>
-          
+
           <Typography variant="h6" color="#fff" paragraph>
             과거 주식 데이터를 학습하여 미래 주가 움직임을 예측합니다.
           </Typography>
-          
+
           <Divider sx={{ my: 3, bgcolor: '#fff' }} />
-          
+
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
               <Typography variant="h6" color="#fff" gutterBottom align='left'>
@@ -52,14 +63,14 @@ const ResultChart = ({ analysisResult, error }) => {
               </Typography>
             </Grid>
           </Grid>
-          
-          <Box sx={{ mt: 3, p: 2, bgcolor:'#282E3C', borderRadius: 1 }}>
+
+          <Box sx={{ mt: 3, p: 2, bgcolor: '#282E3C', borderRadius: 1 }}>
             <Typography variant="body1" fontWeight="bold" color="#fff">
               주의: 이 도구는 참고용입니다. 실제 투자 결정은 신중하게 내려야 합니다.
             </Typography>
           </Box>
         </Paper>
-        
+
         <Typography variant="h5" color="#fff" sx={{ mt: 12 }}>
           분석을 시작하려면 옵션을 선택하고 '분석 시작' 버튼을 클릭하세요.
         </Typography>
@@ -67,8 +78,8 @@ const ResultChart = ({ analysisResult, error }) => {
     );
   }
 
-  const koreaMonths = ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"];
-  
+  const koreaMonths = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
+
   const formatDate = (dateString) => {
     if (!dateString) return '';
     const d = new Date(dateString);
@@ -88,68 +99,82 @@ const ResultChart = ({ analysisResult, error }) => {
   const lastPrediction = analysisResult.processedData[analysisResult.processedData.length - 1] || {};
 
   return (
-    <Box sx={{ p: 4, bgcolor: theme.palette.background.paper, height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <Typography variant="h4" gutterBottom sx={{ mb: 3, fontWeight: 'bold', color: theme.palette.primary.main }}>
+    <Box sx={{ p: 4, bgcolor: '#202637', height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <Typography variant="h4" gutterBottom sx={{ mb: 3, fontWeight: 'bold', color: '#fff' }}>
         분석 결과
       </Typography>
       <Paper elevation={3} sx={{ p: 4, mb: 4, flexGrow: 1, display: 'flex', flexDirection: 'column', bgcolor: '#202637' }}>
-        <LineChart
-          width={550}
-          height={300}
-          dataset={chartData}
-          margin={{ top: 10, right: 10, bottom: 50, left: 50 }}
-          series={[
-            { 
-              dataKey: '예측 가치', 
-              label: '예측 가치 (원)', 
-              color: "#FFAE1F",
-              curve: 'linear',
-              showMark: false,
-              yAxisKey: 'leftAxis', 
-            },
-          ]}
-          xAxis={[{ 
-            scaleType: 'time', 
-            dataKey: 'date',
-            tickLabelStyle: { angle: 45, textAnchor: 'start', fontSize: 10, color: '#fff' },
-            valueFormatter: (date) => formatDate(date),
-            tickNumber: 6,
-          }]}
-          yAxis={[
-            { id: 'leftAxis', label: '예측 수익률 (%)', labelStyle: { transform: 'translateX(-20px)', color: '#fff' } },
-            { id: 'rightAxis', label: '예측 가치 (원)', labelStyle: { transform: 'translateX(20px)', color: '#fff' } }
-          ]}
-          rightAxis="rightAxis"
-          sx={{
-            [`& .${axisClasses.left} .${axisClasses.label}`]: {
-              transform: 'translate(-20px, 0)',
-            },
-            [`& .${axisClasses.right} .${axisClasses.label}`]: {
-              transform: 'translate(20px, 0)',
-            },
-            [`& .${axisClasses.axisLine}`]: {
-              stroke: '#fff',
-            },
-            [`& .${axisClasses.tick}`]: {
-              stroke: '#fff',
-            },
-          }}
-        />
+      <LineChart
+  width={550}
+  height={300}
+  dataset={chartData}
+  margin={{ top: 20, right: 30, bottom: 50, left: 70 }}
+  xAxis={[{
+    scaleType: 'time',
+    dataKey: 'date',
+    tickLabelStyle: { angle: 45, textAnchor: 'start', fontSize: 10, fill: '#FFFFFF' },
+    valueFormatter: (date) => formatDate(date),
+  }]}
+  yAxis={[{
+    scaleType: 'linear',
+    tickLabelStyle: { fontSize: 12, fill: '#FFFFFF' },
+    valueFormatter: formatYAxisLabel,
+    tickNumber: 5,  
+  }]}
+  series={[
+    {
+      dataKey: '예측 가치',
+      color: "#FFAE1F",
+      curve: 'linear',
+      valueFormatter: (value) => formatYAxisLabel(value),
+      showMark: false,
+      lineWidth: 2,
+    },
+  ]}
+  sx={{
+    '.MuiChartsAxis-label': {
+      fill: '#FFFFFF',
+    },
+    '.MuiChartsLegend-label': {
+      fill: '#FFFFFF',
+    },
+    '.MuiChartsAxis-tickLabel': {
+      fill: '#FFFFFF',
+    },
+    '.MuiChartsTooltip-table': {
+      backgroundColor: 'rgba(30, 30, 30, 0.8)',
+      color: '#FFFFFF',
+      borderRadius: '4px',
+      padding: '8px',
+    },
+    '.MuiChartsTooltip-tableCell': {
+      color: '#FFFFFF',
+    },
+    '.MuiChartsTooltip-tableCellValue': {
+      color: '#FFAE1F',
+    },
+  }}
+  tooltip={{ trigger: 'axis' }}
+  slotProps={{
+    legend: {
+      hidden: true,  // 범례 숨기기
+    },
+  }}
+/>
       </Paper>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
           <Paper elevation={2} sx={{ p: 3, bgcolor: '#202637' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-              <ShowChartIcon color="warning" sx={{ fontSize: 30,  mr: 2 }} />
-              <Typography variant="h6" color="#FFAE1F"/>
-              <ShowChartIcon color="warning" sx={{ fontSize: 30,  mr: 2 }} />
+              <Typography variant="h6" color="#FFAE1F" />
+              <ShowChartIcon color="warning" sx={{ fontSize: 30, mr: 2 }} />
               <Typography variant="h6" color="#FFAE1F">
                 주식명: {analysisResult.stockName || 'N/A'}
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <DateRangeIcon sx={{ fontSize: 24, color: theme.palette.text.secondary, mr: 2 }} />
-              <Typography variant="body1">
+              <DateRangeIcon color="warning" sx={{ fontSize: 24, mr: 2 }} />
+              <Typography variant="body1" color="#fff">
                 분석 기간: {formatDate(analysisResult.startDate)} ~ {formatDate(analysisResult.endDate)}
               </Typography>
             </Box>
@@ -158,12 +183,11 @@ const ResultChart = ({ analysisResult, error }) => {
         <Grid item xs={12} sm={6}>
           <Paper elevation={2} sx={{ p: 3, bgcolor: '#202637' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-              <TrendingUpIcon sx={{ fontSize: 30, color: theme.palette.primary.main, mr: 2 }} />
-              <Typography variant="h6" color="primary">
+              <TrendingUpIcon color="warning" sx={{ fontSize: 30, mr: 2 }} />  <Typography variant="h6" color="#FFAE1F">
                 예측 결과
               </Typography>
             </Box>
-            <Typography variant="body1" gutterBottom>
+            <Typography variant="body1" gutterBottom color="#fff">
               초기 투자금: {formatCurrency(analysisResult.initialInvestment)}
             </Typography>
             <Typography variant="body1" gutterBottom color="#fff">

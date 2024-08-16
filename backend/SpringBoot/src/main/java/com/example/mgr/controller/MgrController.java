@@ -80,7 +80,12 @@ public class MgrController {
 	    int selcetTotalMembers = mgrservice.selectTotalMembers(); // 총 회원 수
 	    int selectTodayMembers = mgrservice.selectTodayMembers(); // 금일 가입자 수
 	    int selectTotalSubscribers = mgrservice.selectTotalSubscribers(); // 총 구독자 수 
-	    
+ 	    List<Map<String, Object>> selectRecent6Mem = mgrservice.selectRecent6Mem(); // 최근 6개월 가입자 수
+ 	    List<Map<String, Object>> selectRecent6Sub = mgrservice.selectRecent6Sub(); // 최근 6개월 구독자 수
+ 	   
+	    List<Map<String, Object>> transformedSelectRecent6Sub = transformJoinMonth(selectRecent6Sub);
+ 	    List<Map<String, Object>> transformedSelectRecent6Mem = transformJoinMonth(selectRecent6Mem);
+ 	   
 	    // Gson 객체 생성
 	    Gson gson = new Gson();
 	    
@@ -91,7 +96,9 @@ public class MgrController {
 	        "selectTotalSubscribers", selectTotalSubscribers,
 	        "selectTotalSession", selectTotalSession,
 	        "selectTodaySession", selectTodaySession,
-	        "selectMonthSession", selectMonthSession
+	        "selectMonthSession", selectMonthSession,
+		    "selectRecent6Mem", transformedSelectRecent6Mem,
+		    "selectRecent6Sub", transformedSelectRecent6Sub
 	    ));
 	    
 	    System.out.println("manager/main으로 보내는 값: " + jsonString); // 확인용
@@ -227,19 +234,29 @@ public class MgrController {
 	    List<Map<String, Object>> last5DaysMember = mgrservice.selectLast5DaysMember(); // 최근 5일 가입자 수
 	    List<Map<String, Object>> last5MonthsMember = mgrservice.selectLast5MonthsMember(); // 최근 5달 가입자 수
 	    List<Map<String, Object>> last2YearsMember = mgrservice.selectLast2YearsMember(); // 최근 2년 가입자 수
-	    int countReply = mgrservice.countReply();
-	    int userLike = mgrservice.userLike();
-	    int CPPostCount = mgrservice.selectCPPostCount();
-	    int CPReplyCount = mgrservice.selectCPReplyCount();
-	   
+	    int countReply = mgrservice.countReply(); // 댓글 수
+	    int userLike = mgrservice.userLike(); // 좋아요 수
+	    int CPPostCount = mgrservice.selectCPPostCount(); // 신고 게시글 수
+	    int CPReplyCount = mgrservice.selectCPReplyCount(); // 신고 댓글 수
+	    List<Map<String, Object>> selectRecent6Sub = mgrservice.selectRecent6Sub(); // 최근 6개월 구독자 수
+	    List<Map<String, Object>> selectLastYearSub = mgrservice.selectLastYearSub(); // 작년 6개월 구독자 수
+
 	    
-	    // last5MonthsMember의 JOIN_MONTH 값을 "M월" 형식으로 변환
-	    List<Map<String, Object>> transformedLast5MonthsMember = last5MonthsMember.stream().map(entry -> {
-	        String joinMonth = (String) entry.get("JOIN_MONTH");
-	        String[] parts = joinMonth.split("-");
-	        int month = Integer.parseInt(parts[1]); // "MM"을 int로 변환하여 앞의 '0' 제거
-	        String transformedMonth = month + "월"; // M월 형식으로 변환
-	        entry.put("JOIN_MONTH", transformedMonth);
+	    // YYYY-MM 형식을 MM월로 변경하는 함수 적용
+	    List<Map<String, Object>> transformedLast5MonthsMember = transformJoinMonth(last5MonthsMember);
+	    List<Map<String, Object>> transformedSelectRecent6Sub = transformJoinMonth(selectRecent6Sub);
+	    List<Map<String, Object>> transformedSelectLastYearSub = transformJoinMonth(selectLastYearSub);
+	    
+	    
+	    // last5DaysMember의 JOIN_DATE 값을 "DD일" 형식으로 변환
+	    List<Map<String, Object>> transformedLast5DaysMember = last5DaysMember.stream().map(entry -> {
+	        String joinDays = (String) entry.get("JOIN_DATE");
+	        if (joinDays != null) {
+	            String[] parts = joinDays.split("-");
+	            int day = Integer.parseInt(parts[2]); // "DD"를 int로 변환하여 앞의 '0' 제거
+	            String transformedDay = day + "일"; // DD일 형식으로 변환
+	            entry.put("JOIN_DATE", transformedDay);
+	        }
 	        return entry;
 	    }).collect(Collectors.toList());
 	    
@@ -255,7 +272,7 @@ public class MgrController {
 	    map.put("selectCommCount", selectCommCount);
 	    map.put("countByAgeMember", countByAgeMember);
 	    map.put("selectLast5DaysMember", last5DaysMember);
-	    map.put("selectLast5MonthsMember", last5MonthsMember);
+	    map.put("selectLast5MonthsMember", transformedLast5MonthsMember);
 	    map.put("selectLast2YearsMember", last2YearsMember);
 	    map.put("selectTotalSession", selectTotalSession);
 	    map.put("selectTodaySession", selectTodaySession);
@@ -263,6 +280,9 @@ public class MgrController {
 	    map.put("userLike", userLike);
 	    map.put("CPPostCount", CPPostCount);
 	    map.put("CPReplyCount", CPReplyCount);
+	    map.put("selectRecent6Sub", transformedSelectRecent6Sub);
+	    map.put("selectLastYearSub", transformedSelectLastYearSub);
+
 
 	    // JSON 문자열로 변환
 	    String jsonString = gson.toJson(map);
@@ -270,6 +290,18 @@ public class MgrController {
 	    System.out.println("graph로 보내는 값: " + jsonString); // 확인용
 	    
 	    return jsonString;
+	}
+	
+	// JOIN_MONTH 값을 "M월" 형식으로 변환
+	private List<Map<String, Object>> transformJoinMonth(List<Map<String, Object>> data) {
+	    return data.stream().map(entry -> {
+	        String joinMonth = (String) entry.get("JOIN_MONTH");
+	        String[] parts = joinMonth.split("-");
+	        int month = Integer.parseInt(parts[1]); // "MM"을 int로 변환하여 앞의 '0' 제거
+	        String transformedMonth = month + "월"; // M월 형식으로 변환
+	        entry.put("JOIN_MONTH", transformedMonth);
+	        return entry;
+	    }).collect(Collectors.toList());
 	}
 	
 	// 커뮤니티 관리 화면  

@@ -31,3 +31,7 @@
   align-items: center;
   
 }
+.slick-next, .slick-prev {
+  display: none !important;
+}
+

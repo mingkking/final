@@ -38,7 +38,11 @@ const TopProperties = ({ properties, onSlideClick }) => {
     return (
         <Paper elevation={3} sx={{ p: 2, bgcolor: '#1B1F2C', borderRadius: 2, width: '100%', height: 'auto', overflow: 'hidden' }}>
             <Typography variant="h6" gutterBottom color="#fff">인기 매물</Typography>
-            <CustomSlider {...sliderSettings} style={{ width: '100%' }}>
+            <CustomSlider {...sliderSettings} style={{ width: '100%' }} sx={{
+                '& .slick-prev, & .slick-next': {
+                    display: 'none !important',
+                }
+            }}>
                 {properties.map((property, index) => (
                     <StyledSlide
                         key={index}

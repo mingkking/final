@@ -21,7 +21,7 @@ const StockMain = () => {
 
   return (
     <Container>
-    <Box sx={{ 
+    <Box sx={{  
       bgcolor: '#1B1F2C', 
       minHeight: '100vh', 
       display: 'flex', 
@@ -41,7 +41,8 @@ const StockMain = () => {
             flexDirection: 'column', 
             overflow: 'hidden',
             height: isMobile ? 'auto' : 'calc(100vh - 200px)' ,
-            fontWeight:"bold"
+            fontWeight:"bold",
+            backgroundColor:'#1B1F2C',
           }}
         >
           <Stocklist onStockSelect={handleStockSelect} />
