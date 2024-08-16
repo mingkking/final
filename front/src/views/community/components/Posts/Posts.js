@@ -62,12 +62,23 @@ function Posts() {
 
   }
 
-  const handleSearch = (event) => {
-    // setKeyword(event.target.value);
-    // axios.get(`/api/posts/search?keyword=${event.target.value}`)
-    //   .then(response => setPosts(response.data))
-    //   .catch(error => console.error(error));
+  const handleSearch = (e) => {
+    setKeyword(e.target.value);
   };
+
+  const keyUp = async (e) => {
+    if (e.key === "Enter") {
+      if (keyword !== null && keyword !== "" && !keyword.includes("\\")) {
+        await axios.get(`http://localhost:8080/search?keyword=${keyword}`)
+          .then((res) => {
+            postsValue.actions.setSelectAllPosts(res.data);
+          });
+      } else {
+        selectAllPosts();
+      }
+    }
+
+  }
 
   const insertCommunity = (evt) => {
     evt.preventDefault();
@@ -120,6 +131,7 @@ function Posts() {
           placeholder="검색어를 입력하세요..."
           value={keyword}
           onChange={handleSearch}
+          onKeyUp={keyUp}
           className="community-search-bar"
         />
         <Tooltip title={"글 작성"}>
@@ -133,8 +145,8 @@ function Posts() {
         </Tooltip>
       </div>
       <ul className="post-list">
-        {allPostList.map(post => (
-          <li key={post.id} className="post-item">
+        {allPostList.map((post, i) => (
+          <li key={i} className="post-item">
             <Tooltip title={"마이페이지"} placement='top-start'>
               <div className="post-item-top">
                 <Link className="no-underline-link" to={`/MemberPage?id=${post.user_num.userId}`} state={{ id: post.user_num.userId }}>

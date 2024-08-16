@@ -24,7 +24,6 @@ import com.example.community.repository.UserLikeRepository;
 
 @Service
 public class CommunityServiceImpl implements CommunityService {
-
     // 커뮤니티
     @Autowired
     private CommunityRepository communityRepository;
@@ -49,9 +48,21 @@ public class CommunityServiceImpl implements CommunityService {
     @Autowired
     private DeclarationRepository declarationRepository;
 
+    // @Override
+    // public List<CommunityVO> selectAllCommunity(Integer startRow, Integer endRow) throws Exception {
+    //     return communityRepository.selectAllCommunity(startRow, endRow);
+    // }
+
     @Override
     public List<CommunityVO> selectAllCommunity() throws Exception {
         return communityRepository.selectAllCommunity();
+    }
+
+    // 커뮤니티 검색
+    @Override
+    public List<CommunityVO> selectSearchCommunity(String keyword) throws Exception {
+        System.out.println("keywordkeywordkeywordkeywordkeywordkeywordkeywordkeyword " + keyword);
+        return communityRepository.selectSearchCommunity(keyword);
     }
 
     @Override
