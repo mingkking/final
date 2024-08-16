@@ -11,7 +11,7 @@ const IdConfirm = () => {
 
 
     return (
-        <div className="center-container d-flex justify-content-center align-items-center min-vh-100">
+        <div className="centerIcf-container d-flex justify-content-center align-items-center min-vh-100">
         <div className="id-confirm-container mt-5">
             <div className="row justify-content-center">
                 <div className="col-md-8 col-lg-12">

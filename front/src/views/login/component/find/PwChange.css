@@ -3,16 +3,20 @@
     max-width: 500px; /* 카드의 최대 너비 설정 */
     padding: 20px; /* 카드 안쪽 여백 설정 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
-    background-color: #fff; /* 카드 배경색 */
+    background-color: #212737; /* 카드 배경색 */
     border-radius: 8px; /* 카드 모서리 둥글게 */
-}
-.center-container {
+} 
+.centerPc-container {
     display: flex; /* Flexbox 사용 */
     justify-content: center; /* 수평 중앙 정렬 */
     align-items: center; /* 수직 중앙 정렬 */
     
-    background-color: #f8f9fa; /* 배경색 설정 */
+    background-color: #131722; /* 배경색 설정 */
     
+}
+
+.centerPc-container h1 {
+    color: #fff;
 }
 
 .pwchange-form {
@@ -26,7 +30,7 @@
     margin: 0;
     
     text-align: left;
-    
+    color: #fff;
 }
 
 
@@ -67,7 +71,8 @@
     display: flex;
     color: red;
     font-size: 12px;
-    margin-left: 180px;
-    margin-top: -30px;
+    
+    margin-top: -20px;
+    text-align: left;
     
 }

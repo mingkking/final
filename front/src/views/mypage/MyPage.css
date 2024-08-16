@@ -2,7 +2,7 @@
   width: 100%;
   max-width: 1000px;
   padding: 20px;
-  background-color: #fff;
+  background-color: #212737;
   border-radius: 8px;
   margin: auto;
   position: relative; 
@@ -13,18 +13,14 @@
   gap: 5px;
 }
 
-.mypage-title {
-  margin-bottom: 20px;
-  text-align: center;
-}
 
 .profile-section {
   flex: 1; 
   max-width: 800px; 
-  background-color: #fff;
+  background-color: #212737;
   padding: 20px;
   border-radius: 10px;
-  border: 1px solid #ddd;
+  
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
@@ -33,10 +29,7 @@
   width: 100%;
 }
 
-.main-content {
-  margin-left: 5%;
-  background-color: #f2f2f2;
-}
+
 
 .profile-avatar-container {
   display: flex;
@@ -66,7 +59,7 @@
 
 /* 폼 섹션 스타일 */
 .mypage-form-section {
-  background-color: #fff;
+  background-color: #212737;
   padding: 20px;
   border-radius: 8px;
   margin-bottom: 20px;
@@ -121,6 +114,7 @@
 
 .profile-details {
   flex-grow: 1;
+  color: #fff;
 }
 
 .mypage-nickname {
@@ -158,7 +152,12 @@
   background-color: #0056b3;
 }
 
-.my-posts {}
+
+
+
+.my-posts {
+  color: #fff;
+}
 
 .my-posts h3 {
   font-size: 18px;
@@ -181,6 +180,7 @@
   justify-content: center;
   border: 1px solid #ddd;
   margin-top: 0px;
+  color: #fff;
 }
 
 .my-interest-item {
@@ -196,27 +196,37 @@
   list-style-type: none;
   padding: 0;
   margin: 0;
+  
+}
+
+.property-item {
+  font-size: 18px;
 }
 
 .property-item, .stock-item {
   padding: 15px; /* 패딩을 동일하게 설정 */
   margin-bottom: 15px; /* 아이템 간의 여백을 동일하게 설정 */
   border-radius: 8px; /* 모서리를 동일하게 둥글게 설정 */
-  background-color: #fff; /* 배경 색상을 동일하게 설정 */
+  background-color: #212737; /* 배경 색상을 동일하게 설정 */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 동일한 그림자 효과 */
-  min-height: 150px; /* 최소 높이를 동일하게 설정 */
+  width: 270px;
+  height: 240px; /* 고정 높이 설정 */
   display: flex; /* 아이템 내에서 flexbox 사용 */
   flex-direction: column; /* 세로 방향으로 정렬 */
   justify-content: space-between; /* 내용 사이에 공간을 균등하게 분배 */
+  border: 1px solid #ccc;
 }
 
 .property-item:hover, .stock-item:hover {
-  background-color: #e0e0e0;
+  background-color: #3a4258;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  
 }
 
 .property-details, .stock-details {
   text-align: left;
+  color: #fff;
+
 }
 
 .property-details p, .stock-details div {
@@ -225,16 +235,16 @@
 
 .property-label, .item-title {
   font-weight: bold;
-  color: #333;
+  color: #fff;
 }
 
 .property-label {
-  color: #555;
+  color: #fff;
 }
 
 .item-title {
   font-size: 16px;
-  color: #222;
+  color: #fff;
   text-align: left;
 }
 
@@ -342,12 +352,13 @@
 }
 
 .bookmarked-post {
-  background: #ffffff;
+  background-color: #212737;
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 16px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease;
+  color: #fff;
 }
 
 .bookmarked-post:hover {
@@ -391,7 +402,7 @@
 
 .bookmarked-post-contents {
   font-size: 16px;
-  color: #555;
+  color: #fff;
 }
 
 .bookmarked-post-image {
