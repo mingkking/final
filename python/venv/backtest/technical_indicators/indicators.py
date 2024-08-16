@@ -12,7 +12,7 @@ def calculate_sma(df, window):
 def calculate_ema(df, window): 
     return df['closing_price'].ewm(span=window, adjust=False).mean()
 
-#상대적 강도지수 계산
+#상대적 강도지수 계산(RSI)
 def calculate_rsi(df, window): 
     delta = df['closing_price'].diff()
     gain = (delta.where(delta > 0, 0)).rolling(window=window).mean()
@@ -20,7 +20,7 @@ def calculate_rsi(df, window):
     rs = gain / loss
     return 100 - (100 / (1 + rs))
 
-#이동평균 수렴확산 지수
+#이동평균 수렴확산 지수(MACD)
 def calculate_macd(df, short_window, long_window, signal_window):
     short_ema = calculate_ema(df, short_window)
     long_ema = calculate_ema(df, long_window)
@@ -58,7 +58,7 @@ def calculate_atr(df, window):
 def calculate_roc(df, window):
     """모멘텀 지표: ROC(Rate of Change)"""
     return (df['closing_price'] - df['closing_price'].shift(window)) / df['closing_price'].shift(window) * 100
-
+#각각의 지표들을 계산후 추가
 def add_technical_indicators(df):
     df['SMA_20'] = calculate_sma(df, 20)
     df['EMA_20'] = calculate_ema(df, 20)

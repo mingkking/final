@@ -104,63 +104,62 @@ const ResultChart = ({ analysisResult, error }) => {
         분석 결과
       </Typography>
       <Paper elevation={3} sx={{ p: 4, mb: 4, flexGrow: 1, display: 'flex', flexDirection: 'column', bgcolor: '#202637' }}>
-      <LineChart
-  width={550}
-  height={300}
-  dataset={chartData}
-  margin={{ top: 20, right: 30, bottom: 50, left: 70 }}
-  xAxis={[{
-    scaleType: 'time',
-    dataKey: 'date',
-    tickLabelStyle: { angle: 45, textAnchor: 'start', fontSize: 10, fill: '#FFFFFF' },
-    valueFormatter: (date) => formatDate(date),
-  }]}
-  yAxis={[{
-    scaleType: 'linear',
-    tickLabelStyle: { fontSize: 12, fill: '#FFFFFF' },
-    valueFormatter: formatYAxisLabel,
-    tickNumber: 5,  
-  }]}
-  series={[
-    {
-      dataKey: '예측 가치',
-      color: "#FFAE1F",
-      curve: 'linear',
-      valueFormatter: (value) => formatYAxisLabel(value),
-      showMark: false,
-      lineWidth: 2,
-    },
-  ]}
-  sx={{
-    '.MuiChartsAxis-label': {
-      fill: '#FFFFFF',
-    },
-    '.MuiChartsLegend-label': {
-      fill: '#FFFFFF',
-    },
-    '.MuiChartsAxis-tickLabel': {
-      fill: '#FFFFFF',
-    },
-    '.MuiChartsTooltip-table': {
-      backgroundColor: 'rgba(30, 30, 30, 0.8)',
-      color: '#FFFFFF',
-      borderRadius: '4px',
-      padding: '8px',
-    },
-    '.MuiChartsTooltip-tableCell': {
-      color: '#FFFFFF',
-    },
-    '.MuiChartsTooltip-tableCellValue': {
-      color: '#FFAE1F',
-    },
-  }}
-  tooltip={{ trigger: 'axis' }}
-  slotProps={{
-    legend: {
-      hidden: true,  // 범례 숨기기
-    },
-  }}
-/>
+        <LineChart
+          width={550}
+          height={300}
+          dataset={chartData}
+          margin={{ top: 20, right: 30, bottom: 50, left: 70 }}
+          xAxis={[{
+            scaleType: 'time',
+            dataKey: 'date',
+            tickLabelStyle: { angle: 45, textAnchor: 'start', fontSize: 10, fill: '#FFFFFF' },
+            valueFormatter: (date) => formatDate(date),
+          }]}
+          yAxis={[{
+            scaleType: 'linear',
+            tickLabelStyle: { fontSize: 12, fill: '#FFFFFF' },
+            valueFormatter: formatYAxisLabel,
+            tickNumber: 5,
+          }]}
+          series={[
+            {
+              dataKey: '예측 가치',
+              color: "#FFAE1F",
+              curve: 'linear',
+              showMark: false,
+              lineWidth: 2,
+            },
+          ]}
+          sx={{
+            '.MuiChartsAxis-label': {
+              fill: '#FFFFFF',
+            },
+            '.MuiChartsLegend-label': {
+              fill: '#FFFFFF',
+            },
+            '.MuiChartsAxis-tickLabel': {
+              fill: '#FFFFFF',
+            },
+            '.MuiChartsTooltip-table': {
+              backgroundColor: 'rgba(30, 30, 30, 0.8)',
+              color: '#FFFFFF',
+              borderRadius: '4px',
+              padding: '8px',
+            },
+            '.MuiChartsTooltip-tableCell': {
+              color: '#FFFFFF',
+            },
+            '.MuiChartsTooltip-tableCellValue': {
+              color: '#FFAE1F',
+            },
+          }}
+          tooltip={{ trigger: 'axis' }}
+          slotProps={{
+            legend: {
+              hidden: true,  // 범례 숨기기
+            },
+          }}
+        />
       </Paper>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>

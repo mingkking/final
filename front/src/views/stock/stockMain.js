@@ -32,7 +32,7 @@ const StockMain = () => {
           국내주식
         </Typography>
       </Paper>
-      <Container maxWidth="lg" sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+      <Container maxWidth="lg" sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' ,bgcolor: '#202637' }}>
         <Card 
           elevation={3} 
           sx={{ 
