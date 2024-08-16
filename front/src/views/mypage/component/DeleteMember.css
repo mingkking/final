@@ -2,7 +2,7 @@
     width: 100%;
     max-width: 800px;
     padding: 30px;
-    background-color: #fff;
+    background-color: #1F2434;
     color: #080808;
     border-radius: 10px;
     margin: auto;
@@ -21,7 +21,7 @@
 .delete-member-container p {
     font-size: 16px;
     margin-bottom: 20px;
-    color: #0e0d0d;
+    color: #fff;
 }
 
 .delete-member-form {
@@ -40,7 +40,7 @@
 
 .delete-form-group label {
     font-size: 14px;
-    color: #080808;
+    color: #fff;
 }
 
 .delete-form-group input {

@@ -49,7 +49,7 @@ const DeleteMember = () => {
             <p>정말로 InvestGate를 떠나시겠어요?<br />
                 탈퇴를 하시면 InvestGate가 제공하는 백테스트, 관심종목 등의 기능을 더이상 사용하실 수 없어요.</p>
             <form className="delete-member-form" onSubmit={handleSubmit}>
-                <h2>InvestGate를 떠나는 이유를 알려주세요.</h2>
+                <h2 style={{ color:'#fff'}}>InvestGate를 떠나는 이유를 알려주세요.</h2>
                 <div className="delete-form-group">
                     <label>
                         <input
