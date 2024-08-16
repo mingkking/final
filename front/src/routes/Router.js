@@ -12,11 +12,12 @@ const MemberList = Loadable(lazy(() => import('../views/manager/memberList/Membe
 const MemberDetail = Loadable(lazy(() => import('../views/manager/memberList/MemberDetail')));
 const Community = Loadable(lazy(() => import('../views/manager/community/Community')));
 const Chat = Loadable(lazy(() => import('../views/manager/chat/Chat')));
-const MgrCommunityComment = Loadable(lazy(() => import('../views/manager/communityComplaint/CommunityComment')));
+const MgrCommunityReply = Loadable(lazy(() => import('../views/manager/communityComplaint/CommunityReply')));
 const MgrCommunityPost = Loadable(lazy(() => import('../views/manager/communityComplaint/CommunityPost')));
 const Graph = Loadable(lazy(() => import('../views/manager/graph/Graph')));
 const Error = Loadable(lazy(() => import('../views/manager/authentication/Error')));
-
+const ComplaintPostDetail = Loadable(lazy(() => import('../views/manager/communityComplaint/ComplaintPostDetail')));
+const ComplaintReplyDetail = Loadable(lazy(() => import('../views/manager/communityComplaint/ComplaintReplyDetail')));
 
 const Router = [
   {
@@ -29,9 +30,11 @@ const Router = [
       { path: 'community', exact: true, element: <Community /> },
       { path: 'chat', exact: true, element: <Chat /> },
       { path: 'complaint/communityPost', exact: true, element: <MgrCommunityPost /> },
-      { path: 'complaint/communityComment', exact: true, element: <MgrCommunityComment /> },
+      { path: 'complaint/communityComment', exact: true, element: <MgrCommunityReply /> },
       { path: 'graph', exact: true, element: <Graph /> },
-      { path: '*', element: <Navigate to="/auth/404" /> }
+      { path: '*', element: <Navigate to="/auth/404" /> },
+      { path: 'complaint/commPostDetail/:id', exact: true, element: <ComplaintPostDetail />},
+      { path: 'complaint/commReplyDetail/:id', exact: true, element: <ComplaintReplyDetail />}
     ],
   },
   {

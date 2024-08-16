@@ -33,6 +33,8 @@ const Dashboard = () => {
         value.actions.setTodayCount(result.data.selectTodaySession);
         value.actions.setCountReply(result.data.countReply);
         value.actions.setUserLike(result.data.userLike);
+        value.actions.setCPPostCount(result.data.CPPostCount);
+        value.actions.setCPReplyCount(result.data.CPReplyCount);
       });
     }, []);
 
@@ -93,10 +95,10 @@ const Dashboard = () => {
             <CountSomething title='댓글 수' count={value.state.countReply} />
           </Grid>
           <Grid item xs={12} lg={3}>
-            <CountSomething title='게시글 신고 수'/>
+            <CountSomething title='게시글 신고 수' count={value.state.CPPostCount}/>
           </Grid>
           <Grid item xs={12} lg={3}>
-            <CountSomething title='댓글 신고 수'/>
+            <CountSomething title='댓글 신고 수' count={value.state.CPReplyCount}/>
           </Grid>
           <Grid item xs={12} lg={3}>
             <CountSomething title='좋아요 수' count={value.state.userLike} />

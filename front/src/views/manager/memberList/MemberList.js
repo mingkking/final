@@ -13,7 +13,7 @@ const MemberList = () => {
   const member10List = 10;
   const [pageTen, setPageTen] = useState(1);
   const [searchMember, setSearchMember] = useState('');
-  const [searchField, setSearchField] = useState('user_name');
+  const [searchField, setSearchField] = useState('user_num');
   const [filteredMembers, setFilteredMembers] = useState([]);
   const [sortField, setSortField] = useState('user_num');
   const [sortOrder, setSortOrder] = useState('asc');
@@ -45,31 +45,34 @@ const MemberList = () => {
   const filterAndSortMembers = () => {
     // 필터링
     const filtered = value.state.memberList.filter((member) => {
-      const matchesSearch = member[searchField].toString().toLowerCase().includes(searchMember.toLowerCase());
+      // 필터 기준이 되는 값이 undefined일 때 빈 문자열로 처리
+      const fieldValue = member[searchField] ? member[searchField].toString().toLowerCase() : '';
+      const matchesSearch = fieldValue.includes(searchMember.toLowerCase());
       const hasPayment = !hasPaymentDate || (member.payment_date && member.payment_date.trim() !== '');
       return matchesSearch && hasPayment;
     });
-
+  
     // 정렬
     const sortedMembers = filtered.sort((a, b) => {
       if (sortField === 'user_num') {
-        return sortOrder === 'asc' 
-          ? parseInt(a[sortField]) - parseInt(b[sortField])
-          : parseInt(b[sortField]) - parseInt(a[sortField]);
+        return sortOrder === 'asc'
+          ? parseInt(a[sortField] || '0') - parseInt(b[sortField] || '0')
+          : parseInt(b[sortField] || '0') - parseInt(a[sortField] || '0');
       } else if (sortField === 'created_at' || sortField === 'payment_date') {
         return sortOrder === 'asc'
-          ? new Date(a[sortField]) - new Date(b[sortField])
-          : new Date(b[sortField]) - new Date(a[sortField]);
+          ? new Date(a[sortField] || '1970-01-01') - new Date(b[sortField] || '1970-01-01')
+          : new Date(b[sortField] || '1970-01-01') - new Date(a[sortField] || '1970-01-01');
       } else {
         return sortOrder === 'asc'
-          ? a[sortField].localeCompare(b[sortField])
-          : b[sortField].localeCompare(a[sortField]);
+          ? (a[sortField] || '').localeCompare(b[sortField] || '')
+          : (b[sortField] || '').localeCompare(a[sortField] || '');
       }
     });
-
+  
     setFilteredMembers(sortedMembers);
     setPageTen(1);
   };
+  
 
   useEffect(() => {
     // 컴포넌트가 마운트될 때 멤버 리스트를 로드합니다.
@@ -92,7 +95,7 @@ const MemberList = () => {
   // 검색 필드, 검색 값 또는 정렬 기준 변경 시 필터링 및 정렬
   useEffect(() => {
     filterAndSortMembers(); 
-  }, [searchField, searchMember, sortField, sortOrder]);
+  }, [sortField, sortOrder]);
 
   const indexLastMember = pageTen * member10List;
   const indexFirstMember = indexLastMember - member10List;
@@ -161,6 +164,7 @@ const MemberList = () => {
                     label="필터"
                     size='small'
                   >
+                    <MenuItem value="user_num">회원 번호</MenuItem>
                     <MenuItem value="user_name">이름</MenuItem>
                     <MenuItem value="user_nickname">닉네임</MenuItem>
                     <MenuItem value="user_email">이메일</MenuItem>
