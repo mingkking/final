@@ -3,7 +3,7 @@ import '../footerCss/ServiceUse.css';
 
 const ServiceUse = () => {
   return (
-    <div className="service-use-container">
+    <div className="service-use-container" style={{color:'#fff'}}>
         <h1>이용약관</h1>
 
         <h2>제 1조 (목적)</h2>

@@ -36,11 +36,31 @@ public class CommunityController {
     @Autowired
     private CommunityService communityService; // 커뮤니티 서비스 객체
 
+    @GetMapping("/search")
+    public List<CommunityVO> selectSearchCommunity(@RequestParam("keyword") String keyword) { // 커뮤니티 모든 글 검색
+
+        List<CommunityVO> selectSearchCommunity = null;
+        try {
+            selectSearchCommunity = communityService.selectSearchCommunity(keyword); // 커뮤니티 서비스 객체로 커뮤니티 모든 글 검색 기능 실행
+            System.out.println("selectSearchCommunity.size()selectSearchCommunity.size()selectSearchCommunity.size() "
+                    + selectSearchCommunity.size());
+            for (int i = 0; i < selectSearchCommunity.size(); i++) {
+                System.out.println(selectSearchCommunity.get(i).getContents());
+            }
+        } catch (Exception e) {
+            System.out.println("커뮤니티 모든 글 검색 : " + e.getMessage()); // 커뮤니티 모든 글 검색 기능 에러 발생
+        }
+
+        return selectSearchCommunity;
+
+    }
+
     @GetMapping("/selectCommunity")
     public List<CommunityVO> selectCommunity() { // 커뮤니티 모든 글 검색
 
-        List<CommunityVO> selectAllPosts = null;
+        List<CommunityVO> selectAllPosts = null; 
         try {
+            // selectAllPosts = communityService.selectAllCommunity(offset, offset + pageSize); // 커뮤니티 서비스 객체로 커뮤니티 모든 글 검색 기능 실행
             selectAllPosts = communityService.selectAllCommunity(); // 커뮤니티 서비스 객체로 커뮤니티 모든 글 검색 기능 실행
         } catch (Exception e) {
             System.out.println("커뮤니티 모든 글 검색 : " + e.getMessage()); // 커뮤니티 모든 글 검색 기능 에러 발생

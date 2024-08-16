@@ -14,7 +14,7 @@ const CommDecComment = () => {
   const [commentsPerPage] = useState(10);  // 페이지 당 댓글 수
   const [searchField, setSearchField] = useState('user_name');  // 검색 필드
   const [searchValue, setSearchValue] = useState('');  // 검색 값
-  const [sortField, setSortField] = useState('created_at');  // 정렬 기준
+  const [sortField, setSortField] = useState('user_name');  // 정렬 기준
   const [sortOrder, setSortOrder] = useState('asc');  // 정렬 순서
   const navigate = useNavigate();
 
@@ -108,8 +108,8 @@ const CommDecComment = () => {
                     label="정렬 기준"
                     size='small'
                   >
-                    <MenuItem value="created_at">신고일자</MenuItem>
                     <MenuItem value="user_name">작성자</MenuItem>
+                    <MenuItem value="created_at">신고일자</MenuItem>
                     <MenuItem value="contents">내용</MenuItem>
                   </Select>
                 </FormControl>
@@ -138,8 +138,9 @@ const CommDecComment = () => {
                     size='small'
                   >
                     <MenuItem value="user_name">작성자</MenuItem>
-                    <MenuItem value="contents">내용</MenuItem>
-                    <MenuItem value="content">댓글 내용</MenuItem>
+                    <MenuItem value="title">게시글 제목</MenuItem>
+                    <MenuItem value="content">신고 내용</MenuItem>
+                    <MenuItem value="created_at">신고 일자</MenuItem>
                   </Select>
                 </FormControl>
                 <TextField

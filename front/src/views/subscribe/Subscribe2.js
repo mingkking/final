@@ -49,7 +49,7 @@ const Subscribe2 = () => {
       pg: "uplus", // PG Provider
       pay_method: 'card',
       merchant_uid: orderNum.toString(),
-      amount: '100', // 결제 금액
+      amount: '10000', // 결제 금액
       name: 'InvestiGate 구독',
       buyer_name: '홍길동',
       buyer_tel: '010-1234-5678',
