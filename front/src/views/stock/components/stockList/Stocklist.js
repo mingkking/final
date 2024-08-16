@@ -91,7 +91,7 @@ const Stocklist = ({ onStockSelect }) => {
   if (error) return <Typography color="error">{error}</Typography>;
 
   return (
-    <Box sx={{ width: '100%', maxWidth: '100vw', overflow: 'hidden', backgroundColor:'#282E3C' }}>
+    <Box sx={{ width: '100%', maxWidth: '100vw', overflow: 'hidden', backgroundColor:'#282E3C'}}>
       <TextField
         fullWidth
         variant="outlined"
