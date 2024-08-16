@@ -41,6 +41,7 @@ const SideSearch = ({ onPropertySelect }) => {
     };
 
     return (
+        
         <div>
             <form className="d-flex" onSubmit={handleSubmit}>
                 <input
@@ -48,21 +49,32 @@ const SideSearch = ({ onPropertySelect }) => {
                     type="search"
                     placeholder="검색어를 입력해주세요."
                     required
-                    style={{ marginBottom: '30px' }}
+                    style={{
+                        marginBottom: '30px',
+                        backgroundColor: '#BCB6AA', // Dark background color
+                        color: '#000',           // White text color for contrast
+                        border: '1px solid #444', // Slightly lighter border color
+                        borderRadius: '4px'      // Optional: rounded corners for better appearance
+                    }}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
             </form>
-            <div className="side-search-container">
-                <ul className="side-search-list" style={{ paddingLeft: '0px', textAlign: 'left', display: searchTerm ? 'block' : 'none' }}>
+            <div className="side-search-container" style={{padding: '10px', borderRadius: '4px' }}>
+                <ul className="side-search-list" style={{ paddingLeft: '0px', textAlign: 'left', display: searchTerm ? 'block' : 'none', listStyleType: 'none' }}>
                     {filteredData.map(property => (
-                        <li key={property.property_num} onClick={() => handlePropertyClick(property)}>
+                        <li
+                            key={property.property_num}
+                            onClick={() => handlePropertyClick(property)}
+                            style={{ color: '#fff', padding: '5px', cursor: 'pointer' }} // White color for text and pointer cursor on hover
+                        >
                             {property.address} {property.apartMentName} {property.floorNumber}층
                         </li>
                     ))}
                 </ul>
             </div>
         </div>
+
     );
 }
 

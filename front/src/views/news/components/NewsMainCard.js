@@ -17,14 +17,14 @@ const NewsCard = ({ news }) => {
 
   return (
     <BlankCard>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} onClick={handleClickPost}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' ,backgroundColor:'#282E3C', color:'#fff' }} onClick={handleClickPost}>
         {/* 이미지 컨테이너 */}
         <div style={{ 
           width: '100%', 
           paddingTop: '75%', // 4:3 비율
           position: 'relative', 
           overflow: 'hidden', 
-          cursor: 'pointer' 
+          cursor: 'pointer',
         }}>
           <img 
             src={news.imgs ? news.imgs : nullImg}
@@ -42,7 +42,7 @@ const NewsCard = ({ news }) => {
         {/* 제목과 날짜 */}
         <div style={{ padding: '10px', textAlign: 'center' }}>
           <Typography variant='h6'>{sliceText(news.title)} </Typography>
-          <Typography variant='caption' color='textSecondary' style={{ marginTop: '10px' }}>
+          <Typography variant='caption' color='#fff' style={{ marginTop: '10px' }}>
             {news.published_at}
           </Typography>
         </div>

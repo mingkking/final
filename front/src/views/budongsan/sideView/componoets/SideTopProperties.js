@@ -21,18 +21,18 @@ const formatNumber = (number) => {
 
 const SideTopProperties = ({ properties, onPropertySelect }) => {
     return (
-        <Paper elevation={3} sx={{ p: 2, bgcolor: 'background.paper', borderRadius: 2, width: '100%', maxHeight: '100%', overflow: 'hidden' }}>
-            <Typography variant="h6" gutterBottom color="primary.dark">인기 매물 Top 10</Typography>
+        <Paper elevation={3} sx={{ p: 2, bgcolor: '#202636', borderRadius: 2, width: '100%', maxHeight: '100%', overflow: 'hidden' }}>
+            <Typography variant="h6" gutterBottom color="#fff">인기 매물 Top 10</Typography>
             {properties.map((property, index) => (
                 <Paper
                     key={index}
                     elevation={1}
-                    sx={{ p: 1, mb: 1, cursor: 'pointer' }} // 스타일 속성 추가
+                    sx={{ p: 1, mb: 1, cursor: 'pointer', backgroundColor:'#282E3C' }} // 스타일 속성 추가
                     onClick={() => onPropertySelect(property)} // 클릭 이벤트 핸들러 추가
                 >
-                    <Typography variant="body1" color="text.secondary">{property.address}</Typography>
-                    <Typography variant="body2" color="text.secondary">{property.apartMentName} {property.floorNumber}층</Typography>
-                    <Typography sx={{ fontWeight: 'bold' }} variant="body2" color="text.primary">{formatNumber(property.transactionAmount)}</Typography>
+                    <Typography variant="body1" color="#fff">{property.address}</Typography>
+                    <Typography variant="body2" color="#fff">{property.apartMentName} {property.floorNumber}층</Typography>
+                    <Typography sx={{ fontWeight: 'bold' }} variant="body2" color="#fff">{formatNumber(property.transactionAmount)}</Typography>
                 </Paper>
             ))}
         </Paper>

@@ -73,7 +73,7 @@ const BudongsanSidebar = ({ onPropertySelect, schoolMarkerCount, storeMarkerCoun
   return (
     <div>
       
-      <header className="side-header">
+      <header className="side-header" style={{backgroundColor:'#131722'}}>
         <div className="side-nav-area">
           <Navbar setSelectedMenu={setSelectedMenu} />
         </div>

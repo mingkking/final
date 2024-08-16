@@ -186,7 +186,10 @@ const Stocklist = ({ onStockSelect }) => {
                     backgroundColor: '#282E3C',
                   },
                   '&:nth-of-type(even)': {
-                    backgroundColor: '#282E3C',
+                    backgroundColor: '#F1B13C',
+                  },
+                  '&:nth-of-type(odd)': {
+                    backgroundColor: '#BCB6AA', // 홀수 행 색상
                   },
                 }}
               >

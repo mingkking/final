@@ -19,7 +19,8 @@ function EconomyNews({ news }) {
                 style={{ 
                     display: 'flex', 
                     alignItems: 'flex-start', 
-                    cursor: 'pointer' 
+                    cursor: 'pointer',
+                    backgroundColor:'#282E3C',
                 }} 
                 onClick={handleClickPost}
             >
@@ -45,10 +46,11 @@ function EconomyNews({ news }) {
                 <div style={{ 
                     display: 'flex', 
                     flexDirection: 'column', 
-                    marginTop: '25px'
+                    marginTop: '25px',
+                    color:'#fff',
                 }}>
                     <Typography variant='h6'>{sliceText(news.title)}</Typography>
-                    <Typography variant='caption' color='textSecondary' style={{ marginTop: '5px', textAlign: 'left'}}>
+                    <Typography variant='caption' color='#fff' style={{ marginTop: '5px', textAlign: 'left'}}>
                         {news.published_at}
                     </Typography>
                 </div>

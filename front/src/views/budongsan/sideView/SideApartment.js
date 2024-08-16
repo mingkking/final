@@ -85,48 +85,55 @@ const SideApartment = ({ property, schoolMarkerCount, storeMarkerCount, busStati
   };
 
   return (
-    <div className="scrollable-container">
+    <div className="scrollable-container" >
       {budongsanValue.state.userNum && (
         <div style={{ textAlign: 'left' }}>
-          <Tooltip title={currentImage === Insert ? "관심매물에 삭제" : "관심매물에 추가"}>
-            <img src={currentImage} alt="Favorite Toggle" width="40" height="40" onClick={handleImageClick} style={{ cursor: 'pointer' }} />
-          </Tooltip>
-        </div>
+        <Tooltip title={currentImage === Insert ? "관심매물에 삭제" : "관심매물에 추가"}>
+          <img
+            src={currentImage}
+            alt="Favorite Toggle"
+            width="40"
+            height="40"
+            onClick={handleImageClick}
+            style={{
+              cursor: 'pointer',
+              filter: 'invert(1) sepia(1) saturate(5) hue-rotate(180deg)' // 이미지 색상 변경
+            }}
+          />
+        </Tooltip>
+      </div>
       )}
-      <div className="card mb-3">
-        <h3 className="card-header">{property.address}</h3>
-        <div className="card-body">
-          <h5 className="card-title">{property.apartMentName}</h5>
-          <h6 className="card-subtitle text-muted">{property.floorNumber}층</h6>
+      <div className="card mb-3" >
+        <h3 className="card-header" style={{ backgroundColor: '#202636', color: '#fff' }}>{property.address}</h3>
+        <div className="card-body" style={{ backgroundColor: '#202636', color: '#fff' }}>
+          <h5 className="card-title" >{property.apartMentName}</h5>
+          <h6 className="card-subtitle" >{property.floorNumber}층</h6>
         </div>
-        <hr/>
-        <div className="card-body">
-          <p className="card-text">실거래가: {formatNumber(property.transactionAmount)} 원</p>
-        </div>
-        <ul className="list-group list-group-flush">
-          <li className="list-group-item">건축년도: {property.yearBuilt}</li>
-          <li className="list-group-item">등록일: {property.registrationDate}</li>
-          <li className="list-group-item">전용면적: {property.squareFootage}</li>
+        <ul className="list-group list-group-flush" >
+          <li className="list-group-item" style={{ backgroundColor: '#202636', color: '#fff' }}>실거래가: {formatNumber(property.transactionAmount)} 원</li>
+          <li className="list-group-item" style={{ backgroundColor: '#202636', color: '#fff' }}>건축년도: {property.yearBuilt}</li>
+          <li className="list-group-item" style={{ backgroundColor: '#202636', color: '#fff' }}>등록일: {property.registrationDate}</li>
+          <li className="list-group-item" style={{ backgroundColor: '#202636', color: '#fff' }}>전용면적: {property.squareFootage}</li>
         </ul>
       </div>
       {(busStationMarkerCount !== 0 || storeMarkerCount !== 0 || schoolMarkerCount !== 0) && (
-        <div className="card mb-3">
-          <h3 className="card-header">별점</h3>
+        <div className="card mb-3" >
+          <h3 className="card-header" style={{ backgroundColor: '#202636', color: '#fff' }}>별점</h3>
           <ul className="list-group list-group-flush">
             {busStationMarkerCount !== 0 && (
-              <li className="list-group-item">
+              <li className="list-group-item" style={{ backgroundColor: '#202636', color: '#fff' }}>
                 교통 시설: {busStationMarkerCount}
                 <SideStarAuto rating={busStationMarkerCount} thresholds={trafficThresholds} tooltips={trafficTooltips} />
               </li>
             )}
             {storeMarkerCount !== 0 && (
-              <li className="list-group-item">
+              <li className="list-group-item" style={{ backgroundColor: '#202636', color: '#fff' }}>
                 편의 시설: {storeMarkerCount}
                 <SideStarAuto rating={storeMarkerCount} thresholds={convenienceThresholds} tooltips={convenienceTooltips} />
               </li>
             )}
             {schoolMarkerCount !== 0 && (
-              <li className="list-group-item">
+              <li className="list-group-item" style={{ backgroundColor: '#202636', color: '#fff' }}>
                 교육 시설: {schoolMarkerCount}
                 <SideStarAuto rating={schoolMarkerCount} thresholds={educationThresholds} tooltips={educationTooltips} />
               </li>

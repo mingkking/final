@@ -112,14 +112,15 @@ const SideTransaction = ({ onPropertySelect }) => {
 
     const formattedPriceMin = formatNumberToKorean(removeComma(priceMin));
     const formattedPriceMax = formatNumberToKorean(removeComma(priceMax));
+    
 
     return (
         <div>
             <form className="form-container">
-                <fieldset className='fieldset-container'>
-                    <legend className="mt-4">아파트 조건</legend>
+                <fieldset className='fieldset-container' >
+                    <legend className="mt-4" style={{color: '#fff' }}>아파트 조건</legend>
 
-                    <label htmlFor="priceMin" className="form-label">가격대 최소</label>
+                    <label htmlFor="priceMin" className="form-label" style={{color: '#fff' }}>가격대 최소</label>
                     <input 
                         type="text" 
                         className="form-input" 
@@ -128,7 +129,7 @@ const SideTransaction = ({ onPropertySelect }) => {
                         onChange={handlePriceMinChange} 
                         placeholder="0"
                     />
-                    <label htmlFor="priceMax" className="form-label">가격대 최대</label>
+                    <label htmlFor="priceMax" className="form-label" style={{color: '#fff' }}>가격대 최대</label>
                     <input 
                         type="text" 
                         className="form-input" 
@@ -137,9 +138,9 @@ const SideTransaction = ({ onPropertySelect }) => {
                         onChange={handlePriceMaxChange} 
                         placeholder="0"
                     />
-                    <div className='input-value'>{formattedPriceMin} - {formattedPriceMax}원</div><br/>
+                    <div className='input-value' style={{color: '#fff' }}>{formattedPriceMin} - {formattedPriceMax}원</div><br/>
 
-                    <label htmlFor="areaMin" className="form-label" style={{ marginTop: '5px' }}>전용면적 최소</label>
+                    <label htmlFor="areaMin" className="form-label" style={{ marginTop: '5px', color:'#fff'}}>전용면적 최소</label>
                     <input 
                         type="text" 
                         className="form-input" 
@@ -148,7 +149,7 @@ const SideTransaction = ({ onPropertySelect }) => {
                         onChange={handleAreaMinChange} 
                         placeholder="0"
                     />
-                    <label htmlFor="areaMax" className="form-label">전용면적 최대</label>
+                    <label htmlFor="areaMax" className="form-label" style={{color: '#fff' }}>전용면적 최대</label>
                     <input 
                         type="text" 
                         className="form-input" 
@@ -157,7 +158,7 @@ const SideTransaction = ({ onPropertySelect }) => {
                         onChange={handleAreaMaxChange} 
                         placeholder="0"
                     />
-                    <div className='input-value'>{areaMin}㎡ - {areaMax}㎡</div>
+                    <div className='input-value' style={{color: '#fff' }}>{areaMin}㎡ - {areaMax}㎡</div>
                 </fieldset>
             </form>
 
@@ -175,7 +176,9 @@ const SideTransaction = ({ onPropertySelect }) => {
                 <div className="side-search-container-data">
                     <ul className="side-search-list" style={{ paddingLeft: '0px', textAlign: 'left'}}>
                         {filteredData().map(property => (
-                            <li key={property.property_num} onClick={() => handlePropertyClick(property)}>
+                            <li key={property.property_num} onClick={() => handlePropertyClick(property)}
+                            style={{color:'#fff'}}
+                            >
                                 {property.address} {property.apartMentName} {property.floorNumber}층 
                             </li>
                         ))}
