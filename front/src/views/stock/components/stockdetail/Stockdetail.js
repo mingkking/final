@@ -135,8 +135,10 @@ const StockDetail = () => {
       }
     }
   };
+
   //차트를 출력을 할때 해당 되는 데이터들을 출력 및 주식 지표들을 출력하기 위한 계산
   useEffect(() => {
+    
     if (stockData && candleChartRef.current && volumeChartRef.current) {
       const chartWidth = candleChartRef.current.clientWidth;
       const candleChartHeight = isMobile ? 300 : 400;
@@ -148,42 +150,54 @@ const StockDetail = () => {
         layout: {
           background: { type: 'solid', color: darkTheme.backgroundColor },
           textColor: darkTheme.textColor,
-        },
-        grid: {
-          vertLines: { color: darkTheme.gridColor },
-          horzLines: { color: darkTheme.gridColor },
-        },
-        crosshair: { mode: CrosshairMode.Normal },
-        rightPriceScale: { borderColor: darkTheme.borderColor },
-        timeScale: { borderColor: darkTheme.borderColor, timeVisible: true, secondsVisible: false },
-      });
-      
-      const volumeChart = createChart(volumeChartRef.current, {
-        width: chartWidth,
-        height: volumeChartHeight,
-        layout: {
           background: { type: 'solid', color: darkTheme.backgroundColor },
           textColor: darkTheme.textColor,
         },
         grid: {
           vertLines: { color: darkTheme.gridColor },
           horzLines: { color: darkTheme.gridColor },
+          vertLines: { color: darkTheme.gridColor },
+          horzLines: { color: darkTheme.gridColor },
         },
         crosshair: { mode: CrosshairMode.Normal },
         rightPriceScale: { borderColor: darkTheme.borderColor },
         timeScale: { borderColor: darkTheme.borderColor, timeVisible: true, secondsVisible: false },
+        rightPriceScale: { borderColor: darkTheme.borderColor },
+        timeScale: { borderColor: darkTheme.borderColor, timeVisible: true, secondsVisible: false },
       });
-
+            
+      const volumeChart = createChart(volumeChartRef.current, {
+        width: chartWidth,
+        height: volumeChartHeight,
+        layout: {
+          background: { type: 'solid', color: darkTheme.backgroundColor },
+          textColor: darkTheme.textColor,
+          background: { type: 'solid', color: darkTheme.backgroundColor },
+          textColor: darkTheme.textColor,
+        },
+        grid: {
+          vertLines: { color: darkTheme.gridColor },
+          horzLines: { color: darkTheme.gridColor },
+          vertLines: { color: darkTheme.gridColor },
+          horzLines: { color: darkTheme.gridColor },
+        },
+        crosshair: { mode: CrosshairMode.Normal },
+        rightPriceScale: { borderColor: darkTheme.borderColor },
+        timeScale: { borderColor: darkTheme.borderColor, timeVisible: true, secondsVisible: false },
+        rightPriceScale: { borderColor: darkTheme.borderColor },
+        timeScale: { borderColor: darkTheme.borderColor, timeVisible: true, secondsVisible: false },
+      });
+      
       const candleSeries = candleChart.addCandlestickSeries({
-        upColor: upColor,
-        downColor: downColor,
+        upColor: darkTheme.upColor,
+        downColor: darkTheme.downColor,
         borderVisible: false,
-        wickUpColor: upColor,
-        wickDownColor: downColor,
+        wickUpColor: darkTheme.upColor,
+        wickDownColor: darkTheme.downColor,
       });
-
+      
       const volumeSeries = volumeChart.addHistogramSeries({
-        color: '#26a69a',
+        color: darkTheme.upColor,
         priceFormat: { type: 'volume' },
         priceScaleId: '',
       });
@@ -269,7 +283,7 @@ const StockDetail = () => {
         volumeChart.remove();
       };
     }
-  }, [stockData, theme, upColor, downColor, indicators, isMobile]);
+  }, [stockData, darkTheme, upColor, downColor, indicators, isMobile]);
 
   // 해당 종목에 여러가지 주식 지표들을 계산 하는 함수들
   // MA 이동 평균 계산

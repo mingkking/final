@@ -38,14 +38,6 @@ def prepare_data_for_lstm(df, features, target, seq_length=10):
     scaler = MinMaxScaler()
     data_scaled = scaler.fit_transform(data)
     
-    # X, y = [], []
-    # for i in range(len(data_scaled) - seq_length):
-    #     X.append(data_scaled[i:(i + seq_length)])
-    #     y.append(data_scaled[i + seq_length, 0])  # closing_price를 타겟으로 사용
-    
-    # X, y = np.array(X), np.array(y)
-    # return train_test_split(X, y, test_size=0.2, random_state=42), scaler
-
     X, y = create_sequences(data_scaled, seq_length)
     return train_test_split(X, y, test_size=0.2, random_state=42), scaler
 

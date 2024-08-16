@@ -13,8 +13,12 @@ const formatNumber = (number) => {
     }
 };
 
+
+
 const TopStocks = ({ stocks, onSlideClick }) => {
     const isMobile = useMediaQuery('(max-width:360px)'); // 모바일 화면 크기 감지
+
+
 
     const sliderSettings = {
         dots: true,
@@ -29,8 +33,10 @@ const TopStocks = ({ stocks, onSlideClick }) => {
 
 
     return (
+
         <Paper elevation={3} sx={{ p: 2, bgcolor: '#1B1F2C', borderRadius: 2, width: '100%', height:'200px', maxHeight: '300px', overflow: 'hidden' }}>
             <Typography variant="h6" gutterBottom color="#fff">인기 주식</Typography>
+
             <CustomSlider {...sliderSettings} style={{ width: '100%' }}>
                 {stocks.map((stock, index) => (
                     <StyledSlide
