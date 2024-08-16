@@ -72,6 +72,8 @@ const MainUnder = () => {
     ]
   };
 
+  
+
   return (
     <div className="main-under-container">
       <h5 className="title">억만장자들의 명언</h5>
