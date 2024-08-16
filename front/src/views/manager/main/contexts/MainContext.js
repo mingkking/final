@@ -79,6 +79,12 @@ const MainProvider = (props) => {
       // 채팅방 목록
       const [chatList, setChatList] = useState([]);
 
+      // 게시글 신고 수
+      const [CPPostCount, setCPPostCount] = useState("");
+
+      // 댓글 신고 수
+      const [CPReplyCount, setCPReplyCount] = useState("");
+
   useEffect(() => {
     localStorage.setItem("membersCount", JSON.stringify(membersCount));
   },[membersCount]);
@@ -104,11 +110,11 @@ const MainProvider = (props) => {
     state: { totalCount, todayCount, monthCount, membersCount, totalSubscribersCount, 
       todaySubscribersCount, todayMembersCount, last5DaysMember, last5MonthsMember, last2YearsMember,
       memberList, countByAgeMember, commCount, userNum, ifAdmin1, news, countReply, chatRoomCount,
-      userLike, chatList },
+      userLike, chatList, CPPostCount, CPReplyCount },
     actions: { setTotalCount, setTodayCount, setMonthCount, setMembersCount, setTotalSubscribersCount, 
       setTodaySubscribersCount, setTodayMembersCount, setLast5DaysMember, setLast5MonthsMember, setLast2YearsMember, 
       setMemberList, setCountByAgeMember, setCommCount, setUserNum, setIfAdmin1, setNews, setCountReply, setChatRoomCount,
-      setUserLike, setChatList }
+      setUserLike, setChatList, setCPPostCount, setCPReplyCount }
   }
 
   return (

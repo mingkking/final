@@ -12,9 +12,9 @@ const formatNumber = (number) => {
         return number.toFixed(2);
     }
 };
+
 const TopStocks = ({ stocks, onSlideClick }) => {
     const isMobile = useMediaQuery('(max-width:360px)'); // 모바일 화면 크기 감지
-
 
     const sliderSettings = {
         dots: true,
@@ -51,10 +51,22 @@ const TopStocks = ({ stocks, onSlideClick }) => {
                                 대비: {stock.comparedPrice >= 0 ? '+' : ''}{formatNumber(stock.compared_price)}
                             </Typography>
                         </Box>
-
+                     <Box sx={{ height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <Typography variant="body1" color="text.primary">{stock.stock_name}</Typography>
+                        </Box>
+                        <Box sx={{ height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <Typography 
+                            variant="body2" 
+                            color={stock.comparedPrice >= 0 ? 'success.main' : 'error.main'}
+                            sx={{ fontWeight: 'bold' }}
+                        >
+                            대비: {stock.comparedPrice >= 0 ? '+' : ''}{formatNumber(stock.compared_price)}
+                        </Typography>
+                        </Box>
                     </StyledSlide>
                 ))}
             </CustomSlider>
+        </Paper>
         </Paper>
     );
 };

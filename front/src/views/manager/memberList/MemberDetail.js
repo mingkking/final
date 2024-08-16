@@ -49,7 +49,7 @@ const MemberDetail = () => {
         window.location.reload();
       }, 100);
     } catch (error) {
-      console.error('회원 삭제 실패:', error);
+      console.log('회원 삭제 실패:', error);
       alert('회원 삭제에 실패했습니다.');
     } finally {
       setLoading(false);
@@ -105,8 +105,8 @@ const MemberDetail = () => {
 
   if (loading) {
     return (
-      <PageContainer title="회원 상세" description="회원의 상세 정보를 확인합니다.">
-        <Typography variant="h4" align="center">처리중입니다...</Typography>
+      <PageContainer>
+        <Typography variant="h4" align="center">데이터를 불러오는중입니다...</Typography>
       </PageContainer>
     );
   }
