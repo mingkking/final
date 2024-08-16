@@ -32,12 +32,12 @@ const PwFind = () => {
     };
 
     return (
-        <div className="center-container d-flex justify-content-center align-items-center min-vh-100">
-            <div className="card p-4 pwfind-container">
-                <h1 className="text-center mb-4">비밀번호 찾기</h1>
+        <div className="centerPw-container d-flex justify-content-center align-items-center">
+            <div className="pwfind-container">
+                <h1 className="text-center mb-4" style={{color:'#fff'}}>비밀번호 찾기</h1>
                 <form className="pwfind-form" onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label htmlFor="email">이메일</label>
+                        <label htmlFor="email" style={{color:'#fff'}}>이메일</label>
                         <input
                             type="email"
                             id="email"
@@ -50,7 +50,7 @@ const PwFind = () => {
                     </div>
                     
                     <div className="form-group">
-                        <label htmlFor="userId">아이디</label>
+                        <label htmlFor="userId" style={{color:'#fff'}}>아이디</label>
                         <input
                             type="text"
                             id="userId"
@@ -62,7 +62,7 @@ const PwFind = () => {
                         />
                     </div> 
 
-                    <button type="submit" className="btn btn-primary btn-block w-100">확인</button>
+                    <button type="submit" className="btn btn-block w-100" style={{backgroundColor:'#BCB6AA', color:'#000'}}>확인</button>
                 </form>
             </div>
         </div>
