@@ -14,7 +14,7 @@ import ReplyBtn from '../community/components/ReplyBtn/ReplyBtn';
 import Share from '../community/components/Share/Share';
 import CommunityContext from '../community/contexts/CommunityContext';
 import BudongsanContext from '../budongsan/sideView/componoets/BudongsanContext';
-
+import { Typography, List, ListItem, ListItemText } from '@mui/material';
 
 const getUserInterest = async (userNum) => {
   try {
@@ -710,7 +710,7 @@ const handlePropertySelect = () => {
       </div>  
 
       <Box sx={{ 
-      width: { xs: '200%', sm: '50%', md: '50%', lg: '40%' }, // 반응형 너비 설정
+      width: { xs: '200%', sm: '50%', md: '50%', lg: '35%' }, // 반응형 너비 설정
       margin: '0 auto', // 중앙 정렬
       padding: 2,
       maxWidth: '100% !important',
@@ -727,44 +727,104 @@ const handlePropertySelect = () => {
         </Tabs>
         
         <TabPanel value={value2} index={0}>
-  <div className='my-interest-item' style={{ width: '100%', backgroundColor:'#212737'}}>
-    <ul className='property-list'>
-      {userProperty.length > 0 ? (
-        userProperty.map((item, index) => (
-          <li key={index} className='property-item' onClick={() => handlePropertySelect()}>
-            <div className='property-details'>
-              <p><span className='property-label'>주소:</span> {item.address}</p>
-              <p><span className='property-label'>아파트 이름:</span> {item.apartment_name}</p>
-              <p><span className='property-label'>층수:</span> {item.floor_number}층</p>
-              <p><span className='property-label'>거래 금액:</span> {item.transaction_amount.toLocaleString()} 원</p>
-              <p><span className='property-label'>건축 연도:</span> {item.year_built}년</p>
-            </div>
-          </li>
-        ))
-      ) : (
-        <div className='no-interest'>관심 등록한 목록이 없습니다.</div>
-      )}
-    </ul>
-  </div>
+        <Box sx={{ width: '100%', backgroundColor: '#212737', p: 2, borderRadius: 2 }}>
+      <List>
+        {userProperty.length > 0 ? (
+          userProperty.map((item, index) => (
+            <ListItem 
+              key={index} 
+              sx={{
+                backgroundColor: '#2A2F3B', 
+                mb: 1, 
+                borderRadius: 2, 
+                p: 2,
+                '&:hover': {
+                  backgroundColor: '#3A3F4B',
+                  cursor: 'pointer',
+                },
+              }}
+              onClick={() => handlePropertySelect(item)}
+            >
+              <ListItemText
+                primary={
+                  <Typography sx={{ color: '#FFFFFF', fontWeight: 'bold', fontSize: '1.1rem' }}>
+                    {item.apartment_name}
+                  </Typography>
+                }
+                secondary={
+                  <Box sx={{ mt: 1 }}>
+                    <Typography sx={{ color: '#AAB0BC', mb: 0.5 }}>
+                      <span style={{ fontWeight: 'bold' }}>주소:</span> {item.address}
+                    </Typography>
+                    <Typography sx={{ color: '#AAB0BC', mb: 0.5 }}>
+                      <span style={{ fontWeight: 'bold' }}>층수:</span> {item.floor_number}층
+                    </Typography>
+                    <Typography sx={{ color: '#AAB0BC', mb: 0.5 }}>
+                      <span style={{ fontWeight: 'bold' }}>거래 금액:</span> {item.transaction_amount.toLocaleString()} 원
+                    </Typography>
+                    <Typography sx={{ color: '#AAB0BC' }}>
+                      <span style={{ fontWeight: 'bold' }}>건축 연도:</span> {item.year_built}년
+                    </Typography>
+                  </Box>
+                }
+              />
+            </ListItem>
+          ))
+        ) : (
+          <Typography sx={{ color: '#AAB0BC', textAlign: 'center' }}>
+            관심 등록한 목록이 없습니다.
+          </Typography>
+        )}
+      </List>
+    </Box>
 </TabPanel>
 
 <TabPanel value={value2} index={1}>
-  <div className='my-interest-item' style={{ width: '100%', backgroundColor:'#212737' }}>
-    <ul className='stock-list'>
-      {userInterests.length > 0 ? (
-        userInterests.map((item, index) => (
-          <li key={index} className='stock-item' onClick={() => handleStockSelect(item.stock_code)}>
-            <div className='item-title'>{item.stock_name} ({item.stock_code})</div>
-            <div className='item-detail'>종가: {item.closing_price}</div>
-            <div className='item-detail'>대비: {item.compared_price}</div>
-            <div className='item-detail'>거래량: {item.trading_volume}</div>
-          </li>
-        ))
-      ) : (
-        <div className='no-interest'>관심 등록한 목록이 없습니다.</div>
-      )}
-    </ul>
-  </div>
+<Box sx={{ width: '100%', backgroundColor: '#212737', p: 2, borderRadius: 2 }}>
+      <List>
+        {userInterests.length > 0 ? (
+          userInterests.map((item, index) => (
+            <ListItem 
+              key={index} 
+              sx={{
+                backgroundColor: '#2A2F3B', 
+                mb: 1, 
+                borderRadius: 2, 
+                '&:hover': {
+                  backgroundColor: '#3A3F4B',
+                  cursor: 'pointer',
+                },
+              }}
+              onClick={() => handleStockSelect(item.stock_code)}
+            >
+              <ListItemText 
+                primary={`${item.stock_name} (${item.stock_code})`} 
+                secondary={
+                  <>
+                    <Typography component="span" sx={{ display: 'block', color: '#AAB0BC' }}>
+                      종가: {item.closing_price}
+                    </Typography>
+                    <Typography component="span" sx={{ display: 'block', color: '#AAB0BC' }}>
+                      대비: {item.compared_price}
+                    </Typography>
+                    <Typography component="span" sx={{ display: 'block', color: '#AAB0BC' }}>
+                      거래량: {item.trading_volume}
+                    </Typography>
+                  </>
+                }
+                primaryTypographyProps={{
+                  sx: { color: '#FFFFFF', fontWeight: 'bold', fontSize: '1.1rem' }
+                }}
+              />
+            </ListItem>
+          ))
+        ) : (
+          <Typography sx={{ color: '#AAB0BC', textAlign: 'center' }}>
+            관심 등록한 목록이 없습니다.
+          </Typography>
+        )}
+      </List>
+    </Box>
 </TabPanel>
         
       </div>

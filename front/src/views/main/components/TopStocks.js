@@ -65,6 +65,7 @@ const TopStocks = ({ stocks, onSlideClick }) => {
                 ))}
             </CustomSlider>
         </Paper>
+
     );
 };
 
