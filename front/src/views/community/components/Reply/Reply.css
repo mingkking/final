@@ -9,6 +9,7 @@
   padding: 0;
   list-style: none;
   text-align: left;
+  background-color: #1B1F2C;
 }
 
 .reply-item {
@@ -20,6 +21,7 @@
 }
 
 .reply-item-top {
+  padding-left: 20px;
   display: flex;
   align-items: flex-start;
 }
@@ -38,6 +40,7 @@
   font-weight: bold;
   font-size: 12px;
   align-items: center; /* 수직으로 중앙 정렬 */
+  color: #CFCDDA;
 }
 
 .reply-item-menu {
@@ -49,10 +52,11 @@
 .reply-item-content {
   font-weight: bold;
   font-size: 15px;
+  color: #C5C5BC;
 }
 
 .reply-item-created_at {
-  color: gray;
+  color: #808080;
   font-size: 12px;
   align-self: flex-start; /* 작성 시간을 오른쪽에 배치 */
   width: 100%;
@@ -78,7 +82,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #fff;
+  background-color: #202637;
   padding: 20px;
   width: 400px;
   max-width: 90%;
@@ -112,6 +116,7 @@
   font-size: 1rem;
   display: flex;
   align-items: center;
+  color: #CFCDDA;
 }
 
 .modal-content-declaration label input {
@@ -139,6 +144,7 @@
   margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
+  color: #C5C5BC;
 }
 
 .community-insertBtn {
@@ -153,6 +159,7 @@
   height: auto; /* 높이를 자동으로 조정 */
   max-height: 3em; /* 최대 높이 설정 (2줄) */
   resize: none; /* 사용자가 크기를 조절하지 못하게 설정 */
+  color: #C5C5BC;
 }
 
 .declaration-check {

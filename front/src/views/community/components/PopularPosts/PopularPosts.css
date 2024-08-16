@@ -1,64 +1,99 @@
 .popular-posts-header {
+  padding: 10px;
   text-align: left;
+  color: #CFCDDA;
+  /* 카드 배경 색상 */
+  background-color: #1B1F2C;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  width: 80%;
+  min-width: 320px;
+}
+
+.popular-posts-time {
+  color: #78797D;
 }
 
 .popular-posts-card {
-  background-color: #fff; /* 카드 배경 색상 */
-  border: 1px solid #ddd; /* 카드 경계선 색상 */
-  border-radius: 8px; /* 카드 모서리 둥글게 */
-  padding: 10px 13px; /* 카드 내 여백: 좌우 패딩을 13px로 설정 */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 카드 그림자 */
-  margin-bottom: 10px; /* 카드 간의 간격 */
+  /* 카드 배경 색상 */
+  background-color: #1B1F2C;
+  /* 테두리 삭제 */
+  border: none;
+  /* 카드 내 여백: 좌우 패딩을 13px로 설정 */
+  padding: 10px 13px;
   display: flex;
-  flex-direction: column; /* 카드 내용 세로 정렬 */
+  flex-direction: column;
+  /* 카드 내용 세로 정렬 */
   text-align: left;
-  height: 95px; /* 카드 높이를 자동으로 조정 */
-  max-height: 120px; /* 카드의 최대 높이 설정 */
+  height: 95px;
+  /* 카드 높이를 자동으로 조정 */
+  max-height: 120px;
+  /* 카드의 최대 높이 설정 */
+  width: 80%;
+  min-width: 320px;
 }
 
 .popular-posts-card:hover {
   cursor: pointer;
-  background-color: whitesmoke;
+  background-color: #202637;
 }
 
 .popular-posts-content {
-  font-size: 14px; /* 콘텐츠 글자 크기 */
-  color: #666; /* 콘텐츠 텍스트 색상 */
-  margin-bottom: 8px; /* 콘텐츠와 다음 요소 간의 간격 줄이기 */
+  font-size: 14px;
+  /* 콘텐츠 글자 크기 */
+  color: #C5C5BC;
+  /* 콘텐츠 텍스트 색상 */
+  margin-bottom: 8px;
+  /* 콘텐츠와 다음 요소 간의 간격 줄이기 */
   font-weight: bold;
 }
 
 .popular-posts-item-top {
   display: flex;
-  align-items: center; /* 세로 중앙 정렬 */
-  justify-content: space-between; /* 아이템을 양쪽 끝에 배치 */
+  align-items: center;
+  /* 세로 중앙 정렬 */
+  justify-content: space-between;
+  /* 아이템을 양쪽 끝에 배치 */
 }
 
 .popular-posts-item-profile {
-  flex-shrink: 0; /* 프로필 이미지 크기 고정 */
+  flex-shrink: 0;
+  /* 프로필 이미지 크기 고정 */
 }
 
 .popular-posts-profile-image {
-  width: 32px; /* 프로필 이미지 크기 줄이기 */
+  width: 32px;
+  /* 프로필 이미지 크기 줄이기 */
   height: 32px;
-  border-radius: 50%; /* 원형 프로필 이미지 */
-  border: 2px solid #ddd; /* 프로필 이미지 경계선 색상 */
-  object-fit: cover; /* 이미지 크기 맞춤 */
+  border-radius: 50%;
+  /* 원형 프로필 이미지 */
+  border: none;
+  /* 프로필 이미지 경계선 색상 */
+  object-fit: cover;
+  /* 이미지 크기 맞춤 */
 }
 
 .popular-posts-item-info {
-  flex-grow: 1; /* 텍스트 영역 확장 */
-  margin-left: 8px; /* 프로필 이미지와의 간격 줄이기 */
+  flex-grow: 1;
+  /* 텍스트 영역 확장 */
+  margin-left: 8px;
+  /* 프로필 이미지와의 간격 줄이기 */
 }
 
 .popular-posts-item-created_at {
-  font-size: 12px; /* 생성 시간 텍스트 크기 줄이기 */
-  color: #999; /* 생성 시간 텍스트 색상 */
+  font-size: 12px;
+  /* 생성 시간 텍스트 크기 줄이기 */
+  color: #738080;
+  /* 생성 시간 텍스트 색상 */
 }
 
-.popular-posts-item-upload img{
-  width: 60px; /* 업로드 이미지 너비 줄이기 */
-  height: 50px; /* 업로드 이미지 높이 줄이기 */
-  object-fit: scale-down; /* 이미지 크기 맞춤 */
-  border-radius: 4px; /* 업로드 이미지 모서리 둥글게 */
+.popular-posts-item-upload img {
+  width: 60px;
+  /* 업로드 이미지 너비 줄이기 */
+  height: 50px;
+  /* 업로드 이미지 높이 줄이기 */
+  object-fit: scale-down;
+  /* 이미지 크기 맞춤 */
+  border-radius: 4px;
+  /* 업로드 이미지 모서리 둥글게 */
 }

@@ -38,8 +38,8 @@ public class ReplyVO {
     private CommunityVO id;
 
     @Lob
-    @Column(name = "content", nullable = false)
-    private String content;
+    @Column(name = "contents", nullable = false)
+    private String contents;
 
     @Column(name = "created_at")
     private LocalDateTime created_at;

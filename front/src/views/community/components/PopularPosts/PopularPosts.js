@@ -79,7 +79,7 @@ const PopularPosts = () => {
             <Tooltip title={"좋아요 수가 많은 인기 글 목록입니다."}>
                 <div className="popular-posts-header">
                     <h4>실시간 인기글</h4>
-                    <h6>{communityValue.state.realTime}</h6>
+                    <h6 className='popular-posts-time'>{communityValue.state.realTime}</h6>
                 </div>
             </Tooltip>
 

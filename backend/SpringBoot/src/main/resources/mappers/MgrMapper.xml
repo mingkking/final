@@ -244,5 +244,49 @@
 		JOIN reply r ON d.TYPE_NUM  = r.REPLY_NUM 
 		WHERE d.type = 'reply'
 	</select>
+	
+	<!-- 커뮤니티 게시글 신고 상세보기 -->
+	<select id="selectComplaintPostDetail" resultType="MgrCommComplaintVO">
+		SELECT d.*, u.user_name, c.title, c.contents
+		FROM declaration d
+		JOIN users u ON d.user_num = u.user_num
+		JOIN community c ON d.type_num = c.ID 
+		WHERE d.type = 'community' AND d.id = #{id}
+	</select>
+	
+	<!-- 커뮤니티 게시글 삭제 -->
+	<delete id="deleteCommPost" parameterType="int">
+		DELETE FROM community
+		WHERE id = #{id}
+	</delete>
+	
+	<!-- 게시글 신고 수 -->
+	<select id="selectCPPostCount" resultType="int">
+		SELECT count(*)
+		FROM declaration
+		WHERE type = 'community'
+	</select>
+	
+	<!-- 댓글 신고 수 -->
+	<select id="selectCPReplyCount" resultType="int">
+		SELECT count(*)
+		FROM declaration
+		WHERE type = 'reply'
+	</select> 
+	
+	<!-- 커뮤니티 댓글 신고 상세보기 -->
+	<select id="selectComplaintReplyDetail" resultType="MgrCommComplaintVO">
+		SELECT d.*, u.user_name, r.contents, r.id commNum
+		FROM declaration d
+		JOIN users u ON d.user_num = u.user_num
+		JOIN reply r ON d.type_num = r.reply_num
+		WHERE d.type = 'reply' AND d.id = #{id}
+	</select>
+	
+	<!-- 커뮤니티 댓글 삭제 -->
+	<delete id="deleteCommReply" parameterType="int">
+		DELETE FROM reply
+		WHERE reply_num = #{reply_num}
+	</delete>
 </mapper>
 

@@ -1,10 +1,12 @@
 package com.example.mgr.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.ui.Model;
@@ -207,15 +209,11 @@ public class MgrController {
     
     // 회원삭제
     @DeleteMapping("/manager/memberDetail/{user_num}")
-    public String deleteMember(@PathVariable String user_num, MgrMemberVO vo) {
+    public void deleteMember(@PathVariable int user_num) {
         
-    	// String으로 받은 user_num 을 int로 바꾸기
-    	int userNumInt = Integer.parseInt(user_num);
-        
-		mgrservice.deleteMember(userNumInt);
+		mgrservice.deleteMember(user_num);
 		
-        return "";
-    }    
+    };
 	
 	// 통계 화면에서 countSomething 값 보내기
 	@GetMapping("/manager/graph")
@@ -231,6 +229,8 @@ public class MgrController {
 	    List<Map<String, Object>> last2YearsMember = mgrservice.selectLast2YearsMember(); // 최근 2년 가입자 수
 	    int countReply = mgrservice.countReply();
 	    int userLike = mgrservice.userLike();
+	    int CPPostCount = mgrservice.selectCPPostCount();
+	    int CPReplyCount = mgrservice.selectCPReplyCount();
 	   
 	    
 	    // last5MonthsMember의 JOIN_MONTH 값을 "M월" 형식으로 변환
@@ -247,20 +247,25 @@ public class MgrController {
 	    Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy년 M월 d일") // 날짜 포맷 문자열 직접 설정
                 .create();
+
 	    
-	    // json 생성
-	    String jsonString = gson.toJson(Map.of(
-		        "selectTodaySubscribers", selectTodaySubscribers,
-		        "selectCommCount", selectCommCount,
-		        "countByAgeMember", countByAgeMember,
-		        "selectLast5DaysMember", last5DaysMember,
-		        "selectLast5MonthsMember", last5MonthsMember,
-		        "selectLast2YearsMember", last2YearsMember,
-		        "selectTotalSession", selectTotalSession,
-		        "selectTodaySession", selectTodaySession,
-		        "countReply", countReply,
-		        "userLike", userLike
-		    ));
+	 // HashMap 생성 및 데이터 추가
+	    Map<String, Object> map = new HashMap<>();
+	    map.put("selectTodaySubscribers", selectTodaySubscribers);
+	    map.put("selectCommCount", selectCommCount);
+	    map.put("countByAgeMember", countByAgeMember);
+	    map.put("selectLast5DaysMember", last5DaysMember);
+	    map.put("selectLast5MonthsMember", last5MonthsMember);
+	    map.put("selectLast2YearsMember", last2YearsMember);
+	    map.put("selectTotalSession", selectTotalSession);
+	    map.put("selectTodaySession", selectTodaySession);
+	    map.put("countReply", countReply);
+	    map.put("userLike", userLike);
+	    map.put("CPPostCount", CPPostCount);
+	    map.put("CPReplyCount", CPReplyCount);
+
+	    // JSON 문자열로 변환
+	    String jsonString = gson.toJson(map);
 	    
 	    System.out.println("graph로 보내는 값: " + jsonString); // 확인용
 	    
@@ -324,6 +329,69 @@ public class MgrController {
 		
 		return jsonString;
 	}
+	
+	// 커뮤니티 게시글 신고 상세보기
+	@GetMapping("/manager/complaint/commPostDetail/{id}")
+	public String complaintPostDetail(@PathVariable int id, MgrCommComplaintVO vo) {
+		
+		vo.setId(id);
+		
+		List<MgrCommComplaintVO> complaintPostDetail = mgrservice.selectComplaintPostDetail(vo);
+		
+		Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy년 M월 d일") // 날짜 포맷 문자열 직접 설정
+                .create();
+		
+		String complaintPostDetailSt = gson.toJson(complaintPostDetail);
+		
+		String jsonString = "{\"complaintPostDetail\":" + complaintPostDetailSt + "}";
+		
+		System.out.println("커뮤니티 게시글 신고 상세보기 페이지로 보내는 값: " + jsonString);
+		
+		return jsonString;
+	}
+	
+	// 게시글/댓글 신고 상세보기에서 회원 삭제
+	@DeleteMapping("/manager/complaint/deleteMember/{user_num}")
+	public void deleteMemberInManagerPage(@PathVariable int user_num) {
+
+		mgrservice.deleteMember(user_num);
+	}
+	
+	// 게시글 신고 상세보기에서 게시글 삭제
+	@DeleteMapping("manager/complaint/commPostDetail/deletePost/{id}")
+	public void deletePost(@PathVariable int id) {
+		
+		mgrservice.deleteCommPost(id);
+	}
+	
+	// 댓글 신고 상세보기
+	@GetMapping("/manager/complaint/commReplyDetail/{id}")
+	public String complaintReplyDetail(@PathVariable int id, MgrCommComplaintVO vo) {
+		vo.setId(id);
+		
+		List<MgrCommComplaintVO> complaintReplyDetail = mgrservice.selectComplaintReplyDetail(vo);
+		
+		Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy년 M월 d일") // 날짜 포맷 문자열 직접 설정
+                .create();
+		
+		String complaintReplyDetailSt = gson.toJson(complaintReplyDetail);
+		
+		String jsonString = "{\"complaintReplyDetail\":" + complaintReplyDetailSt + "}";
+		
+		System.out.println("커뮤니티 댓글 신고 상세보기 페이지로 보내는 값 : " + jsonString);
+		
+		return jsonString;
+	}
+	
+	// 댓글 신고 상세보기에서 댓글 삭제
+	@DeleteMapping("/manager/complaint/commReplyDetail/deleteReply/{reply_num}")
+	public void deleteReply(@PathVariable int reply_num) {
+		
+		mgrservice.deleteCommReply(reply_num);
+	}
+	
 	
 	
 

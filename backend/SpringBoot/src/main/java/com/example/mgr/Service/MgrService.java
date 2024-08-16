@@ -20,7 +20,7 @@ public interface MgrService {
 	// session 값 저장
 	int saveSession(MgrSessionCountVO vo);
 	 
-	// 방문자 수 count
+	// 방문자 수 count 
 	int selectTotalSession();
 	int selectTodaySession();
 	int selectMonthSession();
@@ -91,4 +91,22 @@ public interface MgrService {
 	
 	// 커뮤니티 댓글 신고 리스트
 	List<MgrCommComplaintVO> selectComplaintCmt(MgrCommComplaintVO vo);
+	
+	// 커뮤니티 게시글 신고 상세보기
+	List<MgrCommComplaintVO> selectComplaintPostDetail(MgrCommComplaintVO vo);
+	
+	// 커뮤니티 게시글 삭제
+	void deleteCommPost(int id);
+	
+	// 게시글 신고 수
+	int selectCPPostCount();
+	
+	// 댓글 신고 수
+	int selectCPReplyCount();
+	
+	// 커뮤니티 댓글 신고 상세보기
+	List<MgrCommComplaintVO> selectComplaintReplyDetail(MgrCommComplaintVO vo);
+	
+	// 커뮤니티 댓글 삭제
+	void deleteCommReply(int reply_num);
 }

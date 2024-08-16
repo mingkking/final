@@ -115,7 +115,7 @@ const Subscribe2 = () => {
   };
 
   return (
-    <div className='subscribe-container'>
+    <div className='subscribe-container' style={{color:'#fff', marginBottom:'11%'}}>
       <div className='subscribe-img'>
         <ReportMoney size={50} />
       </div>
@@ -133,11 +133,13 @@ const Subscribe2 = () => {
             value="creditCard"
             control={<Radio />}
             label="신용/체크카드"
+            sx={{ color: '#fff' }}
           />
           <FormControlLabel
             value="kakaoPay"
             control={<Radio />}
             label="카카오페이"
+            sx={{ color: '#fff' }}
           />
         </RadioGroup>
       </FormControl>
