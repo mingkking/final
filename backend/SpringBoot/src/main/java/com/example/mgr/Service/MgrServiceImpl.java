@@ -213,5 +213,20 @@ public class MgrServiceImpl implements MgrService {
 		
 	}
 
+	// 최근 6개월 구독자 수
+	public List<Map<String, Object>> selectRecent6Sub() {
+		return mgrDAO.selectRecent6Sub();
+	}
+
+	// 작년 6개월 구독자 수
+	public List<Map<String, Object>> selectLastYearSub() {
+		return mgrDAO.selectLastYearSub();
+	}
+
+	// 최근 6개월 가입자 수
+	public List<Map<String, Object>> selectRecent6Mem() {
+		return mgrDAO.selectRecent6Mem();
+	}
+
 }
 

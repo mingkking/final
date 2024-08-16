@@ -288,5 +288,35 @@
 		DELETE FROM reply
 		WHERE reply_num = #{reply_num}
 	</delete>
+	
+	<!-- 최근 6개월 구독자 수 -->
+	<select id="selectRecent6Sub" parameterType="MgrMemberVO" resultType="Map">
+		SELECT TO_CHAR(TRUNC(payment_date, 'MONTH'), 'YYYY-MM') AS JOIN_MONTH, COUNT(*) AS count
+		FROM subscribe
+		WHERE payment_date >= ADD_MONTHS(TRUNC(SYSDATE, 'MONTH'), -6)
+		GROUP BY TRUNC(payment_date, 'MONTH')
+		ORDER BY JOIN_MONTH
+	</select>
+
+	<!-- 작년 6개월 구독자 수 -->
+	<select id="selectLastYearSub" parameterType="MgrMemberVO" resultType="Map">
+	<![CDATA[
+	   SELECT TO_CHAR(TRUNC(payment_date, 'MONTH'), 'YYYY-MM') AS JOIN_MONTH, COUNT(*) AS count
+		FROM subscribe
+		WHERE payment_date >= ADD_MONTHS(TRUNC(SYSDATE, 'YEAR') - INTERVAL '1' YEAR, -6)
+    		AND payment_date < ADD_MONTHS(TRUNC(SYSDATE, 'YEAR') - INTERVAL '1' YEAR, 0)
+		GROUP BY TRUNC(payment_date, 'MONTH')
+		ORDER BY JOIN_MONTH
+    ]]>
+	</select>
+	
+	<!-- 최근 6개월 가입자 수 -->
+	<select id="selectRecent6Mem" parameterType="MgrMemberVO" resultType="Map">
+		SELECT TO_CHAR(TRUNC(created_at, 'MONTH'), 'YYYY-MM') AS JOIN_MONTH, COUNT(*) AS count
+		FROM users
+		WHERE created_at >= ADD_MONTHS(TRUNC(SYSDATE, 'MONTH'), -6)
+		GROUP BY TRUNC(created_at, 'MONTH')
+		ORDER BY JOIN_MONTH
+	</select>
 </mapper>
 
