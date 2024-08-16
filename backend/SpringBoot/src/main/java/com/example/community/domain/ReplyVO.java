@@ -38,7 +38,7 @@ public class ReplyVO {
     private CommunityVO id;
 
     @Lob
-    @Column(name = "content", nullable = false)
+    @Column(name = "contents", nullable = false)
     private String content;
 
     @Column(name = "created_at")
