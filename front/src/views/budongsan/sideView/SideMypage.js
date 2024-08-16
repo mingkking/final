@@ -58,7 +58,7 @@ const SideMypage = ({ onPropertySelect }) => {
 
     return (
         <div className="side-mypage container">
-            <h2>관심 매물</h2>
+            <h2 style={{color: '#fff' }}>관심 매물</h2>
             {properties.length === 0 ? (
                 <p>관심 등록한 매물이 없습니다.</p> // 매물이 없을 때 메시지 출력
             ) : (

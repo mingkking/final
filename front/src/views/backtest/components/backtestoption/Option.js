@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import { ko } from "date-fns/locale"
+import { ko } from "date-fns/locale";
 import { TextField, Button, Select, MenuItem, FormControl, Box, Typography, useTheme, InputLabel } from '@mui/material';
 import { useStock } from '../../../stock/components/context/StockContext';
 import StockAutoSearch from '../stocksearch/StockAutoSearch';
@@ -44,8 +44,8 @@ const Options = ({ onAnalyze }) => {
   };
 
   return (
-    <Box sx={{ p: 4, bgcolor: theme.palette.background.paper }}>
-      <Typography variant="h5" gutterBottom sx={{ mb: 3, fontWeight: 'bold', color: theme.palette.primary.main }}>
+    <Box sx={{ p: 4, bgcolor: '#202637' }}>
+      <Typography variant="h5" gutterBottom sx={{ mb: 3, fontWeight: 'bold', color: '#fff' }}>
         백테스트 설정
       </Typography>
       <StockAutoSearch onStockSelect={handleStockSelect} />
@@ -56,7 +56,32 @@ const Options = ({ onAnalyze }) => {
         disabled
         margin="normal"
         variant="outlined"
-        sx={{ mb: 2 }}
+        sx={{
+          mb: 2,
+          '& .MuiInputBase-input': {
+            color: '#fff', // 입력 텍스트 색상
+          },
+          '& .MuiInputLabel-root': {
+            color: '#fff', // 레이블 색상
+          },
+          '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+              borderColor: '#fff', // 기본 테두리 색상
+            },
+            '&:hover fieldset': {
+              borderColor: '#fff', // 호버 시 테두리 색상
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: '#fff', // 포커스 시 테두리 색상
+            },
+          },
+        }}
+        InputProps={{
+          readOnly: true, // disabled와 동일하게 읽기 전용
+        }}
+        InputLabelProps={{
+          style: { color: '#fff' }, // 레이블 색상
+        }}
       />
       
       <DatePicker
@@ -66,9 +91,33 @@ const Options = ({ onAnalyze }) => {
         selectsStart
         startDate={startDate}
         endDate={endDate}
-        customInput={<TextField fullWidth label="시작 날짜" margin="normal" variant="outlined" sx={{ mb: 2 }} />}
+        customInput={
+          <TextField
+            fullWidth
+            label="시작 날짜"
+            margin="normal"
+            variant="outlined"
+            sx={{
+              mb: 2,  
+              '& .MuiInputBase-input': {
+                color: '#fff', // 텍스트 색상
+              },
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: '#fff', // 테두리 색상
+                },
+                '&:hover fieldset': {
+                  borderColor: '#fff', // 호버 시 테두리 색상
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#fff', // 포커스 시 테두리 색상
+                },
+              },
+            }}
+          />
+        }
       />
-      
+
       <DatePicker
         selected={endDate}
         locale={ko}
@@ -77,9 +126,32 @@ const Options = ({ onAnalyze }) => {
         startDate={startDate}
         endDate={endDate}
         minDate={startDate}
-        customInput={<TextField fullWidth label="종료 날짜" margin="normal" variant="outlined" sx={{ mb: 2 }} />}
+        customInput={
+          <TextField
+            fullWidth
+            label="종료 날짜"
+            margin="normal"
+            variant="outlined"
+            sx={{
+              mb: 2,
+              '& .MuiInputBase-input': {
+                color: '#fff', // 텍스트 색상
+              },
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: '#fff', // 테두리 색상
+                },
+                '&:hover fieldset': {
+                  borderColor: '#fff', // 호버 시 테두리 색상
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#fff', // 포커스 시 테두리 색상
+                },
+              },
+            }}
+          />
+        }
       />
-      
       <TextField
         fullWidth
         label="초기 투자 금액"
@@ -88,28 +160,71 @@ const Options = ({ onAnalyze }) => {
         onChange={(e) => setInitialInvestment(Number(e.target.value))}
         margin="normal"
         variant="outlined"
-        sx={{ mb: 2 }}
+        sx={{ mb: 2, color: '#fff' }}
+        InputProps={{
+          style: { color: '#fff' },
+        }}
+        InputLabelProps={{
+          style: { color: '#fff' },
+        }}
       />
       
       <FormControl fullWidth margin="normal" variant="outlined" sx={{ mb: 3 }}>
-        <InputLabel>리밸런싱 주기</InputLabel>
+        <InputLabel sx={{ color: '#fff' }}>리밸런싱 주기</InputLabel>
         <Select
           value={rebalancePeriod}
           onChange={(e) => setRebalancePeriod(e.target.value)}
           label="리밸런싱 주기"
+          sx={{ color: '#fff' }}
+          MenuProps={{
+            PaperProps: {
+              style: {
+                backgroundColor: '#333', // 기본 배경색
+                color: '#fff', // 기본 텍스트 색상
+              },
+            },
+          }}
         >
-          <MenuItem value="monthly">매월</MenuItem>
-          <MenuItem value="quarterly">분기</MenuItem>
-          <MenuItem value="annually">매년</MenuItem>
+          <MenuItem
+            value="monthly"
+            sx={{
+              '&:hover': {
+                backgroundColor: '#555', // 마우스를 올렸을 때 배경색
+              },
+            }}
+          >
+            매월
+          </MenuItem>
+          <MenuItem
+            value="quarterly"
+            sx={{
+              '&:hover': {
+                backgroundColor: '#555', // 마우스를 올렸을 때 배경색
+              },
+            }}
+          >
+            분기
+          </MenuItem>
+          <MenuItem
+            value="annually"
+            sx={{
+              '&:hover': {
+                backgroundColor: '#555', // 마우스를 올렸을 때 배경색
+              },
+            }}
+          >
+            매년
+          </MenuItem>
         </Select>
       </FormControl>
+
       
       <Button 
         variant="contained" 
         color="primary" 
         fullWidth 
         onClick={handleSubmit}
-        sx={{ mt: 2, py: 1.5, fontSize: '1.1rem' }}
+        sx={{ mt: 2, py: 1.5, fontSize: '1.1rem', color: '#000',backgroundColor: '#BCB6AA' }}
       >
         분석 시작
       </Button>

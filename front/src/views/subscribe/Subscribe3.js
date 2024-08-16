@@ -14,7 +14,7 @@ function Subscribe3() {
       }
 
     return (
-        <div>
+        <div style={{color:'#fff', marginTop:'10%', marginBottom:'10%'}}>
             <div className='subscribe-img'>
             <HeartHandshake size={50} />
             </div>

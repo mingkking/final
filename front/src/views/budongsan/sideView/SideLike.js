@@ -26,7 +26,7 @@ const SideLike = ({ onPropertySelect }) => {
             <Box 
                 sx={{ 
                     p: 2, 
-                    bgcolor: 'secondary.light', 
+                    bgcolor: '#131722', 
                     width: '100%', 
                     display: 'flex', 
                     flexDirection: 'column', 

@@ -5,6 +5,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #131722;
+  color: #fff;
 }
 
 .side-menus {
@@ -49,7 +51,7 @@
 
 .side-desktop-nav .menu-items a:hover,
 .side-desktop-nav .menu-items button:hover {
-  background-color: #f2f2f2;
+  background-color: #BCB6AA;
 }
 
 .side-desktop-nav .arrow::after {
