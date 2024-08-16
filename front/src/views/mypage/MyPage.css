@@ -70,11 +70,13 @@
   margin-bottom: 15px;
 }
 
+
+
 .mypage-form-group label {
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
-  color: #333;
+  color: #fff;
   text-align: left;
 }
 
