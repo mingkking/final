@@ -22,12 +22,12 @@ const StockMain = () => {
   return (
     <Container>
     <Box sx={{ 
-      bgcolor: theme.palette.background.default, 
+      bgcolor: '#1B1F2C', 
       minHeight: '100vh', 
       display: 'flex', 
       flexDirection: 'column' 
     }}>
-      <Paper elevation={3} sx={{ mb: 2, p: 2, backgroundColor: theme.palette.primary.main }}>
+      <Paper elevation={3} sx={{ mb: 2, p: 2, backgroundColor: '#202636' }}>
         <Typography variant="h4" component="h1" align="center" sx={{ color: theme.palette.primary.contrastText ,fontWeight:"bold"}}>
           국내주식
         </Typography>

@@ -15,9 +15,9 @@
 /* 로그인 박스 스타일 */
 .login-box {
     padding: 30px;
-    border: 1px solid #ddd;
+    border: 1px solid #282E3C;
     border-radius: 8px;
-    background-color: #f8f9fa;
+    background-color: #212737;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     
     box-sizing: border-box; /* 패딩과 보더를 너비에 포함 */
@@ -30,6 +30,7 @@
 .login-title {
     font-size: 2rem;
     margin-bottom: 20px;
+    color: #fff;
 }
 
 /* 폼 그룹 스타일 */
@@ -75,6 +76,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    
 }
 
 /* 링크 컨테이너 스타일 */
@@ -114,9 +116,9 @@
 
     .login-box {
         padding: 20px; /* 패딩 조정 */
-        border: 1px solid #ddd;
+        border: 1px solid #282E3C;
         border-radius: 8px;
-        background-color: #f8f9fa;
+        background-color: #212737;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 조정 */
         box-sizing: border-box; /* 패딩과 보더를 너비에 포함 */
     }
@@ -204,9 +206,9 @@
         max-width: 300px; /* 박스의 최대 너비를 설정 */
     width: 100%; /* 전체 너비를 차지하도록 설정 */
     padding: 15px; /* 패딩을 줄여서 공간 확보 */
-    border: 1px solid #ddd;
+    border: 1px solid #282E3C;
     border-radius: 8px;
-    background-color: #f8f9fa;
+    background-color: #212737;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     box-sizing: border-box; /* 패딩과 보더를 너비에 포함 */
     margin-left: 20px;

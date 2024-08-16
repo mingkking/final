@@ -18,10 +18,10 @@ const Header = () => {
             <g transform="translate(0, 10)">
               <circle cx="30" cy="30" r="24" fill="none" stroke="url(#logoGradient)" strokeWidth="6"/>
               <path d="M46,44 L62,60" stroke="url(#logoGradient)" strokeWidth="6" strokeLinecap="round"/>
-              <polyline points="14,34 22,22 30,30 42,18" fill="none" stroke="#333" strokeWidth="2.5"/>
+              <polyline points="14,34 22,22 30,30 42,18" fill="none" stroke="#fff" strokeWidth="2.5"/>
             </g>
             <text x="100" y="50" font-family="Arial, sans-serif" font-size="24" font-weight="bold">
-              <tspan fill="#333">Invest</tspan>
+              <tspan fill="#fff">Invest</tspan>
               <tspan fill="url(#logoGradient)" dx="8">Gate</tspan>
             </text>
           </svg>

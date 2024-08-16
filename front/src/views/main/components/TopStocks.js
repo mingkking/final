@@ -12,15 +12,10 @@ const formatNumber = (number) => {
         return number.toFixed(2);
     }
 };
-
-<<<<<<< HEAD
 const TopStocks = ({ stocks, onSlideClick }) => {
     const isMobile = useMediaQuery('(max-width:360px)'); // 모바일 화면 크기 감지
 
 
-=======
-const TopStocks = ({ stocks,onSlideClick }) => {
->>>>>>> 042e512a518f5bd64561916297b8b80310af04bf
     const sliderSettings = {
         dots: true,
         infinite: true,
@@ -34,21 +29,15 @@ const TopStocks = ({ stocks,onSlideClick }) => {
 
 
     return (
-<<<<<<< HEAD
         <Paper elevation={3} sx={{ p: 2, bgcolor: '#1B1F2C', borderRadius: 2, width: '100%', height:'200px', maxHeight: '300px', overflow: 'hidden' }}>
             <Typography variant="h6" gutterBottom color="#fff">인기 주식</Typography>
-=======
-        <Paper elevation={3} sx={{ p: 2, bgcolor: 'background.paper', borderRadius: 2, width: '100%', maxHeight: '300px', overflow: 'hidden' }}>
-            <Typography variant="h6" gutterBottom color="primary.dark">주요 주식</Typography>
->>>>>>> 042e512a518f5bd64561916297b8b80310af04bf
             <CustomSlider {...sliderSettings} style={{ width: '100%' }}>
                 {stocks.map((stock, index) => (
                     <StyledSlide
                         key={index}
                         elevation={1}
-                        sx={{ height: '100px' }}
+                        sx={{ height: '140px' }}
                         onClick={() => onSlideClick(stock)}
-<<<<<<< HEAD
                     >
                         <Box sx={{ height: '55px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <Typography variant="body1" color="#fff">{stock.stock_name}</Typography>
@@ -63,20 +52,6 @@ const TopStocks = ({ stocks,onSlideClick }) => {
                             </Typography>
                         </Box>
 
-=======
-                    > <Box sx={{ height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <Typography variant="body1" color="text.primary">{stock.stock_name}</Typography>
-                        </Box>
-                        <Box sx={{ height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <Typography 
-                            variant="body2" 
-                            color={stock.comparedPrice >= 0 ? 'success.main' : 'error.main'}
-                            sx={{ fontWeight: 'bold' }}
-                        >
-                            대비: {stock.comparedPrice >= 0 ? '+' : ''}{formatNumber(stock.compared_price)}
-                        </Typography>
-                        </Box>
->>>>>>> 042e512a518f5bd64561916297b8b80310af04bf
                     </StyledSlide>
                 ))}
             </CustomSlider>
