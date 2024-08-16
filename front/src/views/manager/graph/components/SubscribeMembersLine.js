@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useTheme } from '@mui/material/styles';
 import DashboardCard from '../../../../components/shared/DashboardCard';
 import Chart from 'react-apexcharts';
 import dayjs from 'dayjs';
+import mainContext from '../../main/contexts/MainContext';
 
 const YearJoinMembers = () => {
     // chart color
@@ -10,14 +11,24 @@ const YearJoinMembers = () => {
     const primary = "#91a9ff";
     const secondary = "#f3c2fc";
 
+    const value = useContext(mainContext);
+
     // 최근 6개월 계산 함수
     const getLastSixMonths = () => {
-        const months = [];
-        for (let i = 5; i >= 0; i--) {
-            months.push(dayjs().subtract(i, 'month').format('M월'));
-        }
-        return months;
+        return Array.from({ length: 6 }, (_, i) => dayjs().subtract(i, 'month').format('M월')).reverse();
     };
+
+    const getSubCounts = (months, count) => {
+        return months.map(month => {
+            const subCount = count.find(item => item.JOIN_MONTH === month);
+            return subCount ? subCount.COUNT : 0;
+        })
+    }
+
+    const months = getLastSixMonths();
+    const recent6SubCounts = getSubCounts(months, value.state.selectRecent6Sub);
+    const lastYearSubCounts = getSubCounts(months, value.state.selectLastYearSub);
+    console.log(value.state.selectRecent6Sub)
 
     // chart
     const optionscolumnchart = {
@@ -69,12 +80,12 @@ const YearJoinMembers = () => {
 
     const seriescolumnchart = [
         {
-            name: 'last year',
-            data: [355, 500, 321, 214, 112, 251],
+            name: '작년',
+            data: lastYearSubCounts,
         },
         {
-            name: 'this year',
-            data: [280, 541, 245, 200, 100, 100],
+            name: '올해',
+            data: recent6SubCounts,
         },
     ];
 

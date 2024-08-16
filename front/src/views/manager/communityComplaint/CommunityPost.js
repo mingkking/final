@@ -12,9 +12,9 @@ const CommDecPost = () => {
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [page, setPage] = useState(1);
   const [postsPerPage] = useState(10);  // 페이지 당 게시글 수
-  const [searchField, setSearchField] = useState('title');  // 검색 필드
+  const [searchField, setSearchField] = useState('user_name');  // 검색 필드
   const [searchValue, setSearchValue] = useState('');  // 검색 값
-  const [sortField, setSortField] = useState('created_at');  // 정렬 기준
+  const [sortField, setSortField] = useState('user_name');  // 정렬 기준
   const [sortOrder, setSortOrder] = useState('asc');  // 정렬 순서
   const navigate = useNavigate();
 
@@ -108,10 +108,9 @@ const CommDecPost = () => {
                     label="정렬 기준"
                     size='small'
                   >
+                    <MenuItem value="user_name">회원명</MenuItem>
                     <MenuItem value="created_at">신고일자</MenuItem>
-                    <MenuItem value="user_name">신고자 이름</MenuItem>
-                    <MenuItem value="title">제목</MenuItem>
-                    <MenuItem value="type_num">유형 번호</MenuItem>
+                    <MenuItem value="title">게시글 제목</MenuItem>
                   </Select>
                 </FormControl>
                 <FormControl variant="outlined" style={{ minWidth: 120, marginRight: '10px' }}>
@@ -138,10 +137,10 @@ const CommDecPost = () => {
                     label="검색 필드"
                     size='small'
                   >
-                    <MenuItem value="title">제목</MenuItem>
-                    <MenuItem value="user_name">신고자 이름</MenuItem>
-                    <MenuItem value="content">내용</MenuItem>
-                    <MenuItem value="type_num">유형 번호</MenuItem>
+                    <MenuItem value="user_name">회원명</MenuItem>
+                    <MenuItem value="title">게시글 제목</MenuItem>
+                    <MenuItem value="content">신고 내용</MenuItem>
+                    <MenuItem value="created_at">신고 일자</MenuItem>
                   </Select>
                 </FormControl>
                 <TextField
