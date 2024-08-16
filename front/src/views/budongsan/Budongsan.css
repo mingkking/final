@@ -35,7 +35,7 @@
     top: 0;
     left: 0;
     height: 100%;
-    background-color: white; /* 사이드바 배경색 */
+    background-color: #131722; /* 사이드바 배경색 */
     transform: translateX(-100%);
     transition: transform 0.3s ease;
     z-index: 1000; /* 사이드바가 카카오맵 위에 오도록 설정 */
