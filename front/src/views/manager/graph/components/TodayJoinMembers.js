@@ -9,24 +9,28 @@ import axios from 'axios';
 
 const SalesOverview = () => {
 
-    const value = useContext(mainContext);
-
-    // array.from 으로 간단하게 작성(최근 5일 회원가입수, 값이 없으면 0으로 설정)
-    const data = Array.from({length: 5}, (_, i) => value.state.last5DaysMember[4-i]?.JOIN_COUNT ?? 0);
-  
     // chart color
     const theme = useTheme();
     const primary = theme.palette.primary.main;
     const secondary = theme.palette.secondary.main;
 
+    const value = useContext(mainContext);
+
     // 최근 5일 계산 함수
     const getLastFiveDays = () => {
-        const days = [];
-        for (let i = 0; i < 5; i++) {
-            days.push(dayjs().subtract(i, 'day').format('D일'));
-        }
-        return days.reverse();
+       return Array.from({ length: 5}, (_, i) => dayjs().subtract(i, 'day').format('D일')).reverse();
     };
+
+    // days의 배열 값(8일, 9일...)과 springboot에서 받아온 값 매칭
+    const getJoinCounts = (days, last5DaysMember) => {
+        return days.map(day => {
+            const member =last5DaysMember.find(item => item.JOIN_DATE === day);
+            return member ? member.JOIN_COUNT : 0;
+        })
+    };
+    
+    const days = getLastFiveDays();
+    const joinCounts = getJoinCounts(days, value.state.last5DaysMember);
 
     // chart
     const optionscolumnchart = {
@@ -89,7 +93,7 @@ const SalesOverview = () => {
     const seriescolumnchart = [
         {
             name: 'Total',
-            data: [data[0], data[1], data[2], data[3], data[4]],
+            data: joinCounts,
         },
     ];
 

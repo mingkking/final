@@ -24,6 +24,22 @@ const Dashboard = () => {
     loginCheck();
   }, []);
 
+  // SpringBoot 에서 값 가져와서 context파일에 저장하기
+  useEffect(()=>{
+    axios.get('http://localhost:8080/manager')
+    .then((result) => {
+      value.actions.setMembersCount(result.data.selectTotalMembers);
+      value.actions.setTodayMembersCount(result.data.selectTodayMembers);
+      value.actions.setTotalSubscribersCount(result.data.selectTotalSubscribers);
+      value.actions.setTotalCount(result.data.selectTotalSession);
+      value.actions.setTodayCount(result.data.selectTodaySession);
+      value.actions.setMonthCount(result.data.selectMonthSession);
+      value.actions.setSelectRecentMem(result.data.selectRecent6Mem);
+      value.actions.setSelectRecent6Sub(result.data.selectRecent6Sub);
+    })
+  },[]);
+
+
      // 로그인 / 관리자 여부 함수
      const loginCheck = async () => {
       const response = await axiosInstance.get('/check-login-status', { 
@@ -39,7 +55,6 @@ const Dashboard = () => {
 
         // checkManager 함수에 userNum 값 보내기
         value.actions.ifAdmin1 = await checkManager(response.data.userNum);
-        console.log("매니저면 True이겠지(main.js/value.actions.ifAdmin1값): ", value.actions.ifAdmin1);
 
         // 값이 False면 관리자가 아니니까 처리
         if (!value.actions.ifAdmin1) {

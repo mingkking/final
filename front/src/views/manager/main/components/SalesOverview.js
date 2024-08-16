@@ -14,12 +14,19 @@ const YearJoinMembers = () => {
 
     // 최근 6개월 계산 함수
     const getLastSixMonths = () => {
-        const months = [];
-        for (let i = 5; i >= 0; i--) {
-            months.push(dayjs().subtract(i, 'month').format('M월'));
-        }
-        return months;
+        return Array.from({ length: 6 }, (_, i) => dayjs().subtract(i, 'month').format('M월')).reverse();
     };
+
+    const getCounts = (months, count) => {
+        return months.map(month => {
+            const memCount = count.find(item => item.JOIN_MONTH === month);
+            return memCount ? memCount.COUNT : 0;
+        })
+    };
+
+    const months = getLastSixMonths();
+    const subCount = getCounts(months, value.state.selectRecent6Sub);
+    const memCount = getCounts(months, value.state.selectRecentMem);
 
     // chart
     const optionscolumnchart = {
@@ -72,11 +79,11 @@ const YearJoinMembers = () => {
     const seriescolumnchart = [
         {
             name: '가입자',
-            data: [value.state.membersCount, 500, 321, 214, 112, 251],
+            data: memCount,
         },
         {
             name: '구독자',
-            data: [280, 541, 245, 200, 100, 100],
+            data: subCount,
         },
     ];
 
