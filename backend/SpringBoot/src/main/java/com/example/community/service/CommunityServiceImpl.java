@@ -141,7 +141,7 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public void updateReply(ReplyVO replyVO) throws Exception {
         ReplyVO selectVO = replyRepository.selectOneReply(replyVO.getReply_num());
-        selectVO.setContent(replyVO.getContent());
+        selectVO.setContents(replyVO.getContents());
         replyRepository.save(selectVO);
     }
 

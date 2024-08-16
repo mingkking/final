@@ -2,16 +2,12 @@
 .post {
   display: flex;
   flex-direction: column;
-  padding: 5px 5px;
   /* 내부 여백 */
-  border-radius: 8px;
-  /* 모서리 둥글게 */
-  background-color: #fff;
+  padding: 5px 5px;
   /* 배경 색상 */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  /* 그림자 효과 */
-  height: auto;
+  background-color: #131722;
   /* 높이 자동 조정 */
+  height: auto;
 }
 
 /* 사이드바 스타일 */
@@ -26,11 +22,9 @@
   flex-direction: column;
   padding: 5px 5px;
   /* 내부 여백 */
-  border-radius: 8px;
   /* 모서리 둥글게 */
-  background-color: #fff;
+  background-color: #131722;
   /* 배경 색상 */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   /* 그림자 효과 */
   height: fit-content;
   /* 내용에 맞춰 높이 조정 */

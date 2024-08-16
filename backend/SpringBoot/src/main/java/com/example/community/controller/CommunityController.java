@@ -268,6 +268,9 @@ public class CommunityController {
 
             } else {
                 selectAllReply = communityService.selectAllReply(); // 모든 댓글을 조회
+                for (int i = 0; i < selectAllReply.size(); i++) {
+                    System.out.println(selectAllReply.get(i).getContents());
+                }
             }
 
         } catch (Exception e) {
@@ -294,6 +297,7 @@ public class CommunityController {
     @PostMapping("/updateReply")
     public void updateReply(@ModelAttribute ReplyVO replyVO) {
 
+        System.out.println("111111111111111111111111111111111111111111");
         try {
             communityService.updateReply(replyVO); // 커뮤니티 서비스 객체로 커뮤니티 댓글 수정 기능 실행
         } catch (Exception e) {
@@ -358,7 +362,7 @@ public class CommunityController {
             System.out.println("커뮤니티 대댓글 삭제 : " + e.getMessage()); // 커뮤니티 대댓글 삭제 기능 에러 발생
         }
 
-    } 
+    }
 
     // 커뮤니티 모든 글 댓글 수 검색
     @GetMapping("/selectAllReplyCnt")
