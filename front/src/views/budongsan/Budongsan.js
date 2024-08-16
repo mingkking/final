@@ -20,7 +20,7 @@ const Budongsan = () => {
 
   return (
     <section>
-      <button className="hamburger-menu" onClick={toggleSidebar}>
+      <button className="hamburger-menu" onClick={toggleSidebar} style={{color:'#fff'}}>
         ☰
       </button>
       <div className={`buContainer ${isSidebarVisible ? 'sidebar-visible' : ''}`}>

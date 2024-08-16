@@ -37,7 +37,11 @@ const TopStocks = ({ stocks, onSlideClick }) => {
         <Paper elevation={3} sx={{ p: 2, bgcolor: '#1B1F2C', borderRadius: 2, width: '100%', height:'200px', maxHeight: '300px', overflow: 'hidden' }}>
             <Typography variant="h6" gutterBottom color="#fff">인기 주식</Typography>
 
-            <CustomSlider {...sliderSettings} style={{ width: '100%' }}>
+            <CustomSlider {...sliderSettings} style={{ width: '100%' }} sx={{
+                '& .slick-prev, & .slick-next': {
+                    display: 'none !important',
+                }
+            }}>
                 {stocks.map((stock, index) => (
                     <StyledSlide
                         key={index}
@@ -57,23 +61,10 @@ const TopStocks = ({ stocks, onSlideClick }) => {
                                 대비: {stock.comparedPrice >= 0 ? '+' : ''}{formatNumber(stock.compared_price)}
                             </Typography>
                         </Box>
-                     <Box sx={{ height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <Typography variant="body1" color="text.primary">{stock.stock_name}</Typography>
-                        </Box>
-                        <Box sx={{ height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <Typography 
-                            variant="body2" 
-                            color={stock.comparedPrice >= 0 ? 'success.main' : 'error.main'}
-                            sx={{ fontWeight: 'bold' }}
-                        >
-                            대비: {stock.comparedPrice >= 0 ? '+' : ''}{formatNumber(stock.compared_price)}
-                        </Typography>
-                        </Box>
                     </StyledSlide>
                 ))}
             </CustomSlider>
         </Paper>
-        
     );
 };
 

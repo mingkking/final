@@ -1,34 +1,35 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { useTheme } from '@mui/material/styles';
 import DashboardCard from '../../../../components/shared/DashboardCard';
 import Chart from 'react-apexcharts';
 import dayjs from 'dayjs';
-import axios from 'axios';
 import mainContext from '../../main/contexts/MainContext';
 
 
 const MonthJoinMembers = () => {
-
-    const value = useContext(mainContext);
-
-    // array.from 으로 간단하게 작성(최근 5일 회원가입수, 값이 없으면 0으로 설정)
-    const data = Array.from({length: 5}, (_, i) => value.state.last5MonthsMember[4-i]?.JOIN_COUNT ?? 0);
-    console.log("5달치 data 가져온 값------", data);
-
 
     // chart color
     const theme = useTheme();
     const primary = theme.palette.primary.main;
     const secondary = theme.palette.secondary.main;
 
-    // 최근 5개월 계산 함수
+    const value = useContext(mainContext);
+
+    // 최근 5개월의 월 이름을 반환하는 함수
     const getLastFiveMonths = () => {
-        const months = [];
-        for (let i = 4; i >= 0; i--) {
-            months.push(dayjs().subtract(i, 'month').format('M월'));
-        }
-        return months;
+        return Array.from({ length: 5 }, (_, i) => dayjs().subtract(i, 'month').format('M월')).reverse();
     };
+
+    // months의 배열 값(8월, 9월...)과 springboot에서 받아온 값을 매칭
+    const getJoinCounts = (months, last5MonthsMember) => {
+        return months.map(month => {
+            const member = last5MonthsMember.find(item => item.JOIN_MONTH === month);
+            return member ? member.JOIN_COUNT : 0;
+        });
+    };
+
+    const months = getLastFiveMonths(); // 최근 5개월 월 이름 배열
+    const joinCounts = getJoinCounts(months, value.state.last5MonthsMember); // 차트에 넣을 데이터 값
 
     // chart
     const optionscolumnchart = {
@@ -92,7 +93,7 @@ const MonthJoinMembers = () => {
 
         {
             name: 'Month',
-            data: [data[1], data[0], data[2], data[4], data[3]], // 수정해...
+            data: joinCounts, // 수정해...
         },
     ];
 

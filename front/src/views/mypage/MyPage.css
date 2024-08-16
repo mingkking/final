@@ -70,11 +70,13 @@
   margin-bottom: 15px;
 }
 
+
+
 .mypage-form-group label {
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
-  color: #333;
+  color: #fff;
   text-align: left;
 }
 
@@ -192,18 +194,18 @@
   margin: 0 auto;
 }
 
-.property-list, .stock-list {
+.myproperty-list, .mystock-list {
   list-style-type: none;
   padding: 0;
   margin: 0;
   
 }
 
-.property-item {
+.myproperty-item {
   font-size: 18px;
 }
 
-.property-item, .stock-item {
+.myproperty-item, .mystock-item {
   padding: 15px; /* 패딩을 동일하게 설정 */
   margin-bottom: 15px; /* 아이템 간의 여백을 동일하게 설정 */
   border-radius: 8px; /* 모서리를 동일하게 둥글게 설정 */
@@ -215,40 +217,40 @@
   flex-direction: column; /* 세로 방향으로 정렬 */
   justify-content: space-between; /* 내용 사이에 공간을 균등하게 분배 */
   border: 1px solid #ccc;
-}
+} 
 
-.property-item:hover, .stock-item:hover {
+.myproperty-item:hover, .mystock-item:hover {
   background-color: #3a4258;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   
 }
 
-.property-details, .stock-details {
+.myproperty-details, .mystock-details {
   text-align: left;
   color: #fff;
 
 }
 
-.property-details p, .stock-details div {
+.myproperty-details p, .mystock-details div {
   margin: 5px 0;
 }
 
-.property-label, .item-title {
+.myproperty-label, .myitem-title {
   font-weight: bold;
   color: #fff;
 }
 
-.property-label {
+.myproperty-label {
   color: #fff;
 }
 
-.item-title {
+.myitem-title {
   font-size: 16px;
   color: #fff;
   text-align: left;
 }
 
-.item-detail {
+.myitem-detail {
   margin: 3px 0;
   text-align: left;
 }
@@ -519,30 +521,38 @@
     background-color: #f9f9f9; /* 배경 색상 설정 */
   }
 
-  .property-list, .stock-list {
+  .myproperty-list, .mystock-list {
     padding: 0; /* 리스트 패딩 제거 */
     margin: 0; /* 리스트 마진 제거 */
     list-style-type: none; /* 리스트 스타일 제거 */
   }
 
-  .property-item, .stock-item {
+  .myproperty-item, .mystock-item {
     padding: 15px; /* 아이템 패딩 넓히기 */
     margin-bottom: 15px; /* 아이템 간 여백 추가 */
     border-radius: 8px; /* 모서리 둥글게 */
-    background-color: #fff; /* 배경 색상 설정 */
+    background-color: #212737; /* 배경 색상 설정 */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
     width: 250px;
-    height: 200px; /* 고정 높이 설정 */
+    height: 300px; /* 고정 높이 설정 */
     display: flex;
     flex-direction: column;
     justify-content: space-between; /* 콘텐츠를 위아래로 균등 배치 */
   }
 
-  .property-item:hover, .stock-item:hover {
-    background-color: #f1f1f1; /* 호버시 배경 색상 변경 */
+  .myitem-title {
+    font-size: 30px;
   }
 
-  .property-details p, .item-detail {
+  .mystock-item {
+    font-size: 20px;
+  }
+
+  .myproperty-item:hover, .mystock-item:hover {
+    background-color: #3a4258; /* 호버시 배경 색상 변경 */
+  }
+
+  .myproperty-details p, .myitem-detail {
     margin-bottom: 10px; /* 각 항목 간 여백 추가 */
   }
 

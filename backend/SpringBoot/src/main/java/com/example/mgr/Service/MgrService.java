@@ -109,4 +109,13 @@ public interface MgrService {
 	
 	// 커뮤니티 댓글 삭제
 	void deleteCommReply(int reply_num);
+	
+	// 최근 6개월 구독자 수
+	List<Map<String, Object>> selectRecent6Sub();
+	
+	// 작년 6개월 구독자 수
+	List<Map<String, Object>> selectLastYearSub();
+	
+	// 최근 6개월 가입자 수
+	List<Map<String, Object>> selectRecent6Mem();
 }
