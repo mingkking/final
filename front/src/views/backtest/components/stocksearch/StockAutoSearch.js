@@ -27,7 +27,24 @@ const StockAutoSearch = ({onStockSelect}) => {
     <Autocomplete
       options={options}
       getOptionLabel={(option) => `${option.stock_name} (${option.stock_code})`}
-      renderInput={(params) => <TextField {...params} label="주식 종목명" variant="outlined" />}
+      renderInput={(params) => (
+        <TextField 
+          {...params} 
+          label="주식 종목명" 
+          variant="outlined" 
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.23)' },
+              '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+              '&.Mui-focused fieldset': { borderColor: 'rgba(255, 255, 255, 0.7)' },
+            },
+            '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
+            '& .MuiInputBase-input': { color: '#FFFFFF' },
+            '& .MuiAutocomplete-popupIndicator': { color: 'rgba(255, 255, 255, 0.7)' },
+            '& .MuiAutocomplete-clearIndicator': { color: 'rgba(255, 255, 255, 0.7)' },
+          }}
+        />
+      )}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
       }}
@@ -38,7 +55,16 @@ const StockAutoSearch = ({onStockSelect}) => {
       }}
       freeSolo
       fullWidth
+      sx={{
+        '& .MuiAutocomplete-option': {
+          color: '#000000', // 옵션 텍스트 색상
+          '&:hover': {
+            backgroundColor: 'rgba(255, 174, 31, 0.1)', // #FFAE1F의 밝은 버전
+          },
+        },
+      }}
     />
   );
 };
+
 export default StockAutoSearch

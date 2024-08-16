@@ -42,6 +42,14 @@ const StockDetail = () => {
   const upColor = '#26A69A';
   const downColor = '#EF5350';
   const { setStockInfo } = useStock();
+  const darkTheme = {
+    backgroundColor: '#1e222d',
+    textColor: '#d1d4dc',
+    gridColor: '#363c4e',
+    borderColor: '#4c525e',
+    upColor: '#26a69a',
+    downColor: '#ef5350',
+  };
   //주식상세 정보
   useEffect(() => {
     const fetchStockDetail = async () => {
@@ -126,8 +134,10 @@ const StockDetail = () => {
       }
     }
   };
+
   //차트를 출력을 할때 해당 되는 데이터들을 출력 및 주식 지표들을 출력하기 위한 계산
   useEffect(() => {
+    
     if (stockData && candleChartRef.current && volumeChartRef.current) {
       const chartWidth = candleChartRef.current.clientWidth;
       const candleChartHeight = isMobile ? 300 : 400;
@@ -137,44 +147,44 @@ const StockDetail = () => {
         width: chartWidth,
         height: candleChartHeight,
         layout: {
-          backgroundColor: '#ffffff',
-          textColor: theme.palette.text.primary,
+          background: { type: 'solid', color: darkTheme.backgroundColor },
+          textColor: darkTheme.textColor,
         },
         grid: {
-          vertLines: { color: theme.palette.divider },
-          horzLines: { color: theme.palette.divider },
+          vertLines: { color: darkTheme.gridColor },
+          horzLines: { color: darkTheme.gridColor },
         },
         crosshair: { mode: CrosshairMode.Normal },
-        rightPriceScale: { borderColor: theme.palette.divider },
-        timeScale: { borderColor: theme.palette.divider, timeVisible: true, secondsVisible: false },
+        rightPriceScale: { borderColor: darkTheme.borderColor },
+        timeScale: { borderColor: darkTheme.borderColor, timeVisible: true, secondsVisible: false },
       });
-
+      
       const volumeChart = createChart(volumeChartRef.current, {
         width: chartWidth,
         height: volumeChartHeight,
         layout: {
-          backgroundColor: '#ffffff',
-          textColor: theme.palette.text.primary,
+          background: { type: 'solid', color: darkTheme.backgroundColor },
+          textColor: darkTheme.textColor,
         },
         grid: {
-          vertLines: { color: theme.palette.divider },
-          horzLines: { color: theme.palette.divider },
+          vertLines: { color: darkTheme.gridColor },
+          horzLines: { color: darkTheme.gridColor },
         },
         crosshair: { mode: CrosshairMode.Normal },
-        rightPriceScale: { borderColor: theme.palette.divider },
-        timeScale: { borderColor: theme.palette.divider, timeVisible: true, secondsVisible: false },
+        rightPriceScale: { borderColor: darkTheme.borderColor },
+        timeScale: { borderColor: darkTheme.borderColor, timeVisible: true, secondsVisible: false },
       });
-
+      
       const candleSeries = candleChart.addCandlestickSeries({
-        upColor: upColor,
-        downColor: downColor,
+        upColor: darkTheme.upColor,
+        downColor: darkTheme.downColor,
         borderVisible: false,
-        wickUpColor: upColor,
-        wickDownColor: downColor,
+        wickUpColor: darkTheme.upColor,
+        wickDownColor: darkTheme.downColor,
       });
-
+      
       const volumeSeries = volumeChart.addHistogramSeries({
-        color: '#26a69a',
+        color: darkTheme.upColor,
         priceFormat: { type: 'volume' },
         priceScaleId: '',
       });
@@ -260,7 +270,7 @@ const StockDetail = () => {
         volumeChart.remove();
       };
     }
-  }, [stockData, theme, upColor, downColor, indicators, isMobile]);
+  }, [stockData, darkTheme, upColor, downColor, indicators, isMobile]);
 
   // 해당 종목에 여러가지 주식 지표들을 계산 하는 함수들
   // MA 이동 평균 계산
@@ -369,7 +379,7 @@ const StockDetail = () => {
           </Tooltip>
           <Tooltip title={isFavorite ? "관심종목에서 제거" : "관심종목에 추가"}>
             <IconButton size="small" onClick={handleToggleFavorite}>
-              {isFavorite ? <StarIcon color="primary" /> : <StarBorderIcon />}
+              {isFavorite ? <StarIcon color="warning" /> : <StarBorderIcon />}
             </IconButton>
           </Tooltip>
         </Box>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/locale"
+import "./custom-datepicker.css";
 import { TextField, Button, Select, MenuItem, FormControl, Box, Typography, useTheme, InputLabel } from '@mui/material';
 import { useStock } from '../../../stock/components/context/StockContext';
 import StockAutoSearch from '../stocksearch/StockAutoSearch';
@@ -44,11 +45,17 @@ const Options = ({ onAnalyze }) => {
   };
 
   return (
-    <Box sx={{ p: 4, bgcolor: theme.palette.background.paper }}>
-      <Typography variant="h5" gutterBottom sx={{ mb: 3, fontWeight: 'bold', color: theme.palette.primary.main }}>
+    <Box sx={{
+      p: 4,
+      bgcolor: '#1E222D', // 어두운 배경색
+      color: '#FFFFFF',   // 기본 텍스트 색상을 흰색으로
+    }}>
+      <Typography variant="h5" gutterBottom sx={{ mb: 3, fontWeight: 'bold', color: '#FFAE1F' }}>
         백테스트 설정
       </Typography>
+
       <StockAutoSearch onStockSelect={handleStockSelect} />
+
       <TextField
         fullWidth
         label="선택된 주식 종목"
@@ -56,9 +63,23 @@ const Options = ({ onAnalyze }) => {
         disabled
         margin="normal"
         variant="outlined"
-        sx={{ mb: 2 }}
+        sx={{
+          mb: 2,
+          '& .MuiOutlinedInput-root': {
+            '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.23)' },
+            '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+          },
+          '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
+          '& .MuiInputBase-input': {
+            color: '#FFFFFF',
+            '&.Mui-disabled': {
+              color: 'rgba(255, 255, 255, 0.5)', // 비활성화 상태의 텍스트 색상
+              '-webkit-text-fill-color': 'rgba(255, 255, 255, 0.5)', // WebKit 브라우저 호환성
+            },
+          },
+        }}
       />
-      
+
       <DatePicker
         selected={startDate}
         locale={ko}
@@ -66,20 +87,53 @@ const Options = ({ onAnalyze }) => {
         selectsStart
         startDate={startDate}
         endDate={endDate}
-        customInput={<TextField fullWidth label="시작 날짜" margin="normal" variant="outlined" sx={{ mb: 2 }} />}
+        className="custom-datepicker"
+        popperClassName="custom-datepicker-popper"
+        customInput={
+          <TextField
+            fullWidth
+            label="시작 날짜"
+            margin="normal"
+            variant="outlined"
+            sx={{
+              mb: 2,
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.23)' },
+                '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+              },
+              '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
+              '& .MuiInputBase-input': { color: '#FFFFFF' },
+            }}
+          />
+        }
       />
-      
       <DatePicker
         selected={endDate}
         locale={ko}
         onChange={(date) => setEndDate(date)}
-        selectsEnd
+        selectsStart
         startDate={startDate}
         endDate={endDate}
-        minDate={startDate}
-        customInput={<TextField fullWidth label="종료 날짜" margin="normal" variant="outlined" sx={{ mb: 2 }} />}
+        className="custom-datepicker"
+        popperClassName="custom-datepicker-popper"
+        customInput={
+          <TextField
+            fullWidth
+            label="시작 날짜"
+            margin="normal"
+            variant="outlined"
+            sx={{
+              mb: 2,
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.23)' },
+                '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+              },
+              '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
+              '& .MuiInputBase-input': { color: '#FFFFFF' },
+            }}
+          />
+        }
       />
-      
       <TextField
         fullWidth
         label="초기 투자 금액"
@@ -88,28 +142,50 @@ const Options = ({ onAnalyze }) => {
         onChange={(e) => setInitialInvestment(Number(e.target.value))}
         margin="normal"
         variant="outlined"
-        sx={{ mb: 2 }}
+        sx={{
+          mb: 2,
+          '& .MuiOutlinedInput-root': {
+            '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.23)' },
+            '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+          },
+          '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' },
+          '& .MuiInputBase-input': { color: '#FFFFFF' },
+        }}
       />
-      
+
       <FormControl fullWidth margin="normal" variant="outlined" sx={{ mb: 3 }}>
-        <InputLabel>리밸런싱 주기</InputLabel>
+        <InputLabel sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>리밸런싱 주기</InputLabel>
         <Select
           value={rebalancePeriod}
           onChange={(e) => setRebalancePeriod(e.target.value)}
           label="리밸런싱 주기"
+          sx={{
+            color: '#FFFFFF',
+            '& .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(255, 255, 255, 0.23)' },
+            '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(255, 255, 255, 0.5)' },
+            '& .MuiSvgIcon-root': { color: 'rgba(255, 255, 255, 0.7)' },
+          }}
         >
           <MenuItem value="monthly">매월</MenuItem>
           <MenuItem value="quarterly">분기</MenuItem>
           <MenuItem value="annually">매년</MenuItem>
         </Select>
       </FormControl>
-      
-      <Button 
-        variant="contained" 
-        color="primary" 
-        fullWidth 
+
+      <Button
+        variant="contained"
+        color="primary"
+        fullWidth
         onClick={handleSubmit}
-        sx={{ mt: 2, py: 1.5, fontSize: '1.1rem' }}
+        sx={{
+          mt: 2,
+          py: 1.5,
+          fontSize: '1.1rem',
+          bgcolor: '#FFAE1F',
+          '&:hover': {
+            bgcolor: '#FFC53D',
+          },
+        }}
       >
         분석 시작
       </Button>

@@ -2,7 +2,8 @@ import React, { useState, useEffect,useContext } from "react";
 import { useNavigate } from "react-router";
 import Options from "./components/backtestoption/Option";
 import ResultChart from "./components/resultchart/Resultchart"
-import { Paper,Card, Container, Grid, Typography, Box, useTheme, CircularProgress, Snackbar, Alert } from "@mui/material";
+import { Paper,Card, Container, Grid, Typography, Box, useTheme, CircularProgress, Snackbar, Alert,Fade } from "@mui/material";
+import BarChartIcon from '@mui/icons-material/BarChart';
 import axios from 'axios';
 import axiosInstance from "../login/component/Token/axiosInstance"
 import CommunityContext from "../community/contexts/CommunityContext"
@@ -131,13 +132,33 @@ const Back1 = () => {
         </Grid>
         <Grid item xs={12} md={7}>
           <Card elevation={3} sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-            {isLoading ? (
-              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexGrow: 1 }}>
-                <CircularProgress size={60} />
-              </Box>
-            ) : (
-              <ResultChart analysisResult={analysisResult} error={error} />
-            )}
+          {isLoading ? (
+  <Box sx={{ 
+    display: 'flex', 
+    flexDirection: 'column',
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    flexGrow: 1, 
+    bgcolor: "#1B1F2C",
+    p: 4
+  }}>
+    <Fade in={true} style={{ transitionDelay: '300ms' }}>
+      <BarChartIcon sx={{ fontSize: 60, color: '#FFAE1F', mb: 2 }} />
+    </Fade>
+    <CircularProgress size={60} sx={{ color: '#FFAE1F', mb: 2 }} />
+    <Typography variant="h6" color="white" align="center" gutterBottom>
+      분석 중입니다...
+    </Typography>
+    <Typography variant="body2" color="grey.500" align="center">
+      이 과정은 약 1-2분 정도 소요될 수 있습니다.
+    </Typography>
+    <Typography variant="body2" color="grey.500" align="center" sx={{ mt: 2 }}>
+      데이터를 수집하고 AI 모델을 통해 분석하고 있습니다.
+    </Typography>
+  </Box>
+) : (
+  <ResultChart analysisResult={analysisResult} error={error} />
+)}
           </Card>
         </Grid>
       </Grid>

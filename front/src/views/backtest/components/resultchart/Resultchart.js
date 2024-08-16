@@ -90,7 +90,7 @@ const ResultChart = ({ analysisResult, error }) => {
 
   return (
     <Box sx={{ p: 4, bgcolor: theme.palette.background.paper, height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <Typography variant="h4" gutterBottom sx={{ mb: 3, fontWeight: 'bold', color: theme.palette.primary.main }}>
+      <Typography variant="h4" color="#FFFFFF" gutterBottom sx={{ mb: 3, fontWeight: 'bold'}}>
         분석 결과
       </Typography>
       <Paper elevation={3} sx={{ p: 4, mb: 4, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
@@ -101,20 +101,12 @@ const ResultChart = ({ analysisResult, error }) => {
           margin={{ top: 10, right: 10, bottom: 50, left: 50 }}
           series={[
             { 
-              dataKey: '예측 수익률', 
-              label: '예측 수익률 (%)', 
-              color: theme.palette.primary.main,
+              dataKey: '예측 가치', 
+              label: '예측 가치 (원)', 
+              color: "#FFAE1F",
               curve: 'linear',
               showMark: false,
               yAxisKey: 'leftAxis', 
-            },
-            { 
-              dataKey: '예측 가치', 
-              label: '예측 가치 (원)', 
-              color: theme.palette.secondary.main,
-              curve: 'linear',
-              showMark: false,
-              yAxisKey: 'rightAxis', 
             },
           ]}
           xAxis={[{ 
@@ -143,13 +135,13 @@ const ResultChart = ({ analysisResult, error }) => {
         <Grid item xs={12} sm={6}>
           <Paper elevation={2} sx={{ p: 3 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-              <ShowChartIcon sx={{ fontSize: 30, color: theme.palette.primary.main, mr: 2 }} />
-              <Typography variant="h6" color="primary">
+              <ShowChartIcon color="warning" sx={{ fontSize: 30,  mr: 2 }} />
+              <Typography variant="h6" color="#FFAE1F">
                 주식명: {analysisResult.stockName || 'N/A'}
               </Typography>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <DateRangeIcon sx={{ fontSize: 24, color: theme.palette.text.secondary, mr: 2 }} />
+              <DateRangeIcon color="warning" sx={{ fontSize: 24, mr: 2 }} />
               <Typography variant="body1">
                 분석 기간: {formatDate(analysisResult.startDate)} ~ {formatDate(analysisResult.endDate)}
               </Typography>
@@ -159,12 +151,12 @@ const ResultChart = ({ analysisResult, error }) => {
         <Grid item xs={12} sm={6}>
           <Paper elevation={2} sx={{ p: 3 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-              <TrendingUpIcon sx={{ fontSize: 30, color: theme.palette.primary.main, mr: 2 }} />
-              <Typography variant="h6" color="primary">
+              <TrendingUpIcon color= "warning" sx={{ fontSize: 30,  mr: 2 }} />
+              <Typography variant="h6" color="#FFAE1F">
                 예측 결과
               </Typography>
             </Box>
-            <Typography variant="body1" gutterBottom>
+            <Typography variant="body1" gutterBottom >
               초기 투자금: {formatCurrency(analysisResult.initialInvestment)}
             </Typography>
             <Typography variant="body1" gutterBottom>
