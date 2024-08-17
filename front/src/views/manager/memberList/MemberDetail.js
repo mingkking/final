@@ -157,7 +157,7 @@ const MemberDetail = () => {
                       <TextField name="user_email" value={formData.user_email} onChange={handleChange} size='small' style={{ marginBottom: '9px' }} />
                       <Typography variant='h5' style={{ marginBottom: '20px' }}>{eightBirthdate}</Typography>
                       <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.created_at}</Typography>
-                      <Typography variant='h5' style={{ marginBottom: '10px' }}>바꿔야함</Typography>
+                      <Typography variant='h5' style={{ marginBottom: '10px' }}>{subDate ? subDate : '구독 안함'}</Typography>
                       <FormControlLabel
                         control={
                           <Checkbox
