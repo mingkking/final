@@ -177,8 +177,8 @@ useEffect(() => {
 
 
 return (
-    <div className="mypage-container">
-      <div className="profile-section">
+    <div className="mypage-container" style={{backgroundColor:'#212737'}}>
+      <div className="profile-section" style={{backgroundColor:'#212737'}}>
         <div className="profile-info">
           <div className="profile-avatar-container">
             <Avatar
