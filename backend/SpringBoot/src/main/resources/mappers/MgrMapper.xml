@@ -272,7 +272,7 @@
 		SELECT count(*)
 		FROM declaration
 		WHERE type = 'reply'
-	</select> 
+	</select>  
 	
 	<!-- 커뮤니티 댓글 신고 상세보기 -->
 	<select id="selectComplaintReplyDetail" resultType="MgrCommComplaintVO">
