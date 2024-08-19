@@ -63,7 +63,18 @@ const Back1 = () => {
       } else {
         communityValue.actions.setUserNick(response.data.userNickname);
         communityValue.actions.setUserNum(response.data.userNum);
-        return true;  // 로그인 상태일 때 true 반환
+
+        // 비동기때문에 await 후 값 받아와서 subscribeTF 에 담기
+        const subscribeTF = await checkSubcribe(response.data.userNum);
+
+        // subscribeTF 값이 False 이면
+        if (!subscribeTF) {
+          alert('구독 후 이용해주세요!');
+          navigate('/Subscribe');
+        } else {
+          return true;  // 구독 완료 상태 일 때 true 반환
+        }
+
       }
     } catch (error) {
       console.error("로그인 상태 확인 중 오류 발생:", error);
@@ -71,6 +82,15 @@ const Back1 = () => {
       return false;
     }
   };
+
+    // 구독 확인 springboot에서 값 받아오는 함수
+    const checkSubcribe = async (user_num) => {
+
+      // 로그인 한 유저의 user_num 을 springboot로 넘김
+      const result = await axios.get(`http://localhost:8080/subscribe/${user_num}`);
+      // boolean 값으로 result.data 값이 1이면 true, 아니면 false로 return
+      return result.data === 1;
+  }
 
   const handleAnalyze = async (options) => {
     setError('');
