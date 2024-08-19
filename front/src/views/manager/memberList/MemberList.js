@@ -78,7 +78,6 @@ const MemberList = () => {
     // 컴포넌트가 마운트될 때 멤버 리스트를 로드합니다.
     axios.get('http://localhost:8080/manager/memberList')
       .then((result) => {
-        console.log(result);
         const initialSortedList = result.data.selectMemberList.sort((a, b) => 
           parseInt(a.user_num) - parseInt(b.user_num)
         );

@@ -78,7 +78,6 @@ const CommDecComment = () => {
   useEffect(() => {
     axios.get('http://localhost:8080/manager/complaint/communityComment')
       .then((result) => {
-        console.log(result);
         setCommCmtComplaint(result.data.selectCommCmpComplaint);
         setFilteredComments(result.data.selectCommCmpComplaint);
       });
