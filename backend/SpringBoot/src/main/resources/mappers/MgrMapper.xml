@@ -306,10 +306,10 @@
 	<!-- 작년 6개월 구독자 수 -->
 	<select id="selectLastYearSub" parameterType="MgrMemberVO" resultType="Map">
 	<![CDATA[
-	   SELECT TO_CHAR(TRUNC(payment_date, 'MONTH'), 'YYYY-MM') AS JOIN_MONTH, COUNT(*) AS count
+		SELECT TO_CHAR(TRUNC(payment_date, 'MONTH'), 'YYYY-MM') AS JOIN_MONTH, COUNT(*) AS count
 		FROM subscribe
-		WHERE payment_date >= ADD_MONTHS(TRUNC(SYSDATE, 'YEAR') - INTERVAL '1' YEAR, -6)
-    		AND payment_date < ADD_MONTHS(TRUNC(SYSDATE, 'YEAR') - INTERVAL '1' YEAR, 0)
+		WHERE payment_date >= ADD_MONTHS(TRUNC(SYSDATE, 'MONTH'), -17)
+		  AND payment_date < ADD_MONTHS(TRUNC(SYSDATE, 'MONTH'), -11)
 		GROUP BY TRUNC(payment_date, 'MONTH')
 		ORDER BY JOIN_MONTH
     ]]>
