@@ -5,34 +5,19 @@ const mainContext = createContext();
 const MainProvider = (props) => {
 
       // 총 회원 수
-      const [membersCount, setMembersCount] = useState(() => {
-        const saved = localStorage.getItem("membersCount");
-        return saved ? JSON.parse(saved) : 0;
-      });
+      const [membersCount, setMembersCount] = useState("");
 
       // 일 가입자 수
-      const [todayMembersCount, setTodayMembersCount] = useState(() => {
-        const saved = localStorage.getItem("todayMembersCount");
-        return saved ? JSON.parse(saved) : 0;
-      });
+      const [todayMembersCount, setTodayMembersCount] = useState("");
 
       // 최근 5일 가입자 수
-      const [last5DaysMember, setLast5DaysMember] = useState(() => {
-        const saved = localStorage.getItem("last5DaysMember");
-        return saved ? JSON.parse(saved) : 0;
-      });
+      const [last5DaysMember, setLast5DaysMember] = useState([]);
 
       // 총 구독자 수
-      const [totalSubscribersCount, setTotalSubscribersCount] = useState(() => {
-        const saved = localStorage.getItem("totalSubscribersCount");
-        return saved ? JSON.parse(saved) : 0;
-      });
+      const [totalSubscribersCount, setTotalSubscribersCount] = useState("");
 
       // 회원 리스트
-      const [memberList, setMemberList] = useState(() => {
-        const saved = localStorage.getItem("memberList");
-        return saved ? JSON.parse(saved) : [];
-      });
+      const [memberList, setMemberList] = useState([]);
 
       // 관리자 여부 확인용 유저 번호
       const [userNum, setUserNum] = useState("");
@@ -93,27 +78,6 @@ const MainProvider = (props) => {
 
       // 최근 6개월 가입자 수
       const [selectRecentMem, setSelectRecentMem] = useState([]);
-
-  useEffect(() => {
-    localStorage.setItem("membersCount", JSON.stringify(membersCount));
-  },[membersCount]);
-
-  useEffect(() => {
-    localStorage.setItem("todayMembersCount", JSON.stringify(todayMembersCount));
-  }, [todayMembersCount]);
-
-  useEffect(() => {
-    localStorage.setItem("last5DaysMember", JSON.stringify(last5DaysMember));
-  }, [last5DaysMember]);
-
-  useEffect(() => {
-    localStorage.setItem("totalSubscribersCount", JSON.stringify(totalSubscribersCount));
-  }, [totalSubscribersCount]);
-
-  useEffect(() => {
-    localStorage.setItem("memberList", JSON.stringify(memberList));
-  }, [memberList]);
-
 
   const values = {
     state: { totalCount, todayCount, monthCount, membersCount, totalSubscribersCount, 

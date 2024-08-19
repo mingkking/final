@@ -22,7 +22,6 @@ const CommunityList = () => {
           new Date(b.created_at) - new Date(a.created_at)
         );
         setPosts(sortedPosts);
-        console.log("커뮤니티 값: ", result.data)
         setFilteredPosts(sortedPosts);
       })
   }, []);

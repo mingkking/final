@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Grid, Button, TextField, FormControlLabel, Checkbox } from '@mui/material';
+import { Typography, Grid, Button, TextField, FormControlLabel, Checkbox, CircularProgress } from '@mui/material';
 import PageContainer from '../../../components/container/PageContainer';
-import DashboardCard from '../../../components/shared/DashboardCard';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import BookMark from './components/BookMark';
@@ -104,11 +103,7 @@ const MemberDetail = () => {
   };
 
   if (loading) {
-    return (
-      <PageContainer>
-        <Typography variant="h4" align="center">처리중입니다...</Typography>
-      </PageContainer>
-    );
+    return <CircularProgress />;
   }
 
   // 생년월일 설정

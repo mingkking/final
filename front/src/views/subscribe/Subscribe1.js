@@ -32,7 +32,7 @@ function Subscribe1() {
         });
     
         if (response.data.isLoggedIn !== true) {
-            alert("로그인 및 구독 후 이용해주세요!");   
+            alert("로그인 후 이용해주세요!");   
             navigate("/login");                         
         } else {
             // 로그인 했으면 userNum 설정
