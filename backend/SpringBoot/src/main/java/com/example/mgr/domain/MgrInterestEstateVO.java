@@ -6,6 +6,7 @@ import lombok.Data;
  
 @Data   
 public class MgrInterestEstateVO {
-	private String apartment_name;
+	private String name;
+	private String type;
 	private String user_num;
 }   
