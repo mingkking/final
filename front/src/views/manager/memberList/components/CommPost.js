@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Typography, Grid, Pagination } from '@mui/material';
 import DashboardCard from '../../../../components/shared/DashboardCard';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const BookMark = () => {
   const { user_num } = useParams();
@@ -13,8 +12,8 @@ const BookMark = () => {
   const postsPerPage = 3;
   const navigate = useNavigate();
 
+  // springboot에서 데이터 받아오기
   useEffect(() => {
-    // springboot에서 데이터 받아오기
     const getCommPost = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/manager/memberDetail/${user_num}`);
@@ -42,7 +41,7 @@ const BookMark = () => {
 
   // 상세페이지로 이동
   const handleClickCommPost = (id) => {
-    navigate(`/DetailCommunity?id=${id}`)
+    navigate(`/DetailCommunity?id=${id}`);
   }
 
   return (
@@ -72,7 +71,8 @@ const BookMark = () => {
           ) : (
             currentPosts.map((post, index) => (
               <React.Fragment key={index}>
-                  <Grid item sm={3} style={{ cursor: 'pointer' }} onClick={() => handleClickCommPost(post.id)}>
+                <Grid container item sm={12} style={{ cursor: 'pointer' }} onClick={() => handleClickCommPost(post.id)}>
+                  <Grid item sm={3} >
                     <Typography>{post.id}</Typography>
                   </Grid>
                   <Grid item sm={3}>
@@ -84,6 +84,7 @@ const BookMark = () => {
                   <Grid item sm={3}>
                     <Typography>{post.view_count}</Typography>
                   </Grid>
+                </Grid>
               </React.Fragment>
             ))
           )}

@@ -49,16 +49,13 @@ const Chat = () => {
     setSearchTerm('');
     filterAndSortChats();
   };
-
+  
+  // 필터링
   const filterAndSortChats = () => {
-    // 필터링
-    const filtered = chatList.filter((chat) => {
-      if(searchField == 'chat_num') {
-        return chat.chat_num == searchTerm;
-      }
-      const matchesSearch = chat[searchField].toString().toLowerCase().includes(searchTerm.toLowerCase());
-      return matchesSearch;
-    });
+    const filtered = chatList.filter((chat) => 
+      chat[searchField]?.toString().toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  
 
     // 정렬
     const sorted = filtered.sort((a, b) => {

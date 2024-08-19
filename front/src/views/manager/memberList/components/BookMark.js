@@ -14,6 +14,7 @@ const BookMark = () => {
   const bookMarkPerPage = 3;
   const [currentPage, setCurrentPage] = useState(1);
   const [currentBookMartk, setCurrentBookMark] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getBookMark = async () => {
@@ -35,6 +36,10 @@ const BookMark = () => {
   }, [currentPage, bookMark, bookMarkPerPage]);
 
   const paginate = (event, pageNumber) => setCurrentPage(pageNumber);
+
+  const handleClickBookMark = (id) => {
+    navigate(`/DetailCommunity?id=${id}`)
+  }
 
 
   return (
@@ -70,17 +75,19 @@ const BookMark = () => {
 
                     return (
                       <React.Fragment key={index}>
-                        <Grid item sm={3}>
-                          <Typography>{bookMark.id}</Typography>
-                        </Grid>
-                        <Grid item sm={3}>
-                          <Typography>{truncateText(bookMark.title, 6)}</Typography>
-                        </Grid>
-                        <Grid item sm={3}>
-                          <Typography>{truncateText(bookMark.contents, 6)}</Typography>
-                        </Grid>
-                        <Grid item sm={3}>
-                          <Typography>{bookMark.view_count}</Typography>
+                        <Grid container item sm={12} style={{ cursor: 'pointer' }} onClick={() => handleClickBookMark(bookMark.id)}>
+                          <Grid item sm={3}>
+                            <Typography>{bookMark.id}</Typography>
+                          </Grid>
+                          <Grid item sm={3}>
+                            <Typography>{truncateText(bookMark.title, 6)}</Typography>
+                          </Grid>
+                          <Grid item sm={3}>
+                            <Typography>{truncateText(bookMark.contents, 6)}</Typography>
+                          </Grid>
+                          <Grid item sm={3}>
+                            <Typography>{bookMark.view_count}</Typography>
+                          </Grid>
                         </Grid>
                       </React.Fragment>
                     );
