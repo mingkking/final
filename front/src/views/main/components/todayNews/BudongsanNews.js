@@ -8,7 +8,7 @@ const BudongsanNews = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        axios.post('http://localhost:5000/news/budongsanNews')
+        axios.post('http://localhost:5000/flask/news/budongsanNews')
             .then(response => {
                 if (response.data && response.data.news) {
                     setNews(response.data.news);

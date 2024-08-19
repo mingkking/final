@@ -46,7 +46,7 @@ const SideTransaction = ({ onPropertySelect }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:5000/budongsanAllData');
+                const response = await fetch('http://localhost:5000/flask/budongsanAllData');
                 const jsonData = await response.json();
                 setData(jsonData);
             } catch (error) {

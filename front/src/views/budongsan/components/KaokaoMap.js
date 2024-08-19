@@ -27,7 +27,7 @@ function KakaoMap({ selectedProperty, setSchoolMarkerCount, setStoreMarkerCount,
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const budongsanResponse = await fetch('http://localhost:5000/budongsanMapData');
+                const budongsanResponse = await fetch('http://localhost:5000/flask/budongsanMapData');
                 if (!budongsanResponse.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -37,9 +37,9 @@ function KakaoMap({ selectedProperty, setSchoolMarkerCount, setStoreMarkerCount,
 
                 // budongsanMapData 데이터가 성공적으로 받아진 후에 나머지 데이터를 fetch
                 const [schoolResponse, storeResponse, busStationResponse] = await Promise.all([
-                    fetch('http://localhost:5000/schoolData'),
-                    fetch('http://localhost:5000/storeData'),
-                    fetch('http://localhost:5000/busStationData')
+                    fetch('http://localhost:5000/flask/schoolData'),
+                    fetch('http://localhost:5000/flask/storeData'),
+                    fetch('http://localhost:5000/flask/busStationData')
                 ]);
 
                 if (!schoolResponse.ok || !storeResponse.ok || !busStationResponse.ok) {

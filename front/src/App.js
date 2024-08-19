@@ -66,12 +66,6 @@ function AppContent() {
     document.dispatchEvent(new CustomEvent('loginSuccess', { detail: userNickname }));
   };
 
-  // 관리자 페이지에는 배경색 적용 X
-  useEffect(() => {
-    if (isAdminPage) {
-      document.querySelector('.App').style.backgroundColor = 'transparent';
-    }
-  }, [isAdminPage]);
 
   return (
     <div className="App-content">

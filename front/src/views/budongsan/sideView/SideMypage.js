@@ -15,7 +15,7 @@ const SideMypage = ({ onPropertySelect }) => {
         const fetchProperties = async () => {
             try {
                 // 서버에서 매물 리스트를 가져옴
-                const response = await fetch('http://localhost:5000/get-favorite-properties', {
+                const response = await fetch('http://localhost:5000/flask/get-favorite-properties', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

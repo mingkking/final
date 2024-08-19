@@ -8,7 +8,7 @@ const SideSearch = ({ onPropertySelect }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:5000/budongsanAllData');
+                const response = await fetch('http://localhost:5000/flask/budongsanAllData');
                 const jsonData = await response.json();
                 
                 // 데이터가 배열인지 확인 후 상태 설정
