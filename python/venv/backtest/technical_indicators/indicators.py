@@ -54,6 +54,7 @@ def calculate_atr(df, window):
     ranges = pd.concat([high_low, high_close, low_close], axis=1)
     true_range = np.max(ranges, axis=1)
     return true_range.rolling(window=window).mean()
+
 #모맨텀 지표 계산
 def calculate_roc(df, window):
     """모멘텀 지표: ROC(Rate of Change)"""
