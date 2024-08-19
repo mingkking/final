@@ -213,12 +213,17 @@
     	)
     </select>
     
-    <!-- 부동산 관심 등록 -->
+    <!-- 관심 등록 목록 -->
     <select id="interestEstate" parameterType="MgrInterestEstateVO">
-	    SELECT a.apartment_name, b.user_num
+		SELECT '부동산' AS type, a.apartment_name AS name
 		FROM PROPERTY_FAVORITE b
 		JOIN property a ON b.property_num = a.property_num
 		WHERE b.USER_NUM = #{user_num}
+		UNION ALL
+		SELECT '주식' AS type, s.stock_name AS name
+		FROM Stock_Interest si
+		JOIN Stock s ON si.stock_code = s.stock_code
+		WHERE si.user_num = #{user_num}
 	</select>
 	
 	<!-- 좋아요 수 -->
