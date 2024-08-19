@@ -21,7 +21,7 @@ function MainList() {
     useEffect(() => {
         const fetchTopProperties = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/top-liked-properties');
+                const response = await axios.get('http://localhost:5000/flask/top-liked-properties');
                 if (response.data.status === 'success') {
                     setTopProperties(response.data.topProperties);
                 }

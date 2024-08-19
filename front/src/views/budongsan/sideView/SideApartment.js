@@ -12,7 +12,7 @@ const SideApartment = ({ property, schoolMarkerCount, storeMarkerCount, busStati
 
   useEffect(() => {
     if (property && budongsanValue.state.userNum) {
-      fetch('http://localhost:5000/check-property', {
+      fetch('http://localhost:5000/flask/check-property', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ const SideApartment = ({ property, schoolMarkerCount, storeMarkerCount, busStati
     const endpoint = isInserting ? 'delete-property' : 'add-property';
     setCurrentImage(isInserting ? Delete : Insert);
 
-    fetch(`http://localhost:5000/${endpoint}`, {
+    fetch(`http://localhost:5000/flask/${endpoint}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

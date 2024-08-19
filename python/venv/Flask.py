@@ -183,7 +183,7 @@ def convert_lob(value):
         logger.warning(f"Error converting LOB data: {e}")
         return ""
 
-@app.route('/news/economicNewsFeed', methods=['POST'])
+@app.route('/flask/news/economicNewsFeed', methods=['POST'])
 def get_economic_news_feed():
     try:
         conn = get_db_connection()
@@ -226,7 +226,7 @@ def get_economic_news_feed():
         return jsonify({"error": str(e)}), 500
     
 
-@app.route('/news/budongsanNews', methods=['POST'])
+@app.route('/flask/news/budongsanNews', methods=['POST'])
 def get_budongsan_news_feed():
     try:
         conn = get_db_connection()
@@ -268,7 +268,7 @@ def get_budongsan_news_feed():
         logger.exception("An error occurred while fetching news")
         return jsonify({"error": str(e)}), 500
 
-@app.route('/news/moneyNews', methods=['POST'])
+@app.route('/flask/news/moneyNews', methods=['POST'])
 def get_money_news_feed():
     try:
         conn = get_db_connection()
@@ -339,32 +339,32 @@ def get_stock_data(connection, stock_name):
     data = cursor.fetchall()
     return pd.DataFrame(data, columns=columns)
 
-@app.route('/budongsanAllData', methods=['GET'])
+@app.route('/flask/budongsanAllData', methods=['GET'])
 def get_budongsan_all_data():
     data = read_json_data(json_file_path_all_data)
     return jsonify(data)
 
-@app.route('/budongsanMapData', methods=['GET'])
+@app.route('/flask/budongsanMapData', methods=['GET'])
 def get_budongsan_map_data():
     data = read_json_data(json_file_path_map_data)
     return jsonify(data)
 
-@app.route('/schoolData', methods=['GET'])
+@app.route('/flask/schoolData', methods=['GET'])
 def get_school_data():
     data = read_json_data(json_file_path_school_data)
     return jsonify(data)
 
-@app.route('/storeData', methods=['GET'])
+@app.route('/flask/storeData', methods=['GET'])
 def get_store_data():
     data = read_json_data(json_file_path_store_data)
     return jsonify(data)
 
-@app.route('/busStationData', methods=['GET'])
+@app.route('/flask/busStationData', methods=['GET'])
 def get_bus_station_data():
     data = read_json_data(json_file_path_busStation_data)
     return jsonify(data)
 
-@app.route('/add-property', methods=['POST'])
+@app.route('/flask/add-property', methods=['POST'])
 def add_property():
     try:
         data = request.get_json()
@@ -402,7 +402,7 @@ def add_property():
         logger.error(f"Error: {e}")
         return jsonify({'status': 'error', 'message': 'An error occurred'}), 500
 
-@app.route('/delete-property', methods=['POST'])
+@app.route('/flask/delete-property', methods=['POST'])
 def delete_property():
     try:
         data = request.get_json()
@@ -430,7 +430,7 @@ def delete_property():
         logger.error(f"Error: {e}")
         return jsonify({'status': 'error', 'message': 'An error occurred'}), 500
 
-@app.route('/check-property', methods=['POST'])
+@app.route('/flask/check-property', methods=['POST'])
 def check_property():
     try:
         data = request.get_json()
@@ -457,7 +457,7 @@ def check_property():
         logger.error(f"Error: {e}")
         return jsonify({'status': 'error', 'message': 'An error occurred'}), 500
 
-@app.route('/get-favorite-properties', methods=['POST'])
+@app.route('/flask/get-favorite-properties', methods=['POST'])
 def get_favorite_properties():
     try:
         data = request.get_json()
@@ -505,7 +505,7 @@ def get_favorite_properties():
         return jsonify({'status': 'error', 'message': 'An error occurred'}), 500
     
 
-@app.route('/top-liked-properties', methods=['GET'])
+@app.route('/flask/top-liked-properties', methods=['GET'])
 def get_top_liked_properties():
     try:
         with get_db_connection() as connection:
