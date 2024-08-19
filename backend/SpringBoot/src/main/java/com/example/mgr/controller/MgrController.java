@@ -287,7 +287,7 @@ public class MgrController {
 	    map.put("selectLastYearSub", transformedSelectLastYearSub);
 	    map.put("selectTotalMembers", selcetTotalMembers);
 	    map.put("selectTodayMembers", selectTodayMembers);
-	    map.put("selectTotalSubscribers", selectTotalSubscribers);
+	    map.put("selectTotalSubscribers", selectTotalSubscribers); 
 
 
 	    // JSON 문자열로 변환

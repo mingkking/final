@@ -9,4 +9,4 @@ public class MgrInterestEstateVO {
 	private String name;
 	private String type;
 	private String user_num;
-}   
+}    
