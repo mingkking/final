@@ -12,9 +12,9 @@ const CommDecPost = () => {
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [page, setPage] = useState(1);
   const [postsPerPage] = useState(10);  // 페이지 당 게시글 수
-  const [searchField, setSearchField] = useState('user_name');  // 검색 필드
+  const [searchField, setSearchField] = useState('user_num');  // 검색 필드
   const [searchValue, setSearchValue] = useState('');  // 검색 값
-  const [sortField, setSortField] = useState('user_name');  // 정렬 기준
+  const [sortField, setSortField] = useState('user_num');  // 정렬 기준
   const [sortOrder, setSortOrder] = useState('asc');  // 정렬 순서
   const navigate = useNavigate();
 
@@ -60,6 +60,10 @@ const CommDecPost = () => {
         return sortOrder === 'asc'
           ? new Date(a[sortField]) - new Date(b[sortField])
           : new Date(b[sortField]) - new Date(a[sortField]);
+      } else if (sortField === 'user_num') {
+        return sortOrder === 'asc'
+        ? parseInt(a[sortField] || '0') - parseInt(b[sortField] || '0')
+        : parseInt(b[sortField] || '0') - parseInt(a[sortField] || '0');
       } else {
         return sortOrder === 'asc'
           ? a[sortField].localeCompare(b[sortField])
@@ -88,6 +92,10 @@ const CommDecPost = () => {
   const indexFirstPost = indexLastPost - postsPerPage;
   const slicePosts = filteredPosts.slice(indexFirstPost, indexLastPost);
 
+  const sliceText = (text) => {
+    return text.length > 7 ? text.slice(0, 9) + "..." : text;
+  };
+
   return (
     <PageContainer title="커뮤니티 게시글 신고 관리" description="커뮤니티 게시글 신고 관리">
       <Grid container spacing={3}>
@@ -108,6 +116,7 @@ const CommDecPost = () => {
                     label="정렬 기준"
                     size='small'
                   >
+                    <MenuItem value="user_num">회원번호</MenuItem>
                     <MenuItem value="user_name">회원명</MenuItem>
                     <MenuItem value="created_at">신고일자</MenuItem>
                     <MenuItem value="title">게시글 제목</MenuItem>
@@ -137,6 +146,7 @@ const CommDecPost = () => {
                     label="검색 필드"
                     size='small'
                   >
+                    <MenuItem value="user_num">회원번호</MenuItem>
                     <MenuItem value="user_name">회원명</MenuItem>
                     <MenuItem value="title">게시글 제목</MenuItem>
                     <MenuItem value="content">신고 내용</MenuItem>
@@ -172,16 +182,19 @@ const CommDecPost = () => {
                 <Grid item xs={12} key={index} style={{ cursor: 'pointer', marginBottom: '5px' }}  onClick={() => handleClickDetail(post.id)}>
                   <BlankCard>
                     <Grid container spacing={3} style={{ paddingTop: '30px', paddingBottom: '30px' }} >
-                      <Grid item xs={3}>
+                    <Grid item xs={2}>
+                        <Typography variant='h6' align='center'>{post.user_num}</Typography>
+                      </Grid>                      
+                      <Grid item xs={2}>
                         <Typography variant='h6' align='center'>{post.user_name}</Typography>
                       </Grid>
                       <Grid item xs={3}>
-                        <Typography variant='h6' align='center'>{post.title}</Typography>
+                        <Typography variant='h6' align='center'>{sliceText(post.title)}</Typography>
                       </Grid>
                       <Grid item xs={3}>
                         <Typography variant='h6' align='center'>{post.content}</Typography>
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={2}>
                         <Typography variant='h6' align='center'>{post.created_at}</Typography>
                       </Grid>
                     </Grid>

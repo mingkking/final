@@ -62,7 +62,7 @@ const MemberDetail = () => {
     try {
       await axios.delete(`http://localhost:8080/manager/complaint/commReplyDetail/deleteReply/${complaintReplyDetail.type_num}`);
       alert("댓글이 성공적으로 삭제되었습니다.");
-      navigate('/manager/complaint/communityPost', { replace: true });
+      navigate('/manager/complaint/communityReply', { replace: true });
     } catch (error) {
         console.log("댓글 삭제 실패: ", error);
         alert("댓글 삭제에 실패했습니다.")

@@ -13,9 +13,6 @@ const YearJoinMembers = () => {
     // array.from 으로 간단하게 작성(최근 2년 회원가입수, 값이 없으면 0으로 설정)
     const data = Array.from({length: 2}, (_, i) => value.state.last2YearsMember[1-i]?.JOIN_COUNT ?? 0);
 
-    console.log("2년치 data 가져온 값------", data);
-
-
     // chart color
     const theme = useTheme();
     const primary = theme.palette.primary.main;
@@ -91,7 +88,7 @@ const YearJoinMembers = () => {
     const seriescolumnchart = [
         {
             name: 'Total',
-            data: [data[1], data[0]],
+            data: [data[0], data[1]],
         },
     ];
 

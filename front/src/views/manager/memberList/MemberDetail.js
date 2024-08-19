@@ -106,7 +106,7 @@ const MemberDetail = () => {
   if (loading) {
     return (
       <PageContainer>
-        <Typography variant="h4" align="center">데이터를 불러오는중입니다...</Typography>
+        <Typography variant="h4" align="center">처리중입니다...</Typography>
       </PageContainer>
     );
   }
@@ -125,6 +125,7 @@ const MemberDetail = () => {
     return `${year}년 ${month}월 ${day}일`;
   };
 
+  //  생년월일 YYYY년 MM월 DD일 설정
   const eightBirthdate = formatBirthDate(formData.user_birthdate || '');
 
   return (
