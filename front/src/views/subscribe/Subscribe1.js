@@ -43,11 +43,10 @@ function Subscribe1() {
 
             // subscribeTF 값이 true 이면
             if (subscribeTF) {
-                // alert("이미 구독이 완료되었습니다!");
                 navigate("/subscribeSuccess");
             }
         }
-    }
+    };
     
     // 구독 확인 springboot에서 값 받아오는 함수
     const checkSubcribe = async (user_num) => {
