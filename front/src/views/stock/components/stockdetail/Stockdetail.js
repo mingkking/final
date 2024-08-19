@@ -94,7 +94,7 @@ const StockDetail = () => {
       return false;
     }
   };
-
+//사용자의 관심등록 종목 체크 여부
   useEffect(() => {
     const checkFavoriteStatus = async () => {
       if (communityValue.state.userNum) {

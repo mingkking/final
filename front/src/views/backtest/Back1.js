@@ -78,7 +78,7 @@ const Back1 = () => {
     setIsLoading(true);
     try {
       console.log('Sending request with options:', options);
-      const response = await api.post('/analyze', options, {
+      const response = await api.post('/flask/analyze', options, {
         headers: {
           'Content-Type': 'application/json',
         },

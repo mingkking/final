@@ -17,6 +17,7 @@ import com.example.stock.service.StockService;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
+// @RequestMapping("/spring")
 public class StockController {
 
     private static final Logger logger = LoggerFactory.getLogger(StockController.class);
