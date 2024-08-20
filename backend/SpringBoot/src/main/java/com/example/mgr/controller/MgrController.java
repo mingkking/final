@@ -177,7 +177,8 @@ public class MgrController {
     
     // 회원 정보 수정
     @PutMapping("/manager/memberDetail/{user_num}")
-    public int updateMember(@PathVariable String user_num, @RequestBody MgrMemberVO membervo, MgrManagerVO mgrvo) {
+    public int updateMember(@PathVariable String user_num, @RequestBody MgrMemberVO membervo, 
+    		                MgrManagerVO mgrvo) {
     	
     	// 번호 지정
     	membervo.setUser_num(user_num);
