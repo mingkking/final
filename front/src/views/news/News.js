@@ -26,7 +26,6 @@ const News = () => {
             setFinanceNews(result.data.selectFinanceNews);
             setRealEstateNews(result.data.selectRENews);
             setEconomyNews(result.data.selectEconomyNews);
-            console.log("뉴스 데이터 가져온 값: ", result.data);
         } catch (error) {
             console.error("뉴스 데이터 가져오기 실패:", error);
         } finally {
