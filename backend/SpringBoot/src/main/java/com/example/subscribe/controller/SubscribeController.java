@@ -24,7 +24,6 @@ public class SubscribeController {
 	
 	@PutMapping("/subscribe2/{user_num}")
 	public void insertSubscriber(@PathVariable int user_num, SubscribeVO vo) {
-		System.out.println(user_num);
 		
 		vo.setUser_num(user_num);
 		
@@ -33,13 +32,10 @@ public class SubscribeController {
 	
 	@GetMapping("/subscribe/{user_num}")
 	public int selectSubscriber(@PathVariable int user_num, SubscribeVO vo) {
-		System.out.println("로그인 한 회원 값:" + user_num);
+
 		vo.setUser_num(user_num);
 		
 		int checkSubscribe = subscribeService.selectSubscriber(vo);
-		
-		
-		System.out.println("구독여부확인------"+ checkSubscribe);
 		
 		return checkSubscribe;
 	}
@@ -53,8 +49,6 @@ public class SubscribeController {
 
         // 날짜 부분만 추출
         String formattedDate = checkSubscribe.split(" ")[0];
-
-        System.out.println("구독날짜확인------" + formattedDate);
 
         return formattedDate;
 	}
