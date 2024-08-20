@@ -36,7 +36,9 @@ function MainList() {
         const fetchStockList = async () => {
             try {
                 const response = await axios.get("http://localhost:8080/MainstockList");
-                setStockList(response.data);
+                if(response.data.status === 'success'){
+                    setStockList(response.data);
+                }
             } catch (error) {
                 console.log("Error fetching stocks", error);
             }

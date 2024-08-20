@@ -353,21 +353,12 @@ function Join() {
                           },
                         onChange: (e) => {
                             // 전화번호 중복 검사 실행
-                            checkTelExists(e.target.value);
-                        }
-                      })}
-                    />
-                    
-                </div>
-                
+                            checkTelExists(e.target.value);}})}/>                   
+                </div>                
                     {errors.userTel && <p className='err'>{errors.userTel.message}</p>}
                     {usertelChecked && !errors.userTel &&(
-                        <>
-                            
-                            {usertelExists && <p className="err">이미 존재하는 전화번호입니다.</p>}
-                        </>
+                        <> {usertelExists && <p className="err">이미 존재하는 전화번호입니다.</p>}</>
                     )}
-                
                 <div className="join-form-group">
                     <label style={{color:'#fff'}}>이메일</label>
                     <input 
@@ -382,20 +373,11 @@ function Join() {
                             },
                             onChange: (e) => {
                                 // 이메일 중복 검사 실행
-                                checkEmailExists(e.target.value);
-                            }
-                          })}
-                    />
-                    
-                    
+                                checkEmailExists(e.target.value);}})}/>
                 </div>
-                
                     {errors.userEmail && <p className='err'>{errors.userEmail.message}</p>}
                     {useremailChecked && !errors.userEmail &&(
-                        <>
-                            
-                            {useremailExists && <p className="err">이미 존재하는 이메일입니다.</p>}
-                        </>
+                        <>{useremailExists && <p className="err">이미 존재하는 이메일입니다.</p>}</>
                     )}
                 
                     <div className="join-form-group">
