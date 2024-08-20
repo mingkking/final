@@ -61,7 +61,7 @@ public class MgrController {
 	        return ;
 	    } else {
 	        model.addAttribute("sessionId", session.getId());
-	    }
+	    } 
 	    
 	    // session 값 저장
 	    sessionvo.setSessionId(session.getId());

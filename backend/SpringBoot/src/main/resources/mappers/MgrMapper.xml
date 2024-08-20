@@ -313,7 +313,7 @@
 		GROUP BY TRUNC(payment_date, 'MONTH')
 		ORDER BY JOIN_MONTH
     ]]>
-	</select>
+	</select> 
 	
 	<!-- 최근 6개월 가입자 수 -->
 	<select id="selectRecent6Mem" parameterType="MgrMemberVO" resultType="Map">
