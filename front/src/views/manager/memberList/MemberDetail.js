@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Grid, Button, TextField, FormControlLabel, Checkbox } from '@mui/material';
+import { Typography, Grid, Button, TextField, FormControlLabel, Checkbox, CircularProgress } from '@mui/material';
 import PageContainer from '../../../components/container/PageContainer';
-import DashboardCard from '../../../components/shared/DashboardCard';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import BookMark from './components/BookMark';
@@ -104,11 +103,7 @@ const MemberDetail = () => {
   };
 
   if (loading) {
-    return (
-      <PageContainer>
-        <Typography variant="h4" align="center">데이터를 불러오는중입니다...</Typography>
-      </PageContainer>
-    );
+    return <CircularProgress />;
   }
 
   // 생년월일 설정
@@ -125,6 +120,7 @@ const MemberDetail = () => {
     return `${year}년 ${month}월 ${day}일`;
   };
 
+  //  생년월일 YYYY년 MM월 DD일 설정
   const eightBirthdate = formatBirthDate(formData.user_birthdate || '');
 
   return (
@@ -157,7 +153,7 @@ const MemberDetail = () => {
                       <TextField name="user_email" value={formData.user_email} onChange={handleChange} size='small' style={{ marginBottom: '9px' }} />
                       <Typography variant='h5' style={{ marginBottom: '20px' }}>{eightBirthdate}</Typography>
                       <Typography variant='h5' style={{ marginBottom: '20px' }}>{memberDetail.created_at}</Typography>
-                      <Typography variant='h5' style={{ marginBottom: '10px' }}>바꿔야함</Typography>
+                      <Typography variant='h5' style={{ marginBottom: '10px' }}>{subDate ? subDate : '구독 안함'}</Typography>
                       <FormControlLabel
                         control={
                           <Checkbox

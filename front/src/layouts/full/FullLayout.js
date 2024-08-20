@@ -22,27 +22,20 @@ const PageWrapper = styled('div')(() => ({
 }));
 
 const FullLayout = () => {
-
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [isMobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-  // const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"));
 
   return (
-    <MainWrapper
-      className='mainwrapper'
-    >
+    <MainWrapper className='mainwrapper admin-app'>
       <Sidebar isSidebarOpen={isSidebarOpen}
         isMobileSidebarOpen={isMobileSidebarOpen}
         onSidebarClose={() => setMobileSidebarOpen(false)} />
-      <PageWrapper
-        className="page-wrapper"
-      >
+      <PageWrapper className="page-wrapper">
         <div style={{ padding: '50px'}}></div>
         <Container sx={{
           paddingTop: "20px",
           maxWidth: '1200px',
-        }}
-        >
+        }}>
           <Box sx={{ minHeight: 'calc(100vh - 170px)' }}>
             <Outlet />
           </Box>

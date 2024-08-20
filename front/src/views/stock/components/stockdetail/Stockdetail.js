@@ -56,7 +56,7 @@ const StockDetail = () => {
     const fetchStockDetail = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`http://localhost:8080/stock/${stockCode}`);
+        const response = await axios.get(`http://localhost:8080/spring/stock/${stockCode}`);
         setStockData(response.data);
         setStockInfo(response.data.stockInfo);
         setLoading(false);
@@ -99,7 +99,7 @@ const StockDetail = () => {
     const checkFavoriteStatus = async () => {
       if (communityValue.state.userNum) {
         try {
-          const response = await axios.post('http://localhost:5000/check_stock', {
+          const response = await axios.post('http://localhost:5000/flask/check_stock', {
             user_num: communityValue.state.userNum,
             stock_code: stockCode
           });
@@ -117,7 +117,7 @@ const StockDetail = () => {
     if (await loginCheck()) {
       try {
         const endpoint = isFavorite ? 'delete_stock' : 'add_stock';
-        const response = await axios.post(`http://localhost:5000/${endpoint}`, {
+        const response = await axios.post(`http://localhost:5000/flask/${endpoint}`, {
           user_num: communityValue.state.userNum,
           stock_code: stockCode,
         });

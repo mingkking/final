@@ -12,9 +12,9 @@ const CommDecComment = () => {
   const [filteredComments, setFilteredComments] = useState([]);
   const [page, setPage] = useState(1);
   const [commentsPerPage] = useState(10);  // 페이지 당 댓글 수
-  const [searchField, setSearchField] = useState('user_name');  // 검색 필드
+  const [searchField, setSearchField] = useState('user_num');  // 검색 필드
   const [searchValue, setSearchValue] = useState('');  // 검색 값
-  const [sortField, setSortField] = useState('user_name');  // 정렬 기준
+  const [sortField, setSortField] = useState('user_num');  // 정렬 기준
   const [sortOrder, setSortOrder] = useState('asc');  // 정렬 순서
   const navigate = useNavigate();
 
@@ -60,7 +60,11 @@ const CommDecComment = () => {
         return sortOrder === 'asc'
           ? new Date(a[sortField]) - new Date(b[sortField])
           : new Date(b[sortField]) - new Date(a[sortField]);
-      } else {
+        } else if (sortField === 'user_num') {
+          return sortOrder === 'asc'
+          ? parseInt(a[sortField] || '0') - parseInt(b[sortField] || '0')
+          : parseInt(b[sortField] || '0') - parseInt(a[sortField] || '0');
+        } else {
         return sortOrder === 'asc'
           ? a[sortField].localeCompare(b[sortField])
           : b[sortField].localeCompare(a[sortField]);
@@ -74,7 +78,6 @@ const CommDecComment = () => {
   useEffect(() => {
     axios.get('http://localhost:8080/manager/complaint/communityComment')
       .then((result) => {
-        console.log(result);
         setCommCmtComplaint(result.data.selectCommCmpComplaint);
         setFilteredComments(result.data.selectCommCmpComplaint);
       });
@@ -87,6 +90,10 @@ const CommDecComment = () => {
   const indexLastComment = page * commentsPerPage;
   const indexFirstComment = indexLastComment - commentsPerPage;
   const sliceComments = filteredComments.slice(indexFirstComment, indexLastComment);
+
+  const sliceText = (text) => {
+    return text.length > 7 ? text.slice(0, 9) + "..." : text;
+  };
 
   return (
     <PageContainer title="커뮤니티 댓글 신고 관리" description="커뮤니티 댓글 신고 관리">
@@ -108,6 +115,7 @@ const CommDecComment = () => {
                     label="정렬 기준"
                     size='small'
                   >
+                    <MenuItem value="user_num">회원번호</MenuItem>
                     <MenuItem value="user_name">작성자</MenuItem>
                     <MenuItem value="created_at">신고일자</MenuItem>
                     <MenuItem value="contents">내용</MenuItem>
@@ -137,6 +145,7 @@ const CommDecComment = () => {
                     label="검색 필드"
                     size='small'
                   >
+                    <MenuItem value="user_num">회원번호</MenuItem>
                     <MenuItem value="user_name">작성자</MenuItem>
                     <MenuItem value="title">게시글 제목</MenuItem>
                     <MenuItem value="content">신고 내용</MenuItem>
@@ -172,16 +181,19 @@ const CommDecComment = () => {
                 <Grid item xs={12} key={index} style={{ cursor: 'pointer', marginBottom: '5px' }} onClick={() => handleClickDetail(cmt.id)}>
                   <BlankCard>
                     <Grid container spacing={3} style={{ paddingTop: '30px', paddingBottom: '30px' }}>
-                      <Grid item xs={3}>
+                    <Grid item xs={2}>
+                        <Typography variant='h6' align='center'>{cmt.user_num}</Typography>
+                      </Grid>
+                      <Grid item xs={2}>
                         <Typography variant='h6' align='center'>{cmt.user_name}</Typography>
                       </Grid>
                       <Grid item xs={3}>
-                        <Typography variant='h6' align='center'>{cmt.contents}</Typography>
+                        <Typography variant='h6' align='center'>{sliceText(cmt.contents)}</Typography>
                       </Grid>
                       <Grid item xs={3}>
-                        <Typography variant='h6' align='center'>{cmt.content}</Typography>
+                        <Typography variant='h6' align='center'>{sliceText(cmt.content)}</Typography>
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={2}>
                         <Typography variant='h6' align='center'>{cmt.created_at}</Typography>
                       </Grid>
                     </Grid>

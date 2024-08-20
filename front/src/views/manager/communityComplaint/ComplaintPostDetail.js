@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Grid } from '@mui/material';
+import { Typography, Grid, CircularProgress } from '@mui/material';
 import PageContainer from '../../../components/container/PageContainer';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -29,11 +29,7 @@ const MemberDetail = () => {
 
   // 데이터 가져오는 중 일 때
   if (loading) {
-    return (
-      <PageContainer>
-        <Typography variant="h4" align="center">처리중입니다...</Typography>
-      </PageContainer>
-    );
+    return <CircularProgress />;
   };
 
   // 게시글 상세보기 버튼 클릭 함수

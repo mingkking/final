@@ -17,7 +17,7 @@ import com.example.stock.service.KospiService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-// @RequestMapping("/spring")
+@RequestMapping("/spring")
 public class KospiController {
 
     @Autowired

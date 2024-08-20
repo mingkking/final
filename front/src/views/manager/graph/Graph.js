@@ -37,6 +37,9 @@ const Dashboard = () => {
         value.actions.setCPReplyCount(result.data.CPReplyCount);
         value.actions.setSelectRecent6Sub(result.data.selectRecent6Sub);
         value.actions.setSelectLastYearSub(result.data.selectLastYearSub);
+        value.actions.setMembersCount(result.data.selectTotalMembers);
+        value.actions.setTodayMembersCount(result.data.selectTodayMembers);
+        value.actions.setTotalSubscribersCount(result.data.selectTotalSubscribers);
       });
     }, []);
 

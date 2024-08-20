@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Grid } from '@mui/material';
+import { Typography, Grid, CircularProgress } from '@mui/material';
 import PageContainer from '../../../components/container/PageContainer';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -16,7 +16,6 @@ const MemberDetail = () => {
     const getCommPostDetail = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/manager/complaint/commReplyDetail/${id}`);
-        console.log("신고댓글상세페이지: " , response);
         setComplaintReplyDetail(response.data.complaintReplyDetail[0]);
       } catch (error) {
         console.log("ComplaintReplyDetail.js 15행 에러: ", error);
@@ -29,11 +28,7 @@ const MemberDetail = () => {
 
   // 데이터 가져오는 중 일 때
   if (loading) {
-    return (
-      <PageContainer>
-        <Typography variant="h4" align="center">처리중입니다...</Typography>
-      </PageContainer>
-    );
+    return <CircularProgress />;
   };
 
   // 댓글 상세보기 버튼 클릭 함수
@@ -47,7 +42,7 @@ const MemberDetail = () => {
     try {
       await axios.delete(`http://localhost:8080/manager/complaint/deleteMember/${complaintReplyDetail.user_num}`);
       alert("회원이 성공적으로 삭제되었습니다.");
-      navigate('/manager/complaint/communityReply', { replace: true });
+      navigate('/manager/complaint/communityComment', { replace: true });
     } catch (error) {
       console.log("회원 삭제 실패:", error);
       alert("회원 삭제에 실패했습니다.");
@@ -62,7 +57,7 @@ const MemberDetail = () => {
     try {
       await axios.delete(`http://localhost:8080/manager/complaint/commReplyDetail/deleteReply/${complaintReplyDetail.type_num}`);
       alert("댓글이 성공적으로 삭제되었습니다.");
-      navigate('/manager/complaint/communityPost', { replace: true });
+      navigate('/manager/complaint/communityComment', { replace: true });
     } catch (error) {
         console.log("댓글 삭제 실패: ", error);
         alert("댓글 삭제에 실패했습니다.")

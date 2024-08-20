@@ -67,20 +67,19 @@ def main():
     connection = create_connection()
     if not connection:
         return
-
+    #데이터 수집 기간 설정
     end_date = datetime.now().date()
     start_date = end_date - timedelta(days=365)
 
-    print(f"Fetching KOSPI data from {start_date} to {end_date}")
+    #print(f"Fetching KOSPI data from {start_date} to {end_date}")
     
-    # Ensure KOSPI entry exists
     ensure_kospi_entry(connection, 'KOSPI', '코스피지수')
     
-    # Fetch data
+    # 코스피 데이터 변수 저장
     kospi_data = get_kospi_data(start_date, end_date)
     
     if not kospi_data.empty:
-        # Save data
+        # 데이터 저장
         records_saved = save_kospi_data(connection, kospi_data)
         print(f"Total records saved: {records_saved}")
     else:

@@ -51,7 +51,7 @@ const Stocklist = ({ onStockSelect }) => {
 
   const loadMoreStocks = useCallback(() => {
     if (hasMore && !loading) {
-      fetchStocks(`http://localhost:8080/stock/search?query=${searchTerm}&lastId=${lastLoadedId}&size=15`);
+      fetchStocks(`http://localhost:8080/spring/stock/search?query=${searchTerm}&lastId=${lastLoadedId}&size=15`);
     }
   }, [hasMore, loading, searchTerm, lastLoadedId, fetchStocks]);
 
@@ -68,7 +68,7 @@ const Stocklist = ({ onStockSelect }) => {
 
   // 컴포넌트 마운트 시 데이터 불러오기
   useEffect(() => {
-    fetchStocks(`http://localhost:8080/stock/search?query=${searchTerm}&page=0&size=15`, true);
+    fetchStocks(`http://localhost:8080/spring/stock/search?query=${searchTerm}&page=0&size=15`, true);
   }, [fetchStocks, searchTerm]);
 
   // 검색어 변경 시 데이터 다시 불러오기
@@ -76,7 +76,7 @@ const Stocklist = ({ onStockSelect }) => {
     setStocks([]);
     setLastLoadedId(null);
     setHasMore(true);
-    fetchStocks(`http://localhost:8080/stock/search?query=${searchTerm}&page=0&size=15`, true);
+    fetchStocks(`http://localhost:8080/spring/stock/search?query=${searchTerm}&page=0&size=15`, true);
   }, [searchTerm, fetchStocks]);
 
   const handleStockSelect = (stock) => {

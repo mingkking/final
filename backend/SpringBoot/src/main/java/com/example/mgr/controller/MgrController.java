@@ -240,6 +240,9 @@ public class MgrController {
 	    int CPReplyCount = mgrservice.selectCPReplyCount(); // 신고 댓글 수
 	    List<Map<String, Object>> selectRecent6Sub = mgrservice.selectRecent6Sub(); // 최근 6개월 구독자 수
 	    List<Map<String, Object>> selectLastYearSub = mgrservice.selectLastYearSub(); // 작년 6개월 구독자 수
+	    int selcetTotalMembers = mgrservice.selectTotalMembers(); // 총 회원 수
+	    int selectTodayMembers = mgrservice.selectTodayMembers(); // 금일 가입자 수
+	    int selectTotalSubscribers = mgrservice.selectTotalSubscribers(); // 총 구독자 수 
 
 	    
 	    // YYYY-MM 형식을 MM월로 변경하는 함수 적용
@@ -282,6 +285,9 @@ public class MgrController {
 	    map.put("CPReplyCount", CPReplyCount);
 	    map.put("selectRecent6Sub", transformedSelectRecent6Sub);
 	    map.put("selectLastYearSub", transformedSelectLastYearSub);
+	    map.put("selectTotalMembers", selcetTotalMembers);
+	    map.put("selectTodayMembers", selectTodayMembers);
+	    map.put("selectTotalSubscribers", selectTotalSubscribers);  
 
 
 	    // JSON 문자열로 변환

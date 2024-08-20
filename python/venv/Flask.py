@@ -138,7 +138,7 @@ def insert_data(cursor, titles, urls, dates, categories, imgs):
     cursor.executemany(sql, new_data)
     print(f"{len(new_data)}개의 새로운 기사가 삽입되었습니다.")
 
-@app.route('/news/update_news', methods=['POST'])
+@app.route('/flask/news/update_news', methods=['POST'])
 def update_news():
     try:
         conn = get_db_connection()
@@ -183,7 +183,7 @@ def convert_lob(value):
         logger.warning(f"Error converting LOB data: {e}")
         return ""
 
-@app.route('/news/economicNewsFeed', methods=['POST'])
+@app.route('/flask/news/economicNewsFeed', methods=['POST'])
 def get_economic_news_feed():
     try:
         conn = get_db_connection()
@@ -226,7 +226,7 @@ def get_economic_news_feed():
         return jsonify({"error": str(e)}), 500
     
 
-@app.route('/news/budongsanNews', methods=['POST'])
+@app.route('/flask/news/budongsanNews', methods=['POST'])
 def get_budongsan_news_feed():
     try:
         conn = get_db_connection()
@@ -268,7 +268,7 @@ def get_budongsan_news_feed():
         logger.exception("An error occurred while fetching news")
         return jsonify({"error": str(e)}), 500
 
-@app.route('/news/moneyNews', methods=['POST'])
+@app.route('/flask/news/moneyNews', methods=['POST'])
 def get_money_news_feed():
     try:
         conn = get_db_connection()
@@ -339,32 +339,32 @@ def get_stock_data(connection, stock_name):
     data = cursor.fetchall()
     return pd.DataFrame(data, columns=columns)
 
-@app.route('/budongsanAllData', methods=['GET'])
+@app.route('/flask/budongsanAllData', methods=['GET'])
 def get_budongsan_all_data():
     data = read_json_data(json_file_path_all_data)
     return jsonify(data)
 
-@app.route('/budongsanMapData', methods=['GET'])
+@app.route('/flask/budongsanMapData', methods=['GET'])
 def get_budongsan_map_data():
     data = read_json_data(json_file_path_map_data)
     return jsonify(data)
 
-@app.route('/schoolData', methods=['GET'])
+@app.route('/flask/schoolData', methods=['GET'])
 def get_school_data():
     data = read_json_data(json_file_path_school_data)
     return jsonify(data)
 
-@app.route('/storeData', methods=['GET'])
+@app.route('/flask/storeData', methods=['GET'])
 def get_store_data():
     data = read_json_data(json_file_path_store_data)
     return jsonify(data)
 
-@app.route('/busStationData', methods=['GET'])
+@app.route('/flask/busStationData', methods=['GET'])
 def get_bus_station_data():
     data = read_json_data(json_file_path_busStation_data)
     return jsonify(data)
 
-@app.route('/add-property', methods=['POST'])
+@app.route('/flask/add-property', methods=['POST'])
 def add_property():
     try:
         data = request.get_json()
@@ -402,7 +402,7 @@ def add_property():
         logger.error(f"Error: {e}")
         return jsonify({'status': 'error', 'message': 'An error occurred'}), 500
 
-@app.route('/delete-property', methods=['POST'])
+@app.route('/flask/delete-property', methods=['POST'])
 def delete_property():
     try:
         data = request.get_json()
@@ -430,7 +430,7 @@ def delete_property():
         logger.error(f"Error: {e}")
         return jsonify({'status': 'error', 'message': 'An error occurred'}), 500
 
-@app.route('/check-property', methods=['POST'])
+@app.route('/flask/check-property', methods=['POST'])
 def check_property():
     try:
         data = request.get_json()
@@ -457,7 +457,7 @@ def check_property():
         logger.error(f"Error: {e}")
         return jsonify({'status': 'error', 'message': 'An error occurred'}), 500
 
-@app.route('/get-favorite-properties', methods=['POST'])
+@app.route('/flask/get-favorite-properties', methods=['POST'])
 def get_favorite_properties():
     try:
         data = request.get_json()
@@ -505,7 +505,7 @@ def get_favorite_properties():
         return jsonify({'status': 'error', 'message': 'An error occurred'}), 500
     
 
-@app.route('/top-liked-properties', methods=['GET'])
+@app.route('/flask/top-liked-properties', methods=['GET'])
 def get_top_liked_properties():
     try:
         with get_db_connection() as connection:
@@ -550,7 +550,7 @@ def get_top_liked_properties():
 
 
  #관심 매물 확인
-@app.route('/check_stock', methods=['POST'])
+@app.route('/flask/check_stock', methods=['POST'])
 def check_stock():
     try:
         data = request.get_json()
@@ -586,7 +586,7 @@ def check_stock():
     
     
 #해당 종목 관심등록
-@app.route('/add_stock', methods=['POST', 'GET'])
+@app.route('/flask/add_stock', methods=['POST', 'GET'])
 def add_stock():
     if request.method == 'GET':
         return jsonify({'status': 'error', 'message': 'GET method is not supported for this endpoint. Please use POST.'}), 405
@@ -623,7 +623,7 @@ def add_stock():
         return jsonify({'status': 'error', 'message': '서버 오류가 발생했습니다.'}), 500
     
 #관심 등록 취소    
-@app.route('/delete_stock', methods=['POST','GET'])
+@app.route('/flask/delete_stock', methods=['POST','GET'])
 def delete_stock():
     try:
         data = request.get_json()
@@ -654,7 +654,7 @@ def delete_stock():
 
 
 # 백테스트 페이지에서 분석 시작 버튼을 눌렀을때 실행
-@app.route('/analyze', methods=['POST', 'GET'])
+@app.route('/flask/analyze', methods=['POST', 'GET'])
 def analyze_stock_route():
     if request.method == 'POST':
         try:

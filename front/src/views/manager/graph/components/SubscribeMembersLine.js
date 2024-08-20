@@ -28,7 +28,6 @@ const YearJoinMembers = () => {
     const months = getLastSixMonths();
     const recent6SubCounts = getSubCounts(months, value.state.selectRecent6Sub);
     const lastYearSubCounts = getSubCounts(months, value.state.selectLastYearSub);
-    console.log(value.state.selectRecent6Sub)
 
     // chart
     const optionscolumnchart = {
