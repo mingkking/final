@@ -27,7 +27,7 @@ import com.example.member.domain.ProfileDTO;
 import com.example.member.repository.LoginRepository;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/spring")
 public class FileUploadController {
 
     // 파일 업로드를 위한 기본 폴더 경로

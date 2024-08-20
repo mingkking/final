@@ -14,7 +14,7 @@ import com.example.member.domain.PropertyVO;
 import com.example.stock.domain.StockVO;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/spring")
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class InterestController {
 
