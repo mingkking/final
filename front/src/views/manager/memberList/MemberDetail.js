@@ -87,8 +87,6 @@ const MemberDetail = () => {
     // 회원 수정 값 springboot로 보내기
     const response = await axios.put(`http://localhost:8080/manager/memberDetail/${user_num}`, dataToSend);
 
-    console.log("데이타투샌드값 -----------", dataToSend)
-
     if (response.data === 1) {
       alert('회원 정보가 성공적으로 수정되었습니다.');
       setMemberDetail({...memberDetail, ...dataToSend});

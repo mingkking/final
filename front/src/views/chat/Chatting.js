@@ -14,6 +14,7 @@ import RoomListContext from './contexts/RoomListContext';
 import NavBar from './components/NavBar/NavBar';
 import LoginContext from '../login/contexts/LoginContext';
 import axiosInstance from '../login/component/Token/axiosInstance';
+import axios from 'axios';
 
 const Chatting = ({ props, user }) => {
     const navigate = useNavigate();
@@ -47,11 +48,28 @@ const Chatting = ({ props, user }) => {
         
         if (response.data.isLoggedIn === true) {                                          // 로그인이 되어 있을 경우
             value.actions.setChatUserNick(response.data.userNickname);                    // 로그인 닉네임 저장
+
+            // 비동기때문에 await 후 값 받아와서 subscribeTF 에 담기
+            const subscribeTF = await checkSubcribe(response.data.userNum);
+
+            if (!subscribeTF) {
+                alert('구독 후 이용해주세요!');
+                navigate('/Subscribe');
+            }
         } else {                                                                          // 로그인이 되어 있지 않을 경우
             alert("로그인 및 구독 후 이용해주세요!");                                       // 로그인 또는 구독 하라고 하는 경고창 띄우기
             navigate("/login");                                                           // 로그인 화면으로 이동시키기
         }
 
+    }
+
+    // 구독 확인 springboot에서 값 받아오는 함수
+    const checkSubcribe = async (user_num) => {
+
+        // 로그인 한 유저의 user_num 을 springboot로 넘김
+        const result = await axios.get(`http://localhost:8080/subscribe/${user_num}`);
+        // boolean 값으로 result.data 값이 1이면 true, 아니면 false로 return
+        return result.data === 1;
     }
 
     useEffect(() => {                                                               // 메세지리스트가 변화가 생길 때 스크롤을 이동시킴
