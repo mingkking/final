@@ -30,7 +30,7 @@ import lombok.Data;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/spring")
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class GoogleOAuth2Controller {
  

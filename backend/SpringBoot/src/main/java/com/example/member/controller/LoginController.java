@@ -40,7 +40,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/spring")
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class LoginController {
     @Autowired
