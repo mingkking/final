@@ -58,7 +58,7 @@
    ]]>
    </select>
    
-   <!-- 최근 5달간 가입자 수       AND TRUNC(SYSDATE) > created_at -->
+   <!-- 최근 5달간 가입자 수 -->
    <select id="selectLast5MonthsMember" parameterType="MgrMemberVO" resultType="Map">
       SELECT TO_CHAR(created_at, 'YYYY-MM') AS join_month, COUNT(*) AS join_count
       FROM users
@@ -174,7 +174,7 @@
     	FROM community
     </select>
     
-    <!-- 매니저 여부 확인 -->
+    <!-- 관리자 여부 확인 -->
     <select id="checkManager" parameterType="MgrManagerVO" resultType="int">
     	SELECT count(*)
     	FROM manager
@@ -313,7 +313,7 @@
 		GROUP BY TRUNC(payment_date, 'MONTH')
 		ORDER BY JOIN_MONTH
     ]]>
-	</select>
+	</select> 
 	
 	<!-- 최근 6개월 가입자 수 -->
 	<select id="selectRecent6Mem" parameterType="MgrMemberVO" resultType="Map">

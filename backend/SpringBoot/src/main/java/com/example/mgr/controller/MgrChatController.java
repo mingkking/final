@@ -53,7 +53,7 @@ public class MgrChatController {
     @Autowired
     private MgrChatService mgrChatService;
 
-    @GetMapping("/manager/chat")
+    @GetMapping("/manager/chat") 
     public String getRoomCount() {
         long chatRoomCount = mgrChatService.getRoomsCount(); // 채팅방 수 가져오기
         List<MgrChatVO> chatRoomList = mgrChatService.getAllRooms(); // 모든 채팅방 가져오기

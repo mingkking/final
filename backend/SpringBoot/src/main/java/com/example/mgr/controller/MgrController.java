@@ -53,30 +53,29 @@ public class MgrController {
 	private MgrService mgrservice;
 
 	@GetMapping("/")
-	public String count(HttpServletRequest request, Model model, MgrSessionCountVO sessionvo) {
+	public void count(HttpServletRequest request, Model model, MgrSessionCountVO sessionvo) {
 		
 		// session 값 가져오기
 	    HttpSession session = request.getSession();
 	    if (session == null) {
-	        return null;
+	        return ;
 	    } else {
 	        model.addAttribute("sessionId", session.getId());
-	    }
+	    } 
 	    
 	    // session 값 저장
 	    sessionvo.setSessionId(session.getId());
 	    mgrservice.saveSession(sessionvo);
 
-	    return "";
 	} // count
 	
 	// 관리자 메인페이지 카운팅 값 보내기
 	@GetMapping("/manager")
 	public String getCounting() {
 		
-	    int selectTotalSession = mgrservice.selectTotalSession();
-	    int selectTodaySession = mgrservice.selectTodaySession();
-	    int selectMonthSession = mgrservice.selectMonthSession();
+	    int selectTotalSession = mgrservice.selectTotalSession(); // 총 방문자 수
+	    int selectTodaySession = mgrservice.selectTodaySession(); // 금일 방문자 수
+	    int selectMonthSession = mgrservice.selectMonthSession(); // 월 방문자 수
 	    int selcetTotalMembers = mgrservice.selectTotalMembers(); // 총 회원 수
 	    int selectTodayMembers = mgrservice.selectTodayMembers(); // 금일 가입자 수
 	    int selectTotalSubscribers = mgrservice.selectTotalSubscribers(); // 총 구독자 수 
@@ -101,8 +100,6 @@ public class MgrController {
 		    "selectRecent6Sub", transformedSelectRecent6Sub
 	    ));
 	    
-	    System.out.println("manager/main으로 보내는 값: " + jsonString); // 확인용
-	    
 	    return jsonString;
 	}
 	
@@ -115,8 +112,6 @@ public class MgrController {
 		
 		vo.setManager_num(mgrCheckNum);
 		int checkMgr = mgrservice.checkManager(vo);
-		
-		System.out.println("로그인 회원 번호----- " + mgrCheckNum + "매니저인지아닌지 -------" + checkMgr);
 		
 	    return checkMgr;
 	}
@@ -132,15 +127,11 @@ public class MgrController {
                 .setDateFormat("yyyy년 M월 d일") // 날짜 포맷 문자열 직접 설정
                 .create();
 
-	    
 	    // List인 memberList를 gson을 이용하여 JSON 문자열로 변환
 	    String memberListJsonString = gson.toJson(memberList);
 	    
-	    
 	    // JSON 생성
 	    String jsonString = "{\"selectMemberList\":" + memberListJsonString + "}";
-	    
-	    System.out.println("memberList로 보내는 값: " + jsonString); // 확인용
 	    
 	    return jsonString;
 	}
@@ -158,7 +149,6 @@ public class MgrController {
     	bmvo.setUser_num(user_num);
     	esvo.setUser_num(user_num);
     	
-    	
         // 회원 상세 정보 조회
         List<MgrMemberVO> mgrMemberDetail = mgrservice.selectMemberDetail(membervo);
         List<MgrCommunityVO> mgrCommPost = mgrservice.selectCommPost(commvo);
@@ -167,7 +157,6 @@ public class MgrController {
         List<MgrBookMarkVO> getBookMarkList = mgrservice.selectBookmark(bmvo);
         List<MgrInterestEstateVO> interestEstate = mgrservice.interestEstate(esvo);
               
-        
         // Gson 객체 생성
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy년 M월 d일") // 날짜 포맷 문자열 직접 설정
@@ -182,8 +171,6 @@ public class MgrController {
                 "selectBookMark", getBookMarkList,
                 "interestEstate", interestEstate
             ));
-        
-        System.out.println("memberDetail 페이지로 보내는 값:" + jsonString);
         
         return jsonString;
     }
@@ -205,8 +192,6 @@ public class MgrController {
     		int managerNumInt = Integer.parseInt(user_num);
     		mgrservice.deleteManager(managerNumInt);
     	}
-    	
-    	System.out.println("수정 한 내용 : " + membervo);
     	
     	int updateCount = mgrservice.updateMember(membervo);
     	
@@ -293,12 +278,10 @@ public class MgrController {
 	    // JSON 문자열로 변환
 	    String jsonString = gson.toJson(map);
 	    
-	    System.out.println("graph로 보내는 값: " + jsonString); // 확인용
-	    
 	    return jsonString;
 	}
 	
-	// JOIN_MONTH 값을 "M월" 형식으로 변환
+	// JOIN_MONTH 값을 "M월" 형식으로 변환하는 함수
 	private List<Map<String, Object>> transformJoinMonth(List<Map<String, Object>> data) {
 	    return data.stream().map(entry -> {
 	        String joinMonth = (String) entry.get("JOIN_MONTH");
@@ -325,8 +308,6 @@ public class MgrController {
 		// JSON 생성 
 	    String jsonString = "{\"selectCommPostAll\":" + commPostListSt + "}";
 	    
-	    System.out.println("community로 보내는 값: " + jsonString);
-	    
 	    return jsonString;
 	}
 	
@@ -344,8 +325,6 @@ public class MgrController {
 		
 		String jsonString = "{\"selectCommPostComplaint\":" + commPostComplaintSt + "}";
 		
-		System.out.println("complaint/communityPost으로 보내는 값 : " + jsonString);
-		
 		return jsonString;
 	}
 	
@@ -362,8 +341,6 @@ public class MgrController {
 		String commCmtComplaintSt = gson.toJson(commCmtComplaint);
 		
 		String jsonString = "{\"selectCommCmpComplaint\":" + commCmtComplaintSt + "}";
-		
-		System.out.println("complaint/communityPost으로 보내는 값 : " + jsonString);
 		
 		return jsonString;
 	}
@@ -383,8 +360,6 @@ public class MgrController {
 		String complaintPostDetailSt = gson.toJson(complaintPostDetail);
 		
 		String jsonString = "{\"complaintPostDetail\":" + complaintPostDetailSt + "}";
-		
-		System.out.println("커뮤니티 게시글 신고 상세보기 페이지로 보내는 값: " + jsonString);
 		
 		return jsonString;
 	}
@@ -418,8 +393,6 @@ public class MgrController {
 		
 		String jsonString = "{\"complaintReplyDetail\":" + complaintReplyDetailSt + "}";
 		
-		System.out.println("커뮤니티 댓글 신고 상세보기 페이지로 보내는 값 : " + jsonString);
-		
 		return jsonString;
 	}
 	
@@ -429,8 +402,5 @@ public class MgrController {
 		
 		mgrservice.deleteCommReply(reply_num);
 	}
-	
-	
-	
 
 }

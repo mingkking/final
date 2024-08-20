@@ -17,13 +17,14 @@
 	    )
 	    WHERE ROWNUM <= 10
 	]]>
-	</select>
+	</select>  
 	
 	<!-- 증권 뉴스 데이터 -->
 	<select id="selectFinanceNews" resultType="NewsVo">
 		SELECT *
 		FROM news
 		WHERE category = '증권'
+		ORDER BY published_at DESC
 	</select>
 	
 	<!-- 부동산 뉴스 데이터 -->
@@ -31,6 +32,7 @@
 		SELECT *
 		FROM news
 		WHERE category = '부동산'
+		ORDER BY published_at DESC
 	</select>
 	
 	<!-- 경제 뉴스 데이터 -->
@@ -38,8 +40,8 @@
 		SELECT *
 		FROM news
 		WHERE category = '경제'
+		ORDER BY published_at DESC
 	</select>
-    
     
 </mapper>
 

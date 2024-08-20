@@ -44,8 +44,6 @@ public class NewsController {
 		        "selectEconomyNews", selectEconomyNews
 		    ));
 		
-		System.out.println("news페이지로 보내는 데이터" + jsonString);
-		
 		return jsonString;
 		
 		
