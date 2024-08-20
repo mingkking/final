@@ -13,14 +13,14 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-loaded_model_path = os.path.join(os.path.dirname(__file__), 'news', 'ML_Model', 'rf_model.joblib')
-loaded_vectorizer_path = os.path.join(os.path.dirname(__file__), 'news', 'ML_Model', 'tfidf_vectorizer.joblib')
+loaded_model_path = os.path.join(os.path.dirname(__file__), 'news', 'ML_Model', 'rf_model.joblib');
+loaded_vectorizer_path = os.path.join(os.path.dirname(__file__), 'news', 'ML_Model', 'tfidf_vectorizer.joblib');
 
 # ML 모델 가져오기
-loaded_model = joblib.load(loaded_model_path)
-loaded_vectorizer = joblib.load(loaded_vectorizer_path)
+loaded_model = joblib.load(loaded_model_path);
+loaded_vectorizer = joblib.load(loaded_vectorizer_path);
 
-okt = Okt()
+okt = Okt();
 
 def preprocess_text(text):
     tokens = okt.morphs(text, stem=True)
