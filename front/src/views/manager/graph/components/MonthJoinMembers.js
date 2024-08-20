@@ -93,7 +93,7 @@ const MonthJoinMembers = () => {
 
         {
             name: 'Month',
-            data: joinCounts, // 수정해...
+            data: joinCounts,
         },
     ];
 

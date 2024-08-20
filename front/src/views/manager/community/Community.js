@@ -15,6 +15,7 @@ const CommunityList = () => {
   const [sortField, setSortField] = useState('created_at');
   const [sortOrder, setSortOrder] = useState('asc');
 
+  // springboot에서 값 받아오기
   useEffect(() => {
     axios.get('http://localhost:8080/manager/community')
       .then((result) => {
@@ -26,10 +27,12 @@ const CommunityList = () => {
       })
   }, []);
 
+  // 페이징
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
   };
 
+  // 검색
   const handleSearchChange = (event) => {
     setSearchPost(event.target.value);
   };
@@ -41,6 +44,7 @@ const CommunityList = () => {
     setCurrentPage(1);
   };
 
+  // 검색 버튼 클릭
   const handleSearchBtn = () => {
     const updateFilteredPosts = posts.filter((post) => 
       post[searchField].toString().toLowerCase().includes(searchPost.toLowerCase())
@@ -49,6 +53,7 @@ const CommunityList = () => {
     setCurrentPage(1);
   };
 
+  // 정렬
   const handleSort = () => {
     const sortedPosts = [...filteredPosts].sort((a, b) => {
       if (a[sortField] < b[sortField]) return sortOrder === 'asc' ? -1 : 1;
