@@ -4,7 +4,7 @@ export const refreshToken = async () => {
     const refreshToken = document.cookie.split(';').find(c => c.trim().startsWith('refreshToken=')).split('=')[1];
 
     try {
-        const response = await axios.post('http://localhost:8080/api/refresh-token', refreshToken, {
+        const response = await axios.post('http://localhost:8080/spring/refresh-token', refreshToken, {
             headers: {
                 'Content-Type': 'application/json'
             }

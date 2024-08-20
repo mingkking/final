@@ -24,7 +24,6 @@ function Login({ onLoginSuccess }) {
   
     const handleLogin = async (event) => {
         event.preventDefault();
-
         try {
             // 로그인 요청을 서버에 보내는 POST 요청
             const response = await axiosInstance.post('/login', {
@@ -32,30 +31,25 @@ function Login({ onLoginSuccess }) {
                 userPass: userPass
             });
             
-
             // 로그인 성공 시 로그인 상태 업데이트
             if (onLoginSuccess) {
                 // onLoginSuccess 콜백 호출하여 userNickname 전달
                 onLoginSuccess(response.data.userNickname);
             }
-
             
             actions.setUserId(response.data.userId);
             actions.setAfterLoginNick(response.data.userNickname);
             
-
              // 프로필 이미지 URL 업데이트
              if (response.data.profileImageUrl) {
                 actions.setProfileImage(`http://localhost:8080${response.data.profileImageUrl}`);
             }
- 
-            
+             
             // 메인 페이지로 이동
             navigate('/');  
         } catch (error) {
             console.error('Error during login:', error);
-            alert('아이디 및 비밀번호가 일치하지 않습니다.');
-            
+            alert('아이디 및 비밀번호가 일치하지 않습니다.');            
         }
     };
 
@@ -82,7 +76,6 @@ function Login({ onLoginSuccess }) {
                 actions.setProfileImage('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');
             }
 
-            
             navigate("/");
         } catch (error) {
             console.error("Google 로그인 실패:", error);
